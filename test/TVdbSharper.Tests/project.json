@@ -1,13 +1,24 @@
 ﻿{
   "version": "1.0.0-*",
 
+  "testRunner": "xunit",
+
   "dependencies": {
-    "NETStandard.Library": "1.6.0"
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.0"
+    },
+    "xunit": "2.1.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "NSubstitute": "2.0.0-rc"
   },
 
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50"
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet54",
+        "portable-net45+win8"
+      ]
     }
   }
 }
