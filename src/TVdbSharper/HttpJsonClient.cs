@@ -87,7 +87,9 @@
             {
                 response.EnsureSuccessStatusCode();
 
-                return JsonConvert.DeserializeObject<TJsonResponse>(await response.Content.ReadAsStringAsync());
+                string json = await response.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<TJsonResponse>(json);
             }
         }
     }
