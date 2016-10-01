@@ -1,4 +1,4 @@
-﻿namespace TVdbSharper.Tests
+﻿namespace TvDbSharper.Tests
 {
     using System;
     using System.Net.Http;

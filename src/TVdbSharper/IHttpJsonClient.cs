@@ -1,4 +1,4 @@
-﻿namespace TVdbSharper
+﻿namespace TvDbSharper
 {
     using System.Net.Http.Headers;
     using System.Threading;

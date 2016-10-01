@@ -1,4 +1,4 @@
-﻿namespace TVdbSharper.JsonSchemas
+﻿namespace TvDbSharper.JsonSchemas
 {
     public class DataResponse<TResponse>
     {

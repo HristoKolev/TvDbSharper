@@ -1,14 +1,16 @@
-﻿namespace TVdbSharper
+﻿namespace TvDbSharper
 {
     using System;
     using System.Net.Http;
     using System.Net.Http.Headers;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
     using Newtonsoft.Json;
 
-    using TVdbSharper.JsonSchemas;
+    using TvDbSharper.Exceptions;
+    using TvDbSharper.JsonSchemas;
 
     public class HttpJsonClient : IHttpJsonClient
     {
@@ -66,9 +68,16 @@
         {
             using (var response = await this.HttpClient.GetAsync(url, cancellationToken))
             {
-                response.EnsureSuccessStatusCode();
-
                 string json = await response.Content.ReadAsStringAsync();
+
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw new TvDbServerException(JsonConvert.DeserializeObject<ErrorResponse>(json).Error, ex);
+                }
 
                 return JsonConvert.DeserializeObject<DataResponse<TJsonResponse>>(json).data;
             }
@@ -76,18 +85,20 @@
 
         public async Task<TJsonResponse> PostJsonAsync<TJsonResponse>(string requestUri, object obj, CancellationToken cancellationToken)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(obj))
-            {
-                Headers = {
-                    ContentType = MediaTypeHeaderValue.Parse("application/json")
-                }
-            };
+            var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
             {
-                response.EnsureSuccessStatusCode();
-
                 string json = await response.Content.ReadAsStringAsync();
+
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw new TvDbServerException(JsonConvert.DeserializeObject<ErrorResponse>(json).Error, ex);
+                }
 
                 return JsonConvert.DeserializeObject<TJsonResponse>(json);
             }

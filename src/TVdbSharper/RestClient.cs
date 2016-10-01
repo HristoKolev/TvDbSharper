@@ -1,11 +1,11 @@
-namespace TVdbSharper
+namespace TvDbSharper
 {
     using System;
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TVdbSharper.JsonSchemas;
+    using TvDbSharper.JsonSchemas;
 
     public class RestClient
     {

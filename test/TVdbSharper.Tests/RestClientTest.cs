@@ -1,11 +1,11 @@
-﻿namespace TVdbSharper.Tests
+﻿namespace TvDbSharper.Tests
 {
     using System;
     using System.Threading;
 
     using NSubstitute;
 
-    using TVdbSharper.JsonSchemas;
+    using TvDbSharper.JsonSchemas;
 
     using Xunit;
 
