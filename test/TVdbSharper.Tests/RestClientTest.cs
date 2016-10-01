@@ -14,22 +14,20 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void Authenticate_Sends_The_Right_Json()
+        public async void Authenticate_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
-            var restClient = new RestClient(jsonClient);
-
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
 
-            jsonClient.PostJsonAsync<AuthenticationResponse>(null, null, CancellationToken.None)
-                      .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
+            var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
+            {
+                TriggerAsync = async client => await client.Authenticate(authenticationRequest, CancellationToken.None),
+                ExpectedCallAsync =
+                    client => client.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None),
+                ReturnValue = new AuthenticationResponse("token_content"),
+                ReturnsValueForAnyArgs = new AuthenticationResponse("default_token")
+            };
 
-            jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
-                      .Returns(new AuthenticationResponse("token_content"));
-
-            await restClient.Authenticate(authenticationRequest, CancellationToken.None);
-
-            await jsonClient.Received().PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None);
+            await apiTest.RunAsync();
         }
 
         [Fact]
@@ -57,6 +55,40 @@
                       .Returns(new AuthenticationResponse("token_content"));
 
             await restClient.Authenticate(authenticationRequest, CancellationToken.None);
+
+            Assert.Equal("Bearer", jsonClient.AuthorizationHeader?.Scheme);
+            Assert.Equal("token_content", jsonClient.AuthorizationHeader?.Parameter);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void RefreshToken_Makes_The_Right_Request()
+        {
+            var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
+            {
+                TriggerAsync = async client => await client.RefreshToken(CancellationToken.None),
+                ExpectedCallAsync = client => client.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None),
+                ReturnValue = new AuthenticationResponse("token_content"),
+                ReturnsValueForAnyArgs = new AuthenticationResponse("default_token")
+            };
+
+            await apiTest.RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void RefreshToken_Updates_JsonClient_AuthorizationHeader()
+        {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+
+            var restClient = new RestClient(jsonClient);
+
+            jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
+                      .Returns(new AuthenticationResponse("token_content"));
+
+            await restClient.RefreshToken(CancellationToken.None);
 
             Assert.Equal("Bearer", jsonClient.AuthorizationHeader.Scheme);
             Assert.Equal("token_content", jsonClient.AuthorizationHeader.Parameter);
