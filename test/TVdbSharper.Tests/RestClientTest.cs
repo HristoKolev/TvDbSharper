@@ -1,42 +1,37 @@
 ﻿namespace TVdbSharper.Tests
 {
     using System;
-    using System.Net;
-    using System.Net.Http;
     using System.Threading;
 
     using NSubstitute;
+
+    using TVdbSharper.JsonSchemas;
 
     using Xunit;
 
     public class RestClientTest
     {
-        // {
-        // [Fact]
+        [Fact]
 
-        // // ReSharper disable once InconsistentNaming
-        // public async void Authenticate_Sends_The_Right_Content()
-        // {
-        // AuthenticationRequest authenticationData = new AuthenticationRequest
-        // {
-        // ApiKey = "ApiKey",
-        // UserKey = "UserKey",
-        // Username = "Username"
-        // };
+        // ReSharper disable once InconsistentNaming
+        public async void Authenticate_Sends_The_Right_Json()
+        {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
 
-        // var jsonClient = Substitute.For<IHttpJsonClient>();
+            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
 
-        // var restClient = new RestClient(jsonClient);
+            jsonClient.PostJsonAsync<AuthenticationResponse>(null, null, CancellationToken.None)
+                      .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
 
-        // jsonClient.PostAsync("/login", Arg.Any<StringContent>()).Returns(this.StringResponse("{\"token\": \"token_content\"}"));
+            jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
+                      .Returns(new AuthenticationResponse("token_content"));
 
-        // await restClient.Authenticate(authenticationData);
+            await restClient.Authenticate(authenticationRequest, CancellationToken.None);
 
-        // string dataJson = JsonConvert.SerializeObject(authenticationData);
+            await jsonClient.Received().PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None);
+        }
 
-        // await
-        // jsonClient.Received().PostAsync("/login", Arg.Is<StringContent>(content => content.ReadAsStringAsync().Result == dataJson));
-        // }
         [Fact]
 
         // ReSharper disable once InconsistentNaming
@@ -47,16 +42,24 @@
             await Assert.ThrowsAsync<ArgumentNullException>(() => restClient.Authenticate(null, CancellationToken.None));
         }
 
-        private HttpResponseMessage StringResponse(string content)
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void Authenticate_Updates_JsonClient_AuthorizationHeader()
         {
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            var jsonClient = Substitute.For<IHttpJsonClient>();
 
-            if (content != null)
-            {
-                response.Content = new StringContent(content);
-            }
+            var restClient = new RestClient(jsonClient);
 
-            return response;
+            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+
+            jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
+                      .Returns(new AuthenticationResponse("token_content"));
+
+            await restClient.Authenticate(authenticationRequest, CancellationToken.None);
+
+            Assert.Equal("Bearer", jsonClient.AuthorizationHeader.Scheme);
+            Assert.Equal("token_content", jsonClient.AuthorizationHeader.Parameter);
         }
     }
 }
