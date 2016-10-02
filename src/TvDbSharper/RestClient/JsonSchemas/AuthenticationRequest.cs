@@ -2,11 +2,11 @@ namespace TvDbSharper.RestClient.JsonSchemas
 {
     public class AuthenticationRequest
     {
-        public AuthenticationRequest(string apiKey, string userKey, string username)
+        public AuthenticationRequest(string apiKey, string username, string userKey)
         {
             this.ApiKey = apiKey;
-            this.UserKey = userKey;
             this.Username = username;
+            this.UserKey = userKey;
         }
 
         public AuthenticationRequest()

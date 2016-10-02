@@ -6,7 +6,7 @@ namespace TvDbSharper.RestClient.JsonSchemas
 
         public int Last { get; set; }
 
-        public int Next { get; set; }
+        public int? Next { get; set; }
 
         public int Previous { get; set; }
     }
