@@ -1,18 +1,14 @@
-﻿namespace TvDbSharper
+﻿namespace TvDbSharper.JsonClient
 {
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TvDbSharper.JsonSchemas;
-
-    public interface IHttpJsonClient
+    public interface IJsonClient
     {
         AuthenticationHeaderValue AuthorizationHeader { get; set; }
 
         string BaseUrl { get; set; }
-
-        Task<DataResponse<TJsonResponse>> GetJsonDataAsync<TJsonResponse>(string url, CancellationToken cancellationToken);
 
         Task<TJsonResponse> GetJsonAsync<TJsonResponse>(string url, CancellationToken cancellationToken);
 

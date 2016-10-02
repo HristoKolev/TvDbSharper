@@ -1,6 +1,6 @@
-namespace TvDbSharper.JsonSchemas
+namespace TvDbSharper.RestClient.Models
 {
-    public class SeriesResponse
+    public class SeriesModel
     {
         public string Added { get; set; }
 

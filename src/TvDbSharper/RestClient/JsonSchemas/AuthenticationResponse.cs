@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.JsonSchemas
+﻿namespace TvDbSharper.RestClient.JsonSchemas
 {
     public class AuthenticationResponse
     {

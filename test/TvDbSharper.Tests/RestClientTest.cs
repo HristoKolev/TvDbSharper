@@ -5,7 +5,10 @@
 
     using NSubstitute;
 
-    using TvDbSharper.JsonSchemas;
+    using TvDbSharper.JsonClient;
+    using TvDbSharper.RestClient;
+    using TvDbSharper.RestClient.JsonSchemas;
+    using TvDbSharper.RestClient.Models;
 
     using Xunit;
 
@@ -16,7 +19,7 @@
         // ReSharper disable once InconsistentNaming
         public async void Authenticate_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
@@ -40,7 +43,7 @@
         // ReSharper disable once InconsistentNaming
         public async void Authenticate_Throws_When_authenticationData_Is_null()
         {
-            var restClient = new RestClient(Substitute.For<IHttpJsonClient>());
+            var restClient = new RestClient(Substitute.For<IJsonClient>());
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => restClient.AuthenticateAsync(null, CancellationToken.None));
         }
@@ -50,7 +53,7 @@
         // ReSharper disable once InconsistentNaming
         public async void Authenticate_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
@@ -69,22 +72,21 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeries_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42";
 
-            var expectedShow = new SeriesResponse();
+            var expectedData = new TvDbResponse<SeriesModel>();
 
-            jsonClient.GetJsonDataAsync<SeriesResponse>(Route, CancellationToken.None)
-                      .Returns(new DataResponse<SeriesResponse>(expectedShow));
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseShow = await restClient.GetSeriesAsync(Id, CancellationToken.None);
+            var responseData = await restClient.GetSeriesAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonDataAsync<SeriesResponse>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedShow, responseShow);
+            Assert.Equal(expectedData, responseData);
         }
 
         [Fact]
@@ -92,22 +94,21 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesActors_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/actors";
 
-            var expectedActors = new ActorResponse[0];
+            var expectedData = new TvDbResponse<ActorModel[]>();
 
-            jsonClient.GetJsonDataAsync<ActorResponse[]>(Route, CancellationToken.None)
-                      .Returns(new DataResponse<ActorResponse[]>(expectedActors));
+            jsonClient.GetJsonAsync<TvDbResponse<ActorModel[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseActors = await restClient.GetSeriesActorsAsync(Id, CancellationToken.None);
+            var responseData = await restClient.GetSeriesActorsAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonDataAsync<ActorResponse[]>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<ActorModel[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedActors, responseActors);
+            Assert.Equal(expectedData, responseData);
         }
 
         [Fact]
@@ -115,23 +116,22 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesEpisodes_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             const int Id = 42;
             const int Page = 2;
             const string Route = "/series/42/episodes?page=2";
 
-            var expectedEpisodes = new EpisodeResponse[0];
+            var expectedData = new TvDbResponse<EpisodeModel[]>();
 
-            jsonClient.GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None)
-                      .Returns(new DataResponse<EpisodeResponse[]>(expectedEpisodes));
+            jsonClient.GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseEpisodes = await restClient.GetSeriesEpisodesAsync(Id, Page, CancellationToken.None);
+            var responseData = await restClient.GetSeriesEpisodesAsync(Id, Page, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedEpisodes, responseEpisodes);
+            Assert.Equal(expectedData, responseData);
         }
 
         [Fact]
@@ -141,7 +141,7 @@
         {
             var response = new AuthenticationResponse("token_content");
 
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             const string Route = "/refresh_token";
@@ -161,7 +161,7 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)

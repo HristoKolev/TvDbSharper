@@ -1,6 +1,6 @@
-﻿namespace TvDbSharper.JsonSchemas
+﻿namespace TvDbSharper.RestClient.Models
 {
-    public class ActorResponse
+    public class ActorModel
     {
         public int Id { get; set; }
 

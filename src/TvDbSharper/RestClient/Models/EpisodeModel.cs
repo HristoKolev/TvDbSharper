@@ -1,6 +1,6 @@
-﻿namespace TvDbSharper.JsonSchemas
+﻿namespace TvDbSharper.RestClient.Models
 {
-    public class EpisodeResponse
+    public class EpisodeModel
     {
         public int AbsoluteNumber { get; set; }
 

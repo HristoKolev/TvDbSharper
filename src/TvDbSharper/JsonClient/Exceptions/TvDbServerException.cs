@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Exceptions
+﻿namespace TvDbSharper.JsonClient.Exceptions
 {
     using System;
 

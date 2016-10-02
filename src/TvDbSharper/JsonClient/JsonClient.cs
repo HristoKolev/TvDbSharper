@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper
+namespace TvDbSharper.JsonClient
 {
     using System;
     using System.Net.Http;
@@ -9,14 +9,21 @@
 
     using Newtonsoft.Json;
 
-    using TvDbSharper.Exceptions;
-    using TvDbSharper.JsonSchemas;
+    using TvDbSharper.JsonClient.Exceptions;
+    using TvDbSharper.JsonClient.JsonSchemas;
 
-    public class HttpJsonClient : IHttpJsonClient
+    public class JsonClient : IJsonClient
     {
-        public HttpJsonClient(HttpClient httpClient)
+        private const string DefaultBaseUrl = "https://api.thetvdb.com";
+
+        public JsonClient(HttpClient httpClient)
         {
             this.HttpClient = httpClient;
+
+            if (this.BaseUrl == null)
+            {
+                this.BaseUrl = DefaultBaseUrl;
+            }
 
             this.HttpClient.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
@@ -81,11 +88,6 @@
 
                 return JsonConvert.DeserializeObject<TJsonResponse>(json);
             }
-        }
-
-        public async Task<DataResponse<TJsonResponse>> GetJsonDataAsync<TJsonResponse>(string url, CancellationToken cancellationToken)
-        {
-            return await this.GetJsonAsync<DataResponse<TJsonResponse>>(url, cancellationToken);
         }
 
         public async Task<TJsonResponse> PostJsonAsync<TJsonResponse>(string requestUri, object obj, CancellationToken cancellationToken)

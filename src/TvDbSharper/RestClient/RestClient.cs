@@ -1,27 +1,22 @@
-namespace TvDbSharper
+namespace TvDbSharper.RestClient
 {
     using System;
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TvDbSharper.JsonSchemas;
+    using TvDbSharper.JsonClient;
+    using TvDbSharper.RestClient.JsonSchemas;
+    using TvDbSharper.RestClient.Models;
 
     public class RestClient : IRestClient
     {
-        private const string DefaultBaseUrl = "https://api.thetvdb.com";
-
-        public RestClient(IHttpJsonClient jsonClient)
+        public RestClient(IJsonClient jsonClient)
         {
             this.JsonClient = jsonClient;
-
-            if (this.JsonClient.BaseUrl == null)
-            {
-                this.JsonClient.BaseUrl = DefaultBaseUrl;
-            }
         }
 
-        private IHttpJsonClient JsonClient { get; }
+        private IJsonClient JsonClient { get; }
 
         public async Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken)
         {
@@ -35,14 +30,14 @@ namespace TvDbSharper
             this.UpdateAuthenticationHeader(response.Token);
         }
 
-        public async Task<ActorResponse[]> GetSeriesActorsAsync(int seriesId, CancellationToken cancellationToken)
-            => await this.GetDataAsync<ActorResponse[]>($"/series/{seriesId}/actors", cancellationToken);
+        public async Task<TvDbResponse<ActorModel[]>> GetSeriesActorsAsync(int seriesId, CancellationToken cancellationToken)
+            => await this.GetDataAsync<ActorModel[]>($"/series/{seriesId}/actors", cancellationToken);
 
-        public async Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken)
-            => await this.GetDataAsync<SeriesResponse>($"/series/{seriesId}", cancellationToken);
+        public async Task<TvDbResponse<SeriesModel>> GetSeriesAsync(int seriesId, CancellationToken cancellationToken)
+            => await this.GetDataAsync<SeriesModel>($"/series/{seriesId}", cancellationToken);
 
-        public async Task<EpisodeResponse[]> GetSeriesEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
-            => await this.GetDataAsync<EpisodeResponse[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
+        public async Task<TvDbResponse<EpisodeModel[]>> GetSeriesEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
+            => await this.GetDataAsync<EpisodeModel[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
@@ -55,9 +50,9 @@ namespace TvDbSharper
         // {
         // return await this.GetDataAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
         // }
-        private async Task<T> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)
+        private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
-            return (await this.JsonClient.GetJsonDataAsync<T>(requestUri, cancellationToken)).Data;
+            return await this.JsonClient.GetJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
         }
 
         private void UpdateAuthenticationHeader(string token)

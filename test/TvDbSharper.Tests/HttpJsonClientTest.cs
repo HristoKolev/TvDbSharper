@@ -6,6 +6,8 @@
 
     using NSubstitute;
 
+    using TvDbSharper.JsonClient;
+
     using Xunit;
 
     public class HttpJsonClientTest
@@ -19,7 +21,7 @@
 
             var value = new AuthenticationHeaderValue("Key", "Value");
 
-            var jsonClient = new HttpJsonClient(httpClient)
+            var jsonClient = new JsonClient(httpClient)
             {
                 AuthorizationHeader = value
             };
@@ -36,7 +38,7 @@
 
             var value = new AuthenticationHeaderValue("Key", "Value");
 
-            var jsonClient = new HttpJsonClient(httpClient);
+            var jsonClient = new JsonClient(httpClient);
 
             jsonClient.AuthorizationHeader = value;
 
@@ -48,7 +50,7 @@
         // ReSharper disable once InconsistentNaming
         public void AuthorizationHeader_Throws_When_Passed_Null_Value()
         {
-            var client = new HttpJsonClient(Substitute.For<HttpClient>());
+            var client = new JsonClient(Substitute.For<HttpClient>());
 
             Assert.Throws<ArgumentNullException>(() => client.AuthorizationHeader = null);
         }
@@ -60,7 +62,7 @@
         {
             var httpClient = Substitute.For<HttpClient>();
 
-            var jsonCluent = new HttpJsonClient(httpClient);
+            var jsonCluent = new JsonClient(httpClient);
 
             const string Value = "http://example.com";
 
@@ -74,7 +76,7 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Should_Return_The_Same_Value_That_Is_Passed_In()
         {
-            var jsonCluent = new HttpJsonClient(Substitute.For<HttpClient>());
+            var jsonCluent = new JsonClient(Substitute.For<HttpClient>());
 
             const string Value = "http://example.com";
 
@@ -88,7 +90,7 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Throws_When_Passed_Empty_String()
         {
-            var client = new HttpJsonClient(Substitute.For<HttpClient>());
+            var client = new JsonClient(Substitute.For<HttpClient>());
 
             Assert.Throws<ArgumentException>(() => client.BaseUrl = string.Empty);
         }
@@ -98,7 +100,7 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Throws_When_Passed_Null_Value()
         {
-            var client = new HttpJsonClient(Substitute.For<HttpClient>());
+            var client = new JsonClient(Substitute.For<HttpClient>());
 
             Assert.Throws<ArgumentNullException>(() => client.BaseUrl = null);
         }
@@ -108,9 +110,37 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Throws_When_Passed_White_Space()
         {
-            var client = new HttpJsonClient(Substitute.For<HttpClient>());
+            var client = new JsonClient(Substitute.For<HttpClient>());
 
             Assert.Throws<ArgumentException>(() => client.BaseUrl = " \t ");
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public void Constructor_If_HttpClient_BaseUrl_Is_Null_Should_Set_To_Default()
+        {
+            var httpClient = Substitute.For<HttpClient>();
+
+            var client = new JsonClient(httpClient);
+
+            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/'));
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public void Constructor_If_HttpClient_Has_BaseUrl_Should_Not_Change_It()
+        {
+            var httpClient = Substitute.For<HttpClient>();
+
+            var uri = new Uri("http://example.com");
+
+            httpClient.BaseAddress = uri;
+
+            var client = new JsonClient(httpClient);
+
+            Assert.Equal(uri, httpClient.BaseAddress);
         }
 
         [Fact]
@@ -120,7 +150,7 @@
         {
             var httpClient = Substitute.For<HttpClient>();
 
-            var jsonClient = new HttpJsonClient(httpClient);
+            var jsonClient = new JsonClient(httpClient);
 
             Assert.True(httpClient.DefaultRequestHeaders.Accept.Contains(new MediaTypeWithQualityHeaderValue("application/json")));
         }
