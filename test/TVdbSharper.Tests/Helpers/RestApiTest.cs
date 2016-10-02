@@ -19,9 +19,8 @@
         }
 
         public RestApiTest(RestTestDependencies dependencies)
+            : this(dependencies.JsonClient, dependencies.RestClient)
         {
-            this.JsonClient = dependencies.JsonClient;
-            this.RestClient = dependencies.RestClient;
         }
 
         public Func<IHttpJsonClient, Task<T>> ExpectedCallAsync { get; set; }
