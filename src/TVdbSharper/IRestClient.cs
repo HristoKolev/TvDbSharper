@@ -9,10 +9,14 @@ namespace TvDbSharper
     {
         Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken);
 
+        Task<ActorResponse[]> GetSeriesActorsAsync(int seriesId, CancellationToken cancellationToken);
+
         Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken);
+
+        Task<EpisodeResponse[]> GetSeriesEpisodesAsync(int seriesId, CancellationToken cancellationToken);
 
         Task RefreshTokenAsync(CancellationToken cancellationToken);
 
-        Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken);
+        // Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken);
     }
 }

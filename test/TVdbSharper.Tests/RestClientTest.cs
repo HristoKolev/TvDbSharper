@@ -90,6 +90,52 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void GetSeriesActors_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/actors";
+
+            var expectedActors = new ActorResponse[0];
+
+            jsonClient.GetJsonDataAsync<ActorResponse[]>(Route, CancellationToken.None)
+                      .Returns(new DataResponse<ActorResponse[]>(expectedActors));
+
+            var responseActors = await restClient.GetSeriesActorsAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonDataAsync<ActorResponse[]>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedActors, responseActors);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetSeriesEpisodes_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/episodes";
+
+            var expectedEpisodes = new EpisodeResponse[0];
+
+            jsonClient.GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None)
+                      .Returns(new DataResponse<EpisodeResponse[]>(expectedEpisodes));
+
+            var responseEpisodes = await restClient.GetSeriesEpisodesAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedEpisodes, responseEpisodes);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Makes_The_Right_Request()
         {
             var response = new AuthenticationResponse("token_content");
