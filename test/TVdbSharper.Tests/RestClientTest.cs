@@ -19,7 +19,7 @@
         {
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
 
-            var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
+            var apiTest = new RestApiTest<AuthenticationResponse>(RestApiTestDependencies.DefaultDependencies)
             {
                 TriggerAsync = async client => await client.AuthenticateAsync(authenticationRequest, CancellationToken.None),
                 ExpectedCallAsync =
@@ -66,7 +66,7 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Makes_The_Right_Request()
         {
-            var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
+            var apiTest = new RestApiTest<AuthenticationResponse>(RestApiTestDependencies.DefaultDependencies)
             {
                 TriggerAsync = async client => await client.RefreshTokenAsync(CancellationToken.None),
                 ExpectedCallAsync = client => client.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None),

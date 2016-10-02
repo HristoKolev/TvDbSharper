@@ -2,15 +2,15 @@
 {
     using NSubstitute;
 
-    public class RestTestDependencies
+    public class RestApiTestDependencies
     {
-        public RestTestDependencies(IHttpJsonClient jsonClient, IRestClient restClient)
+        public RestApiTestDependencies(IHttpJsonClient jsonClient, IRestClient restClient)
         {
             this.JsonClient = jsonClient;
             this.RestClient = restClient;
         }
 
-        public static RestTestDependencies DefaultDependencies
+        public static RestApiTestDependencies DefaultDependencies
         {
             get
             {
@@ -18,12 +18,12 @@
 
                 var restClient = new RestClient(jsonClient);
 
-                return new RestTestDependencies(jsonClient, restClient);
+                return new RestApiTestDependencies(jsonClient, restClient);
             }
         }
 
-        public IHttpJsonClient JsonClient { get; set; }
+        public IHttpJsonClient JsonClient { get; }
 
-        public IRestClient RestClient { get; set; }
+        public IRestClient RestClient { get; }
     }
 }

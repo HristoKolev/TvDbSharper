@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Tests.Helpers
+namespace TvDbSharper.Tests.Helpers
 {
     using System;
     using System.Threading.Tasks;
@@ -18,7 +18,7 @@
         {
         }
 
-        public RestApiTest(RestTestDependencies dependencies)
+        public RestApiTest(RestApiTestDependencies dependencies)
             : this(dependencies.JsonClient, dependencies.RestClient)
         {
         }
