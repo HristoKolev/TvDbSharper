@@ -32,7 +32,7 @@ namespace TvDbSharper
 
             var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, cancellationToken);
 
-            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.Token);
+            this.UpdateAuthenticationHeader(response.Token);
         }
 
         public async Task<ActorResponse[]> GetSeriesActorsAsync(int seriesId, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ namespace TvDbSharper
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
 
-            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.Token);
+            this.UpdateAuthenticationHeader(response.Token);
         }
 
         // public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)
@@ -58,6 +58,11 @@ namespace TvDbSharper
         private async Task<T> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
             return (await this.JsonClient.GetJsonDataAsync<T>(requestUri, cancellationToken)).Data;
+        }
+
+        private void UpdateAuthenticationHeader(string token)
+        {
+            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }
