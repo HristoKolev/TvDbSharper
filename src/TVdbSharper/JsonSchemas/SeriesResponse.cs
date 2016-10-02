@@ -2,48 +2,46 @@ namespace TvDbSharper.JsonSchemas
 {
     public class SeriesResponse
     {
-        public string added { get; set; }
+        public string Added { get; set; }
 
-        public object addedBy { get; set; }
+        public string AirsDayOfWeek { get; set; }
 
-        public string airsDayOfWeek { get; set; }
+        public string AirsTime { get; set; }
 
-        public string airsTime { get; set; }
+        public string[] Aliases { get; set; }
 
-        public string[] aliases { get; set; }
+        public string Banner { get; set; }
 
-        public string banner { get; set; }
+        public string FirstAired { get; set; }
 
-        public string firstAired { get; set; }
+        public string[] Genre { get; set; }
 
-        public string[] genre { get; set; }
+        public int Id { get; set; }
 
-        public int id { get; set; }
+        public string ImdbId { get; set; }
 
-        public string imdbId { get; set; }
+        public int LastUpdated { get; set; }
 
-        public int lastUpdated { get; set; }
+        public string Network { get; set; }
 
-        public string network { get; set; }
+        public string NetworkId { get; set; }
 
-        public string networkId { get; set; }
+        public string Overview { get; set; }
 
-        public string overview { get; set; }
+        public string Rating { get; set; }
 
-        public string rating { get; set; }
+        public string Runtime { get; set; }
 
-        public string runtime { get; set; }
+        public int SeriesId { get; set; }
 
-        public string seriesId { get; set; }
+        public string SeriesName { get; set; }
 
-        public string seriesName { get; set; }
+        public decimal SiteRating { get; set; }
 
-        public double siteRating { get; set; }
+        public int SiteRatingCount { get; set; }
 
-        public int siteRatingCount { get; set; }
+        public string Status { get; set; }
 
-        public string status { get; set; }
-
-        public string zap2itId { get; set; }
+        public string Zap2itId { get; set; }
     }
 }

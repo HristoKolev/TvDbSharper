@@ -6,7 +6,6 @@
     using NSubstitute;
 
     using TvDbSharper.JsonSchemas;
-    using TvDbSharper.Tests.Helpers;
 
     using Xunit;
 
@@ -17,18 +16,23 @@
         // ReSharper disable once InconsistentNaming
         public async void Authenticate_Makes_The_Right_Request()
         {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
 
-            var apiTest = new RestApiTest<AuthenticationResponse>(RestApiTestDependencies.DefaultDependencies)
-            {
-                TriggerAsync = async client => await client.AuthenticateAsync(authenticationRequest, CancellationToken.None),
-                ExpectedCallAsync =
-                    client => client.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None),
-                ReturnValue = new AuthenticationResponse("token_content"),
-                ReturnsValueForAnyArgs = new AuthenticationResponse("default_token")
-            };
+            var response = new AuthenticationResponse("token_content");
 
-            await apiTest.RunAsync();
+            const string Route = "/login";
+
+            jsonClient.PostJsonAsync<AuthenticationResponse>(Route, authenticationRequest, CancellationToken.None)
+                      .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
+
+            jsonClient.PostJsonAsync<AuthenticationResponse>(Route, authenticationRequest, CancellationToken.None).Returns(response);
+
+            await restClient.AuthenticateAsync(authenticationRequest, CancellationToken.None);
+
+            await jsonClient.Received().PostJsonAsync<AuthenticationResponse>(Route, authenticationRequest, CancellationToken.None);
         }
 
         [Fact]
@@ -47,7 +51,6 @@
         public async void Authenticate_Updates_JsonClient_AuthorizationHeader()
         {
             var jsonClient = Substitute.For<IHttpJsonClient>();
-
             var restClient = new RestClient(jsonClient);
 
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
@@ -64,17 +67,46 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void GetSeries_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42";
+
+            var expectedShow = new SeriesResponse();
+
+            jsonClient.GetJsonDataAsync<SeriesResponse>(Route, CancellationToken.None)
+                      .Returns(new DataResponse<SeriesResponse>(expectedShow));
+
+            var responseShow = await restClient.GetSeriesAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonDataAsync<SeriesResponse>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedShow, responseShow);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Makes_The_Right_Request()
         {
-            var apiTest = new RestApiTest<AuthenticationResponse>(RestApiTestDependencies.DefaultDependencies)
-            {
-                TriggerAsync = async client => await client.RefreshTokenAsync(CancellationToken.None),
-                ExpectedCallAsync = client => client.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None),
-                ReturnValue = new AuthenticationResponse("token_content"),
-                ReturnsValueForAnyArgs = new AuthenticationResponse("default_token")
-            };
+            var response = new AuthenticationResponse("token_content");
 
-            await apiTest.RunAsync();
+            var jsonClient = Substitute.For<IHttpJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const string Route = "/refresh_token";
+
+            jsonClient.GetJsonAsync<AuthenticationResponse>(Route, CancellationToken.None)
+                      .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
+
+            jsonClient.GetJsonAsync<AuthenticationResponse>(Route, CancellationToken.None).Returns(response);
+
+            await restClient.RefreshTokenAsync(CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<AuthenticationResponse>(Route, CancellationToken.None);
         }
 
         [Fact]
@@ -83,7 +115,6 @@
         public async void RefreshToken_Updates_JsonClient_AuthorizationHeader()
         {
             var jsonClient = Substitute.For<IHttpJsonClient>();
-
             var restClient = new RestClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
