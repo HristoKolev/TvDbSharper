@@ -67,7 +67,7 @@
         {
             var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
             {
-                TriggerAsync = async client => await client.RefreshToken(CancellationToken.None),
+                TriggerAsync = async client => await client.RefreshTokenAsync(CancellationToken.None),
                 ExpectedCallAsync = client => client.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None),
                 ReturnValue = new AuthenticationResponse("token_content"),
                 ReturnsValueForAnyArgs = new AuthenticationResponse("default_token")
@@ -88,7 +88,7 @@
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
 
-            await restClient.RefreshToken(CancellationToken.None);
+            await restClient.RefreshTokenAsync(CancellationToken.None);
 
             Assert.Equal("Bearer", jsonClient.AuthorizationHeader.Scheme);
             Assert.Equal("token_content", jsonClient.AuthorizationHeader.Parameter);

@@ -11,7 +11,7 @@ namespace TvDbSharper
 
         Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken);
 
-        Task RefreshToken(CancellationToken cancellationToken);
+        Task RefreshTokenAsync(CancellationToken cancellationToken);
 
         Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken);
     }

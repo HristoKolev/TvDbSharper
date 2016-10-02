@@ -40,7 +40,7 @@ namespace TvDbSharper
             return await this.JsonClient.GetJsonAsync<SeriesResponse>($"/series/{seriesId}", cancellationToken);
         }
 
-        public async Task RefreshToken(CancellationToken cancellationToken)
+        public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
 
