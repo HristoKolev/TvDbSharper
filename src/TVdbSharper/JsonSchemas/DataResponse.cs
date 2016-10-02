@@ -2,7 +2,6 @@
 {
     public class DataResponse<TResponse>
     {
-        // ReSharper disable once InconsistentNaming
-        public TResponse data { get; set; }
+        public TResponse Data { get; set; }
     }
 }

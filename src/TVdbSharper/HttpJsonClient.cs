@@ -79,8 +79,13 @@
                     throw new TvDbServerException(JsonConvert.DeserializeObject<ErrorResponse>(json).Error, ex);
                 }
 
-                return JsonConvert.DeserializeObject<DataResponse<TJsonResponse>>(json).data;
+                return JsonConvert.DeserializeObject<TJsonResponse>(json);
             }
+        }
+
+        public async Task<DataResponse<TJsonResponse>> GetJsonDataAsync<TJsonResponse>(string url, CancellationToken cancellationToken)
+        {
+            return await this.GetJsonAsync<DataResponse<TJsonResponse>>(url, cancellationToken);
         }
 
         public async Task<TJsonResponse> PostJsonAsync<TJsonResponse>(string requestUri, object obj, CancellationToken cancellationToken)

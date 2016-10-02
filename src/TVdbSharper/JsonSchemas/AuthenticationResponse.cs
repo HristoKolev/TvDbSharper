@@ -8,10 +8,9 @@
 
         public AuthenticationResponse(string token)
         {
-            this.token = token;
+            this.Token = token;
         }
 
-        // ReSharper disable once InconsistentNaming
-        public string token { get; set; }
+        public string Token { get; set; }
     }
 }

@@ -32,24 +32,29 @@ namespace TvDbSharper
 
             var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, cancellationToken);
 
-            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.token);
+            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.Token);
         }
 
         public async Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken)
         {
-            return await this.JsonClient.GetJsonAsync<SeriesResponse>($"/series/{seriesId}", cancellationToken);
+            return await this.GetDataAsync<SeriesResponse>($"/series/{seriesId}", cancellationToken);
         }
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
 
-            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.token);
+            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", response.Token);
         }
 
         public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)
         {
-            return await this.JsonClient.GetJsonAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
+            return await this.GetDataAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
+        }
+
+        private async Task<T> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)
+        {
+            return (await this.JsonClient.GetJsonDataAsync<T>(requestUri, cancellationToken)).Data;
         }
     }
 }
