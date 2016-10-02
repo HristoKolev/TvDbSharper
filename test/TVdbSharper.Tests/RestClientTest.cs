@@ -6,6 +6,7 @@
     using NSubstitute;
 
     using TvDbSharper.JsonSchemas;
+    using TvDbSharper.Tests.Helpers;
 
     using Xunit;
 

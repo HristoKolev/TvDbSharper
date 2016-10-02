@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Tests
+﻿namespace TvDbSharper.Tests.Helpers
 {
     using NSubstitute;
 
