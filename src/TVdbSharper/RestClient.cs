@@ -23,7 +23,7 @@ namespace TvDbSharper
 
         private IHttpJsonClient JsonClient { get; }
 
-        public async Task Authenticate(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken)
+        public async Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken)
         {
             if (authenticationRequest == null)
             {

@@ -7,7 +7,7 @@ namespace TvDbSharper
 
     public interface IRestClient
     {
-        Task Authenticate(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken);
+        Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken);
 
         Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken);
 

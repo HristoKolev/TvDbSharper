@@ -20,7 +20,7 @@
 
             var apiTest = new RestApiTest<AuthenticationResponse>(RestTestDependencies.DefaultDependencies)
             {
-                TriggerAsync = async client => await client.Authenticate(authenticationRequest, CancellationToken.None),
+                TriggerAsync = async client => await client.AuthenticateAsync(authenticationRequest, CancellationToken.None),
                 ExpectedCallAsync =
                     client => client.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None),
                 ReturnValue = new AuthenticationResponse("token_content"),
@@ -37,7 +37,7 @@
         {
             var restClient = new RestClient(Substitute.For<IHttpJsonClient>());
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => restClient.Authenticate(null, CancellationToken.None));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => restClient.AuthenticateAsync(null, CancellationToken.None));
         }
 
         [Fact]
@@ -54,7 +54,7 @@
             jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
 
-            await restClient.Authenticate(authenticationRequest, CancellationToken.None);
+            await restClient.AuthenticateAsync(authenticationRequest, CancellationToken.None);
 
             Assert.Equal("Bearer", jsonClient.AuthorizationHeader?.Scheme);
             Assert.Equal("token_content", jsonClient.AuthorizationHeader?.Parameter);
