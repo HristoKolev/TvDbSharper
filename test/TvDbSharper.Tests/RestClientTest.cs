@@ -119,14 +119,15 @@
             var restClient = new RestClient(jsonClient);
 
             const int Id = 42;
-            const string Route = "/series/42/episodes";
+            const int Page = 2;
+            const string Route = "/series/42/episodes?page=2";
 
             var expectedEpisodes = new EpisodeResponse[0];
 
             jsonClient.GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None)
                       .Returns(new DataResponse<EpisodeResponse[]>(expectedEpisodes));
 
-            var responseEpisodes = await restClient.GetSeriesEpisodesAsync(Id, CancellationToken.None);
+            var responseEpisodes = await restClient.GetSeriesEpisodesAsync(Id, Page, CancellationToken.None);
 
             await jsonClient.Received().GetJsonDataAsync<EpisodeResponse[]>(Route, CancellationToken.None);
 

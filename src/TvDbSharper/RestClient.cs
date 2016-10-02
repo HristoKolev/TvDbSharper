@@ -41,8 +41,8 @@ namespace TvDbSharper
         public async Task<SeriesResponse> GetSeriesAsync(int seriesId, CancellationToken cancellationToken)
             => await this.GetDataAsync<SeriesResponse>($"/series/{seriesId}", cancellationToken);
 
-        public async Task<EpisodeResponse[]> GetSeriesEpisodesAsync(int seriesId, CancellationToken cancellationToken)
-            => await this.GetDataAsync<EpisodeResponse[]>($"/series/{seriesId}/episodes", cancellationToken);
+        public async Task<EpisodeResponse[]> GetSeriesEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
+            => await this.GetDataAsync<EpisodeResponse[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
