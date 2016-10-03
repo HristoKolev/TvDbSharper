@@ -1,7 +1,10 @@
 namespace TvDbSharper.RestClient
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net.Http.Headers;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -44,6 +47,38 @@ namespace TvDbSharper.RestClient
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
 
             this.UpdateAuthenticationHeader(response.Token);
+        }
+
+        public async Task<TvDbResponse<EpisodeModel[]>> SearchSeriesEpisodesAsync(
+            int seriesId,
+            EpisodeQuery query,
+            int page,
+            CancellationToken cancellationToken)
+        {
+            string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{Querify(query)}";
+
+            return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
+        }
+
+        private static string Querify<T>(T obj)
+        {
+            IList<string> parts = new List<string>();
+
+            foreach (var propertyInfo in typeof(T).GetProperties().OrderBy(info => info.Name))
+            {
+                object value = propertyInfo.GetValue(obj);
+
+                if (value != null)
+                {
+                    char[] propertyName = propertyInfo.Name.ToCharArray();
+
+                    propertyName[0] = char.ToLower(propertyName[0]);
+
+                    parts.Add($"{new string(propertyName)}={Uri.EscapeDataString(value.ToString())}");
+                }
+            }
+
+            return string.Join("&", parts);
         }
 
         // public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)

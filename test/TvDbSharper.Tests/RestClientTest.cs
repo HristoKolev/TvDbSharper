@@ -172,5 +172,34 @@
             Assert.Equal("Bearer", jsonClient.AuthorizationHeader.Scheme);
             Assert.Equal("token_content", jsonClient.AuthorizationHeader.Parameter);
         }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void SearchSeriesEpisodes_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            var query = new EpisodeQuery
+            {
+                ImdbId = "tt0118480",
+                AiredSeason = 1
+            };
+
+            const int Id = 42;
+            const int Page = 2;
+            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
+
+            var expectedData = new TvDbResponse<EpisodeModel[]>();
+
+            jsonClient.GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await restClient.SearchSeriesEpisodesAsync(Id, query, Page, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
     }
 }

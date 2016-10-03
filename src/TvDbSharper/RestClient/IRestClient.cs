@@ -18,6 +18,12 @@ namespace TvDbSharper.RestClient
 
         Task RefreshTokenAsync(CancellationToken cancellationToken);
 
+        Task<TvDbResponse<EpisodeModel[]>> SearchSeriesEpisodesAsync(
+            int seriesId,
+            EpisodeQuery query,
+            int page,
+            CancellationToken cancellationToken);
+
         // Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken);
     }
 }
