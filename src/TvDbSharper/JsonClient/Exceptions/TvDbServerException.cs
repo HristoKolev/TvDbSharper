@@ -1,6 +1,7 @@
 ﻿namespace TvDbSharper.JsonClient.Exceptions
 {
     using System;
+    using System.Net;
 
     public class TvDbServerException : Exception
     {
@@ -17,5 +18,7 @@
             : base(message, inner)
         {
         }
+
+        public HttpStatusCode StatusCode { get; set; }
     }
 }

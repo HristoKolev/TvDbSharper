@@ -71,44 +71,50 @@ namespace TvDbSharper.JsonClient
 
         private HttpClient HttpClient { get; }
 
-        public async Task<TJsonResponse> GetJsonAsync<TJsonResponse>(string url, CancellationToken cancellationToken)
+        public async Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.GetAsync(url, cancellationToken))
             {
-                string json = await response.Content.ReadAsStringAsync();
-
-                try
-                {
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException ex)
-                {
-                    throw new TvDbServerException(JsonConvert.DeserializeObject<ErrorResponse>(json).Error, ex);
-                }
-
-                return JsonConvert.DeserializeObject<TJsonResponse>(json);
+                return await this.ProcessResponse<TResponse>(response);
             }
         }
 
-        public async Task<TJsonResponse> PostJsonAsync<TJsonResponse>(string requestUri, object obj, CancellationToken cancellationToken)
+        public async Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj, CancellationToken cancellationToken)
         {
             var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
             {
-                string json = await response.Content.ReadAsStringAsync();
-
-                try
-                {
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException ex)
-                {
-                    throw new TvDbServerException(JsonConvert.DeserializeObject<ErrorResponse>(json).Error, ex);
-                }
-
-                return JsonConvert.DeserializeObject<TJsonResponse>(json);
+                return await this.ProcessResponse<TResponse>(response);
             }
+        }
+
+        private async Task<TResponse> ProcessResponse<TResponse>(HttpResponseMessage response)
+        {
+            string json = await response.Content.ReadAsStringAsync();
+
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException ex)
+            {
+                string errorMessage = JsonConvert.DeserializeObject<ErrorResponse>(json).Error;
+
+                if (errorMessage == null)
+                {
+                    throw;
+                }
+
+                var exception = new TvDbServerException(errorMessage, ex)
+                {
+                    StatusCode = response.StatusCode
+                };
+
+                throw exception;
+            }
+
+            return JsonConvert.DeserializeObject<TResponse>(json);
         }
     }
 }
