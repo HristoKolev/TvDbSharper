@@ -19,41 +19,30 @@
 
         public async Task<TvDbResponse<ActorModel[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
         {
-            return await this.GetDataAsync<ActorModel[]>($"/series/{seriesId}/actors", cancellationToken);
+            string requestUri = $"/series/{seriesId}/actors";
+
+            return await this.GetDataAsync<ActorModel[]>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
         {
-            return
-                await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}", cancellationToken);
+            string requestUri = $"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}";
+
+            return await this.GetDataAsync<SeriesModel>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, CancellationToken cancellationToken)
         {
-            return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}", cancellationToken);
+            string requestUri = $"/series/{seriesId}";
+
+            return await this.GetDataAsync<SeriesModel>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<EpisodeModel[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
         {
-            return await this.GetDataAsync<EpisodeModel[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
-        }
+            string requestUri = $"/series/{seriesId}/episodes?page={Math.Max(page, 1)}";
 
-        public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
-        {
-            return await this.GetDataAsync<EpisodesSummary>($"/series/{seriesId}/episodes/summary", cancellationToken);
-        }
-
-        public async Task<TvDbResponse<ImagesSummary>> GetImagesAsync(int seriesId, CancellationToken cancellationToken)
-        {
-            return await this.GetDataAsync<ImagesSummary>($"/series/{seriesId}/images", cancellationToken);
-        }
-
-        public async Task<TvDbResponse<ImageModel[]>> GetImagesAsync(
-            int seriesId,
-            ImagesQuery query,
-            CancellationToken cancellationToken)
-        {
-            return await this.GetDataAsync<ImageModel[]>($"/series/{seriesId}/images/query?{UrlHelpers.Querify(query)}", cancellationToken);
+            return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<EpisodeModel[]>> GetEpisodesAsync(
@@ -65,6 +54,27 @@
             string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{UrlHelpers.Querify(query)}";
 
             return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
+        {
+            string requestUri = $"/series/{seriesId}/episodes/summary";
+
+            return await this.GetDataAsync<EpisodesSummary>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<ImagesSummary>> GetImagesAsync(int seriesId, CancellationToken cancellationToken)
+        {
+            string requestUri = $"/series/{seriesId}/images";
+
+            return await this.GetDataAsync<ImagesSummary>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<ImageModel[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
+        {
+            string requestUri = $"/series/{seriesId}/images/query?{UrlHelpers.Querify(query)}";
+
+            return await this.GetDataAsync<ImageModel[]>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)
