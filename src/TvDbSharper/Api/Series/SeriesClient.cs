@@ -17,14 +17,15 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task<TvDbResponse<SeriesModel>> FilterAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
-        {
-            return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}", cancellationToken);
-        }
-
         public async Task<TvDbResponse<ActorModel[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
         {
             return await this.GetDataAsync<ActorModel[]>($"/series/{seriesId}/actors", cancellationToken);
+        }
+
+        public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
+        {
+            return
+                await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}", cancellationToken);
         }
 
         public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, CancellationToken cancellationToken)
@@ -47,7 +48,7 @@
             return await this.GetDataAsync<ImagesSummary>($"/series/{seriesId}/images", cancellationToken);
         }
 
-        public async Task<TvDbResponse<ImageModel[]>> GetImagesQueryAsync(
+        public async Task<TvDbResponse<ImageModel[]>> GetImagesAsync(
             int seriesId,
             ImagesQuery query,
             CancellationToken cancellationToken)
@@ -55,10 +56,10 @@
             return await this.GetDataAsync<ImageModel[]>($"/series/{seriesId}/images/query?{UrlHelpers.Querify(query)}", cancellationToken);
         }
 
-        public async Task<TvDbResponse<EpisodeModel[]>> SearchEpisodesAsync(
+        public async Task<TvDbResponse<EpisodeModel[]>> GetEpisodesAsync(
             int seriesId,
-            EpisodeQuery query,
             int page,
+            EpisodeQuery query,
             CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{UrlHelpers.Querify(query)}";

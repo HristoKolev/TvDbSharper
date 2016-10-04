@@ -34,7 +34,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesQueryAsync(Id, query, CancellationToken.None);
+            var responseData = await client.GetImagesAsync(Id, query, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None);
 
@@ -146,7 +146,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.FilterAsync(Id, Filter, CancellationToken.None);
+            var responseData = await client.GetAsync(Id, Filter, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None);
 
@@ -197,7 +197,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchEpisodesAsync(Id, query, Page, CancellationToken.None);
+            var responseData = await client.GetEpisodesAsync(Id, Page, query, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None);
 
