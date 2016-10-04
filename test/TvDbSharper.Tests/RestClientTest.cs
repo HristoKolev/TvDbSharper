@@ -22,11 +22,11 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
+            const string Route = "/login";
+
             var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
 
             var response = new AuthenticationResponse("token_content");
-
-            const string Route = "/login";
 
             jsonClient.PostJsonAsync<AuthenticationResponse>(Route, authenticationRequest, CancellationToken.None)
                       .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
@@ -160,14 +160,36 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void GetSeriesImages_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/images";
+
+            var expectedData = new TvDbResponse<ImagesSummary>();
+
+            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await restClient.GetSeriesImagesAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Makes_The_Right_Request()
         {
-            var response = new AuthenticationResponse("token_content");
-
             var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
             const string Route = "/refresh_token";
+
+            var response = new AuthenticationResponse("token_content");
 
             jsonClient.GetJsonAsync<AuthenticationResponse>(Route, CancellationToken.None)
                       .ReturnsForAnyArgs(new AuthenticationResponse("default_token"));
@@ -204,15 +226,15 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var restClient = new RestClient(jsonClient);
 
+            const int Id = 42;
+            const int Page = 2;
+            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
+
             var query = new EpisodeQuery
             {
                 ImdbId = "tt0118480",
                 AiredSeason = 1
             };
-
-            const int Id = 42;
-            const int Page = 2;
-            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
 
             var expectedData = new TvDbResponse<EpisodeModel[]>();
 

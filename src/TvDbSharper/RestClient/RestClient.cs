@@ -50,6 +50,9 @@ namespace TvDbSharper.RestClient
             return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={Prametrify(filter)}", cancellationToken);
         }
 
+        public async Task<TvDbResponse<ImagesSummary>> GetSeriesImagesAsync(int seriesId, CancellationToken cancellationToken)
+            => await this.GetDataAsync<ImagesSummary>($"/series/{seriesId}/images", cancellationToken);
+
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
