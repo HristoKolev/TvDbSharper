@@ -33,6 +33,14 @@ namespace TvDbSharper.RestClient
             this.UpdateAuthenticationHeader(response.Token);
         }
 
+        public async Task<TvDbResponse<ImageModel[]>> GetImagesQueryAsync(
+            int seriesId,
+            ImagesQuery query,
+            CancellationToken cancellationToken)
+        {
+            return await this.GetDataAsync<ImageModel[]>($"/series/{seriesId}/images/query?{Querify(query)}", cancellationToken);
+        }
+
         public async Task<TvDbResponse<ActorModel[]>> GetSeriesActorsAsync(int seriesId, CancellationToken cancellationToken)
             => await this.GetDataAsync<ActorModel[]>($"/series/{seriesId}/actors", cancellationToken);
 
@@ -47,7 +55,7 @@ namespace TvDbSharper.RestClient
             SeriesFilter filter,
             CancellationToken cancellationToken)
         {
-            return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={Prametrify(filter)}", cancellationToken);
+            return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={Parametrify(filter)}", cancellationToken);
         }
 
         public async Task<TvDbResponse<ImagesSummary>> GetSeriesImagesAsync(int seriesId, CancellationToken cancellationToken)
@@ -71,6 +79,13 @@ namespace TvDbSharper.RestClient
             return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
         }
 
+        private static string Parametrify(Enum value)
+        {
+            var elements = value.ToString().Split(',').Select(element => PascalCase(element.Trim())).OrderBy(element => element);
+
+            return string.Join(",", elements);
+        }
+
         private static string PascalCase(string name)
         {
             char[] array = name.ToCharArray();
@@ -78,13 +93,6 @@ namespace TvDbSharper.RestClient
             array[0] = char.ToLower(array[0]);
 
             return new string(array);
-        }
-
-        private static string Prametrify(Enum value)
-        {
-            var elements = value.ToString().Split(',').Select(element => PascalCase(element.Trim())).OrderBy(element => element);
-
-            return string.Join(",", elements);
         }
 
         private static string Querify<T>(T obj)

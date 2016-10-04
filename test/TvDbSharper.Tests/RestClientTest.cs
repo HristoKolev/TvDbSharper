@@ -70,6 +70,34 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void GetImagesQuery_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
+
+            var query = new ImagesQuery
+            {
+                KeyType = KeyType.Fanart,
+                Resolution = "1280x720"
+            };
+
+            var expectedData = new TvDbResponse<ImageModel[]>();
+
+            jsonClient.GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await restClient.GetImagesQueryAsync(Id, query, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void GetSeries_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
