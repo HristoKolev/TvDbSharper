@@ -1,4 +1,4 @@
-namespace TvDbSharper.RestClient.JsonSchemas
+namespace TvDbSharper.Authentication.Json
 {
     public class AuthenticationRequest
     {

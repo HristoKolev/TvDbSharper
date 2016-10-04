@@ -1,4 +1,4 @@
-namespace TvDbSharper.RestClient.Models
+namespace TvDbSharper.Series.Json
 {
     public class RatingsInfo
     {

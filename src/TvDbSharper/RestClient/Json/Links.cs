@@ -1,4 +1,4 @@
-namespace TvDbSharper.RestClient.JsonSchemas
+namespace TvDbSharper.RestClient.Json
 {
     public class Links
     {
