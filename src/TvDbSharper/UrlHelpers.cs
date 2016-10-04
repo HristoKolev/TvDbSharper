@@ -31,7 +31,7 @@
             return string.Join("&", parts);
         }
 
-        private static string PascalCase(string name)
+        public static string PascalCase(string name)
         {
             char[] array = name.ToCharArray();
 

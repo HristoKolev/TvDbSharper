@@ -1,6 +1,7 @@
 namespace TvDbSharper.RestClient
 {
     using TvDbSharper.Api.Authentication;
+    using TvDbSharper.Api.Search;
     using TvDbSharper.Api.Series;
     using TvDbSharper.JsonClient;
 
@@ -12,18 +13,21 @@ namespace TvDbSharper.RestClient
 
             this.Authentication = new AuthenticationClient(this.JsonClient);
             this.Series = new SeriesClient(this.JsonClient);
+            this.Search = new SearchClient(this.JsonClient);
         }
 
         public IAuthenticationClient Authentication { get; }
+
+        public ISearchClient Search { get; }
 
         public ISeriesClient Series { get; }
 
         private IJsonClient JsonClient { get; }
 
-        // public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)
-        // {
-        // return await this.GetDataAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
-
         // }
+        // return await this.GetDataAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
+        // {
+
+        // public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)
     }
 }
