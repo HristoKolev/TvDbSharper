@@ -137,6 +137,29 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void GetSeriesFilter_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/filter?keys=added,id";
+            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
+
+            var expectedData = new TvDbResponse<SeriesModel>();
+
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await restClient.GetSeriesFilterAsync(Id, Filter, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void RefreshToken_Makes_The_Right_Request()
         {
             var response = new AuthenticationResponse("token_content");

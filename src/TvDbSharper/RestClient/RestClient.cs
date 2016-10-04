@@ -42,6 +42,14 @@ namespace TvDbSharper.RestClient
         public async Task<TvDbResponse<EpisodeModel[]>> GetSeriesEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
             => await this.GetDataAsync<EpisodeModel[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
 
+        public async Task<TvDbResponse<SeriesModel>> GetSeriesFilterAsync(
+            int seriesId,
+            SeriesFilter filter,
+            CancellationToken cancellationToken)
+        {
+            return await this.GetDataAsync<SeriesModel>($"/series/{seriesId}/filter?keys={Prametrify(filter)}", cancellationToken);
+        }
+
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
@@ -60,6 +68,22 @@ namespace TvDbSharper.RestClient
             return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
         }
 
+        private static string PascalCase(string name)
+        {
+            char[] array = name.ToCharArray();
+
+            array[0] = char.ToLower(array[0]);
+
+            return new string(array);
+        }
+
+        private static string Prametrify(Enum value)
+        {
+            var elements = value.ToString().Split(',').Select(element => PascalCase(element.Trim())).OrderBy(element => element);
+
+            return string.Join(",", elements);
+        }
+
         private static string Querify<T>(T obj)
         {
             IList<string> parts = new List<string>();
@@ -70,11 +94,7 @@ namespace TvDbSharper.RestClient
 
                 if (value != null)
                 {
-                    char[] propertyName = propertyInfo.Name.ToCharArray();
-
-                    propertyName[0] = char.ToLower(propertyName[0]);
-
-                    parts.Add($"{new string(propertyName)}={Uri.EscapeDataString(value.ToString())}");
+                    parts.Add($"{PascalCase(propertyInfo.Name)}={Uri.EscapeDataString(value.ToString())}");
                 }
             }
 
