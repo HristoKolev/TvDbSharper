@@ -206,6 +206,27 @@
 
             Assert.Equal(expectedData, responseData);
         }
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetSeriesEpisodesSummary_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var restClient = new RestClient(jsonClient);
+
+            const int Id = 42;
+            const string Route = "/series/42/episodes/summary";
+
+            var expectedData = new TvDbResponse<EpisodesSummary>();
+
+            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await restClient.GetSeriesEpisodesSummaryAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
 
         [Fact]
 

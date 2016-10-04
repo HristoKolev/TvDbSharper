@@ -50,6 +50,11 @@ namespace TvDbSharper.RestClient
         public async Task<TvDbResponse<EpisodeModel[]>> GetSeriesEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
             => await this.GetDataAsync<EpisodeModel[]>($"/series/{seriesId}/episodes?page={Math.Max(page, 1)}", cancellationToken);
 
+        public async Task<TvDbResponse<EpisodesSummary>> GetSeriesEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
+        {
+            return await this.GetDataAsync<EpisodesSummary>($"/series/{seriesId}/episodes/summary", cancellationToken);
+        }
+
         public async Task<TvDbResponse<SeriesModel>> GetSeriesFilterAsync(
             int seriesId,
             SeriesFilter filter,
