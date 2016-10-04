@@ -4,10 +4,10 @@
 
     using NSubstitute;
 
+    using TvDbSharper.Api.Series;
+    using TvDbSharper.Api.Series.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
-    using TvDbSharper.Series;
-    using TvDbSharper.Series.Json;
 
     using Xunit;
 

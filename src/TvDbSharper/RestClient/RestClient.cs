@@ -1,8 +1,8 @@
 namespace TvDbSharper.RestClient
 {
-    using TvDbSharper.Authentication;
+    using TvDbSharper.Api.Authentication;
+    using TvDbSharper.Api.Series;
     using TvDbSharper.JsonClient;
-    using TvDbSharper.Series;
 
     public class RestClient
     {

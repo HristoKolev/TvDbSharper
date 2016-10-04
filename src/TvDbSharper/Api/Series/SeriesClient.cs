@@ -1,12 +1,12 @@
-﻿namespace TvDbSharper.Series
+﻿namespace TvDbSharper.Api.Series
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
+    using TvDbSharper.Api.Series.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
-    using TvDbSharper.Series.Json;
 
     public class SeriesClient : ISeriesClient
     {

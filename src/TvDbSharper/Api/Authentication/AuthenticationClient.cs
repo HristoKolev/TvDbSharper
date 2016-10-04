@@ -1,11 +1,11 @@
-﻿namespace TvDbSharper.Authentication
+﻿namespace TvDbSharper.Api.Authentication
 {
     using System;
     using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TvDbSharper.Authentication.Json;
+    using TvDbSharper.Api.Authentication.Json;
     using TvDbSharper.JsonClient;
 
     public class AuthenticationClient : IAuthenticationClient
