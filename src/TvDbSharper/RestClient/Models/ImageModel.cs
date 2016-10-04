@@ -4,11 +4,11 @@ namespace TvDbSharper.RestClient.Models
     {
         public string FileName { get; set; }
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string KeyType { get; set; }
 
-        public int LanguageId { get; set; }
+        public int? LanguageId { get; set; }
 
         public RatingsInfo RatingsInfo { get; set; }
 

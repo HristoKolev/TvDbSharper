@@ -16,11 +16,11 @@ namespace TvDbSharper.RestClient.Models
 
         public string[] Genre { get; set; }
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string ImdbId { get; set; }
 
-        public int LastUpdated { get; set; }
+        public int? LastUpdated { get; set; }
 
         public string Network { get; set; }
 
@@ -32,13 +32,13 @@ namespace TvDbSharper.RestClient.Models
 
         public string Runtime { get; set; }
 
-        public int SeriesId { get; set; }
+        public int? SeriesId { get; set; }
 
         public string SeriesName { get; set; }
 
-        public decimal SiteRating { get; set; }
+        public decimal? SiteRating { get; set; }
 
-        public int SiteRatingCount { get; set; }
+        public int? SiteRatingCount { get; set; }
 
         public string Status { get; set; }
 
