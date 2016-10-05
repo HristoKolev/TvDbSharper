@@ -1,6 +1,7 @@
 namespace TvDbSharper.RestClient
 {
     using TvDbSharper.Api.Authentication;
+    using TvDbSharper.Api.Episodes;
     using TvDbSharper.Api.Search;
     using TvDbSharper.Api.Series;
     using TvDbSharper.JsonClient;
@@ -14,9 +15,12 @@ namespace TvDbSharper.RestClient
             this.Authentication = new AuthenticationClient(this.JsonClient);
             this.Series = new SeriesClient(this.JsonClient);
             this.Search = new SearchClient(this.JsonClient);
+            this.Episodes = new EpisodesClient(this.JsonClient);
         }
 
         public IAuthenticationClient Authentication { get; }
+
+        public IEpisodesClient Episodes { get; }
 
         public ISearchClient Search { get; }
 
