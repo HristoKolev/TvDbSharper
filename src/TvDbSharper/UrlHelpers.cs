@@ -14,6 +14,15 @@
             return string.Join(",", elements);
         }
 
+        public static string PascalCase(string name)
+        {
+            char[] array = name.ToCharArray();
+
+            array[0] = char.ToLower(array[0]);
+
+            return new string(array);
+        }
+
         public static string Querify<T>(T obj)
         {
             IList<string> parts = new List<string>();
@@ -29,15 +38,6 @@
             }
 
             return string.Join("&", parts);
-        }
-
-        public static string PascalCase(string name)
-        {
-            char[] array = name.ToCharArray();
-
-            array[0] = char.ToLower(array[0]);
-
-            return new string(array);
         }
     }
 }

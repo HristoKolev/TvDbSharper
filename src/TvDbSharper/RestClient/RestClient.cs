@@ -31,11 +31,5 @@ namespace TvDbSharper.RestClient
         public ISeriesClient Series { get; }
 
         private IJsonClient JsonClient { get; }
-
-        // }
-        // return await this.GetDataAsync<SearchResponse[]>($"/search/series?name={Uri.EscapeDataString(name)}", cancellationToken);
-        // {
-
-        // public async Task<SearchResponse[]> SearchSeriesAsync(string name, CancellationToken cancellationToken)
     }
 }

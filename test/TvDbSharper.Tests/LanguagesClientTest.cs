@@ -49,7 +49,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<LanguageData>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetAsync(Id,CancellationToken.None);
+            var responseData = await client.GetAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<LanguageData>>(Route, CancellationToken.None);
 
