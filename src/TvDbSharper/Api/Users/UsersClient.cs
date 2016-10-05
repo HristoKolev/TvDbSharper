@@ -7,7 +7,7 @@
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
 
-    public class UsersClient
+    public class UsersClient : IUsersClient
     {
         public UsersClient(IJsonClient jsonClient)
         {
@@ -21,6 +21,16 @@
             string requestUri = $"/user/favorites/{seriesId}";
 
             return await this.JsonClient.DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatingsData[]>> DeleteRatingsAsync(
+            RatingType itemType,
+            int itemId,
+            CancellationToken cancellationToken)
+        {
+            string requestUri = $"/user/ratings/{UrlHelpers.PascalCase(itemType.ToString())}/{itemId}";
+
+            return await this.JsonClient.DeleteJsonAsync<TvDbResponse<UserRatingsData[]>>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<UserData>> GetAsync(CancellationToken cancellationToken)
@@ -56,6 +66,17 @@
             string requestUri = $"/user/favorites/{seriesId}";
 
             return await this.JsonClient.PutJsonAsync<TvDbResponse<UserFavoritesData>>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatingsData[]>> PutRatingsAsync(
+            RatingType itemType,
+            int itemId,
+            int rating,
+            CancellationToken cancellationToken)
+        {
+            string requestUri = $"/user/ratings/{UrlHelpers.PascalCase(itemType.ToString())}/{itemId}/{rating}";
+
+            return await this.JsonClient.PutJsonAsync<TvDbResponse<UserRatingsData[]>>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)

@@ -32,7 +32,7 @@ namespace TvDbSharper.RestClient
 
         public ISeriesClient Series { get; }
 
-        public UsersClient Users { get; }
+        public IUsersClient Users { get; }
 
         private IJsonClient JsonClient { get; }
     }

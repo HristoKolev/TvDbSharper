@@ -4,6 +4,8 @@
     {
         Series,
 
-        Episode
+        Episode,
+
+        Image
     }
 }

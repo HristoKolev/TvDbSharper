@@ -39,6 +39,30 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void DeleteRatingsAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UsersClient(jsonClient);
+
+            const RatingType Type = RatingType.Series;
+            const int Id = 42;
+
+            const string Route = "/user/ratings/series/42";
+
+            var expectedData = new TvDbResponse<UserRatingsData[]>();
+
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await client.DeleteRatingsAsync(Type, Id, CancellationToken.None);
+
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
@@ -141,6 +165,30 @@
             var responseData = await client.PutFavoritesAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void PutRatingsAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UsersClient(jsonClient);
+
+            const RatingType Type = RatingType.Series;
+            const int Id = 42;
+            const int Rating = 10; // awesome!
+            const string Route = "/user/ratings/series/42/10";
+
+            var expectedData = new TvDbResponse<UserRatingsData[]>();
+
+            jsonClient.PutJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await client.PutRatingsAsync(Type, Id, Rating, CancellationToken.None);
+
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
