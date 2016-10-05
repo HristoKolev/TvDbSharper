@@ -16,6 +16,29 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
+        public async void DeleteFavoritesAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UsersClient(jsonClient);
+
+            const int Id = 42;
+
+            const string Route = "/user/favorites/42";
+
+            var expectedData = new TvDbResponse<UserFavoritesData>();
+
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await client.DeleteFavoritesAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
@@ -51,51 +74,6 @@
             var responseData = await client.GetFavoritesAsync(CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
-
-            Assert.Equal(expectedData, responseData);
-        }
-
-        [Fact]
-
-        // ReSharper disable once InconsistentNaming
-        public async void PutFavoritesAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
-
-            const int Id = 42;
-
-            const string Route = "/user/favorites/42";
-
-            var expectedData = new TvDbResponse<UserFavoritesData>();
-
-            jsonClient.PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
-
-            var responseData = await client.PutFavoritesAsync(Id, CancellationToken.None);
-
-            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
-
-            Assert.Equal(expectedData, responseData);
-        }
- [Fact]
-
-        // ReSharper disable once InconsistentNaming
-        public async void DeleteFavoritesAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
-
-            const int Id = 42;
-
-            const string Route = "/user/favorites/42";
-
-            var expectedData = new TvDbResponse<UserFavoritesData>();
-
-            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
-
-            var responseData = await client.DeleteFavoritesAsync(Id, CancellationToken.None);
-
-            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -140,6 +118,29 @@
             var responseData = await client.GetRatingsAsync(Type, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void PutFavoritesAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UsersClient(jsonClient);
+
+            const int Id = 42;
+
+            const string Route = "/user/favorites/42";
+
+            var expectedData = new TvDbResponse<UserFavoritesData>();
+
+            jsonClient.PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await client.PutFavoritesAsync(Id, CancellationToken.None);
+
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
