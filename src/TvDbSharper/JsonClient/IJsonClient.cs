@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.JsonClient
+namespace TvDbSharper.JsonClient
 {
     using System.Net.Http.Headers;
     using System.Threading;
@@ -10,8 +10,12 @@
 
         string BaseUrl { get; set; }
 
-        Task<TJsonResponse> GetJsonAsync<TJsonResponse>(string url, CancellationToken cancellationToken);
+        Task<TResponse> DeleteJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
 
-        Task<TJsonResponse> PostJsonAsync<TJsonResponse>(string requestUri, object obj, CancellationToken cancellationToken);
+        Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
+
+        Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj, CancellationToken cancellationToken);
+
+        Task<TResponse> PutJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
     }
 }

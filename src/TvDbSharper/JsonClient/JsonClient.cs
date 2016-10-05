@@ -71,6 +71,14 @@ namespace TvDbSharper.JsonClient
 
         private HttpClient HttpClient { get; }
 
+        public async Task<TResponse> DeleteJsonAsync<TResponse>(string url, CancellationToken cancellationToken)
+        {
+            using (var response = await this.HttpClient.DeleteAsync(url, cancellationToken))
+            {
+                return await this.ProcessResponse<TResponse>(response);
+            }
+        }
+
         public async Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.GetAsync(url, cancellationToken))
@@ -84,6 +92,14 @@ namespace TvDbSharper.JsonClient
             var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
+            {
+                return await this.ProcessResponse<TResponse>(response);
+            }
+        }
+
+        public async Task<TResponse> PutJsonAsync<TResponse>(string url, CancellationToken cancellationToken)
+        {
+            using (var response = await this.HttpClient.PutAsync(url, null, cancellationToken))
             {
                 return await this.ProcessResponse<TResponse>(response);
             }
