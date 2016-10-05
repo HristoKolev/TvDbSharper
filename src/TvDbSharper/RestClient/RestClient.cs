@@ -5,6 +5,7 @@ namespace TvDbSharper.RestClient
     using TvDbSharper.Api.Languages;
     using TvDbSharper.Api.Search;
     using TvDbSharper.Api.Series;
+    using TvDbSharper.Api.Users;
     using TvDbSharper.JsonClient;
 
     public class RestClient
@@ -18,6 +19,7 @@ namespace TvDbSharper.RestClient
             this.Search = new SearchClient(this.JsonClient);
             this.Episodes = new EpisodesClient(this.JsonClient);
             this.Languages = new LanguagesClient(this.JsonClient);
+            this.Users = new UsersClient(this.JsonClient);
         }
 
         public IAuthenticationClient Authentication { get; }
@@ -29,6 +31,8 @@ namespace TvDbSharper.RestClient
         public ISearchClient Search { get; }
 
         public ISeriesClient Series { get; }
+
+        public UsersClient Users { get; }
 
         private IJsonClient JsonClient { get; }
     }
