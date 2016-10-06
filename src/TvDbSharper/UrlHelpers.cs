@@ -39,5 +39,10 @@
 
             return string.Join("&", parts);
         }
+
+        public static string QuerifyEnum(Enum obj)
+        {
+            return PascalCase(obj.ToString());
+        }
     }
 }
