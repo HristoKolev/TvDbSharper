@@ -16,12 +16,12 @@ namespace TvDbSharper.RestClient
             this.JsonClient = jsonClient;
 
             this.Authentication = new AuthenticationClient(this.JsonClient);
-            this.Series = new SeriesClient(this.JsonClient);
-            this.Search = new SearchClient(this.JsonClient);
             this.Episodes = new EpisodesClient(this.JsonClient);
             this.Languages = new LanguagesClient(this.JsonClient);
-            this.Users = new UsersClient(this.JsonClient);
+            this.Search = new SearchClient(this.JsonClient);
+            this.Series = new SeriesClient(this.JsonClient);
             this.Updates = new UpdatesClient(this.JsonClient);
+            this.Users = new UsersClient(this.JsonClient);
         }
 
         public IAuthenticationClient Authentication { get; }
