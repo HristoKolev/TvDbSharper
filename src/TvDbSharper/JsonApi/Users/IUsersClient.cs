@@ -8,9 +8,9 @@
 
     public interface IUsersClient
     {
-        Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, int rating, CancellationToken cancellationToken);
 
-        Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken);
 
         Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken);
 
@@ -20,8 +20,8 @@
 
         Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, int rating, CancellationToken cancellationToken);
+        Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken);
     }
 }

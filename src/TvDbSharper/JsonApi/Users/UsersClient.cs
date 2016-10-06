@@ -14,19 +14,22 @@
         {
         }
 
-        public async Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken)
-        {
-            return await this.DeleteAsync<UserFavorites>($"/user/favorites/{seriesId}", cancellationToken);
-        }
-
-        public async Task RemoveRatingAsync(
+        public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
             RatingType itemType,
             int itemId,
+            int rating,
             CancellationToken cancellationToken)
         {
-            string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
+            string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}";
 
-            await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
+            return await this.PutAsync<UserRatings[]>(requestUri, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        {
+            string requestUri = $"/user/favorites/{seriesId}";
+
+            return await this.PutAsync<UserFavorites>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken)
@@ -57,22 +60,16 @@
             return await this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken)
         {
-            string requestUri = $"/user/favorites/{seriesId}";
-
-            return await this.PutAsync<UserFavorites>(requestUri, cancellationToken);
+            return await this.DeleteAsync<UserFavorites>($"/user/favorites/{seriesId}", cancellationToken);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
-            RatingType itemType,
-            int itemId,
-            int rating,
-            CancellationToken cancellationToken)
+        public async Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken)
         {
-            string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}";
+            string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
 
-            return await this.PutAsync<UserRatings[]>(requestUri, cancellationToken);
+            await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
         }
     }
 }
