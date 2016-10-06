@@ -16,7 +16,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void GetEpisode_Makes_The_Right_Request()
+        public async void GetAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new EpisodesClient(jsonClient);

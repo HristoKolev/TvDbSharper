@@ -16,7 +16,31 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void DeleteFavoritesAsync_Makes_The_Right_Request()
+        public async void AddRatingAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UsersClient(jsonClient);
+
+            const RatingType Type = RatingType.Series;
+            const int Id = 42;
+            const int Rating = 10; // awesome!
+            const string Route = "/user/ratings/series/42/10";
+
+            var expectedData = new TvDbResponse<UserRatings[]>();
+
+            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
+
+            var responseData = await client.AddRatingAsync(Type, Id, Rating, CancellationToken.None);
+
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
+
+            Assert.Equal(expectedData, responseData);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void AddToFavoritesAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new UsersClient(jsonClient);
@@ -27,35 +51,13 @@
 
             var expectedData = new TvDbResponse<UserFavorites>();
 
-            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.RemoveFavoriteAsync(Id, CancellationToken.None);
+            var responseData = await client.AddToFavoritesAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
-        }
-
-        [Fact]
-
-        // ReSharper disable once InconsistentNaming
-        public async void DeleteRatingsAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
-
-            const RatingType Type = RatingType.Series;
-            const int Id = 42;
-
-            const string Route = "/user/ratings/series/42";
-
-            var expectedData = new TvDbResponse<UserRatings[]>();
-
-            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-            await client.RemoveRatingAsync(Type, Id, CancellationToken.None);
-
-            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
         }
 
         [Fact]
@@ -124,7 +126,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void GetRatingsByItemTypeAsync_Makes_The_Right_Request()
+        public async void GetRatingsAsync_With_Type_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new UsersClient(jsonClient);
@@ -147,7 +149,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void PutFavoritesAsync_Makes_The_Right_Request()
+        public async void RemoveFavoriteAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new UsersClient(jsonClient);
@@ -158,11 +160,11 @@
 
             var expectedData = new TvDbResponse<UserFavorites>();
 
-            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.AddToFavoritesAsync(Id, CancellationToken.None);
+            var responseData = await client.RemoveFavoriteAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -170,25 +172,23 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void PutRatingsAsync_Makes_The_Right_Request()
+        public async void RemoveRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new UsersClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
-            const int Rating = 10; // awesome!
-            const string Route = "/user/ratings/series/42/10";
+
+            const string Route = "/user/ratings/series/42";
 
             var expectedData = new TvDbResponse<UserRatings[]>();
 
-            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.AddRatingAsync(Type, Id, Rating, CancellationToken.None);
+            await client.RemoveRatingAsync(Type, Id, CancellationToken.None);
 
-            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-            Assert.Equal(expectedData, responseData);
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
         }
     }
 }

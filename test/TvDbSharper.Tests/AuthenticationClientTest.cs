@@ -16,7 +16,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void Authenticate_Makes_The_Right_Request()
+        public async void AuthenticateAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient);
@@ -40,7 +40,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void Authenticate_Throws_When_authenticationData_Is_null()
+        public async void AuthenticateAsync_Throws_When_authenticationData_Is_null()
         {
             var client = new AuthenticationClient(Substitute.For<IJsonClient>());
 
@@ -50,7 +50,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void Authenticate_Updates_JsonClient_AuthorizationHeader()
+        public async void AuthenticateAsync_Updates_JsonClient_AuthorizationHeader()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient);
@@ -69,7 +69,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void RefreshToken_Makes_The_Right_Request()
+        public async void RefreshTokenAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient);
@@ -91,7 +91,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void RefreshToken_Updates_JsonClient_AuthorizationHeader()
+        public async void RefreshTokenAsync_Updates_JsonClient_AuthorizationHeader()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient);
