@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Search.Json
 {
-    public class SeriesSearchData
+    public class SeriesSearchResult
     {
         public string[] Aliases { get; set; }
 

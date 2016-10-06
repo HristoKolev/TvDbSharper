@@ -1,6 +1,6 @@
 namespace TvDbSharper.Api.Series.Json
 {
-    public class ImageModel
+    public class Image
     {
         public string FileName { get; set; }
 

@@ -16,11 +16,11 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task<TvDbResponse<EpisodeRecordData>> GetAsync(int episodeId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken)
         {
             string requestUri = $"/episodes/{episodeId}";
 
-            return await this.GetDataAsync<EpisodeRecordData>(requestUri, cancellationToken);
+            return await this.GetDataAsync<EpisodeRecord>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)

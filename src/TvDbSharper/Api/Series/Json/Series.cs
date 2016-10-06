@@ -1,6 +1,6 @@
 namespace TvDbSharper.Api.Series.Json
 {
-    public class SeriesModel
+    public class Series
     {
         public string Added { get; set; }
 

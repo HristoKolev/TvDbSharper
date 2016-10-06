@@ -9,8 +9,8 @@
 
     public interface IUpdatesClient
     {
-        Task<TvDbResponse<UpdateData[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken);
+        Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UpdateData[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken);
+        Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken);
     }
 }

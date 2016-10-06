@@ -17,35 +17,35 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task<TvDbResponse<ActorModel[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}/actors";
 
-            return await this.GetDataAsync<ActorModel[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Actor[]>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Series>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}";
 
-            return await this.GetDataAsync<SeriesModel>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Series>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<SeriesModel>> GetAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Series>> GetAsync(int seriesId, CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}";
 
-            return await this.GetDataAsync<SeriesModel>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Series>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<EpisodeModel[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}/episodes?page={Math.Max(page, 1)}";
 
-            return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<BasicEpisode[]>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<EpisodeModel[]>> GetEpisodesAsync(
+        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
             int seriesId,
             int page,
             EpisodeQuery query,
@@ -53,7 +53,7 @@
         {
             string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{UrlHelpers.Querify(query)}";
 
-            return await this.GetDataAsync<EpisodeModel[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<BasicEpisode[]>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
@@ -70,11 +70,11 @@
             return await this.GetDataAsync<ImagesSummary>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<ImageModel[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
         {
             string requestUri = $"/series/{seriesId}/images/query?{UrlHelpers.Querify(query)}";
 
-            return await this.GetDataAsync<ImageModel[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Image[]>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)

@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Series.Json
 {
-    public class EpisodeModel
+    public class BasicEpisode
     {
         public int? AbsoluteNumber { get; set; }
 

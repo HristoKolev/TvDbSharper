@@ -25,13 +25,13 @@
 
             const string Route = "/episodes/42";
 
-            var expectedData = new TvDbResponse<EpisodeRecordData>();
+            var expectedData = new TvDbResponse<EpisodeRecord>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodeRecordData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<EpisodeRecord>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeRecordData>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeRecord>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

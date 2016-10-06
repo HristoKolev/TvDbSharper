@@ -30,13 +30,13 @@
                 Resolution = "1280x720"
             };
 
-            var expectedData = new TvDbResponse<ImageModel[]>();
+            var expectedData = new TvDbResponse<Image[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetImagesAsync(Id, query, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImageModel[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -52,13 +52,13 @@
             const int Id = 42;
             const string Route = "/series/42";
 
-            var expectedData = new TvDbResponse<SeriesModel>();
+            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -74,13 +74,13 @@
             const int Id = 42;
             const string Route = "/series/42/actors";
 
-            var expectedData = new TvDbResponse<ActorModel[]>();
+            var expectedData = new TvDbResponse<Actor[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<ActorModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetActorsAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<ActorModel[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -97,13 +97,13 @@
             const int Page = 2;
             const string Route = "/series/42/episodes?page=2";
 
-            var expectedData = new TvDbResponse<EpisodeModel[]>();
+            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetEpisodesAsync(Id, Page, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -142,13 +142,13 @@
             const string Route = "/series/42/filter?keys=added,id";
             const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
 
-            var expectedData = new TvDbResponse<SeriesModel>();
+            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(Id, Filter, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesModel>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -193,13 +193,13 @@
                 AiredSeason = 1
             };
 
-            var expectedData = new TvDbResponse<EpisodeModel[]>();
+            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetEpisodesAsync(Id, Page, query, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeModel[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

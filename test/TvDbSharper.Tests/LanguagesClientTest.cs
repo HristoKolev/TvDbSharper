@@ -23,13 +23,13 @@
 
             const string Route = "/languages";
 
-            var expectedData = new TvDbResponse<LanguageData[]>();
+            var expectedData = new TvDbResponse<Language[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<LanguageData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Language[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAllAsync(CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<LanguageData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Language[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -45,13 +45,13 @@
             const int Id = 42;
             const string Route = "/languages/42";
 
-            var expectedData = new TvDbResponse<LanguageData>();
+            var expectedData = new TvDbResponse<Language>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<LanguageData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Language>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<LanguageData>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Language>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

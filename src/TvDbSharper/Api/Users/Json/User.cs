@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Users.Json
 {
-    public class UserData
+    public class User
     {
         public string FavoritesDisplaymode { get; set; }
 

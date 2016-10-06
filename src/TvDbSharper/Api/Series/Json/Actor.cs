@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Series.Json
 {
-    public class ActorModel
+    public class Actor
     {
         public int? Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Users.Json
 {
-    public class UserRatingsData
+    public class UserRatings
     {
         public int? Rating { get; set; }
 

@@ -16,14 +16,14 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task<TvDbResponse<SeriesSearchData[]>> GetSeriesAsync(
+        public async Task<TvDbResponse<SeriesSearchResult[]>> GetSeriesAsync(
             string value,
             SearchParameter parameter,
             CancellationToken cancellationToken)
         {
             string requestUri = $"/search/series?{UrlHelpers.PascalCase(parameter.ToString())}={value}";
 
-            return await this.GetDataAsync<SeriesSearchData[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)

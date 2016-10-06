@@ -8,8 +8,8 @@
 
     public interface ILanguagesClient
     {
-        Task<TvDbResponse<LanguageData[]>> GetAllAsync(CancellationToken cancellationToken);
+        Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<TvDbResponse<LanguageData>> GetAsync(int languageId, CancellationToken cancellationToken);
+        Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken);
     }
 }

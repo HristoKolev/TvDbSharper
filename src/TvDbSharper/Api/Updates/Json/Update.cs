@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Updates.Json
 {
-    public class UpdateData
+    public class Update
     {
         public int? Id { get; set; }
 

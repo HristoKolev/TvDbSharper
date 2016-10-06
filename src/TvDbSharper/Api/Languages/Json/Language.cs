@@ -1,6 +1,6 @@
 ﻿namespace TvDbSharper.Api.Languages.Json
 {
-    public class LanguageData
+    public class Language
     {
         public string Abbreviation { get; set; }
 

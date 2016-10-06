@@ -17,18 +17,18 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task<TvDbResponse<UpdateData[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
         {
             string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}";
 
-            return await this.GetDataAsync<UpdateData[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Update[]>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<UpdateData[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
         {
             string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}&toTime={toTime.ToUnixEpochTime()}";
 
-            return await this.GetDataAsync<UpdateData[]>(requestUri, cancellationToken);
+            return await this.GetDataAsync<Update[]>(requestUri, cancellationToken);
         }
 
         private async Task<TvDbResponse<T>> GetDataAsync<T>(string requestUri, CancellationToken cancellationToken)

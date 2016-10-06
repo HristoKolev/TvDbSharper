@@ -26,13 +26,13 @@
 
             const string Route = "/search/series?name=Doctor Who";
 
-            var expectedData = new TvDbResponse<SeriesSearchData[]>();
+            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetSeriesAsync(ParameterValue, ParameterKey, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

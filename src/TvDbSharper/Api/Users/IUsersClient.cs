@@ -8,21 +8,21 @@
 
     public interface IUsersClient
     {
-        Task<TvDbResponse<UserFavoritesData>> DeleteFavoritesAsync(int seriesId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserFavorites>> DeleteFavoritesAsync(int seriesId, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatingsData[]>> DeleteRatingsAsync(RatingType itemType, int itemId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> DeleteRatingsAsync(RatingType itemType, int itemId, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserData>> GetAsync(CancellationToken cancellationToken);
+        Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserFavoritesData>> GetFavoritesAsync(CancellationToken cancellationToken);
+        Task<TvDbResponse<UserFavorites>> GetFavoritesAsync(CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatingsData[]>> GetRatingsAsync(CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatingsData[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserFavoritesData>> PutFavoritesAsync(int seriesId, CancellationToken cancellationToken);
+        Task<TvDbResponse<UserFavorites>> PutFavoritesAsync(int seriesId, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatingsData[]>> PutRatingsAsync(
+        Task<TvDbResponse<UserRatings[]>> PutRatingsAsync(
             RatingType itemType,
             int itemId,
             int rating,

@@ -25,13 +25,13 @@
             const string Route = "/updated/query?fromTime=1475280000";
             DateTime from = new DateTime(2016, 10, 1);
 
-            var expectedData = new TvDbResponse<UpdateData[]>();
+            var expectedData = new TvDbResponse<Update[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UpdateData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(from, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UpdateData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -48,13 +48,13 @@
             DateTime from = new DateTime(2016, 10, 1);
             DateTime to = new DateTime(2016, 10, 5);
 
-            var expectedData = new TvDbResponse<UpdateData[]>();
+            var expectedData = new TvDbResponse<Update[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UpdateData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(from, to, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UpdateData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

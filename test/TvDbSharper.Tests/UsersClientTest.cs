@@ -25,13 +25,13 @@
 
             const string Route = "/user/favorites/42";
 
-            var expectedData = new TvDbResponse<UserFavoritesData>();
+            var expectedData = new TvDbResponse<UserFavorites>();
 
-            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.DeleteFavoritesAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -49,13 +49,13 @@
 
             const string Route = "/user/ratings/series/42";
 
-            var expectedData = new TvDbResponse<UserRatingsData[]>();
+            var expectedData = new TvDbResponse<UserRatings[]>();
 
-            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.DeleteRatingsAsync(Type, Id, CancellationToken.None);
 
-            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -70,13 +70,13 @@
 
             const string Route = "/user";
 
-            var expectedData = new TvDbResponse<UserData>();
+            var expectedData = new TvDbResponse<User>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UserData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetAsync(CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserData>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -91,13 +91,13 @@
 
             const string Route = "/user/favorites";
 
-            var expectedData = new TvDbResponse<UserFavoritesData>();
+            var expectedData = new TvDbResponse<UserFavorites>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetFavoritesAsync(CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -112,13 +112,13 @@
 
             const string Route = "/user/ratings";
 
-            var expectedData = new TvDbResponse<UserRatingsData[]>();
+            var expectedData = new TvDbResponse<UserRatings[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetRatingsAsync(CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -135,13 +135,13 @@
 
             const string Route = "/user/ratings/query?itemType=series";
 
-            var expectedData = new TvDbResponse<UserRatingsData[]>();
+            var expectedData = new TvDbResponse<UserRatings[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.GetRatingsAsync(Type, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -158,13 +158,13 @@
 
             const string Route = "/user/favorites/42";
 
-            var expectedData = new TvDbResponse<UserFavoritesData>();
+            var expectedData = new TvDbResponse<UserFavorites>();
 
-            jsonClient.PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.PutFavoritesAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavoritesData>>(Route, CancellationToken.None);
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }
@@ -182,13 +182,13 @@
             const int Rating = 10; // awesome!
             const string Route = "/user/ratings/series/42/10";
 
-            var expectedData = new TvDbResponse<UserRatingsData[]>();
+            var expectedData = new TvDbResponse<UserRatings[]>();
 
-            jsonClient.PutJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None).Returns(expectedData);
+            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
             var responseData = await client.PutRatingsAsync(Type, Id, Rating, CancellationToken.None);
 
-            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatingsData[]>>(Route, CancellationToken.None);
+            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
         }

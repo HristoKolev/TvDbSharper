@@ -8,6 +8,6 @@
 
     public interface IEpisodesClient
     {
-        Task<TvDbResponse<EpisodeRecordData>> GetAsync(int episodeId, CancellationToken cancellationToken);
+        Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken);
     }
 }
