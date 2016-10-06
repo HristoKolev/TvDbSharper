@@ -14,7 +14,7 @@
         {
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> GetSeriesAsync(
+        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
             string value,
             SearchParameter parameter,
             CancellationToken cancellationToken)

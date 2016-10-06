@@ -8,7 +8,7 @@ namespace TvDbSharper.JsonApi.Search
 
     public interface ISearchClient
     {
-        Task<TvDbResponse<SeriesSearchResult[]>> GetSeriesAsync(
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
             string value,
             SearchParameter parameter,
             CancellationToken cancellationToken);

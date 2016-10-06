@@ -30,7 +30,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetSeriesAsync(ParameterValue, ParameterKey, CancellationToken.None);
+            var responseData = await client.SearchSeriesAsync(ParameterValue, ParameterKey, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 

@@ -14,19 +14,19 @@
         {
         }
 
-        public async Task<TvDbResponse<UserFavorites>> DeleteFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken)
         {
             return await this.DeleteAsync<UserFavorites>($"/user/favorites/{seriesId}", cancellationToken);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> DeleteRatingsAsync(
+        public async Task RemoveRatingAsync(
             RatingType itemType,
             int itemId,
             CancellationToken cancellationToken)
         {
             string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
 
-            return await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
+            await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
         }
 
         public async Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken)
@@ -57,14 +57,14 @@
             return await this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<UserFavorites>> PutFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
         {
             string requestUri = $"/user/favorites/{seriesId}";
 
             return await this.PutAsync<UserFavorites>(requestUri, cancellationToken);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> PutRatingsAsync(
+        public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
             RatingType itemType,
             int itemId,
             int rating,

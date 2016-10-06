@@ -29,7 +29,7 @@
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.DeleteFavoritesAsync(Id, CancellationToken.None);
+            var responseData = await client.RemoveFavoriteAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
@@ -53,11 +53,9 @@
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.DeleteRatingsAsync(Type, Id, CancellationToken.None);
+            await client.RemoveRatingAsync(Type, Id, CancellationToken.None);
 
             await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-            Assert.Equal(expectedData, responseData);
         }
 
         [Fact]
@@ -162,7 +160,7 @@
 
             jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.PutFavoritesAsync(Id, CancellationToken.None);
+            var responseData = await client.AddToFavoritesAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
@@ -186,7 +184,7 @@
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.PutRatingsAsync(Type, Id, Rating, CancellationToken.None);
+            var responseData = await client.AddRatingAsync(Type, Id, Rating, CancellationToken.None);
 
             await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
 
