@@ -4,8 +4,8 @@
 
     using NSubstitute;
 
-    using TvDbSharper.Api.Languages;
-    using TvDbSharper.Api.Languages.Json;
+    using TvDbSharper.JsonApi.Languages;
+    using TvDbSharper.JsonApi.Languages.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
 

@@ -5,8 +5,8 @@
 
     using NSubstitute;
 
-    using TvDbSharper.Api.Authentication;
-    using TvDbSharper.Api.Authentication.Json;
+    using TvDbSharper.JsonApi.Authentication;
+    using TvDbSharper.JsonApi.Authentication.Json;
     using TvDbSharper.JsonClient;
 
     using Xunit;

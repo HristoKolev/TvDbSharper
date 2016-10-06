@@ -4,8 +4,8 @@
 
     using NSubstitute;
 
-    using TvDbSharper.Api.Episodes;
-    using TvDbSharper.Api.Episodes.Json;
+    using TvDbSharper.JsonApi.Episodes;
+    using TvDbSharper.JsonApi.Episodes.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
 

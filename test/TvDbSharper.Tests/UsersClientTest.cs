@@ -4,8 +4,8 @@
 
     using NSubstitute;
 
-    using TvDbSharper.Api.Users;
-    using TvDbSharper.Api.Users.Json;
+    using TvDbSharper.JsonApi.Users;
+    using TvDbSharper.JsonApi.Users.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
 

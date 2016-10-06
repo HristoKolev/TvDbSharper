@@ -1,12 +1,12 @@
 namespace TvDbSharper.RestClient
 {
-    using TvDbSharper.Api.Authentication;
-    using TvDbSharper.Api.Episodes;
-    using TvDbSharper.Api.Languages;
-    using TvDbSharper.Api.Search;
-    using TvDbSharper.Api.Series;
-    using TvDbSharper.Api.Updates;
-    using TvDbSharper.Api.Users;
+    using TvDbSharper.JsonApi.Authentication;
+    using TvDbSharper.JsonApi.Episodes;
+    using TvDbSharper.JsonApi.Languages;
+    using TvDbSharper.JsonApi.Search;
+    using TvDbSharper.JsonApi.Series;
+    using TvDbSharper.JsonApi.Updates;
+    using TvDbSharper.JsonApi.Users;
     using TvDbSharper.JsonClient;
 
     public class RestClient : IRestClient

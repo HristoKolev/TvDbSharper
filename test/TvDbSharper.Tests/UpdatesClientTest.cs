@@ -5,8 +5,8 @@
 
     using NSubstitute;
 
-    using TvDbSharper.Api.Updates;
-    using TvDbSharper.Api.Updates.Json;
+    using TvDbSharper.JsonApi.Updates;
+    using TvDbSharper.JsonApi.Updates.Json;
     using TvDbSharper.JsonClient;
     using TvDbSharper.RestClient.Json;
 
