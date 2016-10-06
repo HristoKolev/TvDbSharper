@@ -28,6 +28,11 @@ namespace TvDbSharper.JsonClient
             this.HttpClient.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
 
+        public JsonClient()
+            : this(new HttpClient())
+        {
+        }
+
         public AuthenticationHeaderValue AuthorizationHeader
         {
             get

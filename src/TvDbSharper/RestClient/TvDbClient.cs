@@ -9,9 +9,9 @@ namespace TvDbSharper.RestClient
     using TvDbSharper.JsonApi.Users;
     using TvDbSharper.JsonClient;
 
-    public class RestClient : IRestClient
+    public class TvDbClient : IRestClient
     {
-        public RestClient(IJsonClient jsonClient)
+        public TvDbClient(IJsonClient jsonClient)
         {
             this.JsonClient = jsonClient;
 
@@ -22,6 +22,11 @@ namespace TvDbSharper.RestClient
             this.Series = new SeriesClient(this.JsonClient);
             this.Updates = new UpdatesClient(this.JsonClient);
             this.Users = new UsersClient(this.JsonClient);
+        }
+
+        public TvDbClient()
+            : this(new JsonClient())
+        {
         }
 
         public IAuthenticationClient Authentication { get; }

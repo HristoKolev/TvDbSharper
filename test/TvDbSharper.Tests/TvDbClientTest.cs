@@ -14,7 +14,7 @@
 
     using Xunit;
 
-    public class RestClientTest
+    public class TvDbClientTest
     {
         [Fact]
 
@@ -93,9 +93,9 @@
             Assert.IsType<UsersClient>(client.Users);
         }
 
-        private static RestClient CreateClient()
+        private static TvDbClient CreateClient()
         {
-            return new RestClient(Substitute.For<IJsonClient>());
+            return new TvDbClient(Substitute.For<IJsonClient>());
         }
     }
 }
