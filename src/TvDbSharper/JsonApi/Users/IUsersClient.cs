@@ -22,10 +22,6 @@
 
         Task<TvDbResponse<UserFavorites>> PutFavoritesAsync(int seriesId, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<UserRatings[]>> PutRatingsAsync(
-            RatingType itemType,
-            int itemId,
-            int rating,
-            CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> PutRatingsAsync(RatingType itemType, int itemId, int rating, CancellationToken cancellationToken);
     }
 }

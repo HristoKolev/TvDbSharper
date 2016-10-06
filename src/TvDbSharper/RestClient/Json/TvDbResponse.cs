@@ -2,15 +2,6 @@
 {
     public class TvDbResponse<TData>
     {
-        public TvDbResponse()
-        {
-        }
-
-        public TvDbResponse(TData data)
-        {
-            this.Data = data;
-        }
-
         public TData Data { get; set; }
 
         public Errors Errors { get; set; }
