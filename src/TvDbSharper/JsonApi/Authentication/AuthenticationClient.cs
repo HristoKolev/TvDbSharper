@@ -29,6 +29,41 @@
             this.UpdateAuthenticationHeader(response.Token);
         }
 
+        public async Task AuthenticateAsync(string apiKey, string username, string userKey, CancellationToken cancellationToken)
+        {
+            if (apiKey == null)
+            {
+                throw new ArgumentNullException(nameof(apiKey));
+            }
+
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new ArgumentException("The ApiKey cannot be an empty string or white space.");
+            }
+
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentException("The Username cannot be an empty string or white space.");
+            }
+
+            if (userKey == null)
+            {
+                throw new ArgumentNullException(nameof(userKey));
+            }
+
+            if (string.IsNullOrWhiteSpace(userKey))
+            {
+                throw new ArgumentException("The UserKey cannot be an empty string or white space.");
+            }
+
+            await this.AuthenticateAsync(new AuthenticationRequest(apiKey, username, userKey), cancellationToken);
+        }
+
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
