@@ -1,13 +1,16 @@
 ﻿namespace TvDbSharper.Tests
 {
     using System;
+    using System.Net;
     using System.Threading;
 
     using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using TvDbSharper.JsonApi.Updates;
     using TvDbSharper.JsonApi.Updates.Json;
     using TvDbSharper.JsonClient;
+    using TvDbSharper.JsonClient.Exceptions;
     using TvDbSharper.RestClient.Json;
 
     using Xunit;
@@ -36,6 +39,26 @@
             Assert.Equal(expectedData, responseData);
         }
 
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UpdatesClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var fromParam = new DateTime(2016, 10, 1);
+
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(fromParam, CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
+        }
+
         [Fact]
 
         // ReSharper disable once InconsistentNaming
@@ -57,6 +80,27 @@
             await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
+        }
+
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetAsyncWithInterval_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new UpdatesClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            DateTime from = new DateTime(2016, 10, 1);
+            DateTime to = new DateTime(2016, 10, 5);
+
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(from, to, CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
         }
     }
 }
