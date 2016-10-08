@@ -127,12 +127,7 @@ namespace TvDbSharper.JsonClient
                     throw;
                 }
 
-                var exception = new TvDbServerException(errorMessage, ex)
-                {
-                    StatusCode = response.StatusCode
-                };
-
-                throw exception;
+                throw new TvDbServerException(errorMessage, response.StatusCode, ex);
             }
 
             return JsonConvert.DeserializeObject<TResponse>(json);

@@ -2,13 +2,16 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Net;
     using System.Threading;
 
     using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using TvDbSharper.JsonApi.Authentication;
     using TvDbSharper.JsonApi.Authentication.Json;
     using TvDbSharper.JsonClient;
+    using TvDbSharper.JsonClient.Exceptions;
 
     using Xunit;
 
@@ -46,6 +49,26 @@
             var client = new AuthenticationClient(Substitute.For<IJsonClient>());
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null, CancellationToken.None));
+        }
+
+        [Theory]
+        [InlineData(401)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void AuthenticateAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new AuthenticationClient(jsonClient);
+
+            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+
+            jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
+                      .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex =
+                await Assert.ThrowsAsync<TvDbServerException>(() => client.AuthenticateAsync(authenticationRequest, CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Authentication.AuthenticateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -225,6 +248,23 @@
             await client.RefreshTokenAsync(CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<AuthenticationResponse>(Route, CancellationToken.None);
+        }
+
+        [Theory]
+        [InlineData(401)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void RefreshTokenAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new AuthenticationClient(jsonClient);
+
+            jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
+                      .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(() => client.RefreshTokenAsync(CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Authentication.RefreshTokenAsync[statusCode], ex.Message);
         }
 
         [Fact]

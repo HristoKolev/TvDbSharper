@@ -5,20 +5,12 @@
 
     public class TvDbServerException : Exception
     {
-        public TvDbServerException()
-        {
-        }
-
-        public TvDbServerException(string message)
-            : base(message)
-        {
-        }
-
-        public TvDbServerException(string message, Exception inner)
+        public TvDbServerException(string message, HttpStatusCode statusCode, Exception inner)
             : base(message, inner)
         {
+            this.StatusCode = statusCode;
         }
 
-        public HttpStatusCode StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; }
     }
 }

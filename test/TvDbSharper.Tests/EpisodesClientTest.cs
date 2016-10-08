@@ -1,12 +1,15 @@
 ﻿namespace TvDbSharper.Tests
 {
+    using System.Net;
     using System.Threading;
 
     using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using TvDbSharper.JsonApi.Episodes;
     using TvDbSharper.JsonApi.Episodes.Json;
     using TvDbSharper.JsonClient;
+    using TvDbSharper.JsonClient.Exceptions;
     using TvDbSharper.RestClient.Json;
 
     using Xunit;
@@ -34,6 +37,24 @@
             await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodeRecord>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
+        }
+
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new EpisodesClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<EpisodeRecord>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Episodes.GetAsync[statusCode], ex.Message);
         }
     }
 }

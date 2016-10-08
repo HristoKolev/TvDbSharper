@@ -1,5 +1,7 @@
 ﻿namespace TvDbSharper.JsonApi
 {
+    using System.Collections.Generic;
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -23,6 +25,16 @@
         protected async Task<TvDbResponse<T>> GetAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
             return await this.JsonClient.GetJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
+        }
+
+        protected string GetMessage(HttpStatusCode statusCode, IDictionary<int, string> messagesDictionary)
+        {
+            if (messagesDictionary.ContainsKey((int)statusCode))
+            {
+                return messagesDictionary[(int)statusCode];
+            }
+
+            return null;
         }
 
         protected async Task<T> PostAsync<T>(string requestUri, object obj, CancellationToken cancellationToken)
