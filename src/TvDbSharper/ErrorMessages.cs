@@ -11,6 +11,7 @@
             Languages = new LanguagesMessages();
             Search = new SearchMessages();
             Updates = new UpdatesMessages();
+            Series = new SeriesMessages();
         }
 
         public static AuthenticationMessages Authentication { get; }
@@ -20,6 +21,8 @@
         public static LanguagesMessages Languages { get; }
 
         public static SearchMessages Search { get; }
+
+        public static SeriesMessages Series { get; }
 
         public static UpdatesMessages Updates { get; }
     }
@@ -75,6 +78,22 @@
         {
             { 401, "Your JWT token is missing or expired" },
             { 404, "No records exist for the given timespan" }
+        };
+    }
+
+    public class SeriesMessages
+    {
+        public IDictionary<int, string> GetAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "The given series ID does not exist" }
+        };
+
+        // ReSharper disable once InconsistentNaming
+        public IDictionary<int, string> GetImagesAsync_With_Query { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "The given series ID does not exist or the query returns no results" }
         };
     }
 }
