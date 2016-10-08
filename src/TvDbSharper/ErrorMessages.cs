@@ -12,6 +12,7 @@
             Search = new SearchMessages();
             Updates = new UpdatesMessages();
             Series = new SeriesMessages();
+            Users = new UsersMessages();
         }
 
         public static AuthenticationMessages Authentication { get; }
@@ -25,6 +26,8 @@
         public static SeriesMessages Series { get; }
 
         public static UpdatesMessages Updates { get; }
+
+        public static UsersMessages Users { get; }
     }
 
     public class AuthenticationMessages
@@ -94,6 +97,47 @@
         {
             { 401, "Your JWT token is missing or expired" },
             { 404, "The given series ID does not exist or the query returns no results" }
+        };
+    }
+
+    public class UsersMessages
+    {
+        public IDictionary<int, string> AddToFavoritesAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No information exists for the current user" },
+            { 409, "Requested record could not be updated" }
+        };
+
+        public IDictionary<int, string> GetAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No information exists for the current user" }
+        };
+
+        public IDictionary<int, string> GetFavoritesAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No information exists for the current user" }
+        };
+
+        public IDictionary<int, string> GetRatingsAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No information exists for the current user" }
+        };
+
+        public IDictionary<int, string> RateAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No rating is found that matches your given parameters" }
+        };
+
+        public IDictionary<int, string> RemoveFromFavoritesAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No information exists for the current user" },
+            { 409, "Requested record could not be deleted" }
         };
     }
 }
