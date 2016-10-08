@@ -1,12 +1,15 @@
 ﻿namespace TvDbSharper.Tests
 {
+    using System.Net;
     using System.Threading;
 
     using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using TvDbSharper.JsonApi.Search;
     using TvDbSharper.JsonApi.Search.Json;
     using TvDbSharper.JsonClient;
+    using TvDbSharper.JsonClient.Exceptions;
     using TvDbSharper.RestClient.Json;
 
     using Xunit;
@@ -37,6 +40,27 @@
             Assert.Equal(expectedData, responseData);
         }
 
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void SearchSeriesAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SearchClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex =
+                await
+                    Assert.ThrowsAsync<TvDbServerException>(
+                        async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name, CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+        }
+
         [Fact]
 
         // ReSharper disable once InconsistentNaming
@@ -58,6 +82,27 @@
             await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
+        }
+
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void SearchSeriesByImdbIdAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SearchClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex =
+                await
+                    Assert.ThrowsAsync<TvDbServerException>(
+                        async () => await client.SearchSeriesByImdbIdAsync("tt0436992", CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -83,6 +128,27 @@
             Assert.Equal(expectedData, responseData);
         }
 
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void SearchSeriesByNameAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SearchClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex =
+                await
+                    Assert.ThrowsAsync<TvDbServerException>(
+                        async () => await client.SearchSeriesByNameAsync("Doctor Who", CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+        }
+
         [Fact]
 
         // ReSharper disable once InconsistentNaming
@@ -104,6 +170,27 @@
             await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
             Assert.Equal(expectedData, responseData);
+        }
+
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void SearchSeriesByZap2itIdAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SearchClient(jsonClient);
+
+            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex =
+                await
+                    Assert.ThrowsAsync<TvDbServerException>(
+                        async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000", CancellationToken.None));
+
+            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
     }
 }

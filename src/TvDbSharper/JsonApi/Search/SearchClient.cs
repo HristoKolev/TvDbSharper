@@ -1,10 +1,12 @@
 ﻿namespace TvDbSharper.JsonApi.Search
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     using TvDbSharper.JsonApi.Search.Json;
     using TvDbSharper.JsonClient;
+    using TvDbSharper.JsonClient.Exceptions;
     using TvDbSharper.RestClient.Json;
 
     public class SearchClient : BaseClient, ISearchClient
@@ -19,9 +21,23 @@
             SearchParameter parameter,
             CancellationToken cancellationToken)
         {
-            string requestUri = $"/search/series?{UrlHelpers.PascalCase(parameter.ToString())}={value}";
+            try
+            {
+                string requestUri = $"/search/series?{UrlHelpers.PascalCase(parameter.ToString())}={value}";
 
-            return await this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
+                return await this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
+            }
+            catch (TvDbServerException ex)
+            {
+                string message = this.GetMessage(ex.StatusCode, ErrorMessages.Search.SearchSeriesAsync);
+
+                if (message == null)
+                {
+                    throw;
+                }
+
+                throw new TvDbServerException(message, ex.StatusCode, ex);
+            }
         }
 
         public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId, CancellationToken cancellationToken)

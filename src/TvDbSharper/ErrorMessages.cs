@@ -9,6 +9,7 @@
             Authentication = new AuthenticationMessages();
             Episodes = new EpisodesMessages();
             Languages = new LanguagesMessages();
+            Search = new SearchMessages();
         }
 
         public static AuthenticationMessages Authentication { get; }
@@ -16,6 +17,8 @@
         public static EpisodesMessages Episodes { get; }
 
         public static LanguagesMessages Languages { get; }
+
+        public static SearchMessages Search { get; }
     }
 
     public class AuthenticationMessages
@@ -51,6 +54,15 @@
         {
             { 401, "Your JWT token is missing or expired" },
             { 404, "The given language ID does not exist" }
+        };
+    }
+
+    public class SearchMessages
+    {
+        public IDictionary<int, string> SearchSeriesAsync { get; } = new Dictionary<int, string>
+        {
+            { 401, "Your JWT token is missing or expired" },
+            { 404, "No records are found that match your query" }
         };
     }
 }
