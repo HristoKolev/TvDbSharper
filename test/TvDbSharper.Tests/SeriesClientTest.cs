@@ -291,7 +291,7 @@
 
             jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesAsync(Id, CancellationToken.None);
+            var responseData = await client.GetImagesSummaryAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
 
@@ -311,7 +311,8 @@
             jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, CancellationToken.None));
+            var ex =
+                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesSummaryAsync(42, CancellationToken.None));
 
             Assert.Equal(ErrorMessages.Series.GetAsync[statusCode], ex.Message);
         }
@@ -319,7 +320,7 @@
         [Fact]
 
         // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_With_Query_Makes_The_Right_Request()
+        public async void GetImagesSummaryAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new SeriesClient(jsonClient);
@@ -349,7 +350,7 @@
         [InlineData(404)]
 
         // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_With_Query_Throws_With_The_Correct_Message(int statusCode)
+        public async void GetImagesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new SeriesClient(jsonClient);
