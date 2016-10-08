@@ -367,7 +367,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Series.GetImagesAsync_With_Query[statusCode], ex.Message);
+            Assert.Equal(ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
         }
     }
 }

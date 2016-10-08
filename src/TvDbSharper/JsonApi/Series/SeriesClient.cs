@@ -177,7 +177,7 @@
             }
             catch (TvDbServerException ex)
             {
-                string message = this.GetMessage(ex.StatusCode, ErrorMessages.Series.GetImagesAsync_With_Query);
+                string message = this.GetMessage(ex.StatusCode, ErrorMessages.Series.GetImagesAsync);
 
                 if (message == null)
                 {
