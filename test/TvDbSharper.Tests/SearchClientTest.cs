@@ -6,23 +6,30 @@
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
 
-    using TvDbSharper.JsonApi.Search;
-    using TvDbSharper.JsonApi.Search.Json;
+    using TvDbSharper.BaseSchemas;
+    using TvDbSharper.Clients.Search;
+    using TvDbSharper.Clients.Search.Json;
+    using TvDbSharper.Errors;
     using TvDbSharper.JsonClient;
-    using TvDbSharper.JsonClient.Exceptions;
-    using TvDbSharper.RestClient.Json;
 
     using Xunit;
 
     public class SearchClientTest
     {
+        public SearchClientTest()
+        {
+            this.ErrorMessages = new ErrorMessages();
+        }
+
+        private IErrorMessages ErrorMessages { get; }
+
         [Fact]
 
         // ReSharper disable once InconsistentNaming
         public async void SearchSeriesAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             const SearchParameter ParameterKey = SearchParameter.Name;
             const string ParameterValue = "Doctor Who";
@@ -48,7 +55,7 @@
         public async void SearchSeriesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -58,7 +65,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -67,7 +74,7 @@
         public async void SearchSeriesByImdbIdAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             const string ImdbId = "tt0436992";
 
@@ -92,7 +99,7 @@
         public async void SearchSeriesByImdbIdAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -102,7 +109,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.SearchSeriesByImdbIdAsync("tt0436992", CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -111,7 +118,7 @@
         public async void SearchSeriesByNameAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             const string Name = "Doctor Who";
 
@@ -136,7 +143,7 @@
         public async void SearchSeriesByNameAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -146,7 +153,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.SearchSeriesByNameAsync("Doctor Who", CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -155,7 +162,7 @@
         public async void SearchSeriesByZap2itIdAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             const string Zap2ItId = "SH007501780000";
 
@@ -180,7 +187,7 @@
         public async void SearchSeriesByZap2itIdAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SearchClient(jsonClient);
+            var client = new SearchClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -190,7 +197,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000", CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TvDbSharper.JsonClient
 
     using Newtonsoft.Json;
 
-    using TvDbSharper.JsonClient.Exceptions;
+    using TvDbSharper.Errors;
     using TvDbSharper.JsonClient.JsonSchemas;
 
     public class JsonClient : IJsonClient

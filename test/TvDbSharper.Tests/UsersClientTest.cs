@@ -6,23 +6,30 @@
     using NSubstitute;
     using NSubstitute.ExceptionExtensions;
 
-    using TvDbSharper.JsonApi.Users;
-    using TvDbSharper.JsonApi.Users.Json;
+    using TvDbSharper.BaseSchemas;
+    using TvDbSharper.Clients.Users;
+    using TvDbSharper.Clients.Users.Json;
+    using TvDbSharper.Errors;
     using TvDbSharper.JsonClient;
-    using TvDbSharper.JsonClient.Exceptions;
-    using TvDbSharper.RestClient.Json;
 
     using Xunit;
 
     public class UsersClientTest
     {
+        public UsersClientTest()
+        {
+            this.ErrorMessages = new ErrorMessages();
+        }
+
+        private IErrorMessages ErrorMessages { get; }
+
         [Fact]
 
         // ReSharper disable once InconsistentNaming
         public async void AddEpisodeRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -47,7 +54,7 @@
         public async void AddEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -56,7 +63,7 @@
                 await
                     Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddEpisodeRatingAsync(42, 10, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -65,7 +72,7 @@
         public async void AddImageRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -90,7 +97,7 @@
         public async void AddImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -98,7 +105,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddImageRatingAsync(42, 10, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -107,7 +114,7 @@
         public async void AddRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -133,7 +140,7 @@
         public async void AddRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -143,7 +150,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.AddRatingAsync(RatingType.Series, 42, 10, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -152,7 +159,7 @@
         public async void AddSeriesRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -177,7 +184,7 @@
         public async void AddSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -185,7 +192,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddSeriesRatingAsync(42, 10, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -194,7 +201,7 @@
         public async void AddToFavoritesAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
 
@@ -220,14 +227,14 @@
         public async void AddToFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddToFavoritesAsync(42, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.AddToFavoritesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.AddToFavoritesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -236,7 +243,7 @@
         public async void GetAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user";
 
@@ -259,14 +266,14 @@
         public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<User>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -275,7 +282,7 @@
         public async void GetEpisodesRatingsAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user/ratings/query?itemType=episode";
 
@@ -298,14 +305,14 @@
         public async void GetEpisodesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesRatingsAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -314,7 +321,7 @@
         public async void GetFavoritesAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user/favorites";
 
@@ -337,14 +344,14 @@
         public async void GetFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetFavoritesAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetFavoritesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetFavoritesAsync[statusCode], ex.Message);
         }
 
         [Theory]
@@ -355,14 +362,14 @@
         public async void GetImagesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesRatingsAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -371,7 +378,7 @@
         public async void GetImagesRatingsAsync_With_Type_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user/ratings/query?itemType=image";
 
@@ -392,7 +399,7 @@
         public async void GetRatingsAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user/ratings";
 
@@ -415,14 +422,14 @@
         public async void GetRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetRatingsAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -431,7 +438,7 @@
         public async void GetRatingsAsync_With_Type_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const RatingType Type = RatingType.Series;
 
@@ -456,7 +463,7 @@
         public async void GetRatingsAsync_With_Type_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -466,7 +473,7 @@
                     Assert.ThrowsAsync<TvDbServerException>(
                         async () => await client.GetRatingsAsync(RatingType.Series, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -475,7 +482,7 @@
         public async void GetSeriesRatingsAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const string Route = "/user/ratings/query?itemType=series";
 
@@ -498,14 +505,14 @@
         public async void GetSeriesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetSeriesRatingsAsync(CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -514,7 +521,7 @@
         public async void RemoveEpisodeRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
 
@@ -537,7 +544,7 @@
         public async void RemoveEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -545,7 +552,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveEpisodeRatingAsync(42, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -554,7 +561,7 @@
         public async void RemoveFavoriteAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
 
@@ -580,14 +587,14 @@
         public async void RemoveFavoriteAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFavoriteAsync(42, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -596,7 +603,7 @@
         public async void RemoveImageRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
 
@@ -619,7 +626,7 @@
         public async void RemoveImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -627,7 +634,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveImageRatingAsync(42, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -636,7 +643,7 @@
         public async void RemoveRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -660,7 +667,7 @@
         public async void RemoveRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -671,7 +678,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveRatingAsync(Type, Id, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
 
         [Fact]
@@ -680,7 +687,7 @@
         public async void RemoveSeriesRatingAsync_Makes_The_Right_Request()
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             const int Id = 42;
 
@@ -703,7 +710,7 @@
         public async void RemoveSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
             var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient);
+            var client = new UsersClient(jsonClient, this.ErrorMessages);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -711,7 +718,7 @@
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveSeriesRatingAsync(42, CancellationToken.None));
 
-            Assert.Equal(ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
         }
     }
 }

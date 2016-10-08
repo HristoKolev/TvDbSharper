@@ -2,15 +2,15 @@
 {
     using NSubstitute;
 
-    using TvDbSharper.JsonApi.Authentication;
-    using TvDbSharper.JsonApi.Episodes;
-    using TvDbSharper.JsonApi.Languages;
-    using TvDbSharper.JsonApi.Search;
-    using TvDbSharper.JsonApi.Series;
-    using TvDbSharper.JsonApi.Updates;
-    using TvDbSharper.JsonApi.Users;
+    using TvDbSharper.Clients.Authentication;
+    using TvDbSharper.Clients.Episodes;
+    using TvDbSharper.Clients.Languages;
+    using TvDbSharper.Clients.Search;
+    using TvDbSharper.Clients.Series;
+    using TvDbSharper.Clients.Updates;
+    using TvDbSharper.Clients.Users;
+    using TvDbSharper.Errors;
     using TvDbSharper.JsonClient;
-    using TvDbSharper.RestClient;
 
     using Xunit;
 
@@ -95,7 +95,7 @@
 
         private static TvDbClient CreateClient()
         {
-            return new TvDbClient(Substitute.For<IJsonClient>());
+            return new TvDbClient(Substitute.For<IJsonClient>(), new ErrorMessages());
         }
     }
 }
