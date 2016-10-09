@@ -23,9 +23,7 @@
 
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByNameAsync(string name);
 
-        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(
-            string zap2ItId,
-            CancellationToken cancellationToken);
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId, CancellationToken cancellationToken);
 
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId);
     }

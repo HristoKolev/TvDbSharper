@@ -22,7 +22,7 @@
         {
             try
             {
-                string requestUri = $"/search/series?{UrlHelpers.PascalCase(parameter.ToString())}={value}";
+                string requestUri = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={value}";
 
                 return await this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
             }

@@ -47,7 +47,7 @@
         {
             try
             {
-                string requestUri = $"/series/{seriesId}/filter?keys={UrlHelpers.Parametrify(filter)}";
+                string requestUri = $"/series/{seriesId}/filter?keys={this.UrlHelpers.Parametrify(filter)}";
 
                 return await this.GetAsync<Series>(requestUri, cancellationToken);
             }
@@ -124,7 +124,7 @@
         {
             try
             {
-                string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{UrlHelpers.Querify(query)}";
+                string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{this.UrlHelpers.Querify(query)}";
 
                 return await this.GetAsync<BasicEpisode[]>(requestUri, cancellationToken);
             }
@@ -207,7 +207,7 @@
         {
             try
             {
-                string requestUri = $"/series/{seriesId}/images/query?{UrlHelpers.Querify(query)}";
+                string requestUri = $"/series/{seriesId}/images/query?{this.UrlHelpers.Querify(query)}";
 
                 return await this.GetAsync<Image[]>(requestUri, cancellationToken);
             }

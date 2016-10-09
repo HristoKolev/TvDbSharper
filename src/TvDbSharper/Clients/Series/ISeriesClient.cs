@@ -23,11 +23,7 @@
 
         Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken);
 
-        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
-            int seriesId,
-            int page,
-            EpisodeQuery query,
-            CancellationToken cancellationToken);
+        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query, CancellationToken cancellationToken);
 
         Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page);
 

@@ -5,16 +5,16 @@
     using System.Linq;
     using System.Reflection;
 
-    public static class UrlHelpers
+    public class UrlHelpers : IUrlHelpers
     {
-        public static string Parametrify(Enum value)
+        public string Parametrify(Enum value)
         {
-            var elements = value.ToString().Split(',').Select(element => PascalCase(element.Trim())).OrderBy(element => element);
+            var elements = value.ToString().Split(',').Select(element => this.PascalCase(element.Trim())).OrderBy(element => element);
 
             return string.Join(",", elements);
         }
 
-        public static string PascalCase(string name)
+        public string PascalCase(string name)
         {
             char[] array = name.ToCharArray();
 
@@ -23,7 +23,7 @@
             return new string(array);
         }
 
-        public static string Querify<T>(T obj)
+        public string Querify<T>(T obj)
         {
             IList<string> parts = new List<string>();
 
@@ -33,16 +33,16 @@
 
                 if (value != null)
                 {
-                    parts.Add($"{PascalCase(propertyInfo.Name)}={Uri.EscapeDataString(value.ToString())}");
+                    parts.Add($"{this.PascalCase(propertyInfo.Name)}={Uri.EscapeDataString(value.ToString())}");
                 }
             }
 
             return string.Join("&", parts);
         }
 
-        public static string QuerifyEnum(Enum obj)
+        public string QuerifyEnum(Enum obj)
         {
-            return PascalCase(obj.ToString());
+            return this.PascalCase(obj.ToString());
         }
     }
 }

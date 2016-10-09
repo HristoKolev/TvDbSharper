@@ -43,7 +43,7 @@
         {
             try
             {
-                string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}";
+                string requestUri = $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}";
 
                 return await this.PutAsync<UserRatings[]>(requestUri, cancellationToken);
             }
@@ -198,7 +198,7 @@
         {
             try
             {
-                string requestUri = $"/user/ratings/query?itemType={UrlHelpers.QuerifyEnum(type)}";
+                string requestUri = $"/user/ratings/query?itemType={this.UrlHelpers.QuerifyEnum(type)}";
 
                 return await this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
             }
@@ -285,7 +285,7 @@
         {
             try
             {
-                string requestUri = $"/user/ratings/{UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
+                string requestUri = $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
 
                 await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
             }

@@ -16,11 +16,7 @@
 
         Task<TvDbResponse<UserRatings[]>> AddImageRatingAsync(int imageId, int rating);
 
-        Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
-            RatingType itemType,
-            int itemId,
-            int rating,
-            CancellationToken cancellationToken);
+        Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, int rating, CancellationToken cancellationToken);
 
         Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, int rating);
 

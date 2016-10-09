@@ -15,11 +15,15 @@
         {
             this.JsonClient = jsonClient;
             this.ErrorMessages = errorMessages;
+
+            this.UrlHelpers = new UrlHelpers();
         }
 
         protected IErrorMessages ErrorMessages { get; }
 
         protected IJsonClient JsonClient { get; }
+
+        protected IUrlHelpers UrlHelpers { get; }
 
         protected async Task<TvDbResponse<T>> DeleteAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
