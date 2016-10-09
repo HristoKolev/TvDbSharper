@@ -84,6 +84,16 @@ namespace TvDbSharper.JsonClient
             }
         }
 
+        public async Task<HttpResponseHeaders> GetHeadersAsync(string requestUri, CancellationToken cancellationToken)
+        {
+            using (var response = await this.HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, requestUri), cancellationToken))
+            {
+                response.EnsureSuccessStatusCode();
+
+                return response.Headers;
+            }
+        }
+
         public async Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.GetAsync(url, cancellationToken))

@@ -19,7 +19,7 @@
 
         protected IErrorMessages ErrorMessages { get; }
 
-        private IJsonClient JsonClient { get; }
+        protected IJsonClient JsonClient { get; }
 
         protected async Task<TvDbResponse<T>> DeleteAsync<T>(string requestUri, CancellationToken cancellationToken)
         {

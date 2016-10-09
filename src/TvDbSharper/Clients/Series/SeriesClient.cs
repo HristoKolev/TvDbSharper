@@ -1,6 +1,7 @@
 ﻿namespace TvDbSharper.Clients.Series
 {
     using System;
+    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -132,6 +133,27 @@
                 string requestUri = $"/series/{seriesId}/episodes/summary";
 
                 return await this.GetAsync<EpisodesSummary>(requestUri, cancellationToken);
+            }
+            catch (TvDbServerException ex)
+            {
+                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Series.GetAsync);
+
+                if (message == null)
+                {
+                    throw;
+                }
+
+                throw new TvDbServerException(message, ex.StatusCode, ex);
+            }
+        }
+
+        public async Task<HttpResponseHeaders> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                string requestUri = $"/series/{seriesId}";
+
+                return await this.JsonClient.GetHeadersAsync(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

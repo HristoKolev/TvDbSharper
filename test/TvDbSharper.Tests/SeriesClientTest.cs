@@ -1,6 +1,7 @@
 ﻿namespace TvDbSharper.Tests
 {
     using System.Net;
+    using System.Net.Http;
     using System.Threading;
 
     using NSubstitute;
@@ -279,6 +280,45 @@
 
             var ex =
                 await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesSummaryAsync(42, CancellationToken.None));
+
+            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetHeaderAsync_Makes_The_Right_Request()
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+
+            const string Route = "/series/42";
+
+            var expectedHeaders = new HttpResponseMessage().Headers;
+
+            jsonClient.GetHeadersAsync(Route, CancellationToken.None).Returns(expectedHeaders);
+
+            var headers = await client.GetHeadersAsync(42, CancellationToken.None);
+
+            await jsonClient.Received().GetHeadersAsync(Route, CancellationToken.None);
+
+            Assert.Equal(expectedHeaders, headers);
+        }
+
+        [Theory]
+        [InlineData(401)]
+        [InlineData(404)]
+
+        // ReSharper disable once InconsistentNaming
+        public async void GetHeaderAsync_Throws_With_The_Correct_Message(int statusCode)
+        {
+            var jsonClient = Substitute.For<IJsonClient>();
+            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+
+            jsonClient.GetHeadersAsync(null, CancellationToken.None)
+                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetHeadersAsync(42, CancellationToken.None));
 
             Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
         }

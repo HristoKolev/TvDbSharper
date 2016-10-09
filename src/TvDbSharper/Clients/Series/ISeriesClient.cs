@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Clients.Series
 {
+    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -19,6 +20,8 @@
         Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query, CancellationToken cancellationToken);
 
         Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken);
+
+        Task<HttpResponseHeaders> GetHeadersAsync(int seriesId, CancellationToken cancellationToken);
 
         Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken);
 

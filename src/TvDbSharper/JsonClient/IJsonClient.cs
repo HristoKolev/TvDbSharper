@@ -12,6 +12,8 @@ namespace TvDbSharper.JsonClient
 
         Task<TResponse> DeleteJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
 
+        Task<HttpResponseHeaders> GetHeadersAsync(string requestUri, CancellationToken cancellationToken);
+
         Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
 
         Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj, CancellationToken cancellationToken);
