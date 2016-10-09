@@ -10,6 +10,10 @@
     {
         Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken);
 
+        Task<TvDbResponse<Language[]>> GetAllAsync();
+
         Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken);
+
+        Task<TvDbResponse<Language>> GetAsync(int languageId);
     }
 }

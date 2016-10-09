@@ -36,6 +36,11 @@
             }
         }
 
+        public async Task<TvDbResponse<Language[]>> GetAllAsync()
+        {
+            return await this.GetAllAsync(CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
         {
             try
@@ -55,6 +60,11 @@
 
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
+        }
+
+        public async Task<TvDbResponse<Language>> GetAsync(int languageId)
+        {
+            return await this.GetAsync(languageId, CancellationToken.None);
         }
     }
 }
