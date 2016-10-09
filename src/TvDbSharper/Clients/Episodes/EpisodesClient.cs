@@ -35,5 +35,10 @@
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
         }
+
+        public async Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId)
+        {
+            return await this.GetAsync(episodeId, CancellationToken.None);
+        }
     }
 }

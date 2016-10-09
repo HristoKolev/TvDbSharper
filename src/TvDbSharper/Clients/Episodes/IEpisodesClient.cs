@@ -9,5 +9,7 @@
     public interface IEpisodesClient
     {
         Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken);
+
+        Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId);
     }
 }
