@@ -20,9 +20,19 @@
             return await this.AddRatingAsync(RatingType.Episode, episodeId, rating, cancellationToken);
         }
 
+        public async Task<TvDbResponse<UserRatings[]>> AddEpisodeRatingAsync(int episodeId, int rating)
+        {
+            return await this.AddEpisodeRatingAsync(episodeId, rating, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<UserRatings[]>> AddImageRatingAsync(int imageId, int rating, CancellationToken cancellationToken)
         {
             return await this.AddRatingAsync(RatingType.Image, imageId, rating, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatings[]>> AddImageRatingAsync(int imageId, int rating)
+        {
+            return await this.AddImageRatingAsync(imageId, rating, CancellationToken.None);
         }
 
         public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
@@ -50,9 +60,19 @@
             }
         }
 
+        public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, int rating)
+        {
+            return await this.AddRatingAsync(itemType, itemId, rating, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<UserRatings[]>> AddSeriesRatingAsync(int seriesId, int rating, CancellationToken cancellationToken)
         {
             return await this.AddRatingAsync(RatingType.Series, seriesId, rating, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatings[]>> AddSeriesRatingAsync(int seriesId, int rating)
+        {
+            return await this.AddSeriesRatingAsync(seriesId, rating, CancellationToken.None);
         }
 
         public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
@@ -76,6 +96,11 @@
             }
         }
 
+        public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId)
+        {
+            return await this.AddToFavoritesAsync(seriesId, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken)
         {
             try
@@ -97,9 +122,19 @@
             }
         }
 
+        public async Task<TvDbResponse<User>> GetAsync()
+        {
+            return await this.GetAsync(CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<UserRatings[]>> GetEpisodesRatingsAsync(CancellationToken cancellationToken)
         {
             return await this.GetRatingsAsync(RatingType.Episode, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatings[]>> GetEpisodesRatingsAsync()
+        {
+            return await this.GetEpisodesRatingsAsync(CancellationToken.None);
         }
 
         public async Task<TvDbResponse<UserFavorites>> GetFavoritesAsync(CancellationToken cancellationToken)
@@ -123,9 +158,19 @@
             }
         }
 
+        public async Task<TvDbResponse<UserFavorites>> GetFavoritesAsync()
+        {
+            return await this.GetFavoritesAsync(CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<UserRatings[]>> GetImagesRatingsAsync(CancellationToken cancellationToken)
         {
             return await this.GetRatingsAsync(RatingType.Image, cancellationToken);
+        }
+
+        public async Task<TvDbResponse<UserRatings[]>> GetImagesRatingsAsync()
+        {
+            return await this.GetImagesRatingsAsync(CancellationToken.None);
         }
 
         public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(CancellationToken cancellationToken)
@@ -170,14 +215,34 @@
             }
         }
 
+        public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync()
+        {
+            return await this.GetRatingsAsync(CancellationToken.None);
+        }
+
+        public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type)
+        {
+            return await this.GetRatingsAsync(type, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<UserRatings[]>> GetSeriesRatingsAsync(CancellationToken cancellationToken)
         {
             return await this.GetRatingsAsync(RatingType.Series, cancellationToken);
         }
 
+        public async Task<TvDbResponse<UserRatings[]>> GetSeriesRatingsAsync()
+        {
+            return await this.GetSeriesRatingsAsync(CancellationToken.None);
+        }
+
         public async Task RemoveEpisodeRatingAsync(int episodeId, CancellationToken cancellationToken)
         {
             await this.RemoveRatingAsync(RatingType.Episode, episodeId, cancellationToken);
+        }
+
+        public async Task RemoveEpisodeRatingAsync(int episodeId)
+        {
+            await this.RemoveEpisodeRatingAsync(episodeId, CancellationToken.None);
         }
 
         public async Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId, CancellationToken cancellationToken)
@@ -201,9 +266,19 @@
             }
         }
 
+        public async Task<TvDbResponse<UserFavorites>> RemoveFavoriteAsync(int seriesId)
+        {
+            return await this.RemoveFavoriteAsync(seriesId, CancellationToken.None);
+        }
+
         public async Task RemoveImageRatingAsync(int imageId, CancellationToken cancellationToken)
         {
             await this.RemoveRatingAsync(RatingType.Image, imageId, cancellationToken);
+        }
+
+        public async Task RemoveImageRatingAsync(int imageId)
+        {
+            await this.RemoveImageRatingAsync(imageId, CancellationToken.None);
         }
 
         public async Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken)
@@ -227,9 +302,19 @@
             }
         }
 
+        public async Task RemoveRatingAsync(RatingType itemType, int itemId)
+        {
+            await this.RemoveRatingAsync(itemType, itemId, CancellationToken.None);
+        }
+
         public async Task RemoveSeriesRatingAsync(int seriesId, CancellationToken cancellationToken)
         {
             await this.RemoveRatingAsync(RatingType.Series, seriesId, cancellationToken);
+        }
+
+        public async Task RemoveSeriesRatingAsync(int seriesId)
+        {
+            await this.RemoveSeriesRatingAsync(seriesId, CancellationToken.None);
         }
     }
 }
