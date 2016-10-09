@@ -38,6 +38,11 @@
             }
         }
 
+        public async Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId)
+        {
+            return await this.GetActorsAsync(seriesId, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<Series>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
         {
             try
@@ -78,6 +83,16 @@
 
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
+        }
+
+        public async Task<TvDbResponse<Series>> GetAsync(int seriesId)
+        {
+            return await this.GetAsync(seriesId, CancellationToken.None);
+        }
+
+        public async Task<TvDbResponse<Series>> GetAsync(int seriesId, SeriesFilter filter)
+        {
+            return await this.GetAsync(seriesId, filter, CancellationToken.None);
         }
 
         public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
@@ -126,6 +141,16 @@
             }
         }
 
+        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page)
+        {
+            return await this.GetEpisodesAsync(seriesId, page, CancellationToken.None);
+        }
+
+        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query)
+        {
+            return await this.GetEpisodesAsync(seriesId, page, query, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
@@ -145,6 +170,11 @@
 
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
+        }
+
+        public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId)
+        {
+            return await this.GetEpisodesSummaryAsync(seriesId, CancellationToken.None);
         }
 
         public async Task<HttpResponseHeaders> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
@@ -168,6 +198,11 @@
             }
         }
 
+        public async Task<HttpResponseHeaders> GetHeadersAsync(int seriesId)
+        {
+            return await this.GetHeadersAsync(seriesId, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
         {
             try
@@ -189,6 +224,11 @@
             }
         }
 
+        public async Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query)
+        {
+            return await this.GetImagesAsync(seriesId, query, CancellationToken.None);
+        }
+
         public async Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
@@ -208,6 +248,11 @@
 
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
+        }
+
+        public async Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId)
+        {
+            return await this.GetImagesSummaryAsync(seriesId, CancellationToken.None);
         }
     }
 }
