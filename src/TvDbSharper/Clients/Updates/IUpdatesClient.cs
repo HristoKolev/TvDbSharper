@@ -12,5 +12,9 @@
         Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken);
 
         Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken);
+
+        Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime);
+
+        Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime);
     }
 }

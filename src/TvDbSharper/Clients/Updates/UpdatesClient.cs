@@ -57,5 +57,15 @@
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
         }
+
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime)
+        {
+            return await this.GetAsync(fromTime, CancellationToken.None);
+        }
+
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime)
+        {
+            return await this.GetAsync(fromTime, toTime, CancellationToken.None);
+        }
     }
 }
