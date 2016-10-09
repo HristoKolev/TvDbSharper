@@ -14,16 +14,9 @@ namespace TvDbSharper.JsonClient
 
     public class JsonClient : IJsonClient
     {
-        private const string DefaultBaseUrl = "https://api.thetvdb.com";
-
         public JsonClient(HttpClient httpClient)
         {
             this.HttpClient = httpClient;
-
-            if (this.BaseUrl == null)
-            {
-                this.BaseUrl = DefaultBaseUrl;
-            }
 
             this.HttpClient.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         }
@@ -51,42 +44,11 @@ namespace TvDbSharper.JsonClient
             }
         }
 
-        public string BaseUrl
-        {
-            get
-            {
-                return this.HttpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/');
-            }
-
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("The value cannot be an empty string or white space.");
-                }
-
-                this.HttpClient.BaseAddress = new Uri(value);
-            }
-        }
-
-        private HttpClient HttpClient { get; }
+        public HttpClient HttpClient { get; }
 
         public async Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.DeleteAsync(requestUri, cancellationToken))
-            {
-                return await this.ProcessResponse<TResponse>(response);
-            }
-        }
-
-        public async Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri)
-        {
-            using (var response = await this.HttpClient.DeleteAsync(requestUri, CancellationToken.None))
             {
                 return await this.ProcessResponse<TResponse>(response);
             }
@@ -102,28 +64,9 @@ namespace TvDbSharper.JsonClient
             }
         }
 
-        public async Task<HttpResponseHeaders> GetHeadersAsync(string requestUri)
-        {
-            using (
-                var response = await this.HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, requestUri), CancellationToken.None))
-            {
-                response.EnsureSuccessStatusCode();
-
-                return response.Headers;
-            }
-        }
-
         public async Task<TResponse> GetJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.GetAsync(requestUri, cancellationToken))
-            {
-                return await this.ProcessResponse<TResponse>(response);
-            }
-        }
-
-        public async Task<TResponse> GetJsonAsync<TResponse>(string requestUri)
-        {
-            using (var response = await this.HttpClient.GetAsync(requestUri, CancellationToken.None))
             {
                 return await this.ProcessResponse<TResponse>(response);
             }
@@ -139,27 +82,9 @@ namespace TvDbSharper.JsonClient
             }
         }
 
-        public async Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj)
-        {
-            var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-
-            using (var response = await this.HttpClient.PostAsync(requestUri, content, CancellationToken.None))
-            {
-                return await this.ProcessResponse<TResponse>(response);
-            }
-        }
-
         public async Task<TResponse> PutJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
             using (var response = await this.HttpClient.PutAsync(requestUri, null, cancellationToken))
-            {
-                return await this.ProcessResponse<TResponse>(response);
-            }
-        }
-
-        public async Task<TResponse> PutJsonAsync<TResponse>(string requestUri)
-        {
-            using (var response = await this.HttpClient.PutAsync(requestUri, null, CancellationToken.None))
             {
                 return await this.ProcessResponse<TResponse>(response);
             }

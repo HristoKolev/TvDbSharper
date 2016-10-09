@@ -10,7 +10,11 @@ namespace TvDbSharper
 
     public interface ITvDbClient
     {
+        string AcceptedLanguage { get; set; }
+
         IAuthenticationClient Authentication { get; }
+
+        string BaseUrl { get; set; }
 
         IEpisodesClient Episodes { get; }
 

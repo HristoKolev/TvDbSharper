@@ -1,5 +1,8 @@
 namespace TvDbSharper
 {
+    using System;
+    using System.Linq;
+
     using TvDbSharper.Clients.Authentication;
     using TvDbSharper.Clients.Episodes;
     using TvDbSharper.Clients.Languages;
@@ -12,9 +15,20 @@ namespace TvDbSharper
 
     public class TvDbClient : ITvDbClient
     {
-        public TvDbClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        private const string DefaultAcceptedLanguage = "en";
+
+        private const string DefaultBaseUrl = "https://api.thetvdb.com";
+
+        public TvDbClient(IJsonClient jsonClient)
         {
             this.JsonClient = jsonClient;
+
+            if (this.BaseUrl == null)
+            {
+                this.BaseUrl = DefaultBaseUrl;
+            }
+
+            var errorMessages = new ErrorMessages();
 
             this.Authentication = new AuthenticationClient(this.JsonClient, errorMessages);
             this.Episodes = new EpisodesClient(this.JsonClient, errorMessages);
@@ -26,11 +40,58 @@ namespace TvDbSharper
         }
 
         public TvDbClient()
-            : this(new JsonClient.JsonClient(), new ErrorMessages())
+            : this(new JsonClient.JsonClient())
         {
         }
 
+        public string AcceptedLanguage
+        {
+            get
+            {
+                return this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.FirstOrDefault()?.Value ?? DefaultAcceptedLanguage;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("The value cannot be an empty string or white space.");
+                }
+
+                this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+                this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
+            }
+        }
+
         public IAuthenticationClient Authentication { get; }
+
+        public string BaseUrl
+        {
+            get
+            {
+                return this.JsonClient.HttpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/');
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("The value cannot be an empty string or white space.");
+                }
+
+                this.JsonClient.HttpClient.BaseAddress = new Uri(value);
+            }
+        }
 
         public IEpisodesClient Episodes { get; }
 
