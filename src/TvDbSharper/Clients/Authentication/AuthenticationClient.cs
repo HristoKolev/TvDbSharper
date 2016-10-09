@@ -85,6 +85,16 @@
             await this.AuthenticateAsync(new AuthenticationRequest(apiKey, username, userKey), cancellationToken);
         }
 
+        public async Task AuthenticateAsync(string apiKey, string username, string value)
+        {
+            await this.AuthenticateAsync(apiKey, username, value, CancellationToken.None);
+        }
+
+        public async Task AuthenticateAsync(AuthenticationRequest authenticationRequest)
+        {
+            await this.AuthenticateAsync(authenticationRequest, CancellationToken.None);
+        }
+
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             try
@@ -104,6 +114,11 @@
 
                 throw new TvDbServerException(message, ex.StatusCode, ex);
             }
+        }
+
+        public async Task RefreshTokenAsync()
+        {
+            await this.RefreshTokenAsync(CancellationToken.None);
         }
 
         private string GetMessage(HttpStatusCode statusCode, IDictionary<int, string> messagesDictionary)

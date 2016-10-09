@@ -10,14 +10,24 @@ namespace TvDbSharper.JsonClient
 
         string BaseUrl { get; set; }
 
-        Task<TResponse> DeleteJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
+        Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken);
+
+        Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri);
 
         Task<HttpResponseHeaders> GetHeadersAsync(string requestUri, CancellationToken cancellationToken);
 
-        Task<TResponse> GetJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
+        Task<HttpResponseHeaders> GetHeadersAsync(string requestUri);
+
+        Task<TResponse> GetJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken);
+
+        Task<TResponse> GetJsonAsync<TResponse>(string requestUri);
 
         Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj, CancellationToken cancellationToken);
 
-        Task<TResponse> PutJsonAsync<TResponse>(string url, CancellationToken cancellationToken);
+        Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj);
+
+        Task<TResponse> PutJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken);
+
+        Task<TResponse> PutJsonAsync<TResponse>(string requestUri);
     }
 }
