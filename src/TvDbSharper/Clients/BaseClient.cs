@@ -44,12 +44,7 @@
 
             return null;
         }
-
-        protected async Task<T> PostAsync<T>(string requestUri, object obj, CancellationToken cancellationToken)
-        {
-            return await this.JsonClient.PostJsonAsync<T>(requestUri, obj, cancellationToken);
-        }
-
+    
         protected async Task<TvDbResponse<T>> PutAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
             return await this.JsonClient.PutJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
