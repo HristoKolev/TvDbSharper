@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper
+﻿namespace TvDbSharper.Clients
 {
     using System;
     using System.Collections.Generic;
