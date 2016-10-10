@@ -4,8 +4,8 @@ namespace TvDbSharper.Errors
 
     public interface ISeriesMessages
     {
-        IDictionary<int, string> GetAsync { get; }
+        IReadOnlyDictionary<int, string> GetAsync { get; }
 
-        IDictionary<int, string> GetImagesAsync { get; }
+        IReadOnlyDictionary<int, string> GetImagesAsync { get; }
     }
 }

@@ -4,8 +4,8 @@ namespace TvDbSharper.Errors
 
     public interface ILanguagesMessages
     {
-        IDictionary<int, string> GetAllAsync { get; }
+        IReadOnlyDictionary<int, string> GetAllAsync { get; }
 
-        IDictionary<int, string> GetAsync { get; }
+        IReadOnlyDictionary<int, string> GetAsync { get; }
     }
 }

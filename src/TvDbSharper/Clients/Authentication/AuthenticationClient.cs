@@ -121,7 +121,7 @@
             await this.RefreshTokenAsync(CancellationToken.None);
         }
 
-        private string GetMessage(HttpStatusCode statusCode, IDictionary<int, string> messagesDictionary)
+        private string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
         {
             if (messagesDictionary.ContainsKey((int)statusCode))
             {

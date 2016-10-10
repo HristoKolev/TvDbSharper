@@ -4,8 +4,8 @@ namespace TvDbSharper.Errors
 
     public interface IAuthenticationMessages
     {
-        IDictionary<int, string> AuthenticateAsync { get; }
+        IReadOnlyDictionary<int, string> AuthenticateAsync { get; }
 
-        IDictionary<int, string> RefreshTokenAsync { get; }
+        IReadOnlyDictionary<int, string> RefreshTokenAsync { get; }
     }
 }

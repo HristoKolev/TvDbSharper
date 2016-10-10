@@ -4,6 +4,6 @@ namespace TvDbSharper.Errors
 
     public interface ISearchMessages
     {
-        IDictionary<int, string> SearchSeriesAsync { get; }
+        IReadOnlyDictionary<int, string> SearchSeriesAsync { get; }
     }
 }

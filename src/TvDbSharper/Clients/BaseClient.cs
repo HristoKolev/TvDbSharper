@@ -35,7 +35,7 @@
             return await this.JsonClient.GetJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
         }
 
-        protected string GetMessage(HttpStatusCode statusCode, IDictionary<int, string> messagesDictionary)
+        protected string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
         {
             if (messagesDictionary.ContainsKey((int)statusCode))
             {
@@ -44,7 +44,7 @@
 
             return null;
         }
-    
+
         protected async Task<TvDbResponse<T>> PutAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
             return await this.JsonClient.PutJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);

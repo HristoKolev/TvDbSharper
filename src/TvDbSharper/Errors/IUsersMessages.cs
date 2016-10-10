@@ -4,16 +4,16 @@ namespace TvDbSharper.Errors
 
     public interface IUsersMessages
     {
-        IDictionary<int, string> AddToFavoritesAsync { get; }
+        IReadOnlyDictionary<int, string> AddToFavoritesAsync { get; }
 
-        IDictionary<int, string> GetAsync { get; }
+        IReadOnlyDictionary<int, string> GetAsync { get; }
 
-        IDictionary<int, string> GetFavoritesAsync { get; }
+        IReadOnlyDictionary<int, string> GetFavoritesAsync { get; }
 
-        IDictionary<int, string> GetRatingsAsync { get; }
+        IReadOnlyDictionary<int, string> GetRatingsAsync { get; }
 
-        IDictionary<int, string> RateAsync { get; }
+        IReadOnlyDictionary<int, string> RateAsync { get; }
 
-        IDictionary<int, string> RemoveFromFavoritesAsync { get; }
+        IReadOnlyDictionary<int, string> RemoveFromFavoritesAsync { get; }
     }
 }
