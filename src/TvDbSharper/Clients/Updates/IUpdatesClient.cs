@@ -7,6 +7,9 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Updates.Json;
 
+    /// <summary>
+    /// Used for getting series that have been recently updated
+    /// </summary>
     public interface IUpdatesClient
     {
         Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken);

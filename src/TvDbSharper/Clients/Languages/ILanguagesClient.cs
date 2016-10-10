@@ -6,6 +6,9 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Languages.Json;
 
+    /// <summary>
+    /// Used for geting available languages and information about them
+    /// </summary>
     public interface ILanguagesClient
     {
         Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken);

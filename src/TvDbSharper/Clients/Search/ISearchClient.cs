@@ -6,6 +6,9 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Search.Json;
 
+    /// <summary>
+    /// Used for searching for a particular series
+    /// </summary>
     public interface ISearchClient
     {
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(

@@ -5,6 +5,9 @@
 
     using TvDbSharper.Clients.Authentication.Json;
 
+    /// <summary>
+    /// Used for obtaining and refreshing your JWT token
+    /// </summary>
     public interface IAuthenticationClient
     {
         Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken);

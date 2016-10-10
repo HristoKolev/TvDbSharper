@@ -7,6 +7,9 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Series.Json;
 
+    /// <summary>
+    /// Used for geting information about a specific series
+    /// </summary>
     public interface ISeriesClient
     {
         Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken);
