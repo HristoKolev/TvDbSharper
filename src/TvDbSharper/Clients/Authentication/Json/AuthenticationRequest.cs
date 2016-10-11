@@ -1,7 +1,11 @@
 namespace TvDbSharper.Clients.Authentication.Json
 {
+    /// <summary>
+    /// Represents the data required for authentication
+    /// </summary>
     public class AuthenticationRequest
     {
+
         public AuthenticationRequest(string apiKey, string username, string userKey)
         {
             this.ApiKey = apiKey;
