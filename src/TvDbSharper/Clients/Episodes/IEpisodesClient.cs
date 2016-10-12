@@ -12,7 +12,8 @@
     public interface IEpisodesClient
     {
         /// <summary>
-        /// Returns the full information for a given episode ID.
+        /// <para>[GET /episodes/{id}]</para>
+        /// <para>Returns the full information for a given episode ID.</para>
         /// </summary>
         /// <param name="episodeId">The episode ID</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -20,7 +21,8 @@
         Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Returns the full information for a given episode ID.
+        /// <para>[GET /episodes/{id}]</para>
+        /// <para>Returns the full information for a given episode ID.</para>
         /// </summary>
         /// <param name="episodeId">The episode ID</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>

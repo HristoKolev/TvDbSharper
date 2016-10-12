@@ -1,5 +1,7 @@
 ﻿namespace TvDbSharper.Clients.Episodes.Json
 {
+    using System;
+
     public class EpisodeRecord
     {
         public int? AbsoluteNumber { get; set; }
@@ -14,6 +16,7 @@
 
         public int? AirsBeforeSeason { get; set; }
 
+        [Obsolete("Use string[] Directors")]
         public string Director { get; set; }
 
         public string[] Directors { get; set; }
