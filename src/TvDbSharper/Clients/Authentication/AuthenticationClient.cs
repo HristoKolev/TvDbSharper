@@ -85,9 +85,9 @@
             await this.AuthenticateAsync(new AuthenticationData(apiKey, username, userKey), cancellationToken);
         }
 
-        public async Task AuthenticateAsync(string apiKey, string username, string value)
+        public async Task AuthenticateAsync(string apiKey, string username, string userKey)
         {
-            await this.AuthenticateAsync(apiKey, username, value, CancellationToken.None);
+            await this.AuthenticateAsync(apiKey, username, userKey, CancellationToken.None);
         }
 
         public async Task AuthenticateAsync(AuthenticationData authenticationData)
