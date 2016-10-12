@@ -23,17 +23,17 @@
 
         private IJsonClient JsonClient { get; }
 
-        public async Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken)
+        public async Task AuthenticateAsync(AuthenticationData authenticationData, CancellationToken cancellationToken)
         {
-            if (authenticationRequest == null)
+            if (authenticationData == null)
             {
-                throw new ArgumentNullException(nameof(authenticationRequest));
+                throw new ArgumentNullException(nameof(authenticationData));
             }
 
             try
             {
                 var response =
-                    await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, cancellationToken);
+                    await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
@@ -82,7 +82,7 @@
                 throw new ArgumentException("The UserKey cannot be an empty string or white space.");
             }
 
-            await this.AuthenticateAsync(new AuthenticationRequest(apiKey, username, userKey), cancellationToken);
+            await this.AuthenticateAsync(new AuthenticationData(apiKey, username, userKey), cancellationToken);
         }
 
         public async Task AuthenticateAsync(string apiKey, string username, string value)
@@ -90,9 +90,9 @@
             await this.AuthenticateAsync(apiKey, username, value, CancellationToken.None);
         }
 
-        public async Task AuthenticateAsync(AuthenticationRequest authenticationRequest)
+        public async Task AuthenticateAsync(AuthenticationData authenticationData)
         {
-            await this.AuthenticateAsync(authenticationRequest, CancellationToken.None);
+            await this.AuthenticateAsync(authenticationData, CancellationToken.None);
         }
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)

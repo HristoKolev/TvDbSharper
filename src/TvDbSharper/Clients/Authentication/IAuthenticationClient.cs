@@ -10,13 +10,13 @@
     /// </summary>
     public interface IAuthenticationClient
     {
-        Task AuthenticateAsync(AuthenticationRequest authenticationRequest, CancellationToken cancellationToken);
+        Task AuthenticateAsync(AuthenticationData authenticationData, CancellationToken cancellationToken);
 
         Task AuthenticateAsync(string apiKey, string username, string userKey, CancellationToken cancellationToken);
 
         Task AuthenticateAsync(string apiKey, string username, string value);
 
-        Task AuthenticateAsync(AuthenticationRequest authenticationRequest);
+        Task AuthenticateAsync(AuthenticationData authenticationData);
 
         Task RefreshTokenAsync(CancellationToken cancellationToken);
 

@@ -34,7 +34,7 @@
 
             const string Route = "/login";
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "Username", "UserKey");
+            var authenticationRequest = new AuthenticationData("ApiKey", "Username", "UserKey");
 
             var response = new AuthenticationResponse("token_content");
 
@@ -67,7 +67,7 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+            var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
             jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
                       .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -86,7 +86,7 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+            var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
             jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
@@ -114,7 +114,7 @@
             var response = new AuthenticationResponse("token_content");
             var defaultResponse = new AuthenticationResponse("default_token_content");
 
-            Expression<Predicate<AuthenticationRequest>> requestCheck =
+            Expression<Predicate<AuthenticationData>> requestCheck =
                 request => (request.ApiKey == ApiKey) && (request.Username == Username) && (request.UserKey == UserKey);
 
             jsonClient.PostJsonAsync<AuthenticationResponse>(Route, Arg.Is(requestCheck), CancellationToken.None)
@@ -341,7 +341,7 @@
 
             const string Route = "/login";
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "Username", "UserKey");
+            var authenticationRequest = new AuthenticationData("ApiKey", "Username", "UserKey");
 
             var response = new AuthenticationResponse("token_content");
 
@@ -374,7 +374,7 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+            var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
             jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
                       .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -392,7 +392,7 @@
             var jsonClient = Substitute.For<IJsonClient>();
             var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
 
-            var authenticationRequest = new AuthenticationRequest("ApiKey", "UserKey", "Username");
+            var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
             jsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationRequest, CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
@@ -420,7 +420,7 @@
             var response = new AuthenticationResponse("token_content");
             var defaultResponse = new AuthenticationResponse("default_token_content");
 
-            Expression<Predicate<AuthenticationRequest>> requestCheck =
+            Expression<Predicate<AuthenticationData>> requestCheck =
                 request => (request.ApiKey == ApiKey) && (request.Username == Username) && (request.UserKey == UserKey);
 
             jsonClient.PostJsonAsync<AuthenticationResponse>(Route, Arg.Is(requestCheck), CancellationToken.None)
