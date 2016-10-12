@@ -7,13 +7,13 @@
     using TvDbSharper.Clients.Search.Json;
 
     /// <summary>
-    /// Used for searching for a particular series
+    /// Used for searching for a particular series by name, imdb ID or Zap2It ID
     /// </summary>
     public interface ISearchClient
     {
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on the following parameters.</para>
+        /// <para>Returns a series search result based on the following parameters.</para>
         /// </summary>
         /// <param name="parameterValue">The parameter value</param>
         /// <param name="parameterKey">An enum used for searching for series with <see cref="T:ISearchClient.SearchSeriesAsync"/>,
@@ -27,7 +27,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on the following parameters</para>
+        /// <para>Returns a series search result based on the following parameters</para>
         /// </summary>
         /// <param name="parameterValue">The parameter value</param>
         /// <param name="parameterKey">An enum used for searching for series with <see cref="T:ISearchClient.SearchSeriesAsync"/>,
@@ -37,7 +37,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their imdb ID</para>
+        /// <para>Returns a series search result based on their imdb ID</para>
         /// </summary>
         /// <param name="imdbId">The imdb ID of the series</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -46,7 +46,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their imdb ID</para>
+        /// <para>Returns a series search result based on their imdb ID</para>
         /// </summary>
         /// <param name="imdbId">The imdb ID of the series</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
@@ -54,7 +54,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their name</para>
+        /// <para>Returns a series search result based on their name</para>
         /// </summary>
         /// <param name="name">The series name</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -63,7 +63,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their name</para>
+        /// <para>Returns a series search result based on their name</para>
         /// </summary>
         /// <param name="name">The series name</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
@@ -71,7 +71,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their Zap2It ID</para>
+        /// <para>Returns a series search result based on their Zap2It ID</para>
         /// </summary>
         /// <param name="zap2ItId">The Zap2It ID of the series</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -80,7 +80,7 @@
 
         /// <summary>
         /// <para>[GET /search/series]</para>
-        /// <para>Allows the user to search for a series based on their Zap2It ID</para>
+        /// <para>Returns a series search result based on their Zap2It ID</para>
         /// </summary>
         /// <param name="zap2ItId">The Zap2It ID of the series</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
