@@ -59,16 +59,6 @@
             await this.AuthenticateAsync(apiKey, username, userKey, CancellationToken.None);
         }
 
-        public Task AuthenticateAsync(string apiKey, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AuthenticateAsync(string apiKey)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task AuthenticateAsync(AuthenticationData authenticationData)
         {
             await this.AuthenticateAsync(authenticationData, CancellationToken.None);
