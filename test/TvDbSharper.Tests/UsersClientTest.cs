@@ -1092,7 +1092,7 @@
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.RemoveFavoriteAsync(Id, CancellationToken.None);
+            var responseData = await client.RemoveFromFavoritesAsync(Id, CancellationToken.None);
 
             await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
@@ -1113,7 +1113,7 @@
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFavoriteAsync(42, CancellationToken.None));
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42, CancellationToken.None));
 
             Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
         }
@@ -1134,7 +1134,7 @@
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.RemoveFavoriteAsync(Id);
+            var responseData = await client.RemoveFromFavoritesAsync(Id);
 
             await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
 
@@ -1155,7 +1155,7 @@
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFavoriteAsync(42));
+            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42));
 
             Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
         }
