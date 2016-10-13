@@ -19,6 +19,11 @@ namespace TvDbSharper.JsonClient
             this.HttpClient = httpClient;
 
             this.HttpClient.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+
+            this.PostSerializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
         }
 
         public JsonClient()
@@ -45,6 +50,8 @@ namespace TvDbSharper.JsonClient
         }
 
         public HttpClient HttpClient { get; }
+
+        private JsonSerializerSettings PostSerializerSettings { get; }
 
         public async Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
@@ -74,7 +81,9 @@ namespace TvDbSharper.JsonClient
 
         public async Task<TResponse> PostJsonAsync<TResponse>(string requestUri, object obj, CancellationToken cancellationToken)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+            string json = JsonConvert.SerializeObject(obj, this.PostSerializerSettings);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
             {

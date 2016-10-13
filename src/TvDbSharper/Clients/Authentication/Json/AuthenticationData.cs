@@ -21,6 +21,15 @@ namespace TvDbSharper.Clients.Authentication.Json
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TvDbSharper.Clients.Authentication.Json.AuthenticationData" /> class.
         /// </summary>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        public AuthenticationData(string apiKey)
+        {
+            this.ApiKey = apiKey;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TvDbSharper.Clients.Authentication.Json.AuthenticationData" /> class.
+        /// </summary>
         public AuthenticationData()
         {
         }
