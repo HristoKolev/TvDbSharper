@@ -57,7 +57,7 @@
 
         /// <summary>
         /// <para>[GET /series/{id}]</para>
-        /// <para>Returns a series records that contains all information known about a particular series ID.</para>
+        /// <para>Returns a series records that contains all information known about a particular series.</para>
         /// </summary>
         /// <param name="seriesId">The series ID</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -66,7 +66,7 @@
 
         /// <summary>
         /// <para>[GET /series/{id}]</para>
-        /// <para>Returns a series records that contains all information known about a particular series ID.</para>
+        /// <para>Returns a series records that contains all information known about a particular series.</para>
         /// </summary>
         /// <param name="seriesId">The series ID</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
