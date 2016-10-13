@@ -1113,7 +1113,8 @@
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42, CancellationToken.None));
+            var ex =
+                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42, CancellationToken.None));
 
             Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
         }

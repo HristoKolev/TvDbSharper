@@ -15,7 +15,10 @@
         {
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> AddEpisodeRatingAsync(int episodeId, decimal rating, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<UserRatings[]>> AddEpisodeRatingAsync(
+            int episodeId,
+            decimal rating,
+            CancellationToken cancellationToken)
         {
             return await this.AddRatingAsync(RatingType.Episode, episodeId, rating, cancellationToken);
         }
@@ -65,7 +68,10 @@
             return await this.AddRatingAsync(itemType, itemId, rating, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> AddSeriesRatingAsync(int seriesId, decimal rating, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<UserRatings[]>> AddSeriesRatingAsync(
+            int seriesId,
+            decimal rating,
+            CancellationToken cancellationToken)
         {
             return await this.AddRatingAsync(RatingType.Series, seriesId, rating, cancellationToken);
         }

@@ -55,7 +55,7 @@
         {
             var client = new AuthenticationClient(Substitute.For<IJsonClient>(), this.ErrorMessages);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync((AuthenticationData)null, CancellationToken.None));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null, CancellationToken.None));
         }
 
         [Theory]
@@ -362,7 +362,7 @@
         {
             var client = new AuthenticationClient(Substitute.For<IJsonClient>(), this.ErrorMessages);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync((AuthenticationData)null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null));
         }
 
         [Theory]
