@@ -1,7 +1,7 @@
 version: 1.0.{build}
 build_script:
 - cmd: >-
-    dotnet restore
+    dotnet restore --verbosity Debug
 
     dotnet build **\project.json
 test_script:
