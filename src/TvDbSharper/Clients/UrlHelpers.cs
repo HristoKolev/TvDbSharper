@@ -27,7 +27,7 @@
         {
             IList<string> parts = new List<string>();
 
-            foreach (var propertyInfo in typeof(T).GetProperties().OrderBy(info => info.Name))
+            foreach (var propertyInfo in typeof(T).GetTypeInfo().DeclaredProperties.OrderBy(info => info.Name))
             {
                 object value = propertyInfo.GetValue(obj);
 
