@@ -78,9 +78,9 @@ To get all of the actors for a giver series, you can do this:
 ```C#
 var response = await client.Series.GetActorsAsync(78804);
 
-var firstActor = response.Data.First();
+var theBestDoctor = response.Data.First();
 
-Console.WriteLine(firstActor.Name); //David Tennant
-Console.WriteLine(firstActor.Role); //10 (Tenth Doctor)
+Console.WriteLine(theBestDoctor.Name); //David Tennant
+Console.WriteLine(theBestDoctor.Role); //10 (Tenth Doctor)
 ```
 
