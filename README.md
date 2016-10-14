@@ -34,3 +34,53 @@ The session expires after 24 hours, but you can refresh that period by calling `
 await client.Authentication.RefreshTokenAsync();
 ```
 
+# Series
+
+Let's say that you need to get information about a specific series. Doctor Who. You can do it like this:
+
+```C#
+var response = await client.Series.GetAsync(78804);
+
+Console.WriteLine(response.Data.SeriesName); //Doctor Who (2005)
+Console.WriteLine(response.Data.Network); //BBC One
+Console.WriteLine(response.Data.ImdbId); //tt0436992
+```
+
+If you want to get the episodes of a series... here the REST API shows its shortcomings. You can't do that on one line. You have to do multiple calls because it's paginated at 100 per page.
+
+The code looks something like this:
+```C#
+const int SeriesId = 78804;
+
+var tasks = new List<Task<TvDbResponse<BasicEpisode[]>>>();
+
+var firstResponse = await client.Series.GetEpisodesAsync(SeriesId, 1);
+
+for (int i = 2; i <= firstResponse.Links.Last; i++)
+{
+    tasks.Add(client.Series.GetEpisodesAsync(SeriesId, i));
+}
+
+// ReSharper disable once CoVariantArrayConversion
+Task.WaitAll(tasks.ToArray());
+
+var episodes = new List<BasicEpisode>(firstResponse.Data);
+
+foreach (Task<TvDbResponse<BasicEpisode[]>> task in tasks)
+{
+    episodes.AddRange((await task).Data);
+}
+
+Console.WriteLine(episodes.Count); //263
+```
+
+To get all of the actors for a giver series, you can do this:
+```C#
+var response = await client.Series.GetActorsAsync(78804);
+
+var firstActor = response.Data.First();
+
+Console.WriteLine(firstActor.Name); //David Tennant
+Console.WriteLine(firstActor.Role); //10 (Tenth Doctor)
+```
+
