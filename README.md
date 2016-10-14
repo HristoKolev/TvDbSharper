@@ -115,6 +115,11 @@ If you want to get all of the series that have been updated in a time interval y
 var response = await client.Updates.GetAsync(new DateTime(2016, 10, 1), new DateTime(2016, 10, 5));
 
 Update[] updates = response.Data;
+
+var update = updates.First();
+
+Console.WriteLine(update.Id); //76264
+Console.WriteLine(update.LastUpdated.ToDateTime().ToString(CultureInfo.InvariantCulture)); //10/01/2016 00:02:21
 ```
 
 If the interval is wider that 7 days it will be reduced to 7 days.
