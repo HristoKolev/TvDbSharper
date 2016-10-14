@@ -98,7 +98,7 @@ Here is an example imdb search:
 ```C#
 var response = await client.Search.SearchSeriesByImdbIdAsync("tt0436992");
 
-SeriesSearchResult result = response.Data.First(); // We know there is only one
+var result = response.Data.First(); // We know there is only one
 
 Console.WriteLine(result.SeriesName); //Doctor Who (2005)
 Console.WriteLine(result.Network); //BBC One
