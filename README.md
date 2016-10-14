@@ -89,4 +89,21 @@ var theBestDoctor = response.Data.First();
 Console.WriteLine(theBestDoctor.Name); //David Tennant
 Console.WriteLine(theBestDoctor.Role); //10 (Tenth Doctor)
 ```
+# Search
+
+If you want to search for a series you have a few options. You can search by name, imdb ID or zap2it ID
+
+Here is an example imdb search:
+
+```C#
+var response = await client.Search.SearchSeriesByImdbIdAsync("tt0436992");
+
+SeriesSearchResult result = response.Data.First(); // We know there is only one
+
+Console.WriteLine(result.SeriesName); //Doctor Who (2005)
+Console.WriteLine(result.Network); //BBC One
+Console.WriteLine(result.Id); //78804
+```
+
+and now that we know the series ID we can to other things with it.
 
