@@ -13,7 +13,7 @@ There is one client you need to know about:
 ```C#
 var client = new TvDbClient();
 ```
-or 
+or
 
 ```C#
 ITvDbClient client = new TvDbClient();
@@ -25,7 +25,7 @@ Before you do anything else you need to authenticate yourself.
 
 * You will need an account on https://thetvdb.com/
 * Then you will need to register an API key here: https://thetvdb.com/?tab=apiregister
-* Then you can see all of the required information on your account page here: https://thetvdb.com/?tab=userinfo 
+* Then you can see all of the required information on your account page here: https://thetvdb.com/?tab=userinfo
 * **Note**: The "Account Identifier" field holds the UserKey.
 
 Then you can use the client like this:
@@ -106,4 +106,16 @@ Console.WriteLine(result.Id); //78804
 ```
 
 and now that we know the series ID we can to other things with it.
+
+# Updates
+
+If you want to get all of the series that have been updated in a time interval you can do it like this:
+
+```C#
+var response = await client.Updates.GetAsync(new DateTime(2016, 10, 1), new DateTime(2016, 10, 5));
+
+Update[] updates = response.Data;
+```
+
+If the interval is wider that 7 days it will be reduced to 7 days.
 
