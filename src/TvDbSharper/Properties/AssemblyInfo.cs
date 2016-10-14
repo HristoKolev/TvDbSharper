@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TvDbSharper")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyDescription("TvDbSharper is fully functional modern REST client for the TheTVDB API v2")]
+[assembly: AssemblyDescription("TvDbSharper is fully featured modern REST client for the TheTVDB API v2")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
 // to COM components.  If you need to access a type in this assembly from

@@ -3,7 +3,7 @@
 
   "authors": ["HristoKolev"],
 
-  "description": "TvDbSharper is fully functional modern REST client for the TheTVDB API v2",
+  "description": "TvDbSharper is fully featured modern REST client for the TheTVDB API v2",
 
   "buildOptions": {
     "xmlDoc": true,
