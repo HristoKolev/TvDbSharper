@@ -119,3 +119,27 @@ Update[] updates = response.Data;
 
 If the interval is wider that 7 days it will be reduced to 7 days.
 
+# Working with languages
+
+You can get all available languages like that:
+
+```C#
+var response = await client.Languages.GetAllAsync();
+
+Language[] languages = response.Data;
+```
+
+If you want to get details for a specific language, you can do it like that:
+
+```C#
+var response = await client.Languages.GetAsync(14);
+
+Console.WriteLine(response.Data.EnglishName); //German
+Console.WriteLine(response.Data.Abbreviation); //de
+```
+
+If you want to change the language that the client is working with, you can do it using the language abbreviation like this:
+
+```C#
+client.AcceptedLanguage = "de";
+```
