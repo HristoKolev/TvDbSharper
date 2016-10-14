@@ -143,3 +143,10 @@ If you want to change the language that the client is working with, you can do i
 ```C#
 client.AcceptedLanguage = "de";
 ```
+
+# Everything else
+
+This client supports all of the functionality of the REST API and I can't list every single method here.
+You can explore that yourself or read the REST API documentation provided by thetvdb.com here https://api.thetvdb.com/swagger
+
+You will find equvalent method for every single route there.
