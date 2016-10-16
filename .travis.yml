@@ -29,6 +29,5 @@ before_install:
 script:
   - chmod a+x ./build.sh && ./build.sh --quiet verify
 notifications:
-  on_success: always
-  on_failure: always
-  on_start: always
+  on_success: change
+  on_failure: change
