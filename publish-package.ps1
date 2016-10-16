@@ -1,5 +1,7 @@
-del packages/*
-rm packages
+if([System.IO.Directory]::Exists("packages")) {
+
+	Remove-Item -Recurse -Force packages
+}
  
 dotnet restore
 dotnet build **\project.json
