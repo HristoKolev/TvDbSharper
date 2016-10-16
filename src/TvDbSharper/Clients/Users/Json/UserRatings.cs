@@ -2,7 +2,7 @@
 {
     public class UserRatings
     {
-        public int? Rating { get; set; }
+        public decimal? Rating { get; set; }
 
         public int? RatingItemId { get; set; }
 

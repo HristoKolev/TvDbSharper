@@ -53,7 +53,7 @@
 
         public string ShowUrl { get; set; }
 
-        public int? SiteRating { get; set; }
+        public decimal? SiteRating { get; set; }
 
         public int? SiteRatingCount { get; set; }
 
