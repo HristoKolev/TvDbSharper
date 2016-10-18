@@ -4,6 +4,6 @@
     {
         public int? Id { get; set; }
 
-        public int? LastUpdated { get; set; }
+        public long? LastUpdated { get; set; }
     }
 }

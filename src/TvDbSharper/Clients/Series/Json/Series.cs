@@ -20,7 +20,7 @@ namespace TvDbSharper.Clients.Series.Json
 
         public string ImdbId { get; set; }
 
-        public int? LastUpdated { get; set; }
+        public long? LastUpdated { get; set; }
 
         public string Network { get; set; }
 
