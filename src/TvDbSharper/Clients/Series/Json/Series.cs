@@ -32,7 +32,13 @@ namespace TvDbSharper.Clients.Series.Json
 
         public string Runtime { get; set; }
 
-        public int? SeriesId { get; set; }
+        /// <summary>
+        /// <para>TV.com ID</para>
+        /// <para>Don't confuse with the Id property.</para>
+        /// <para>Usually it is an integer, but there is nothing stopping users of http://thetvdb.com from changing it into any value. 
+        /// This has happend before.</para>
+        /// </summary>
+        public string SeriesId { get; set; }
 
         public string SeriesName { get; set; }
 
