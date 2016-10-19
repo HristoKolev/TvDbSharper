@@ -5,6 +5,6 @@ build_script:
 
     dotnet build **\project.json
 	
-	dotnet pack -c release src/TvDbSharper/project.json
+    dotnet pack -c release src/TvDbSharper/project.json
 test_script:
 - cmd: dotnet test test\TvDbSharper.Tests
