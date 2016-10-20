@@ -8,7 +8,7 @@
 
         public int? AiredSeason { get; set; }
 
-        public int? DvdEpisodeNumber { get; set; }
+        public decimal? DvdEpisodeNumber { get; set; }
 
         public int? DvdSeason { get; set; }
 

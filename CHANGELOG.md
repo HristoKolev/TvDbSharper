@@ -1,3 +1,6 @@
+# 0.5.3
+* Changed the type of `DvdEpisodeNumber` from `int?` to `decimal?` in the `EpisodeRecord` and `BasicEpisode` models
+
 # 0.5.2
 * Changed the type of `SeriesId` property from `int?` to `string` in the `Series` model
 
