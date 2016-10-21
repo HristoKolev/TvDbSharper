@@ -14,7 +14,7 @@
 
         public string EpisodeName { get; set; }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string Overview { get; set; }
     }

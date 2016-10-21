@@ -37,11 +37,11 @@
 
         public string[] GuestStars { get; set; }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string ImdbId { get; set; }
 
-        public long? LastUpdated { get; set; }
+        public long LastUpdated { get; set; }
 
         public string LastUpdatedBy { get; set; }
 

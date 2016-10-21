@@ -1,3 +1,7 @@
+# 0.5.4
+* Changed the type of `Id` property from `int?` to `int` in the `Series`, `BasicEpisode`, `EpisodeRecord` and `Update` models
+* Changed the type of `LastUpdated` property from `long?` to `long` in the `Series`, `EpisodeRecord` and `Update` models
+
 # 0.5.3
 * Changed the type of `DvdEpisodeNumber` from `int?` to `decimal?` in the `EpisodeRecord` and `BasicEpisode` models
 
