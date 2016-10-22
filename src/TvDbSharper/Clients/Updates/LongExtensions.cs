@@ -10,5 +10,10 @@
         {
             return Epoch.AddSeconds(seconds.Value);
         }
+
+        public static DateTime ToDateTime(this long seconds)
+        {
+            return Epoch.AddSeconds(seconds);
+        }
     }
 }
