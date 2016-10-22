@@ -1,3 +1,6 @@
+# 0.5.5
+* Changed the type of `Id` property from `int?` to `int` in the `Actor` model
+
 # 0.5.4
 * Changed the type of `Id` property from `int?` to `int` in the `Series`, `BasicEpisode`, `EpisodeRecord` and `Update` models
 * Changed the type of `LastUpdated` property from `long?` to `long` in the `Series`, `EpisodeRecord` and `Update` models
