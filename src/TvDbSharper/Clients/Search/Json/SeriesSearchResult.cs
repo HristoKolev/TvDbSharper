@@ -8,7 +8,7 @@
 
         public string FirstAired { get; set; }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string Network { get; set; }
 

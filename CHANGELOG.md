@@ -1,3 +1,6 @@
+# 0.5.6
+* Changed the type of `Id` property from `int?` to `int` in the `SeriesSearchResult` model
+
 # 0.5.5
 * Changed the type of `Id` property from `int?` to `int` in the `Actor` model
 
