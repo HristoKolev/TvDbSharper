@@ -60,24 +60,18 @@ const int SeriesId = 78804;
 
 var tasks = new List<Task<TvDbResponse<BasicEpisode[]>>>();
 
-var firstResponse = await client.Series.GetEpisodesAsync(SeriesId, 1);
+var firstResponse = await client.GetEpisodesAsync(SeriesId, 1);
 
 for (int i = 2; i <= firstResponse.Links.Last; i++)
 {
-    tasks.Add(client.Series.GetEpisodesAsync(SeriesId, i));
+    tasks.Add(client.GetEpisodesAsync(SeriesId, i));
 }
 
-// ReSharper disable once CoVariantArrayConversion
-Task.WaitAll(tasks.ToArray());
+var results = await Task.WhenAll(tasks);
 
-var episodes = new List<BasicEpisode>(firstResponse.Data);
+var episodes = firstResponse.Data.Concat(results.SelectMany(x => x.Data));
 
-foreach (Task<TvDbResponse<BasicEpisode[]>> task in tasks)
-{
-    episodes.AddRange((await task).Data);
-}
-
-Console.WriteLine(episodes.Count); //263
+Console.WriteLine(episodes.Count()); //263
 ```
 
 To get all of the actors for a giver series, you can do this:
