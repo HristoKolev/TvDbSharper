@@ -1,3 +1,6 @@
+# 0.5.7
+* Added `ToDateTime()` extension method to the `long` type to mirror the one on the `long?`
+
 # 0.5.6
 * Changed the type of `Id` property from `int?` to `int` in the `SeriesSearchResult` model
 
