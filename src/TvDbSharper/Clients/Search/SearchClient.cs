@@ -39,41 +39,39 @@
             }
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey)
         {
-            return await this.SearchSeriesAsync(parameterValue, parameterKey, CancellationToken.None);
+            return this.SearchSeriesAsync(parameterValue, parameterKey, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId, CancellationToken cancellationToken)
         {
-            return await this.SearchSeriesAsync(imdbId, SearchParameter.ImdbId, cancellationToken);
+            return this.SearchSeriesAsync(imdbId, SearchParameter.ImdbId, cancellationToken);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId)
         {
-            return await this.SearchSeriesByImdbIdAsync(imdbId, CancellationToken.None);
+            return this.SearchSeriesByImdbIdAsync(imdbId, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByNameAsync(string name, CancellationToken cancellationToken)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByNameAsync(string name, CancellationToken cancellationToken)
         {
-            return await this.SearchSeriesAsync(name, SearchParameter.Name, cancellationToken);
+            return this.SearchSeriesAsync(name, SearchParameter.Name, cancellationToken);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByNameAsync(string name)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByNameAsync(string name)
         {
-            return await this.SearchSeriesByNameAsync(name, CancellationToken.None);
+            return this.SearchSeriesByNameAsync(name, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(
-            string zap2ItId,
-            CancellationToken cancellationToken)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId, CancellationToken cancellationToken)
         {
-            return await this.SearchSeriesAsync(zap2ItId, SearchParameter.Zap2itId, cancellationToken);
+            return this.SearchSeriesAsync(zap2ItId, SearchParameter.Zap2itId, cancellationToken);
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId)
         {
-            return await this.SearchSeriesByZap2ItIdAsync(zap2ItId, CancellationToken.None);
+            return this.SearchSeriesByZap2ItIdAsync(zap2ItId, CancellationToken.None);
         }
     }
 }

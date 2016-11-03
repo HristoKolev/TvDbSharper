@@ -1,3 +1,6 @@
+# 0.5.8
+* Removed the `async` keyword from methods that don't need it, to improve performance.
+
 # 0.5.7
 * Added `ToDateTime()` extension method to the `long` type to mirror the one on the `long?`
 

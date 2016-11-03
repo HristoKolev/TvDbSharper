@@ -38,7 +38,7 @@
             }
             catch (TvDbServerException ex)
             {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.AuthenticateAsync);
+                string message = GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.AuthenticateAsync);
 
                 if (message == null)
                 {
@@ -49,19 +49,19 @@
             }
         }
 
-        public async Task AuthenticateAsync(string apiKey, string username, string userKey, CancellationToken cancellationToken)
+        public Task AuthenticateAsync(string apiKey, string username, string userKey, CancellationToken cancellationToken)
         {
-            await this.AuthenticateAsync(new AuthenticationData(apiKey, username, userKey), cancellationToken);
+            return this.AuthenticateAsync(new AuthenticationData(apiKey, username, userKey), cancellationToken);
         }
 
-        public async Task AuthenticateAsync(string apiKey, string username, string userKey)
+        public Task AuthenticateAsync(string apiKey, string username, string userKey)
         {
-            await this.AuthenticateAsync(apiKey, username, userKey, CancellationToken.None);
+            return this.AuthenticateAsync(apiKey, username, userKey, CancellationToken.None);
         }
 
-        public async Task AuthenticateAsync(AuthenticationData authenticationData)
+        public Task AuthenticateAsync(AuthenticationData authenticationData)
         {
-            await this.AuthenticateAsync(authenticationData, CancellationToken.None);
+            return this.AuthenticateAsync(authenticationData, CancellationToken.None);
         }
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
@@ -74,7 +74,7 @@
             }
             catch (TvDbServerException ex)
             {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.RefreshTokenAsync);
+                string message = GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.RefreshTokenAsync);
 
                 if (message == null)
                 {
@@ -85,12 +85,12 @@
             }
         }
 
-        public async Task RefreshTokenAsync()
+        public Task RefreshTokenAsync()
         {
-            await this.RefreshTokenAsync(CancellationToken.None);
+            return this.RefreshTokenAsync(CancellationToken.None);
         }
 
-        private string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
+        private static string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
         {
             if (messagesDictionary.ContainsKey((int)statusCode))
             {

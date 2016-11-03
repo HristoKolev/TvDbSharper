@@ -36,9 +36,9 @@
             }
         }
 
-        public async Task<TvDbResponse<Language[]>> GetAllAsync()
+        public Task<TvDbResponse<Language[]>> GetAllAsync()
         {
-            return await this.GetAllAsync(CancellationToken.None);
+            return this.GetAllAsync(CancellationToken.None);
         }
 
         public async Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
@@ -62,9 +62,9 @@
             }
         }
 
-        public async Task<TvDbResponse<Language>> GetAsync(int languageId)
+        public Task<TvDbResponse<Language>> GetAsync(int languageId)
         {
-            return await this.GetAsync(languageId, CancellationToken.None);
+            return this.GetAsync(languageId, CancellationToken.None);
         }
     }
 }

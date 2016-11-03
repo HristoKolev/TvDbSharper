@@ -36,9 +36,9 @@
             }
         }
 
-        public async Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId)
+        public Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId)
         {
-            return await this.GetAsync(episodeId, CancellationToken.None);
+            return this.GetAsync(episodeId, CancellationToken.None);
         }
     }
 }

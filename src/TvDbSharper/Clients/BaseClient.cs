@@ -25,14 +25,14 @@
 
         protected IUrlHelpers UrlHelpers { get; }
 
-        protected async Task<TvDbResponse<T>> DeleteAsync<T>(string requestUri, CancellationToken cancellationToken)
+        protected Task<TvDbResponse<T>> DeleteAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
-            return await this.JsonClient.DeleteJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
+            return this.JsonClient.DeleteJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
         }
 
-        protected async Task<TvDbResponse<T>> GetAsync<T>(string requestUri, CancellationToken cancellationToken)
+        protected Task<TvDbResponse<T>> GetAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
-            return await this.JsonClient.GetJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
+            return this.JsonClient.GetJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
         }
 
         protected string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
@@ -45,9 +45,9 @@
             return null;
         }
 
-        protected async Task<TvDbResponse<T>> PutAsync<T>(string requestUri, CancellationToken cancellationToken)
+        protected Task<TvDbResponse<T>> PutAsync<T>(string requestUri, CancellationToken cancellationToken)
         {
-            return await this.JsonClient.PutJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
+            return this.JsonClient.PutJsonAsync<TvDbResponse<T>>(requestUri, cancellationToken);
         }
     }
 }
