@@ -60,11 +60,11 @@ const int SeriesId = 78804;
 
 var tasks = new List<Task<TvDbResponse<BasicEpisode[]>>>();
 
-var firstResponse = await client.GetEpisodesAsync(SeriesId, 1);
+var firstResponse = await client.Series.GetEpisodesAsync(SeriesId, 1);
 
 for (int i = 2; i <= firstResponse.Links.Last; i++)
 {
-    tasks.Add(client.GetEpisodesAsync(SeriesId, i));
+    tasks.Add(client.Series.GetEpisodesAsync(SeriesId, i));
 }
 
 var results = await Task.WhenAll(tasks);
