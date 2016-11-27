@@ -9,7 +9,7 @@
     using TvDbSharper.Errors;
     using TvDbSharper.JsonClient;
 
-    public class BaseClient
+    public abstract class BaseClient
     {
         internal BaseClient(IJsonClient jsonClient, IErrorMessages errorMessages)
         {
