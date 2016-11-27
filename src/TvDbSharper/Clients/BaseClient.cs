@@ -11,7 +11,7 @@
 
     public class BaseClient
     {
-        protected BaseClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal BaseClient(IJsonClient jsonClient, IErrorMessages errorMessages)
         {
             this.JsonClient = jsonClient;
             this.ErrorMessages = errorMessages;
@@ -19,9 +19,9 @@
             this.UrlHelpers = new UrlHelpers();
         }
 
-        protected IErrorMessages ErrorMessages { get; }
+        internal IJsonClient JsonClient { get; }
 
-        protected IJsonClient JsonClient { get; }
+        protected IErrorMessages ErrorMessages { get; }
 
         protected IUrlHelpers UrlHelpers { get; }
 

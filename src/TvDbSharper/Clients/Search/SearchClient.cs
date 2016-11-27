@@ -10,7 +10,7 @@
 
     public class SearchClient : BaseClient, ISearchClient
     {
-        public SearchClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal SearchClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

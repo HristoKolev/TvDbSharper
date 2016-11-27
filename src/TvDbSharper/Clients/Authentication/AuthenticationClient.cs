@@ -13,7 +13,7 @@
 
     public class AuthenticationClient : IAuthenticationClient
     {
-        public AuthenticationClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal AuthenticationClient(IJsonClient jsonClient, IErrorMessages errorMessages)
         {
             this.JsonClient = jsonClient;
             this.ErrorMessages = errorMessages;

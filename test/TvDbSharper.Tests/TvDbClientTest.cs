@@ -13,7 +13,6 @@
     using TvDbSharper.Clients.Series;
     using TvDbSharper.Clients.Updates;
     using TvDbSharper.Clients.Users;
-    using TvDbSharper.JsonClient;
 
     using Xunit;
 
@@ -262,12 +261,12 @@
 
         private static TvDbClient CreateClient(HttpClient httpClient)
         {
-            return new TvDbClient(new JsonClient(httpClient));
+            return new TvDbClient(httpClient);
         }
 
-        private static TvDbClient CreateClient()
+        private static ITvDbClient CreateClient()
         {
-            return new TvDbClient(new JsonClient());
+            return new TvDbClient();
         }
     }
 }

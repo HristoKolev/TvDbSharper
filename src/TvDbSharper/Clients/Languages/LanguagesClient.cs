@@ -10,7 +10,7 @@
 
     public class LanguagesClient : BaseClient, ILanguagesClient
     {
-        public LanguagesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal LanguagesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

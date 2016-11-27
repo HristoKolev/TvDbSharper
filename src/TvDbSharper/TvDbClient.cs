@@ -2,6 +2,7 @@ namespace TvDbSharper
 {
     using System;
     using System.Linq;
+    using System.Net.Http;
 
     using TvDbSharper.Clients.Authentication;
     using TvDbSharper.Clients.Episodes;
@@ -11,7 +12,6 @@ namespace TvDbSharper
     using TvDbSharper.Clients.Updates;
     using TvDbSharper.Clients.Users;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
     public class TvDbClient : ITvDbClient
     {
@@ -19,9 +19,14 @@ namespace TvDbSharper
 
         private const string DefaultBaseUrl = "https://api.thetvdb.com";
 
-        public TvDbClient(IJsonClient jsonClient)
+        public TvDbClient()
+            : this(new HttpClient())
         {
-            this.JsonClient = jsonClient;
+        }
+
+        public TvDbClient(HttpClient httpClient)
+        {
+            this.JsonClient = new JsonClient.JsonClient(httpClient);
 
             if (this.BaseUrl == null)
             {
@@ -37,11 +42,6 @@ namespace TvDbSharper
             this.Series = new SeriesClient(this.JsonClient, errorMessages);
             this.Updates = new UpdatesClient(this.JsonClient, errorMessages);
             this.Users = new UsersClient(this.JsonClient, errorMessages);
-        }
-
-        public TvDbClient()
-            : this(new JsonClient.JsonClient())
-        {
         }
 
         public string AcceptedLanguage
@@ -105,6 +105,6 @@ namespace TvDbSharper
 
         public IUsersClient Users { get; }
 
-        private IJsonClient JsonClient { get; }
+        private JsonClient.JsonClient JsonClient { get; }
     }
 }

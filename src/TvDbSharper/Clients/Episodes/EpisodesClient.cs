@@ -10,7 +10,7 @@
 
     public class EpisodesClient : BaseClient, IEpisodesClient
     {
-        public EpisodesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal EpisodesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

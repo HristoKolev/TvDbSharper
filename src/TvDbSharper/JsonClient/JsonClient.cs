@@ -12,7 +12,7 @@ namespace TvDbSharper.JsonClient
     using TvDbSharper.Errors;
     using TvDbSharper.JsonClient.JsonSchemas;
 
-    public class JsonClient : IJsonClient
+    internal class JsonClient : IJsonClient
     {
         public JsonClient(HttpClient httpClient)
         {
@@ -24,11 +24,6 @@ namespace TvDbSharper.JsonClient
             {
                 NullValueHandling = NullValueHandling.Ignore
             };
-        }
-
-        public JsonClient()
-            : this(new HttpClient())
-        {
         }
 
         public AuthenticationHeaderValue AuthorizationHeader
@@ -57,7 +52,7 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.DeleteAsync(requestUri, cancellationToken))
             {
-                return await this.ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response);
             }
         }
 
@@ -75,7 +70,7 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.GetAsync(requestUri, cancellationToken))
             {
-                return await this.ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response);
             }
         }
 
@@ -87,7 +82,7 @@ namespace TvDbSharper.JsonClient
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
             {
-                return await this.ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response);
             }
         }
 
@@ -95,11 +90,11 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.PutAsync(requestUri, null, cancellationToken))
             {
-                return await this.ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response);
             }
         }
 
-        private async Task<TResponse> ProcessResponse<TResponse>(HttpResponseMessage response)
+        private static async Task<TResponse> ProcessResponse<TResponse>(HttpResponseMessage response)
         {
             string json = await response.Content.ReadAsStringAsync();
 
