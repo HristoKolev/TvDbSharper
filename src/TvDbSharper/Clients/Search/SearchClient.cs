@@ -15,7 +15,7 @@
         {
         }
 
-        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
             string value,
             SearchParameter parameter,
             CancellationToken cancellationToken)
@@ -24,7 +24,7 @@
             {
                 string requestUri = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={value}";
 
-                return await this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
+                return this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

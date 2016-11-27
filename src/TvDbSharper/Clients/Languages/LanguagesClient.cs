@@ -15,13 +15,13 @@
         {
         }
 
-        public async Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken)
+        public Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = "/languages";
 
-                return await this.GetAsync<Language[]>(requestUri, cancellationToken);
+                return this.GetAsync<Language[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -41,13 +41,13 @@
             return this.GetAllAsync(CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/languages/{languageId}";
 
-                return await this.GetAsync<Language>(requestUri, cancellationToken);
+                return this.GetAsync<Language>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

@@ -17,13 +17,13 @@
         {
         }
 
-        public async Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/actors";
 
-                return await this.GetAsync<Actor[]>(requestUri, cancellationToken);
+                return this.GetAsync<Actor[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -43,13 +43,13 @@
             return this.GetActorsAsync(seriesId, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<Series>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Series>> GetAsync(int seriesId, SeriesFilter filter, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/filter?keys={this.UrlHelpers.Parametrify(filter)}";
 
-                return await this.GetAsync<Series>(requestUri, cancellationToken);
+                return this.GetAsync<Series>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -64,13 +64,13 @@
             }
         }
 
-        public async Task<TvDbResponse<Series>> GetAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Series>> GetAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}";
 
-                return await this.GetAsync<Series>(requestUri, cancellationToken);
+                return this.GetAsync<Series>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -95,13 +95,13 @@
             return this.GetAsync(seriesId, filter, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
+        public Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/episodes?page={Math.Max(page, 1)}";
 
-                return await this.GetAsync<BasicEpisode[]>(requestUri, cancellationToken);
+                return this.GetAsync<BasicEpisode[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -116,7 +116,7 @@
             }
         }
 
-        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
+        public Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
             int seriesId,
             int page,
             EpisodeQuery query,
@@ -126,7 +126,7 @@
             {
                 string requestUri = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{this.UrlHelpers.Querify(query)}";
 
-                return await this.GetAsync<BasicEpisode[]>(requestUri, cancellationToken);
+                return this.GetAsync<BasicEpisode[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -151,13 +151,13 @@
             return this.GetEpisodesAsync(seriesId, page, query, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/episodes/summary";
 
-                return await this.GetAsync<EpisodesSummary>(requestUri, cancellationToken);
+                return this.GetAsync<EpisodesSummary>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -177,13 +177,13 @@
             return this.GetEpisodesSummaryAsync(seriesId, CancellationToken.None);
         }
 
-        public async Task<HttpResponseHeaders> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<HttpResponseHeaders> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}";
 
-                return await this.JsonClient.GetHeadersAsync(requestUri, cancellationToken);
+                return this.JsonClient.GetHeadersAsync(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -203,13 +203,13 @@
             return this.GetHeadersAsync(seriesId, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/images/query?{this.UrlHelpers.Querify(query)}";
 
-                return await this.GetAsync<Image[]>(requestUri, cancellationToken);
+                return this.GetAsync<Image[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -229,13 +229,13 @@
             return this.GetImagesAsync(seriesId, query, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/series/{seriesId}/images";
 
-                return await this.GetAsync<ImagesSummary>(requestUri, cancellationToken);
+                return this.GetAsync<ImagesSummary>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

@@ -16,13 +16,13 @@
         {
         }
 
-        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}";
 
-                return await this.GetAsync<Update[]>(requestUri, cancellationToken);
+                return this.GetAsync<Update[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -37,13 +37,13 @@
             }
         }
 
-        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
+        public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}&toTime={toTime.ToUnixEpochTime()}";
 
-                return await this.GetAsync<Update[]>(requestUri, cancellationToken);
+                return this.GetAsync<Update[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

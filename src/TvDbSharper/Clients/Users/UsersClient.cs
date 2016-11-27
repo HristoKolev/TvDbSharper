@@ -35,7 +35,7 @@
             return this.AddImageRatingAsync(imageId, rating, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
+        public Task<TvDbResponse<UserRatings[]>> AddRatingAsync(
             RatingType itemType,
             int itemId,
             decimal rating,
@@ -45,7 +45,7 @@
             {
                 string requestUri = $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}";
 
-                return await this.PutAsync<UserRatings[]>(requestUri, cancellationToken);
+                return this.PutAsync<UserRatings[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -75,13 +75,13 @@
             return this.AddSeriesRatingAsync(seriesId, rating, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/user/favorites/{seriesId}";
 
-                return await this.PutAsync<UserFavorites>(requestUri, cancellationToken);
+                return this.PutAsync<UserFavorites>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -101,13 +101,13 @@
             return this.AddToFavoritesAsync(seriesId, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken)
+        public Task<TvDbResponse<User>> GetAsync(CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = "/user";
 
-                return await this.GetAsync<User>(requestUri, cancellationToken);
+                return this.GetAsync<User>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -137,13 +137,13 @@
             return this.GetEpisodesRatingsAsync(CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserFavorites>> GetFavoritesAsync(CancellationToken cancellationToken)
+        public Task<TvDbResponse<UserFavorites>> GetFavoritesAsync(CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = "/user/favorites";
 
-                return await this.GetAsync<UserFavorites>(requestUri, cancellationToken);
+                return this.GetAsync<UserFavorites>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -173,13 +173,13 @@
             return this.GetImagesRatingsAsync(CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(CancellationToken cancellationToken)
+        public Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = "/user/ratings";
 
-                return await this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
+                return this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -194,13 +194,13 @@
             }
         }
 
-        public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken)
+        public Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/user/ratings/query?itemType={this.UrlHelpers.QuerifyEnum(type)}";
 
-                return await this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
+                return this.GetAsync<UserRatings[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -245,13 +245,13 @@
             return this.RemoveEpisodeRatingAsync(episodeId, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<UserFavorites>> RemoveFromFavoritesAsync(int seriesId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<UserFavorites>> RemoveFromFavoritesAsync(int seriesId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/user/favorites/{seriesId}";
 
-                return await this.DeleteAsync<UserFavorites>(requestUri, cancellationToken);
+                return this.DeleteAsync<UserFavorites>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
@@ -281,13 +281,13 @@
             return this.RemoveImageRatingAsync(imageId, CancellationToken.None);
         }
 
-        public async Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken)
+        public Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}";
 
-                await this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
+                return this.DeleteAsync<UserRatings[]>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {

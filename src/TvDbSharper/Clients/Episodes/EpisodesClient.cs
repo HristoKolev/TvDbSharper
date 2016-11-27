@@ -15,13 +15,13 @@
         {
         }
 
-        public async Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken)
+        public Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken)
         {
             try
             {
                 string requestUri = $"/episodes/{episodeId}";
 
-                return await this.GetAsync<EpisodeRecord>(requestUri, cancellationToken);
+                return this.GetAsync<EpisodeRecord>(requestUri, cancellationToken);
             }
             catch (TvDbServerException ex)
             {
