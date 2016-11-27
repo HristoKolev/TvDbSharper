@@ -26,7 +26,7 @@ namespace TvDbSharper
 
         public TvDbClient(HttpClient httpClient)
         {
-            this.JsonClient = new JsonClient.JsonClient(httpClient);
+            this.HttpClient = httpClient;
 
             if (this.BaseUrl == null)
             {
@@ -34,21 +34,22 @@ namespace TvDbSharper
             }
 
             var errorMessages = new ErrorMessages();
+            var jsonClient = new JsonClient.JsonClient(this.HttpClient);
 
-            this.Authentication = new AuthenticationClient(this.JsonClient, errorMessages);
-            this.Episodes = new EpisodesClient(this.JsonClient, errorMessages);
-            this.Languages = new LanguagesClient(this.JsonClient, errorMessages);
-            this.Search = new SearchClient(this.JsonClient, errorMessages);
-            this.Series = new SeriesClient(this.JsonClient, errorMessages);
-            this.Updates = new UpdatesClient(this.JsonClient, errorMessages);
-            this.Users = new UsersClient(this.JsonClient, errorMessages);
+            this.Authentication = new AuthenticationClient(jsonClient, errorMessages);
+            this.Episodes = new EpisodesClient(jsonClient, errorMessages);
+            this.Languages = new LanguagesClient(jsonClient, errorMessages);
+            this.Search = new SearchClient(jsonClient, errorMessages);
+            this.Series = new SeriesClient(jsonClient, errorMessages);
+            this.Updates = new UpdatesClient(jsonClient, errorMessages);
+            this.Users = new UsersClient(jsonClient, errorMessages);
         }
 
         public string AcceptedLanguage
         {
             get
             {
-                return this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.FirstOrDefault()?.Value ?? DefaultAcceptedLanguage;
+                return this.HttpClient.DefaultRequestHeaders.AcceptLanguage.FirstOrDefault()?.Value ?? DefaultAcceptedLanguage;
             }
 
             set
@@ -63,18 +64,21 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
-                this.JsonClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
+                this.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+                this.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
             }
         }
 
+        /// <summary>
+        /// Used for obtaining and refreshing your JWT token
+        /// </summary>
         public IAuthenticationClient Authentication { get; }
 
         public string BaseUrl
         {
             get
             {
-                return this.JsonClient.HttpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/');
+                return this.HttpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/');
             }
 
             set
@@ -89,22 +93,40 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.JsonClient.HttpClient.BaseAddress = new Uri(value);
+                this.HttpClient.BaseAddress = new Uri(value);
             }
         }
 
+        /// <summary>
+        /// Used for getting information about a specific episode
+        /// </summary>
         public IEpisodesClient Episodes { get; }
 
+        /// <summary>
+        /// Used for geting available languages and information about them
+        /// </summary>
         public ILanguagesClient Languages { get; }
 
+        /// <summary>
+        /// Used for searching for a particular series
+        /// </summary>
         public ISearchClient Search { get; }
 
+        /// <summary>
+        /// Used for geting information about a specific series
+        /// </summary>
         public ISeriesClient Series { get; }
 
+        /// <summary>
+        /// Used for getting series that have been recently updated
+        /// </summary>
         public IUpdatesClient Updates { get; }
 
+        /// <summary>
+        /// Used for working with the current user
+        /// </summary>
         public IUsersClient Users { get; }
 
-        private JsonClient.JsonClient JsonClient { get; }
+        private HttpClient HttpClient { get; }
     }
 }

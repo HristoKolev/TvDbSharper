@@ -1,4 +1,6 @@
 # vNext
+
+# 0.5.9
 * Removed async/await form methods that don't need it so that the compiler doesn't needlessly generate state machines 
 
 # 0.5.8
