@@ -23,7 +23,7 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Add_Header_To_The_HttpClient()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             var client = CreateClient(httpClient);
 
@@ -39,7 +39,7 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Return_DefaultLanguage_If_Non_Is_Set()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             const string DefaultLanguage = "en";
 
@@ -53,7 +53,7 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Return_The_Current_AcceptedLanguage()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             const string Language = "zh";
 
@@ -110,7 +110,7 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Sets_HttpClient_BaseAddress_To_The_Value()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             var client = CreateClient(httpClient);
 
@@ -170,7 +170,7 @@
         // ReSharper disable once InconsistentNaming
         public void Constructor_If_HttpClient_BaseUrl_Is_Null_Should_Set_To_Default()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             var client = CreateClient(httpClient);
 
@@ -182,7 +182,7 @@
         // ReSharper disable once InconsistentNaming
         public void Constructor_If_HttpClient_Has_BaseUrl_Should_Not_Change_It()
         {
-            var httpClient = Substitute.For<HttpClient>();
+            var httpClient = CreateHttpClient();
 
             var uri = new Uri("http://example.com");
 
@@ -259,7 +259,7 @@
             Assert.IsType<UsersClient>(client.Users);
         }
 
-        private static TvDbClient CreateClient(HttpClient httpClient)
+        private static ITvDbClient CreateClient(HttpClient httpClient)
         {
             return new TvDbClient(httpClient);
         }
@@ -267,6 +267,11 @@
         private static ITvDbClient CreateClient()
         {
             return new TvDbClient();
+        }
+
+        private static HttpClient CreateHttpClient()
+        {
+            return Substitute.For<HttpClient>();
         }
     }
 }

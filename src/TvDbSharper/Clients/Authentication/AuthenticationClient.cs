@@ -32,7 +32,10 @@
 
             try
             {
-                var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken);
+                var response =
+                    await
+                        this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
+                            .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
@@ -68,7 +71,8 @@
         {
             try
             {
-                var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken);
+                var response =
+                    await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken).ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }

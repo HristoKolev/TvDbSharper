@@ -44,21 +44,23 @@ namespace TvDbSharper.JsonClient
             }
         }
 
-        public HttpClient HttpClient { get; }
+        private HttpClient HttpClient { get; }
 
         private JsonSerializerSettings PostSerializerSettings { get; }
 
         public async Task<TResponse> DeleteJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
-            using (var response = await this.HttpClient.DeleteAsync(requestUri, cancellationToken))
+            using (var response = await this.HttpClient.DeleteAsync(requestUri, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
             }
         }
 
         public async Task<HttpResponseHeaders> GetHeadersAsync(string requestUri, CancellationToken cancellationToken)
         {
-            using (var response = await this.HttpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, requestUri), cancellationToken))
+            var message = new HttpRequestMessage(HttpMethod.Head, requestUri);
+
+            using (var response = await this.HttpClient.SendAsync(message, cancellationToken).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
 
@@ -68,9 +70,9 @@ namespace TvDbSharper.JsonClient
 
         public async Task<TResponse> GetJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
-            using (var response = await this.HttpClient.GetAsync(requestUri, cancellationToken))
+            using (var response = await this.HttpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
             }
         }
 
@@ -80,23 +82,23 @@ namespace TvDbSharper.JsonClient
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken))
+            using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
             }
         }
 
         public async Task<TResponse> PutJsonAsync<TResponse>(string requestUri, CancellationToken cancellationToken)
         {
-            using (var response = await this.HttpClient.PutAsync(requestUri, null, cancellationToken))
+            using (var response = await this.HttpClient.PutAsync(requestUri, null, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response);
+                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
             }
         }
 
         private static async Task<TResponse> ProcessResponse<TResponse>(HttpResponseMessage response)
         {
-            string json = await response.Content.ReadAsStringAsync();
+            string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             try
             {

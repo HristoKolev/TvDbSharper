@@ -29,8 +29,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/login";
 
@@ -53,7 +53,7 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Throws_When_authenticationData_Is_null()
         {
-            var client = new AuthenticationClient(Substitute.For<IJsonClient>(), this.ErrorMessages);
+            var client = this.CreateClient();
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null, CancellationToken.None));
         }
@@ -64,8 +64,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
@@ -83,8 +83,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
@@ -102,8 +102,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_With_Inline_Login_Data_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/login";
 
@@ -336,8 +336,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/login";
 
@@ -360,7 +360,7 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Without_CancellationToken_Throws_When_authenticationData_Is_null()
         {
-            var client = new AuthenticationClient(Substitute.For<IJsonClient>(), this.ErrorMessages);
+            var client = this.CreateClient();
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null));
         }
@@ -371,8 +371,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
@@ -389,8 +389,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Without_CancellationToken_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var authenticationRequest = new AuthenticationData("ApiKey", "UserKey", "Username");
 
@@ -408,8 +408,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AuthenticateAsync_Without_CancellationToken_With_Inline_Login_Data_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/login";
 
@@ -438,8 +438,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/refresh_token";
 
@@ -461,8 +461,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
                       .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -477,8 +477,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
@@ -494,8 +494,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/refresh_token";
 
@@ -517,8 +517,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
                       .Throws(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -533,8 +533,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RefreshTokenAsync_Without_CancellationToken_Updates_JsonClient_AuthorizationHeader()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new AuthenticationClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", CancellationToken.None)
                       .Returns(new AuthenticationResponse("token_content"));
@@ -545,9 +545,19 @@
             Assert.Equal("token_content", jsonClient.AuthorizationHeader.Parameter);
         }
 
-        private AuthenticationClient CreateClient()
+        private static IJsonClient CreateJsonClient()
         {
-            return new AuthenticationClient(Substitute.For<IJsonClient>(), this.ErrorMessages);
+            return Substitute.For<IJsonClient>();
+        }
+
+        private IAuthenticationClient CreateClient()
+        {
+            return this.CreateClient(Substitute.For<IJsonClient>());
+        }
+
+        private IAuthenticationClient CreateClient(IJsonClient jsonClient)
+        {
+            return new AuthenticationClient(jsonClient, this.ErrorMessages);
         }
     }
 }
