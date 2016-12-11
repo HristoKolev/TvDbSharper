@@ -12,7 +12,7 @@
 
     public class SeriesClient : BaseClient, ISeriesClient
     {
-        public SeriesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal SeriesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

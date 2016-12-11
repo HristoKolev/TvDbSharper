@@ -29,8 +29,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/updated/query?fromTime=1475280000";
             DateTime from = new DateTime(2016, 10, 1);
@@ -53,8 +53,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -71,8 +71,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/updated/query?fromTime=1475280000";
             DateTime from = new DateTime(2016, 10, 1);
@@ -95,8 +95,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -113,8 +113,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsyncWithInterval_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/updated/query?fromTime=1475280000&toTime=1475625600";
             DateTime from = new DateTime(2016, 10, 1);
@@ -138,8 +138,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsyncWithInterval_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -157,8 +157,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsyncWithInterval_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/updated/query?fromTime=1475280000&toTime=1475625600";
             DateTime from = new DateTime(2016, 10, 1);
@@ -182,8 +182,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsyncWithInterval_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UpdatesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -194,6 +194,16 @@
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(from, to));
 
             Assert.Equal(this.ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
+        }
+
+        private static IJsonClient CreateJsonClient()
+        {
+            return Substitute.For<IJsonClient>();
+        }
+
+        private IUpdatesClient CreateClient(IJsonClient jsonClient)
+        {
+            return new UpdatesClient(jsonClient, this.ErrorMessages);
         }
     }
 }

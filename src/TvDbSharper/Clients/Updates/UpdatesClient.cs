@@ -11,7 +11,7 @@
 
     public class UpdatesClient : BaseClient, IUpdatesClient
     {
-        public UpdatesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal UpdatesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

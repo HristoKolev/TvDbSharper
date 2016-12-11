@@ -29,8 +29,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetActorsAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/actors";
@@ -53,8 +53,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetActorsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -69,8 +69,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetActorsAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/actors";
@@ -93,8 +93,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetActorsAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -109,8 +109,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42";
@@ -133,8 +133,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -149,8 +149,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42";
@@ -173,8 +173,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -189,8 +189,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_CancellationToken_With_Filter_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/filter?keys=added,id";
@@ -214,8 +214,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_CancellationToken_With_Filter_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -232,8 +232,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_Filter_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/filter?keys=added,id";
@@ -257,8 +257,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_With_Filter_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -275,8 +275,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Page = 2;
@@ -300,8 +300,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -316,8 +316,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Page = 2;
@@ -341,8 +341,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -357,8 +357,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_CancellationToken_With_Query_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Page = 2;
@@ -388,8 +388,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_CancellationToken_With_Query_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var query = new EpisodeQuery
             {
@@ -410,8 +410,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_Query_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Page = 2;
@@ -441,8 +441,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesAsync_With_Query_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var query = new EpisodeQuery
             {
@@ -465,8 +465,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesSummaryAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/episodes/summary";
@@ -489,8 +489,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -506,8 +506,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/episodes/summary";
@@ -530,8 +530,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -546,8 +546,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetHeaderAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/series/42";
 
@@ -569,8 +569,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetHeaderAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetHeadersAsync(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -585,8 +585,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetHeaderAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/series/42";
 
@@ -608,8 +608,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetHeaderAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetHeadersAsync(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -624,8 +624,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/images";
@@ -648,8 +648,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -665,8 +665,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/images";
@@ -689,8 +689,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -705,8 +705,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesSummaryAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
@@ -735,8 +735,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var query = new ImagesQuery
             {
@@ -758,8 +758,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
@@ -788,8 +788,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new SeriesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             var query = new ImagesQuery
             {
@@ -803,6 +803,16 @@
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query));
 
             Assert.Equal(this.ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
+        }
+
+        private static IJsonClient CreateJsonClient()
+        {
+            return Substitute.For<IJsonClient>();
+        }
+
+        private ISeriesClient CreateClient(IJsonClient jsonClient)
+        {
+            return new SeriesClient(jsonClient, this.ErrorMessages);
         }
     }
 }

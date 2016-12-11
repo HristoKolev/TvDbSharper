@@ -10,7 +10,7 @@
 
     public class UsersClient : BaseClient, IUsersClient
     {
-        public UsersClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        internal UsersClient(IJsonClient jsonClient, IErrorMessages errorMessages)
             : base(jsonClient, errorMessages)
         {
         }

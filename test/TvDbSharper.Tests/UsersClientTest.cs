@@ -28,8 +28,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddEpisodeRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -53,8 +53,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -71,8 +71,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddEpisodeRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -96,8 +96,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddEpisodeRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -112,8 +112,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddImageRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -137,8 +137,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -154,8 +154,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddImageRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -179,8 +179,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddImageRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -195,8 +195,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -221,8 +221,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -240,8 +240,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -266,8 +266,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -282,8 +282,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddSeriesRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -307,8 +307,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -324,8 +324,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddSeriesRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
             const int Rating = 10; // awesome!
@@ -349,8 +349,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddSeriesRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -365,8 +365,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddToFavoritesAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -391,8 +391,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddToFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -407,8 +407,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddToFavoritesAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -433,8 +433,8 @@
         // ReSharper disable once InconsistentNaming
         public async void AddToFavoritesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -449,8 +449,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user";
 
@@ -472,8 +472,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<User>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -488,8 +488,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user";
 
@@ -511,8 +511,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<User>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -527,8 +527,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesRatingsAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=episode";
 
@@ -550,8 +550,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -566,8 +566,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=episode";
 
@@ -589,8 +589,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetEpisodesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -605,8 +605,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetFavoritesAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/favorites";
 
@@ -628,8 +628,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -644,8 +644,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetFavoritesAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/favorites";
 
@@ -667,8 +667,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetFavoritesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -685,8 +685,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -701,8 +701,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesRatingsAsync_With_Type_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=image";
 
@@ -724,8 +724,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -740,8 +740,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetImagesRatingsAsync_Without_CancellationToken_With_Type_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=image";
 
@@ -761,8 +761,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings";
 
@@ -784,8 +784,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -800,8 +800,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_With_Type_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
 
@@ -825,8 +825,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_With_Type_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -844,8 +844,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings";
 
@@ -867,8 +867,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -883,8 +883,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Without_CancellationToken_With_Type_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
 
@@ -908,8 +908,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetRatingsAsync_Without_CancellationToken_With_Type_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -924,8 +924,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesRatingsAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=series";
 
@@ -947,8 +947,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -963,8 +963,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const string Route = "/user/ratings/query?itemType=series";
 
@@ -986,8 +986,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetSeriesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1002,8 +1002,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveEpisodeRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1025,8 +1025,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1042,8 +1042,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveEpisodeRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1065,8 +1065,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveEpisodeRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1081,8 +1081,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveFavoriteAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1107,8 +1107,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveFavoriteAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1124,8 +1124,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveFavoriteAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1150,8 +1150,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveFavoriteAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1166,8 +1166,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveImageRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1189,8 +1189,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1206,8 +1206,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveImageRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1229,8 +1229,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveImageRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1245,8 +1245,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -1269,8 +1269,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1289,8 +1289,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const RatingType Type = RatingType.Series;
             const int Id = 42;
@@ -1313,8 +1313,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1332,8 +1332,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveSeriesRatingAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1355,8 +1355,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1372,8 +1372,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveSeriesRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -1395,8 +1395,8 @@
         // ReSharper disable once InconsistentNaming
         public async void RemoveSeriesRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new UsersClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -1404,6 +1404,16 @@
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveSeriesRatingAsync(42));
 
             Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
+        }
+
+        private static IJsonClient CreateJsonClient()
+        {
+            return Substitute.For<IJsonClient>();
+        }
+
+        private IUsersClient CreateClient(IJsonClient jsonClient)
+        {
+            return new UsersClient(jsonClient, this.ErrorMessages);
         }
     }
 }

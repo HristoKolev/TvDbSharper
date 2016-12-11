@@ -28,8 +28,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new EpisodesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -53,8 +53,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new EpisodesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<EpisodeRecord>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -69,8 +69,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Makes_The_Right_Request()
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new EpisodesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             const int Id = 42;
 
@@ -94,8 +94,8 @@
         // ReSharper disable once InconsistentNaming
         public async void GetAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
         {
-            var jsonClient = Substitute.For<IJsonClient>();
-            var client = new EpisodesClient(jsonClient, this.ErrorMessages);
+            var jsonClient = CreateJsonClient();
+            var client = this.CreateClient(jsonClient);
 
             jsonClient.GetJsonAsync<TvDbResponse<EpisodeRecord>>(null, CancellationToken.None)
                       .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
@@ -103,6 +103,16 @@
             var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42));
 
             Assert.Equal(this.ErrorMessages.Episodes.GetAsync[statusCode], ex.Message);
+        }
+
+        private static IJsonClient CreateJsonClient()
+        {
+            return Substitute.For<IJsonClient>();
+        }
+
+        private IEpisodesClient CreateClient(IJsonClient jsonClient)
+        {
+            return new EpisodesClient(jsonClient, this.ErrorMessages);
         }
     }
 }

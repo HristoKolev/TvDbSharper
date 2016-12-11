@@ -1,3 +1,7 @@
+# 0.6.0
+* JsonClient class is not internal
+* Every await now has ConfigureAwait(false)
+
 # 0.5.9
 * Removed async/await form methods that don't need it so that the compiler doesn't needlessly generate state machines 
 
