@@ -14,7 +14,11 @@
 
         public string EpisodeName { get; set; }
 
+        public string FirstAired { get; set; }
+
         public int Id { get; set; }
+
+        public long LastUpdated { get; set; }
 
         public string Overview { get; set; }
     }
