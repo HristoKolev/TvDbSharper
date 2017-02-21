@@ -42,7 +42,7 @@ await client.Authentication.RefreshTokenAsync();
 
 # Series
 
-Let's say that you need to get information about a specific series. Doctor Who. You can do it like this:
+Let's say that you need to get information about a specific show. Doctor Who. You can do it like this:
 
 ```C#
 var response = await client.Series.GetAsync(78804);
@@ -52,7 +52,7 @@ Console.WriteLine(response.Data.Network); //BBC One
 Console.WriteLine(response.Data.ImdbId); //tt0436992
 ```
 
-If you want to get the episodes of a series... here the REST API shows its shortcomings. You can't do that on one line. You have to do multiple calls because it's paginated at 100 per page.
+If you want to get the episodes of a show... here the REST API shows its shortcomings. You can't do that on one line. You have to do multiple calls because it's paginated at 100 records per page.
 
 The code looks something like this:
 ```C#
@@ -74,7 +74,7 @@ var episodes = firstResponse.Data.Concat(results.SelectMany(x => x.Data));
 Console.WriteLine(episodes.Count()); //263
 ```
 
-To get all of the actors for a giver series, you can do this:
+To get all of the actors for a given show, you can do this:
 ```C#
 var response = await client.Series.GetActorsAsync(78804);
 
@@ -85,7 +85,7 @@ Console.WriteLine(theBestDoctor.Role); //10 (Tenth Doctor)
 ```
 # Search
 
-If you want to search for a series you have a few options. You can search by name, imdb ID or zap2it ID
+If you want to search for a show you have a few options. You can search by name, imdb ID or zap2it ID
 
 Here is an example imdb search:
 
@@ -99,11 +99,11 @@ Console.WriteLine(result.Network); //BBC One
 Console.WriteLine(result.Id); //78804
 ```
 
-and now that we know the series ID we can to other things with it.
+and now that we know the show ID we can do other things with it.
 
 # Updates
 
-If you want to get all of the series that have been updated in a time interval you can do it like this:
+If you want to get all of the shows that have been updated in a time interval you can do it like this:
 
 ```C#
 var response = await client.Updates.GetAsync(new DateTime(2016, 10, 1), new DateTime(2016, 10, 5));
