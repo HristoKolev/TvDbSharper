@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>TvDbSharper is fully featured modern REST client for the TheTVDB API v2</Description>
+    <VersionPrefix>0.6.1</VersionPrefix>
+    <Authors>HristoKolev</Authors>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>TvDbSharper</AssemblyName>
+    <PackageId>TvDbSharper</PackageId>
+    <PackageTags>thetvdb</PackageTags>
+    <PackageProjectUrl>https://github.com/HristoKolev/TvDbSharper</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/HristoKolev/TvDbSharper/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/HristoKolev/TvDbSharper</RepositoryUrl>
+    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+</Project>
