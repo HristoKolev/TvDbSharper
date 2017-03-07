@@ -1,4 +1,5 @@
 version: 1.0.{build}
+image: Visual Studio 2017 RC
 build_script:
 - cmd: >-
     dotnet restore src/TvDbSharper/TvDbSharper.csproj
