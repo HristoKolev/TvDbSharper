@@ -33,9 +33,8 @@
             try
             {
                 var response =
-                    await
-                        this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
-                            .ConfigureAwait(false);
+                    await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
+                              .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
@@ -65,6 +64,16 @@
         public Task AuthenticateAsync(AuthenticationData authenticationData)
         {
             return this.AuthenticateAsync(authenticationData, CancellationToken.None);
+        }
+
+        public Task AuthenticateAsync(string apiKey, CancellationToken cancellationToken)
+        {
+            return this.AuthenticateAsync(new AuthenticationData(apiKey), cancellationToken);
+        }
+
+        public Task AuthenticateAsync(string apiKey)
+        {
+            return this.AuthenticateAsync(apiKey, CancellationToken.None);
         }
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)

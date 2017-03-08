@@ -55,7 +55,7 @@
         {
             var client = this.CreateClient();
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null, CancellationToken.None));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync((AuthenticationData)null, CancellationToken.None));
         }
 
         [Theory]
@@ -362,7 +362,7 @@
         {
             var client = this.CreateClient();
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.AuthenticateAsync((AuthenticationData)null));
         }
 
         [Theory]
