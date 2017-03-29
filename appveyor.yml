@@ -1,14 +1,8 @@
 version: 1.0.{build}
 build_script:
 - cmd: >-
-    dotnet restore src/TvDbSharper/TvDbSharper.csproj
+    dotnet restore
 
-    dotnet restore test/TvDbSharper.Tests/TvDbSharper.Tests.csproj
-
-    dotnet build src/TvDbSharper/TvDbSharper.csproj
-
-    dotnet build test/TvDbSharper.Tests/TvDbSharper.Tests.csproj
-    
-    dotnet pack -c release src/TvDbSharper/TvDbSharper.csproj
+    dotnet build
 test_script:
-- cmd: dotnet test test/TvDbSharper.Tests
+- cmd: dotnet test test/TvDbSharper.Tests/TvDbSharper.Tests.csproj
