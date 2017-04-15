@@ -11,6 +11,11 @@
     public interface IAuthenticationClient
     {
         /// <summary>
+        /// <para>Gets or sets the authentication token that gets stored after calling <see cref="AuthenticateAsync(AuthenticationData, CancellationToken)"/></para> 
+        /// </summary>
+        string Token { get; set; }
+
+        /// <summary>
         /// <para>[POST /login]</para>
         /// <para>Authenticates the user given an authentication data and retrieves a session token.</para> 
         /// <para>The session token is only valid for 24 hours, but the session can be extended by calling <see cref="RefreshTokenAsync()" /></para>

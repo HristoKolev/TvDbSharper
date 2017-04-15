@@ -1,3 +1,6 @@
+# 0.6.2
+* Added `Token` property to the `Authentication` client in order to provice access to the JWT
+
 # 0.6.1
 * Added new fields(`long LastUpdated` and `string FirstAired`) to the `BasicEpisode` model
 

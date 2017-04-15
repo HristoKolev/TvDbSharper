@@ -19,6 +19,13 @@
             this.ErrorMessages = errorMessages;
         }
 
+        public string Token
+        {
+            get => this.JsonClient.AuthorizationHeader?.Parameter;
+
+            set => this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", value);
+        }
+
         private IErrorMessages ErrorMessages { get; }
 
         private IJsonClient JsonClient { get; }
@@ -32,9 +39,8 @@
 
             try
             {
-                var response =
-                    await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
-                              .ConfigureAwait(false);
+                var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
+                                         .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
@@ -80,8 +86,8 @@
         {
             try
             {
-                var response =
-                    await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken).ConfigureAwait(false);
+                var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken)
+                                         .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
