@@ -19,6 +19,13 @@
             this.ErrorMessages = errorMessages;
         }
 
+        public string Token
+        {
+            get => this.JsonClient.AuthorizationHeader?.Parameter;
+
+            set => this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", value);
+        }
+
         private IErrorMessages ErrorMessages { get; }
 
         private IJsonClient JsonClient { get; }
@@ -32,10 +39,8 @@
 
             try
             {
-                var response =
-                    await
-                        this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
-                            .ConfigureAwait(false);
+                var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
+                                         .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }
@@ -67,12 +72,22 @@
             return this.AuthenticateAsync(authenticationData, CancellationToken.None);
         }
 
+        public Task AuthenticateAsync(string apiKey, CancellationToken cancellationToken)
+        {
+            return this.AuthenticateAsync(new AuthenticationData(apiKey), cancellationToken);
+        }
+
+        public Task AuthenticateAsync(string apiKey)
+        {
+            return this.AuthenticateAsync(apiKey, CancellationToken.None);
+        }
+
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
             try
             {
-                var response =
-                    await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken).ConfigureAwait(false);
+                var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken)
+                                         .ConfigureAwait(false);
 
                 this.UpdateAuthenticationHeader(response.Token);
             }

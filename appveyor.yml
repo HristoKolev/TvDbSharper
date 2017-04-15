@@ -1,10 +1,8 @@
 version: 1.0.{build}
 build_script:
 - cmd: >-
-    dotnet restore --verbosity Debug
+    dotnet restore
 
-    dotnet build **\project.json
-    
-    dotnet pack -c release src/TvDbSharper/project.json
+    dotnet build
 test_script:
-- cmd: dotnet test test\TvDbSharper.Tests
+- cmd: dotnet test test/TvDbSharper.Tests/TvDbSharper.Tests.csproj
