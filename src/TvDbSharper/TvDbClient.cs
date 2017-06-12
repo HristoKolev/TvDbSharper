@@ -103,7 +103,7 @@ namespace TvDbSharper
         public IEpisodesClient Episodes { get; }
 
         /// <summary>
-        /// Used for geting available languages and information about them
+        /// Used for getting available languages and information about them
         /// </summary>
         public ILanguagesClient Languages { get; }
 
@@ -113,7 +113,7 @@ namespace TvDbSharper
         public ISearchClient Search { get; }
 
         /// <summary>
-        /// Used for geting information about a specific series
+        /// Used for getting information about a specific series
         /// </summary>
         public ISeriesClient Series { get; }
 

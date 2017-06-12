@@ -35,7 +35,7 @@ namespace TvDbSharper
         ISearchClient Search { get; }
 
         /// <summary>
-        /// Used for geting information about a specific series
+        /// Used for getting information about a specific series
         /// </summary>
         ISeriesClient Series { get; }
 
