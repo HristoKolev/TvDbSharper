@@ -1,5 +1,8 @@
+# 0.6.3
+* Fixed a bug where the value passed to `SearchClient` methods was not properly encoded.
+
 # 0.6.2
-* Added `Token` property to the `Authentication` client in order to provice access to the JWT
+* Added `Token` property to the `Authentication` client in order to provide access to the JWT
 
 # 0.6.1
 * Added new fields(`long LastUpdated` and `string FirstAired`) to the `BasicEpisode` model

@@ -4,12 +4,13 @@ if([System.IO.Directory]::Exists("packages")) {
 }
  
 dotnet restore
-dotnet build **\project.json
-dotnet test test\TvDbSharper.Tests 
-dotnet pack -c release -o packages src/TvDbSharper/project.json
+dotnet build src\TvDbSharper\TvDbSharper.csproj
+dotnet test test\TvDbSharper.Tests\TvDbSharper.Tests.csproj
+
+dotnet pack src\TvDbSharper\TvDbSharper.csproj -c release -o ./../../packages --include-symbols --include-source
 
 $packageName = (dir packages | where { $_.Name -match '^TvDbSharper\.\d+\.\d+\.\d+\.nupkg$' } | select -first 1).Name
 
-nuget push -source https://api.nuget.org/v3/index.json packages/$packageName
+nuget push -ApiKey $env:nuget_key -source https://api.nuget.org/v3/index.json packages/$packageName
 
 pause

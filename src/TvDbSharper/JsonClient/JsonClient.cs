@@ -52,7 +52,7 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.DeleteAsync(requestUri, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
+                return await ProcessResponseAsync<TResponse>(response).ConfigureAwait(false);
             }
         }
 
@@ -72,7 +72,7 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.GetAsync(requestUri, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
+                return await ProcessResponseAsync<TResponse>(response).ConfigureAwait(false);
             }
         }
 
@@ -84,7 +84,7 @@ namespace TvDbSharper.JsonClient
 
             using (var response = await this.HttpClient.PostAsync(requestUri, content, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
+                return await ProcessResponseAsync<TResponse>(response).ConfigureAwait(false);
             }
         }
 
@@ -92,11 +92,11 @@ namespace TvDbSharper.JsonClient
         {
             using (var response = await this.HttpClient.PutAsync(requestUri, null, cancellationToken).ConfigureAwait(false))
             {
-                return await ProcessResponse<TResponse>(response).ConfigureAwait(false);
+                return await ProcessResponseAsync<TResponse>(response).ConfigureAwait(false);
             }
         }
 
-        private static async Task<TResponse> ProcessResponse<TResponse>(HttpResponseMessage response)
+        private static async Task<TResponse> ProcessResponseAsync<TResponse>(HttpResponseMessage response)
         {
             string json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
