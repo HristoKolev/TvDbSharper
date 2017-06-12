@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Clients.Search
 {
+    using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@
         {
             try
             {
-                string requestUri = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={value}";
+                string requestUri = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={WebUtility.UrlEncode(value)}";
 
                 return this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
             }

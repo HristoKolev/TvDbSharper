@@ -34,7 +34,7 @@
             const SearchParameter ParameterKey = SearchParameter.Name;
             const string ParameterValue = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor Who";
+            const string Route = "/search/series?name=Doctor+Who";
 
             var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
@@ -79,7 +79,7 @@
             const SearchParameter ParameterKey = SearchParameter.Name;
             const string ParameterValue = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor Who";
+            const string Route = "/search/series?name=Doctor+Who";
 
             var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
@@ -207,7 +207,7 @@
 
             const string Name = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor Who";
+            const string Route = "/search/series?name=Doctor+Who";
 
             var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
@@ -251,7 +251,7 @@
 
             const string Name = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor Who";
+            const string Route = "/search/series?name=Doctor+Who";
 
             var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
