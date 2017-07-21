@@ -11,6 +11,14 @@
             this.StatusCode = statusCode;
         }
 
+        public TvDbServerException(string message, HttpStatusCode statusCode)
+            : base(message)
+        {
+            this.StatusCode = statusCode;
+        }
+
         public HttpStatusCode StatusCode { get; }
+
+        public bool UnknownError { get; set; }
     }
 }
