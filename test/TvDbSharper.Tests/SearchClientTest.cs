@@ -1,380 +1,380 @@
-﻿namespace TvDbSharper.Tests
-{
-    using System.Net;
-    using System.Threading;
+﻿//namespace TvDbSharper.Tests
+//{
+//    using System.Net;
+//    using System.Threading;
 
-    using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
+//    using NSubstitute;
+//    using NSubstitute.ExceptionExtensions;
 
-    using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Search;
-    using TvDbSharper.Clients.Search.Json;
-    using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
+//    using TvDbSharper.BaseSchemas;
+//    using TvDbSharper.Clients.Search;
+//    using TvDbSharper.Clients.Search.Json;
+//    using TvDbSharper.Errors;
+//    using TvDbSharper.JsonClient;
 
-    using Xunit;
+//    using Xunit;
 
-    public class SearchClientTest
-    {
-        public SearchClientTest()
-        {
-            this.ErrorMessages = new ErrorMessages();
-        }
+//    public class SearchClientTest
+//    {
+//        public SearchClientTest()
+//        {
+//            this.ErrorMessages = new ErrorMessages();
+//        }
 
-        private IErrorMessages ErrorMessages { get; }
+//        private IErrorMessages ErrorMessages { get; }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const SearchParameter ParameterKey = SearchParameter.Name;
-            const string ParameterValue = "Doctor Who";
+//            const SearchParameter ParameterKey = SearchParameter.Name;
+//            const string ParameterValue = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor+Who";
+//            const string Route = "/search/series?name=Doctor+Who";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesAsync(ParameterValue, ParameterKey, CancellationToken.None);
+//            var responseData = await client.SearchSeriesAsync(ParameterValue, ParameterKey, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(
-                        async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name, CancellationToken.None));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(
+//                        async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesAsync_Without_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesAsync_Without_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const SearchParameter ParameterKey = SearchParameter.Name;
-            const string ParameterValue = "Doctor Who";
+//            const SearchParameter ParameterKey = SearchParameter.Name;
+//            const string ParameterValue = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor+Who";
+//            const string Route = "/search/series?name=Doctor+Who";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesAsync(ParameterValue, ParameterKey);
+//            var responseData = await client.SearchSeriesAsync(ParameterValue, ParameterKey);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesAsync("Doctor Who", SearchParameter.Name));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByImdbIdAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByImdbIdAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string ImdbId = "tt0436992";
+//            const string ImdbId = "tt0436992";
 
-            const string Route = "/search/series?imdbId=tt0436992";
+//            const string Route = "/search/series?imdbId=tt0436992";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByImdbIdAsync(ImdbId, CancellationToken.None);
+//            var responseData = await client.SearchSeriesByImdbIdAsync(ImdbId, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByImdbIdAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByImdbIdAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(
-                        async () => await client.SearchSeriesByImdbIdAsync("tt0436992", CancellationToken.None));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(
+//                        async () => await client.SearchSeriesByImdbIdAsync("tt0436992", CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByImdbIdAsync_Without_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByImdbIdAsync_Without_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string ImdbId = "tt0436992";
+//            const string ImdbId = "tt0436992";
 
-            const string Route = "/search/series?imdbId=tt0436992";
+//            const string Route = "/search/series?imdbId=tt0436992";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByImdbIdAsync(ImdbId);
+//            var responseData = await client.SearchSeriesByImdbIdAsync(ImdbId);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByImdbIdAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByImdbIdAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByImdbIdAsync("tt0436992"));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByImdbIdAsync("tt0436992"));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByNameAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByNameAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Name = "Doctor Who";
+//            const string Name = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor+Who";
+//            const string Route = "/search/series?name=Doctor+Who";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByNameAsync(Name, CancellationToken.None);
+//            var responseData = await client.SearchSeriesByNameAsync(Name, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByNameAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByNameAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(
-                        async () => await client.SearchSeriesByNameAsync("Doctor Who", CancellationToken.None));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(
+//                        async () => await client.SearchSeriesByNameAsync("Doctor Who", CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByNameAsync_Without_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByNameAsync_Without_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Name = "Doctor Who";
+//            const string Name = "Doctor Who";
 
-            const string Route = "/search/series?name=Doctor+Who";
+//            const string Route = "/search/series?name=Doctor+Who";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByNameAsync(Name);
+//            var responseData = await client.SearchSeriesByNameAsync(Name);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByNameAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByNameAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByNameAsync("Doctor Who"));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByNameAsync("Doctor Who"));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByZap2itIdAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByZap2itIdAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Zap2ItId = "SH007501780000";
+//            const string Zap2ItId = "SH007501780000";
 
-            const string Route = "/search/series?zap2itId=SH007501780000";
+//            const string Route = "/search/series?zap2itId=SH007501780000";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByZap2ItIdAsync(Zap2ItId, CancellationToken.None);
+//            var responseData = await client.SearchSeriesByZap2ItIdAsync(Zap2ItId, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByZap2itIdAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByZap2itIdAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(
-                        async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000", CancellationToken.None));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(
+//                        async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000", CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByZap2itIdAsync_Without_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByZap2itIdAsync_Without_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Zap2ItId = "SH007501780000";
+//            const string Zap2ItId = "SH007501780000";
 
-            const string Route = "/search/series?zap2itId=SH007501780000";
+//            const string Route = "/search/series?zap2itId=SH007501780000";
 
-            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
+//            var expectedData = new TvDbResponse<SeriesSearchResult[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.SearchSeriesByZap2ItIdAsync(Zap2ItId);
+//            var responseData = await client.SearchSeriesByZap2ItIdAsync(Zap2ItId);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void SearchSeriesByZap2itIdAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void SearchSeriesByZap2itIdAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<SeriesSearchResult[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000"));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.SearchSeriesByZap2ItIdAsync("SH007501780000"));
 
-            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Search.SearchSeriesAsync[statusCode], ex.Message);
+//        }
 
-        private static IJsonClient CreateJsonClient()
-        {
-            return Substitute.For<IJsonClient>();
-        }
+//        private static IJsonClient CreateJsonClient()
+//        {
+//            return Substitute.For<IJsonClient>();
+//        }
 
-        private ISearchClient CreateClient(IJsonClient jsonClient)
-        {
-            return new SearchClient(jsonClient, this.ErrorMessages);
-        }
-    }
-}
+//        private ISearchClient CreateClient(IJsonClient jsonClient)
+//        {
+//            return new SearchClient(jsonClient, this.ErrorMessages);
+//        }
+//    }
+//}

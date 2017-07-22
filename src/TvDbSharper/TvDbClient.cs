@@ -1,8 +1,6 @@
 namespace TvDbSharper
 {
     using System;
-    using System.Linq;
-    using System.Net.Http;
 
     using TvDbSharper.Clients.Authentication;
     using TvDbSharper.Clients.Episodes;
@@ -11,7 +9,6 @@ namespace TvDbSharper
     using TvDbSharper.Clients.Series;
     using TvDbSharper.Clients.Updates;
     using TvDbSharper.Clients.Users;
-    using TvDbSharper.Errors;
 
     public class TvDbClient : ITvDbClient
     {
@@ -19,38 +16,34 @@ namespace TvDbSharper
 
         private const string DefaultBaseUrl = "https://api.thetvdb.com";
 
+        private const string AcceptLanguage = "Accept-Language";
+
         public TvDbClient()
-            : this(new HttpClient())
+            : this(new ApiClient(), new Parser())
         {
         }
 
-        public TvDbClient(HttpClient httpClient)
+        public TvDbClient(IApiClient apiClient, IParser parser)
         {
-            this.HttpClient = httpClient;
+            this.ApiClient = apiClient;
 
             if (this.BaseUrl == null)
             {
                 this.BaseUrl = DefaultBaseUrl;
             }
 
-            var errorMessages = new ErrorMessages();
-            var jsonClient = new JsonClient.JsonClient(this.HttpClient);
-
-            this.Authentication = new AuthenticationClient(jsonClient, errorMessages);
-            this.Episodes = new EpisodesClient(jsonClient, errorMessages);
-            this.Languages = new LanguagesClient(jsonClient, errorMessages);
-            this.Search = new SearchClient(jsonClient, errorMessages);
-            this.Series = new SeriesClient(jsonClient, errorMessages);
-            this.Updates = new UpdatesClient(jsonClient, errorMessages);
-            this.Users = new UsersClient(jsonClient, errorMessages);
+            this.Authentication = new AuthenticationClient(apiClient, parser);
+            this.Episodes = new EpisodesClient(apiClient, parser);
+            this.Languages = new LanguagesClient(apiClient, parser);
+            this.Search = new SearchClient(apiClient, parser);
+            this.Series = new SeriesClient(apiClient, parser);
+            this.Updates = new UpdatesClient(apiClient, parser);
+            this.Users = new UsersClient(apiClient, parser);
         }
 
         public string AcceptedLanguage
         {
-            get
-            {
-                return this.HttpClient.DefaultRequestHeaders.AcceptLanguage.FirstOrDefault()?.Value ?? DefaultAcceptedLanguage;
-            }
+            get => this.ApiClient.DefaultRequestHeaders[AcceptLanguage] ?? DefaultAcceptedLanguage;
 
             set
             {
@@ -64,8 +57,7 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
-                this.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
+                this.ApiClient.DefaultRequestHeaders[AcceptLanguage] = value;
             }
         }
 
@@ -76,10 +68,7 @@ namespace TvDbSharper
 
         public string BaseUrl
         {
-            get
-            {
-                return this.HttpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/');
-            }
+            get => this.ApiClient.BaseAddress;
 
             set
             {
@@ -93,7 +82,7 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.HttpClient.BaseAddress = new Uri(value);
+                this.ApiClient.BaseAddress = value;
             }
         }
 
@@ -127,6 +116,6 @@ namespace TvDbSharper
         /// </summary>
         public IUsersClient Users { get; }
 
-        private HttpClient HttpClient { get; }
+        private IApiClient ApiClient { get; }
     }
 }

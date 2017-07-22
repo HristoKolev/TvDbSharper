@@ -7,37 +7,36 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Search.Json;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
-    public class SearchClient : BaseClient, ISearchClient
+    public class SearchClient : ISearchClient
     {
-        internal SearchClient(IJsonClient jsonClient, IErrorMessages errorMessages)
-            : base(jsonClient, errorMessages)
+        public SearchClient(IApiClient apiClient, IParser parser)
         {
+            this.ApiClient = apiClient;
+            this.Parser = parser;
+            this.UrlHelpers = new UrlHelpers();
         }
 
-        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
+        private IApiClient ApiClient { get; }
+
+        private IParser Parser { get; }
+
+        private UrlHelpers UrlHelpers { get; }
+
+        public async Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
             string value,
             SearchParameter parameter,
             CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={WebUtility.UrlEncode(value)}";
+            string url = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={WebUtility.UrlEncode(value)}";
 
-                return this.GetAsync<SeriesSearchResult[]>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Search.SearchSeriesAsync);
+            var request = new ApiRequest("GET", url);
 
-                if (message == null)
-                {
-                    throw;
-                }
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
 
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var data = this.Parser.Parse<TvDbResponse<SeriesSearchResult[]>>(response, ErrorMessages.Search.SearchSeriesAsync);
+
+            return data;
         }
 
         public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey)

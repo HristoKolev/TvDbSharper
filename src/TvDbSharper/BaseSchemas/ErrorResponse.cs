@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.JsonClient.JsonSchemas
+﻿namespace TvDbSharper.BaseSchemas
 {
     public class ErrorResponse
     {

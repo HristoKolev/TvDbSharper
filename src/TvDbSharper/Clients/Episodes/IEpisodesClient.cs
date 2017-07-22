@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Episodes.Json;
 
     /// <summary>
     /// Used for getting information about a specific episode

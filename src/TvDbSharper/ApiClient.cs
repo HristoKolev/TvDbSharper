@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Tests.NewPattern
+﻿namespace TvDbSharper
 {
     using System.Collections.Generic;
     using System.IO;
@@ -9,8 +9,8 @@
 
     using Newtonsoft.Json;
 
+    using TvDbSharper.BaseSchemas;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient.JsonSchemas;
 
     public class ApiRequest
     {
@@ -22,6 +22,14 @@
         {
             this.Method = method;
             this.Url = url;
+        }
+
+
+        public ApiRequest(string method, string url, string body)
+        {
+            this.Method = method;
+            this.Url = url;
+            this.Body = body;
         }
 
         public string Body { get; set; }
@@ -44,36 +52,23 @@
 
     public interface IApiClient
     {
+        string BaseAddress { get; set; }
+
+        WebHeaderCollection DefaultRequestHeaders { get; set; }
+
         Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken);
     }
 
     public class ApiClient : IApiClient
     {
+        public string BaseAddress { get; set; }
+
+        public WebHeaderCollection DefaultRequestHeaders { get; set; }
+
         public async Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken)
         {
-            return await GetResponseAsync(await CreateRequestAsync(request).ConfigureAwait(false), cancellationToken).ConfigureAwait(false);
-        }
-
-        private static async Task<HttpWebRequest> CreateRequestAsync(ApiRequest request)
-        {
-            var httpRequest = WebRequest.CreateHttp(request.Url);
-            httpRequest.Method = request.Method;
-
-            if (request.Headers != null)
-            {
-                httpRequest.Headers = request.Headers;
-            }
-
-            if (request.Body != null)
-            {
-                var stream = await httpRequest.GetRequestStreamAsync().ConfigureAwait(false);
-
-                byte[] buffer = Encoding.UTF8.GetBytes(request.Body);
-
-                await stream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
-            }
-
-            return httpRequest;
+            return await GetResponseAsync(await this.CreateRequestAsync(request).ConfigureAwait(false), cancellationToken)
+                       .ConfigureAwait(false);
         }
 
         private static async Task<ApiResponse> GetResponseAsync(WebRequest httpRequest, CancellationToken cancellationToken)
@@ -107,6 +102,49 @@
                 Body = body,
                 StatusCode = httpResponse.StatusCode
             };
+        }
+
+        private WebHeaderCollection CombineHeaders(params WebHeaderCollection[] headerCollections)
+        {
+            var result = new WebHeaderCollection();
+
+            for (var i = 0; i < headerCollections.Length; i++)
+            {
+                var headerCollection = headerCollections[i];
+
+                foreach (string name in headerCollection)
+                {
+                    string value = headerCollection[name];
+
+                    result[name] = value;
+                }
+            }
+
+            return result;
+        }
+
+        private async Task<HttpWebRequest> CreateRequestAsync(ApiRequest request)
+        {
+            string url = Path.Combine(this.BaseAddress ?? string.Empty, request.Url);
+
+            var httpRequest = WebRequest.CreateHttp(url);
+            httpRequest.Method = request.Method;
+
+            if (request.Headers != null)
+            {
+                httpRequest.Headers = this.CombineHeaders(this.DefaultRequestHeaders, request.Headers);
+            }
+
+            if (request.Body != null)
+            {
+                var stream = await httpRequest.GetRequestStreamAsync().ConfigureAwait(false);
+
+                byte[] buffer = Encoding.UTF8.GetBytes(request.Body);
+
+                await stream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+            }
+
+            return httpRequest;
         }
     }
 

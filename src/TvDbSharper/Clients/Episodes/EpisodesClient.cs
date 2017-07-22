@@ -4,36 +4,25 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Episodes.Json;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
-    public class EpisodesClient : BaseClient, IEpisodesClient
+    public class EpisodesClient : IEpisodesClient
     {
-        internal EpisodesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
-            : base(jsonClient, errorMessages)
+        public EpisodesClient(IApiClient apiClient, IParser parser)
         {
+            this.ApiClient = apiClient;
+            this.Parser = parser;
         }
 
-        public Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken)
+        private IApiClient ApiClient { get; }
+
+        private IParser Parser { get; }
+
+        public async Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId, CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = $"/episodes/{episodeId}";
-
-                return this.GetAsync<EpisodeRecord>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Episodes.GetAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var request = new ApiRequest("GET", $"/episodes/{episodeId}");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            return this.Parser.Parse<TvDbResponse<EpisodeRecord>>(response, ErrorMessages.Episodes.GetAsync);
         }
 
         public Task<TvDbResponse<EpisodeRecord>> GetAsync(int episodeId)

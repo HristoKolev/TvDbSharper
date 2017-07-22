@@ -11,7 +11,11 @@
 
     public class ApiClientMock : IApiClient
     {
+        public string BaseAddress { get; set; }
+
         public CancellationToken CancellationToken { get; private set; }
+
+        public WebHeaderCollection DefaultRequestHeaders { get; set; }
 
         public ApiRequest Request { get; private set; }
 
@@ -72,20 +76,42 @@
         private Type ExpectedExceptionType { get; set; }
 
         /// <summary>
+        /// Indicates that the return value should not be checked.
+        /// </summary>
+        private bool IgnoreReturnValue { get; set; }
+
+        /// <summary>
+        /// Signals that the method under test is expected to pass CancellationToken.None to the ApiClient.
+        /// </summary>
+        private bool NoCancellationToken { get; set; }
+
+        /// <summary>
+        /// Holds the result object that should be returned from the Parser mock.
+        /// </summary>
+        private object ParserResultObject { get; set; }
+
+        /// <summary>
         /// List with assersions on the request object.
         /// </summary>
         private List<Action<ApiRequest>> RequestAssertions { get; }
 
         /// <summary>
-        /// Holds the result object that should be returned from the Parser mock.
+        /// The value that the method under test should return.
         /// </summary>
-        private object ResultObject { get; set; }
+        private object ReturnValue { get; set; }
 
         /// <summary>
         /// Runs the method under test.
         /// Passes a CancellationToken.
         /// </summary>
         private Func<T, CancellationToken, Task<object>> TargetMethod { get; set; }
+
+        public ApiTest<T> HasNoReturnValue()
+        {
+            this.IgnoreReturnValue = true;
+
+            return this;
+        }
 
         public async Task RunAsync()
         {
@@ -97,10 +123,10 @@
 
             var parser = new ParserMock
             {
-                ResultObject = this.ResultObject
+                ResultObject = this.ParserResultObject
             };
 
-            var tokenSource = new CancellationTokenSource();
+            var token = this.NoCancellationToken ? CancellationToken.None : new CancellationTokenSource().Token;
 
             // Act
             var impl = this.CreateTarget(apiClient, parser);
@@ -109,7 +135,7 @@
             {
                 try
                 {
-                    await this.TargetMethod(impl, tokenSource.Token).ConfigureAwait(false);
+                    await this.TargetMethod(impl, token).ConfigureAwait(false);
 
                     Assert.True(false, $"An exception was expected to be thrown. typeof({this.ExpectedExceptionType.Name})");
                 }
@@ -121,8 +147,8 @@
                     }
 
                     string message = "The exception does not match the expected type."
-                                      + $"\r\nExpected: typeof({this.ExpectedExceptionType.Name})"
-                                      + $"\r\nActual: typeof({exception.GetType().Name})";
+                                     + $"\r\nExpected: typeof({this.ExpectedExceptionType.Name})"
+                                     + $"\r\nActual: typeof({exception.GetType().Name})";
 
                     Assert.True(this.ExpectedExceptionType == exception.GetType(), message);
                 }
@@ -130,10 +156,10 @@
                 return;
             }
 
-            var result = await this.TargetMethod(impl, tokenSource.Token).ConfigureAwait(false);
+            var result = await this.TargetMethod(impl, token).ConfigureAwait(false);
 
             // Assert
-            Assert.True(tokenSource.Token == apiClient.CancellationToken,
+            Assert.True(token == apiClient.CancellationToken,
                 "The method under test does not pass the cancellation token to the ApiClient");
 
             foreach (var requestAssertion in this.RequestAssertions)
@@ -147,7 +173,17 @@
 
             Assert.True(this.ErrorMap == parser.ErrorMap, "The error maps do not match.");
 
-            Assert.True(parser.ResultObject == result, "The method under test does not return the result of the Parser.");
+            if (!this.IgnoreReturnValue)
+            {
+                if (this.ReturnValue != null)
+                {
+                    Assert.True(this.ReturnValue == result, "The method under test does not return the expected value.");
+                }
+                else
+                {
+                    Assert.True(parser.ResultObject == result, "The method under test does not return the result of the Parser.");
+                }
+            }
         }
 
         public ApiTest<T> SetApiResponse(ApiResponse response)
@@ -159,7 +195,7 @@
 
         public ApiTest<T> SetResultObject(object result)
         {
-            this.ResultObject = result;
+            this.ParserResultObject = result;
 
             return this;
         }
@@ -182,16 +218,33 @@
             return this;
         }
 
+        public ApiTest<T> ShouldReturn(object returnValue)
+        {
+            this.ReturnValue = returnValue;
+            return this;
+        }
+
         public ApiTest<T> ShouldThrow<TException>()
         {
             this.ExpectedExceptionType = typeof(TException);
-
             return this;
         }
 
         public ApiTest<T> WhenCallingAMethod<TResult>(Func<T, CancellationToken, Task<TResult>> action)
         {
             this.TargetMethod = async (arg, token) => await action(arg, token).ConfigureAwait(false) as object;
+
+            return this;
+        }
+
+        public ApiTest<T> WhenCallingAMethod(Func<T, CancellationToken, Task> action)
+        {
+            this.TargetMethod = async (arg, token) =>
+            {
+                await action(arg, token).ConfigureAwait(false);
+
+                return Task.FromResult((object)null);
+            };
 
             return this;
         }
@@ -206,6 +259,13 @@
         public ApiTest<T> WithErrorMap(IReadOnlyDictionary<HttpStatusCode, string> errorMap)
         {
             this.ErrorMap = errorMap;
+
+            return this;
+        }
+
+        public ApiTest<T> WithNoCancellationToken()
+        {
+            this.NoCancellationToken = true;
 
             return this;
         }

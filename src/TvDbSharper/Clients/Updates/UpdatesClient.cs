@@ -7,55 +7,33 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Updates.Json;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
-    public class UpdatesClient : BaseClient, IUpdatesClient
+    public class UpdatesClient : IUpdatesClient
     {
-        internal UpdatesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
-            : base(jsonClient, errorMessages)
+        public UpdatesClient(IApiClient apiClient, IParser parser)
         {
+            this.ApiClient = apiClient;
+            this.Parser = parser;
         }
 
-        public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
+        private IApiClient ApiClient { get; }
+
+        private IParser Parser { get; }
+
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}";
-
-                return this.GetAsync<Update[]>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Updates.GetAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var request = new ApiRequest("GET", $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
+            return data;
         }
 
-        public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}&toTime={toTime.ToUnixEpochTime()}";
-
-                return this.GetAsync<Update[]>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Updates.GetAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var request = new ApiRequest("GET", $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}&toTime={toTime.ToUnixEpochTime()}");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
+            return data;
         }
 
         public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime)

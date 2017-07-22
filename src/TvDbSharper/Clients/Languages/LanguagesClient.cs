@@ -6,34 +6,25 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients.Languages.Json;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
-    public class LanguagesClient : BaseClient, ILanguagesClient
+    public class LanguagesClient : ILanguagesClient
     {
-        internal LanguagesClient(IJsonClient jsonClient, IErrorMessages errorMessages)
-            : base(jsonClient, errorMessages)
+        public LanguagesClient(IApiClient apiClient, IParser parser)
         {
+            this.ApiClient = apiClient;
+            this.Parser = parser;
         }
 
-        public Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken)
+        private IApiClient ApiClient { get; }
+
+        private IParser Parser { get; }
+
+        public async Task<TvDbResponse<Language[]>> GetAllAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = "/languages";
-
-                return this.GetAsync<Language[]>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Languages.GetAllAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var request = new ApiRequest("GET", "/languages");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<TvDbResponse<Language[]>>(response, ErrorMessages.Languages.GetAllAsync);
+            return data;
         }
 
         public Task<TvDbResponse<Language[]>> GetAllAsync()
@@ -41,25 +32,12 @@
             return this.GetAllAsync(CancellationToken.None);
         }
 
-        public Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<Language>> GetAsync(int languageId, CancellationToken cancellationToken)
         {
-            try
-            {
-                string requestUri = $"/languages/{languageId}";
-
-                return this.GetAsync<Language>(requestUri, cancellationToken);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = this.GetMessage(ex.StatusCode, this.ErrorMessages.Languages.GetAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            var request = new ApiRequest("GET", $"/languages/{languageId}");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<TvDbResponse<Language>>(response, ErrorMessages.Languages.GetAsync);
+            return data;
         }
 
         public Task<TvDbResponse<Language>> GetAsync(int languageId)

@@ -1,34 +1,39 @@
 ﻿namespace TvDbSharper.Clients.Authentication
 {
     using System;
-    using System.Collections.Generic;
-    using System.Net;
-    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Newtonsoft.Json;
+
     using TvDbSharper.Clients.Authentication.Json;
     using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
 
     public class AuthenticationClient : IAuthenticationClient
     {
-        internal AuthenticationClient(IJsonClient jsonClient, IErrorMessages errorMessages)
+        private const string AuthorizationHeaderName = "Authorization";
+
+        private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
-            this.JsonClient = jsonClient;
-            this.ErrorMessages = errorMessages;
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
+        internal AuthenticationClient(IApiClient apiClient, IParser parser)
+        {
+            this.ApiClient = apiClient;
+            this.Parser = parser;
         }
 
         public string Token
         {
-            get => this.JsonClient.AuthorizationHeader?.Parameter;
+            get => this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName]?.Split(' ')?[1];
 
-            set => this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", value);
+            set => this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName] = "Bearer " + value;
         }
 
-        private IErrorMessages ErrorMessages { get; }
+        private IApiClient ApiClient { get; }
 
-        private IJsonClient JsonClient { get; }
+        private IParser Parser { get; }
 
         public async Task AuthenticateAsync(AuthenticationData authenticationData, CancellationToken cancellationToken)
         {
@@ -37,24 +42,12 @@
                 throw new ArgumentNullException(nameof(authenticationData));
             }
 
-            try
-            {
-                var response = await this.JsonClient.PostJsonAsync<AuthenticationResponse>("/login", authenticationData, cancellationToken)
-                                         .ConfigureAwait(false);
+            string body = JsonConvert.SerializeObject(authenticationData, this.serializerSettings);
+            var request = new ApiRequest("POST", "/login", body);
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<AuthenticationResponse>(response, ErrorMessages.Authentication.AuthenticateAsync);
 
-                this.UpdateAuthenticationHeader(response.Token);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.AuthenticateAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            this.UpdateAuthenticationHeader(data.Token);
         }
 
         public Task AuthenticateAsync(string apiKey, string username, string userKey, CancellationToken cancellationToken)
@@ -84,24 +77,11 @@
 
         public async Task RefreshTokenAsync(CancellationToken cancellationToken)
         {
-            try
-            {
-                var response = await this.JsonClient.GetJsonAsync<AuthenticationResponse>("/refresh_token", cancellationToken)
-                                         .ConfigureAwait(false);
+            var request = new ApiRequest("GET", "/refresh_token");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var data = this.Parser.Parse<AuthenticationResponse>(response, ErrorMessages.Authentication.RefreshTokenAsync);
 
-                this.UpdateAuthenticationHeader(response.Token);
-            }
-            catch (TvDbServerException ex)
-            {
-                string message = GetMessage(ex.StatusCode, this.ErrorMessages.Authentication.RefreshTokenAsync);
-
-                if (message == null)
-                {
-                    throw;
-                }
-
-                throw new TvDbServerException(message, ex.StatusCode, ex);
-            }
+            this.UpdateAuthenticationHeader(data.Token);
         }
 
         public Task RefreshTokenAsync()
@@ -109,19 +89,9 @@
             return this.RefreshTokenAsync(CancellationToken.None);
         }
 
-        private static string GetMessage(HttpStatusCode statusCode, IReadOnlyDictionary<int, string> messagesDictionary)
-        {
-            if (messagesDictionary.ContainsKey((int)statusCode))
-            {
-                return messagesDictionary[(int)statusCode];
-            }
-
-            return null;
-        }
-
         private void UpdateAuthenticationHeader(string token)
         {
-            this.JsonClient.AuthorizationHeader = new AuthenticationHeaderValue("Bearer", token);
+            this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName] = "Bearer " + token;
         }
     }
 }

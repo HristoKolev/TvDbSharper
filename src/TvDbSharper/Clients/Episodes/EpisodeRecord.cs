@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Episodes.Json
+﻿namespace TvDbSharper.Clients.Episodes
 {
     using System;
 

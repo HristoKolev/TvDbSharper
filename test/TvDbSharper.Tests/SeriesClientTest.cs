@@ -1,818 +1,818 @@
-﻿namespace TvDbSharper.Tests
-{
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading;
+﻿//namespace TvDbSharper.Tests
+//{
+//    using System.Net;
+//    using System.Net.Http;
+//    using System.Threading;
 
-    using NSubstitute;
-    using NSubstitute.ExceptionExtensions;
+//    using NSubstitute;
+//    using NSubstitute.ExceptionExtensions;
 
-    using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Series;
-    using TvDbSharper.Clients.Series.Json;
-    using TvDbSharper.Errors;
-    using TvDbSharper.JsonClient;
+//    using TvDbSharper.BaseSchemas;
+//    using TvDbSharper.Clients.Series;
+//    using TvDbSharper.Clients.Series.Json;
+//    using TvDbSharper.Errors;
+//    using TvDbSharper.JsonClient;
 
-    using Xunit;
+//    using Xunit;
 
-    public class SeriesClientTest
-    {
-        public SeriesClientTest()
-        {
-            this.ErrorMessages = new ErrorMessages();
-        }
+//    public class SeriesClientTest
+//    {
+//        public SeriesClientTest()
+//        {
+//            this.ErrorMessages = new ErrorMessages();
+//        }
 
-        private IErrorMessages ErrorMessages { get; }
+//        private IErrorMessages ErrorMessages { get; }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetActorsAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetActorsAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/actors";
+//            const int Id = 42;
+//            const string Route = "/series/42/actors";
 
-            var expectedData = new TvDbResponse<Actor[]>();
+//            var expectedData = new TvDbResponse<Actor[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetActorsAsync(Id, CancellationToken.None);
+//            var responseData = await client.GetActorsAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetActorsAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetActorsAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetActorsAsync(42, CancellationToken.None));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetActorsAsync(42, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetActorsAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetActorsAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/actors";
+//            const int Id = 42;
+//            const string Route = "/series/42/actors";
 
-            var expectedData = new TvDbResponse<Actor[]>();
+//            var expectedData = new TvDbResponse<Actor[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetActorsAsync(Id);
+//            var responseData = await client.GetActorsAsync(Id);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Actor[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetActorsAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetActorsAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Actor[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetActorsAsync(42));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetActorsAsync(42));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42";
+//            const int Id = 42;
+//            const string Route = "/series/42";
 
-            var expectedData = new TvDbResponse<Series>();
+//            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetAsync(Id, CancellationToken.None);
+//            var responseData = await client.GetAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, CancellationToken.None));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42";
+//            const int Id = 42;
+//            const string Route = "/series/42";
 
-            var expectedData = new TvDbResponse<Series>();
+//            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetAsync(Id);
+//            var responseData = await client.GetAsync(Id);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_CancellationToken_With_Filter_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_CancellationToken_With_Filter_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/filter?keys=added,id";
-            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
+//            const int Id = 42;
+//            const string Route = "/series/42/filter?keys=added,id";
+//            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
 
-            var expectedData = new TvDbResponse<Series>();
+//            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetAsync(Id, Filter);
+//            var responseData = await client.GetAsync(Id, Filter);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_CancellationToken_With_Filter_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_CancellationToken_With_Filter_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
+//            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, Filter));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, Filter));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_Filter_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_Filter_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/filter?keys=added,id";
-            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
+//            const int Id = 42;
+//            const string Route = "/series/42/filter?keys=added,id";
+//            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
 
-            var expectedData = new TvDbResponse<Series>();
+//            var expectedData = new TvDbResponse<Series>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetAsync(Id, Filter, CancellationToken.None);
+//            var responseData = await client.GetAsync(Id, Filter, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Series>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetAsync_With_Filter_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetAsync_With_Filter_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Series>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
+//            const SeriesFilter Filter = SeriesFilter.Id | SeriesFilter.Added;
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, Filter, CancellationToken.None));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(42, Filter, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const int Page = 2;
-            const string Route = "/series/42/episodes?page=2";
+//            const int Id = 42;
+//            const int Page = 2;
+//            const string Route = "/series/42/episodes?page=2";
 
-            var expectedData = new TvDbResponse<BasicEpisode[]>();
+//            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesAsync(Id, Page, CancellationToken.None);
+//            var responseData = await client.GetEpisodesAsync(Id, Page, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, CancellationToken.None));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const int Page = 2;
-            const string Route = "/series/42/episodes?page=2";
+//            const int Id = 42;
+//            const int Page = 2;
+//            const string Route = "/series/42/episodes?page=2";
 
-            var expectedData = new TvDbResponse<BasicEpisode[]>();
+//            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesAsync(Id, Page);
+//            var responseData = await client.GetEpisodesAsync(Id, Page);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_CancellationToken_With_Query_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_CancellationToken_With_Query_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const int Page = 2;
-            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
+//            const int Id = 42;
+//            const int Page = 2;
+//            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
 
-            var query = new EpisodeQuery
-            {
-                ImdbId = "tt0118480",
-                AiredSeason = 1
-            };
+//            var query = new EpisodeQuery
+//            {
+//                ImdbId = "tt0118480",
+//                AiredSeason = 1
+//            };
 
-            var expectedData = new TvDbResponse<BasicEpisode[]>();
+//            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesAsync(Id, Page, query);
+//            var responseData = await client.GetEpisodesAsync(Id, Page, query);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_CancellationToken_With_Query_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_CancellationToken_With_Query_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            var query = new EpisodeQuery
-            {
-                ImdbId = "tt0118480",
-                AiredSeason = 1
-            };
+//            var query = new EpisodeQuery
+//            {
+//                ImdbId = "tt0118480",
+//                AiredSeason = 1
+//            };
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, query));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, query));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_Query_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_Query_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const int Page = 2;
-            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
+//            const int Id = 42;
+//            const int Page = 2;
+//            const string Route = "/series/42/episodes/query?page=2&airedSeason=1&imdbId=tt0118480";
 
-            var query = new EpisodeQuery
-            {
-                ImdbId = "tt0118480",
-                AiredSeason = 1
-            };
+//            var query = new EpisodeQuery
+//            {
+//                ImdbId = "tt0118480",
+//                AiredSeason = 1
+//            };
 
-            var expectedData = new TvDbResponse<BasicEpisode[]>();
+//            var expectedData = new TvDbResponse<BasicEpisode[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesAsync(Id, Page, query, CancellationToken.None);
+//            var responseData = await client.GetEpisodesAsync(Id, Page, query, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<BasicEpisode[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesAsync_With_Query_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesAsync_With_Query_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            var query = new EpisodeQuery
-            {
-                ImdbId = "tt0118480",
-                AiredSeason = 1
-            };
+//            var query = new EpisodeQuery
+//            {
+//                ImdbId = "tt0118480",
+//                AiredSeason = 1
+//            };
 
-            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<BasicEpisode[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await
-                    Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, query, CancellationToken.None));
+//            var ex =
+//                await
+//                    Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesAsync(42, 2, query, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesSummaryAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesSummaryAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/episodes/summary";
+//            const int Id = 42;
+//            const string Route = "/series/42/episodes/summary";
 
-            var expectedData = new TvDbResponse<EpisodesSummary>();
+//            var expectedData = new TvDbResponse<EpisodesSummary>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesSummaryAsync(Id, CancellationToken.None);
+//            var responseData = await client.GetEpisodesSummaryAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesSummaryAsync(42, CancellationToken.None));
+//            var ex =
+//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesSummaryAsync(42, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/episodes/summary";
+//            const int Id = 42;
+//            const string Route = "/series/42/episodes/summary";
 
-            var expectedData = new TvDbResponse<EpisodesSummary>();
+//            var expectedData = new TvDbResponse<EpisodesSummary>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetEpisodesSummaryAsync(Id);
+//            var responseData = await client.GetEpisodesSummaryAsync(Id);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<EpisodesSummary>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetEpisodesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetEpisodesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<EpisodesSummary>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesSummaryAsync(42));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesSummaryAsync(42));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetHeaderAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetHeaderAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Route = "/series/42";
+//            const string Route = "/series/42";
 
-            var expectedHeaders = new HttpResponseMessage().Headers;
+//            var expectedHeaders = new HttpResponseMessage().Headers;
 
-            jsonClient.GetHeadersAsync(Route, CancellationToken.None).Returns(expectedHeaders);
+//            jsonClient.GetHeadersAsync(Route, CancellationToken.None).Returns(expectedHeaders);
 
-            var headers = await client.GetHeadersAsync(42, CancellationToken.None);
+//            var headers = await client.GetHeadersAsync(42, CancellationToken.None);
 
-            await jsonClient.Received().GetHeadersAsync(Route, CancellationToken.None);
+//            await jsonClient.Received().GetHeadersAsync(Route, CancellationToken.None);
 
-            Assert.Equal(expectedHeaders, headers);
-        }
+//            Assert.Equal(expectedHeaders, headers);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetHeaderAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetHeaderAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetHeadersAsync(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetHeadersAsync(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetHeadersAsync(42, CancellationToken.None));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetHeadersAsync(42, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetHeaderAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetHeaderAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const string Route = "/series/42";
+//            const string Route = "/series/42";
 
-            var expectedHeaders = new HttpResponseMessage().Headers;
+//            var expectedHeaders = new HttpResponseMessage().Headers;
 
-            jsonClient.GetHeadersAsync(Route, CancellationToken.None).Returns(expectedHeaders);
+//            jsonClient.GetHeadersAsync(Route, CancellationToken.None).Returns(expectedHeaders);
 
-            var headers = await client.GetHeadersAsync(42);
+//            var headers = await client.GetHeadersAsync(42);
 
-            await jsonClient.Received().GetHeadersAsync(Route, CancellationToken.None);
+//            await jsonClient.Received().GetHeadersAsync(Route, CancellationToken.None);
 
-            Assert.Equal(expectedHeaders, headers);
-        }
+//            Assert.Equal(expectedHeaders, headers);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetHeaderAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetHeaderAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetHeadersAsync(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetHeadersAsync(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetHeadersAsync(42));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetHeadersAsync(42));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/images";
+//            const int Id = 42;
+//            const string Route = "/series/42/images";
 
-            var expectedData = new TvDbResponse<ImagesSummary>();
+//            var expectedData = new TvDbResponse<ImagesSummary>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesSummaryAsync(Id, CancellationToken.None);
+//            var responseData = await client.GetImagesSummaryAsync(Id, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesSummaryAsync(42, CancellationToken.None));
+//            var ex =
+//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesSummaryAsync(42, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/images";
+//            const int Id = 42;
+//            const string Route = "/series/42/images";
 
-            var expectedData = new TvDbResponse<ImagesSummary>();
+//            var expectedData = new TvDbResponse<ImagesSummary>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesSummaryAsync(Id);
+//            var responseData = await client.GetImagesSummaryAsync(Id);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<ImagesSummary>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<ImagesSummary>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesSummaryAsync(42));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesSummaryAsync(42));
 
-            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesSummaryAsync_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesSummaryAsync_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
+//            const int Id = 42;
+//            const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
 
-            var query = new ImagesQuery
-            {
-                KeyType = KeyType.Fanart,
-                Resolution = "1280x720"
-            };
+//            var query = new ImagesQuery
+//            {
+//                KeyType = KeyType.Fanart,
+//                Resolution = "1280x720"
+//            };
 
-            var expectedData = new TvDbResponse<Image[]>();
+//            var expectedData = new TvDbResponse<Image[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesAsync(Id, query, CancellationToken.None);
+//            var responseData = await client.GetImagesAsync(Id, query, CancellationToken.None);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesSummaryAsync_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            var query = new ImagesQuery
-            {
-                KeyType = KeyType.Fanart,
-                Resolution = "1280x720"
-            };
+//            var query = new ImagesQuery
+//            {
+//                KeyType = KeyType.Fanart,
+//                Resolution = "1280x720"
+//            };
 
-            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex =
-                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query, CancellationToken.None));
+//            var ex =
+//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query, CancellationToken.None));
 
-            Assert.Equal(this.ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
+//        }
 
-        [Fact]
+//        [Fact]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesSummaryAsync_With_CancellationToken_Makes_The_Right_Request()
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            const int Id = 42;
-            const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
+//            const int Id = 42;
+//            const string Route = "/series/42/images/query?keyType=Fanart&resolution=1280x720";
 
-            var query = new ImagesQuery
-            {
-                KeyType = KeyType.Fanart,
-                Resolution = "1280x720"
-            };
+//            var query = new ImagesQuery
+//            {
+//                KeyType = KeyType.Fanart,
+//                Resolution = "1280x720"
+//            };
 
-            var expectedData = new TvDbResponse<Image[]>();
+//            var expectedData = new TvDbResponse<Image[]>();
 
-            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None).Returns(expectedData);
+//            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None).Returns(expectedData);
 
-            var responseData = await client.GetImagesAsync(Id, query);
+//            var responseData = await client.GetImagesAsync(Id, query);
 
-            await jsonClient.Received().GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None);
+//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Image[]>>(Route, CancellationToken.None);
 
-            Assert.Equal(expectedData, responseData);
-        }
+//            Assert.Equal(expectedData, responseData);
+//        }
 
-        [Theory]
-        [InlineData(401)]
-        [InlineData(404)]
+//        [Theory]
+//        [InlineData(401)]
+//        [InlineData(404)]
 
-        // ReSharper disable once InconsistentNaming
-        public async void GetImagesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-        {
-            var jsonClient = CreateJsonClient();
-            var client = this.CreateClient(jsonClient);
+//        // ReSharper disable once InconsistentNaming
+//        public async void GetImagesSummaryAsync_With_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
+//        {
+//            var jsonClient = CreateJsonClient();
+//            var client = this.CreateClient(jsonClient);
 
-            var query = new ImagesQuery
-            {
-                KeyType = KeyType.Fanart,
-                Resolution = "1280x720"
-            };
+//            var query = new ImagesQuery
+//            {
+//                KeyType = KeyType.Fanart,
+//                Resolution = "1280x720"
+//            };
 
-            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(null, CancellationToken.None)
-                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
+//            jsonClient.GetJsonAsync<TvDbResponse<Image[]>>(null, CancellationToken.None)
+//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
 
-            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query));
+//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesAsync(42, query));
 
-            Assert.Equal(this.ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
-        }
+//            Assert.Equal(this.ErrorMessages.Series.GetImagesAsync[statusCode], ex.Message);
+//        }
 
-        private static IJsonClient CreateJsonClient()
-        {
-            return Substitute.For<IJsonClient>();
-        }
+//        private static IJsonClient CreateJsonClient()
+//        {
+//            return Substitute.For<IJsonClient>();
+//        }
 
-        private ISeriesClient CreateClient(IJsonClient jsonClient)
-        {
-            return new SeriesClient(jsonClient, this.ErrorMessages);
-        }
-    }
-}
+//        private ISeriesClient CreateClient(IJsonClient jsonClient)
+//        {
+//            return new SeriesClient(jsonClient, this.ErrorMessages);
+//        }
+//    }
+//}

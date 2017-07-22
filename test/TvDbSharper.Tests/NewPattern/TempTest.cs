@@ -45,13 +45,13 @@
         // ReSharper disable once InconsistentNaming
         public Task AuthenticateAsync_Makes_The_Right_Request()
         {
-            return this.CreateClient()
+            return CreateClient()
                 .WhenCallingAMethod((impl, token) => impl.GetDtoAsync(token))
                 .ShouldRequest("GET", "/cats")
                 .RunAsync();
         }
 
-        public ApiTest<SimpleImpl> CreateClient()
+        private static ApiTest<SimpleImpl> CreateClient()
         {
             return new ApiTest<SimpleImpl>()
                 .WithErrorMap(SimpleImpl.ErrorMap)
