@@ -1,11 +1,10 @@
-﻿namespace TvDbSharper.Tests
+﻿namespace TvDbSharper.Tests.NewPattern
 {
+    using System;
     using System.Collections.Generic;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using ConsoleApp2;
 
     using Xunit;
 
@@ -15,7 +14,7 @@
 
     public class SimpleImpl
     {
-        internal static Dictionary<HttpStatusCode, string> ErrorMap = new Dictionary<HttpStatusCode, string>();
+        internal static readonly Dictionary<HttpStatusCode, string> ErrorMap = new Dictionary<HttpStatusCode, string>();
 
         public SimpleImpl(IApiClient apiClient, IParser parser)
         {
@@ -31,7 +30,9 @@
         {
             var request = new ApiRequest("GET", "/cats");
 
-            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var response = await this.ApiClient
+                .SendRequestAsync(request, cancellationToken)
+                .ConfigureAwait(false);
 
             return this.Parser.Parse<Dto>(response, ErrorMap);
         }
@@ -44,14 +45,19 @@
         // ReSharper disable once InconsistentNaming
         public Task AuthenticateAsync_Makes_The_Right_Request()
         {
-            return this.CreateClient().WhenCallingAMethod((impl, token) => impl.GetDtoAsync(token)).ShouldRequest("GET", "/cats")
-                       .RunAsync();
+            return this.CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.GetDtoAsync(token))
+                .ShouldRequest("GET", "/cats")
+                .RunAsync();
         }
 
         public ApiTest<SimpleImpl> CreateClient()
         {
-            return new ApiTest<SimpleImpl>((client, parser) => new SimpleImpl(client, parser), SimpleImpl.ErrorMap)
-                .SetApiResponse(new ApiResponse()).SetResultObject(new Dto());
+            return new ApiTest<SimpleImpl>()
+                .WithErrorMap(SimpleImpl.ErrorMap)
+                .WithConstructor((client, parser) => new SimpleImpl(client, parser))
+                .SetApiResponse(new ApiResponse())
+                .SetResultObject(new Dto());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp2
+﻿namespace TvDbSharper.Tests.NewPattern
 {
     using System.Collections.Generic;
     using System.IO;
