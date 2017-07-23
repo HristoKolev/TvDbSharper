@@ -23,10 +23,7 @@ namespace TvDbSharper
         {
             this.ApiClient = new ApiClient();
 
-            if (this.BaseUrl == null)
-            {
-                this.BaseUrl = DefaultBaseUrl;
-            }
+            this.BaseUrl = DefaultBaseUrl;
 
             var parser = new Parser();
 
@@ -42,7 +39,7 @@ namespace TvDbSharper
         public string AcceptedLanguage
         {
             get => this.ApiClient.DefaultRequestHeaders[AcceptLanguage] ?? DefaultAcceptedLanguage;
-
+             
             set
             {
                 if (value == null)

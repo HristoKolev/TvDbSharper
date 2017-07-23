@@ -137,8 +137,65 @@
                 .WithNoCancellationToken()
                 .RunAsync();
         }
-        
+
         #endregion
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public void Token_Returns_null_if_not_Authenticated()
+        {
+            var client = new ApiClientMock();
+            var parser = new ParserMock();
+
+            var auth = new AuthenticationClient(client, parser);
+
+            Assert.Null(auth.Token);
+        }
+
+        [Theory]
+        [InlineData("123")]
+        [InlineData("456")]
+        [InlineData("789")]
+
+        // ReSharper disable once InconsistentNaming
+        public void Token_Passes_The_Token_To_The_API_Client(string token)
+        {
+            var client = new ApiClientMock();
+            var parser = new ParserMock();
+
+            var auth = new AuthenticationClient(client, parser)
+            {
+                Token = token
+            };
+
+            Assert.Equal($"Bearer {token}", client.DefaultRequestHeaders["Authorization"]);
+        }
+
+
+        [Theory]
+        [InlineData("123")]
+        [InlineData("456")]
+        [InlineData("789")]
+
+        // ReSharper disable once InconsistentNaming
+        public void Token_Gets_The_Token_From_The_API_Client(string token)
+        {
+            var client = new ApiClientMock
+            {
+                DefaultRequestHeaders =
+                {
+                    ["Authorization"] = $"Bearer {token}"
+                }
+            };
+
+            var parser = new ParserMock();
+
+            var auth = new AuthenticationClient(client, parser);
+
+            Assert.Equal(token, auth.Token);
+        }
+
 
         private static ApiTest<AuthenticationClient> AuthenticateAsyncTest()
         {
