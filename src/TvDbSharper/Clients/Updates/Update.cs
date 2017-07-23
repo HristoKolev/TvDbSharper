@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Updates.Json
+﻿namespace TvDbSharper.Clients.Updates
 {
     public class Update
     {

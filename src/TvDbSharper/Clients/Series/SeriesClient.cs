@@ -6,10 +6,9 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Series.Json;
     using TvDbSharper.Errors;
 
-    public class SeriesClient : ISeriesClient
+    internal class SeriesClient : ISeriesClient
     {
         public SeriesClient(IApiClient apiClient, IParser parser)
         {
@@ -28,8 +27,7 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/actors");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Actor[]>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Actor[]>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public Task<TvDbResponse<Actor[]>> GetActorsAsync(int seriesId)
@@ -41,16 +39,14 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/filter?keys={this.UrlHelpers.Parametrify(filter)}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Series>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Series>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public async Task<TvDbResponse<Series>> GetAsync(int seriesId, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Series>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Series>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public Task<TvDbResponse<Series>> GetAsync(int seriesId)
@@ -67,8 +63,7 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/episodes?page={Math.Max(page, 1)}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
@@ -77,11 +72,10 @@
             EpisodeQuery query,
             CancellationToken cancellationToken)
         {
-            var request = new ApiRequest("GET",
-                $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{this.UrlHelpers.Querify(query)}");
+            string url = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{this.UrlHelpers.Querify(query)}";
+            var request = new ApiRequest("GET", url);
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page)
@@ -98,8 +92,7 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/episodes/summary");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<EpisodesSummary>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<EpisodesSummary>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public Task<TvDbResponse<EpisodesSummary>> GetEpisodesSummaryAsync(int seriesId)
@@ -124,8 +117,7 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/images/query?{this.UrlHelpers.Querify(query)}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Image[]>>(response, ErrorMessages.Series.GetImagesAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Image[]>>(response, ErrorMessages.Series.GetImagesAsync);
         }
 
         public Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQuery query)
@@ -137,8 +129,7 @@
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/images");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<ImagesSummary>>(response, ErrorMessages.Series.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<ImagesSummary>>(response, ErrorMessages.Series.GetAsync);
         }
 
         public Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId)

@@ -4,10 +4,9 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Languages.Json;
     using TvDbSharper.Errors;
 
-    public class LanguagesClient : ILanguagesClient
+    internal class LanguagesClient : ILanguagesClient
     {
         public LanguagesClient(IApiClient apiClient, IParser parser)
         {

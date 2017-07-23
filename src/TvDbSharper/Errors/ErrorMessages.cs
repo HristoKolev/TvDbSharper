@@ -3,7 +3,7 @@ namespace TvDbSharper.Errors
     using System.Collections.Generic;
     using System.Net;
 
-    public class ErrorMessages
+    internal class ErrorMessages
     {
         static ErrorMessages()
         {

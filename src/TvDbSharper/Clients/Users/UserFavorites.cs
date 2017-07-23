@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Users.Json
+﻿namespace TvDbSharper.Clients.Users
 {
     public class UserFavorites
     {

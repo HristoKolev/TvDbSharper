@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public class UrlHelpers  
+    internal class UrlHelpers  
     {
         public string Parametrify(Enum value)
         {

@@ -6,11 +6,18 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using TvDbSharper.Clients;
+
     using Xunit;
     using Xunit.Sdk;
 
-    public class ApiClientMock : IApiClient
+    internal class ApiClientMock : IApiClient
     {
+        public ApiClientMock()
+        {
+            this.DefaultRequestHeaders = new WebHeaderCollection();
+        }
+
         public string BaseAddress { get; set; }
 
         public CancellationToken CancellationToken { get; private set; }
@@ -30,7 +37,7 @@
         }
     }
 
-    public class ParserMock : IParser
+    internal class ParserMock : IParser
     {
         public IReadOnlyDictionary<HttpStatusCode, string> ErrorMap { get; private set; }
 
@@ -47,7 +54,7 @@
         }
     }
 
-    public class ApiTest<T>
+    internal class ApiTest<T>
     {
         public ApiTest()
         {
@@ -58,6 +65,8 @@
         /// Holds the response that should be returned from the ApiClient mock.
         /// </summary>
         private ApiResponse ApiResponse { get; set; }
+
+        private Action<IApiClient, IParser> ClientAssertion { get; set; }
 
         /// <summary>
         /// Creates the class under test.
@@ -106,6 +115,13 @@
         /// </summary>
         private Func<T, CancellationToken, Task<object>> TargetMethod { get; set; }
 
+        public ApiTest<T> AssertThat(Action<IApiClient, IParser> assertion)
+        {
+            this.ClientAssertion = assertion;
+
+            return this;
+        }
+
         public ApiTest<T> HasNoReturnValue()
         {
             this.IgnoreReturnValue = true;
@@ -126,7 +142,7 @@
                 ResultObject = this.ParserResultObject
             };
 
-            var token = this.NoCancellationToken ? CancellationToken.None : new CancellationTokenSource().Token;
+            var cts = new CancellationTokenSource();
 
             // Act
             var impl = this.CreateTarget(apiClient, parser);
@@ -135,7 +151,7 @@
             {
                 try
                 {
-                    await this.TargetMethod(impl, token).ConfigureAwait(false);
+                    await this.TargetMethod(impl, cts.Token).ConfigureAwait(false);
 
                     Assert.True(false, $"An exception was expected to be thrown. typeof({this.ExpectedExceptionType.Name})");
                 }
@@ -156,10 +172,12 @@
                 return;
             }
 
-            var result = await this.TargetMethod(impl, token).ConfigureAwait(false);
+            var result = await this.TargetMethod(impl, cts.Token).ConfigureAwait(false);
 
             // Assert
-            Assert.True(token == apiClient.CancellationToken,
+            var expectedToken = this.NoCancellationToken ? CancellationToken.None : cts.Token;
+
+            Assert.True(expectedToken == apiClient.CancellationToken,
                 "The method under test does not pass the cancellation token to the ApiClient");
 
             foreach (var requestAssertion in this.RequestAssertions)
@@ -184,6 +202,8 @@
                     Assert.True(parser.ResultObject == result, "The method under test does not return the result of the Parser.");
                 }
             }
+
+            this.ClientAssertion?.Invoke(apiClient, parser);
         }
 
         public ApiTest<T> SetApiResponse(ApiResponse response)
@@ -206,6 +226,18 @@
             {
                 Assert.True(method == request.Method, "The request method does not match the expected value.");
                 Assert.True(url == request.Url, "The URL does not match the expected value.");
+            });
+
+            return this;
+        }
+
+        public ApiTest<T> ShouldRequest(string method, string url, string body)
+        {
+            this.RequestAssertions.Add(request =>
+            {
+                Assert.True(method == request.Method, "The request method does not match the expected value.");
+                Assert.True(url == request.Url, "The URL does not match the expected value.");
+                Assert.True(body == request.Body, "The body does not match the expected value.");
             });
 
             return this;

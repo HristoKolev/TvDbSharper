@@ -5,10 +5,9 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Updates.Json;
     using TvDbSharper.Errors;
 
-    public class UpdatesClient : IUpdatesClient
+    internal class UpdatesClient : IUpdatesClient
     {
         public UpdatesClient(IApiClient apiClient, IParser parser)
         {
@@ -24,16 +23,14 @@
         {
             var request = new ApiRequest("GET", $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
         }
 
         public async Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime, DateTime toTime, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("GET", $"/updated/query?fromTime={fromTime.ToUnixEpochTime()}&toTime={toTime.ToUnixEpochTime()}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Update[]>>(response, ErrorMessages.Updates.GetAsync);
         }
 
         public Task<TvDbResponse<Update[]>> GetAsync(DateTime fromTime)

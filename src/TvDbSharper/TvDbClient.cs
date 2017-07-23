@@ -2,6 +2,7 @@ namespace TvDbSharper
 {
     using System;
 
+    using TvDbSharper.Clients;
     using TvDbSharper.Clients.Authentication;
     using TvDbSharper.Clients.Episodes;
     using TvDbSharper.Clients.Languages;
@@ -12,33 +13,30 @@ namespace TvDbSharper
 
     public class TvDbClient : ITvDbClient
     {
+        private const string AcceptLanguage = "Accept-Language";
+
         private const string DefaultAcceptedLanguage = "en";
 
         private const string DefaultBaseUrl = "https://api.thetvdb.com";
 
-        private const string AcceptLanguage = "Accept-Language";
-
         public TvDbClient()
-            : this(new ApiClient(), new Parser())
         {
-        }
-
-        public TvDbClient(IApiClient apiClient, IParser parser)
-        {
-            this.ApiClient = apiClient;
+            this.ApiClient = new ApiClient();
 
             if (this.BaseUrl == null)
             {
                 this.BaseUrl = DefaultBaseUrl;
             }
 
-            this.Authentication = new AuthenticationClient(apiClient, parser);
-            this.Episodes = new EpisodesClient(apiClient, parser);
-            this.Languages = new LanguagesClient(apiClient, parser);
-            this.Search = new SearchClient(apiClient, parser);
-            this.Series = new SeriesClient(apiClient, parser);
-            this.Updates = new UpdatesClient(apiClient, parser);
-            this.Users = new UsersClient(apiClient, parser);
+            var parser = new Parser();
+
+            this.Authentication = new AuthenticationClient(this.ApiClient, parser);
+            this.Episodes = new EpisodesClient(this.ApiClient, parser);
+            this.Languages = new LanguagesClient(this.ApiClient, parser);
+            this.Search = new SearchClient(this.ApiClient, parser);
+            this.Series = new SeriesClient(this.ApiClient, parser);
+            this.Updates = new UpdatesClient(this.ApiClient, parser);
+            this.Users = new UsersClient(this.ApiClient, parser);
         }
 
         public string AcceptedLanguage

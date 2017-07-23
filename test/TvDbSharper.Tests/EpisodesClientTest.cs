@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
+    using TvDbSharper.Clients;
     using TvDbSharper.Clients.Episodes;
     using TvDbSharper.Errors;
     using TvDbSharper.Tests.NewPattern;

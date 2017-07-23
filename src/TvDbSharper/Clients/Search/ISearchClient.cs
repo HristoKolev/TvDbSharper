@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Search.Json;
 
     /// <summary>
     /// Used for searching for a particular series by name, imdb ID or Zap2It ID

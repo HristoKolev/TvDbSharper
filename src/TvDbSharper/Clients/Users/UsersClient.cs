@@ -4,10 +4,9 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Users.Json;
     using TvDbSharper.Errors;
 
-    public class UsersClient : IUsersClient
+    internal class UsersClient : IUsersClient
     {
         public UsersClient(IApiClient apiClient, IParser parser)
         {
@@ -50,8 +49,7 @@
         {
             var request = new ApiRequest("PUT", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.RateAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.RateAsync);
         }
 
         public Task<TvDbResponse<UserRatings[]>> AddRatingAsync(RatingType itemType, int itemId, decimal rating)
@@ -73,8 +71,7 @@
         {
             var request = new ApiRequest("PUT", $"/user/favorites/{seriesId}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.AddToFavoritesAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.AddToFavoritesAsync);
         }
 
         public Task<TvDbResponse<UserFavorites>> AddToFavoritesAsync(int seriesId)
@@ -86,8 +83,7 @@
         {
             var request = new ApiRequest("GET", "/user");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<User>>(response, ErrorMessages.Users.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<User>>(response, ErrorMessages.Users.GetAsync);
         }
 
         public Task<TvDbResponse<User>> GetAsync()
@@ -109,8 +105,7 @@
         {
             var request = new ApiRequest("GET", "/user/favorites");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.GetFavoritesAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.GetFavoritesAsync);
         }
 
         public Task<TvDbResponse<UserFavorites>> GetFavoritesAsync()
@@ -132,16 +127,14 @@
         {
             var request = new ApiRequest("GET", "/user/ratings");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.GetRatingsAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.GetRatingsAsync);
         }
 
         public async Task<TvDbResponse<UserRatings[]>> GetRatingsAsync(RatingType type, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("GET", $"/user/ratings/query?itemType={this.UrlHelpers.QuerifyEnum(type)}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.GetRatingsAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.GetRatingsAsync);
         }
 
         public Task<TvDbResponse<UserRatings[]>> GetRatingsAsync()
@@ -178,8 +171,7 @@
         {
             var request = new ApiRequest("DELETE", $"/user/favorites/{seriesId}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.RemoveFromFavoritesAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<UserFavorites>>(response, ErrorMessages.Users.RemoveFromFavoritesAsync);
         }
 
         public Task<TvDbResponse<UserFavorites>> RemoveFromFavoritesAsync(int seriesId)
@@ -200,9 +192,7 @@
         public async Task RemoveRatingAsync(RatingType itemType, int itemId, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("DELETE", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}");
-
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-
             var data = this.Parser.Parse<TvDbResponse<UserRatings[]>>(response, ErrorMessages.Users.RemoveFromFavoritesAsync);
         }
 

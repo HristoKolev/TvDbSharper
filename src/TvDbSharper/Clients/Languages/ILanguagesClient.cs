@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Languages.Json;
 
     /// <summary>
     /// Used for geting available languages and information about them

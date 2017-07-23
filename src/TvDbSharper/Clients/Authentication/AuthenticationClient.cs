@@ -6,10 +6,9 @@
 
     using Newtonsoft.Json;
 
-    using TvDbSharper.Clients.Authentication.Json;
     using TvDbSharper.Errors;
 
-    public class AuthenticationClient : IAuthenticationClient
+    internal class AuthenticationClient : IAuthenticationClient
     {
         private const string AuthorizationHeaderName = "Authorization";
 
@@ -18,7 +17,7 @@
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        internal AuthenticationClient(IApiClient apiClient, IParser parser)
+        public AuthenticationClient(IApiClient apiClient, IParser parser)
         {
             this.ApiClient = apiClient;
             this.Parser = parser;

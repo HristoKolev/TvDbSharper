@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Series.Json
+﻿namespace TvDbSharper.Clients.Series
 {
     public enum KeyType
     {

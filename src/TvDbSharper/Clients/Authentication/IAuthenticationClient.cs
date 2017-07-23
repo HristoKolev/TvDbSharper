@@ -3,8 +3,6 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using TvDbSharper.Clients.Authentication.Json;
-
     /// <summary>
     /// Used for obtaining and refreshing your JWT token
     /// </summary>

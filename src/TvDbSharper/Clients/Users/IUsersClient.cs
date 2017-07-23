@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Users.Json;
 
     /// <summary>
     /// Used for working with the current user

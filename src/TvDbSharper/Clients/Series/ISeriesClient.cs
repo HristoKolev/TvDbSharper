@@ -1,12 +1,10 @@
 ﻿namespace TvDbSharper.Clients.Series
 {
     using System.Net;
-    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Series.Json;
 
     /// <summary>
     /// Used for geting information about a specific series

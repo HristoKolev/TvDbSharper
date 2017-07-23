@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Search.Json
+﻿namespace TvDbSharper.Clients.Search
 {
     /// <summary>
     /// An enum used for searching for series with <see cref="T:ISearchClient.SearchSeriesAsync"/>,

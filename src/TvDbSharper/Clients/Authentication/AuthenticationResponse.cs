@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Authentication.Json
+﻿namespace TvDbSharper.Clients.Authentication
 {
     public class AuthenticationResponse
     {

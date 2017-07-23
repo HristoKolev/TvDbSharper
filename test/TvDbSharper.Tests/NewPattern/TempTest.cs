@@ -6,13 +6,15 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using TvDbSharper.Clients;
+
     using Xunit;
 
     public class Dto
     {
     }
 
-    public class SimpleImpl
+    internal class SimpleImpl
     {
         internal static readonly Dictionary<HttpStatusCode, string> ErrorMap = new Dictionary<HttpStatusCode, string>();
 

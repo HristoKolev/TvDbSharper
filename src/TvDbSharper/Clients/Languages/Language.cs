@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Languages.Json
+﻿namespace TvDbSharper.Clients.Languages
 {
     public class Language
     {

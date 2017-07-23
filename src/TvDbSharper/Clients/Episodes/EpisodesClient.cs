@@ -6,7 +6,7 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Errors;
 
-    public class EpisodesClient : IEpisodesClient
+    internal class EpisodesClient : IEpisodesClient
     {
         public EpisodesClient(IApiClient apiClient, IParser parser)
         {

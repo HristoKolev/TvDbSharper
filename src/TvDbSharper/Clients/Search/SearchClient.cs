@@ -5,10 +5,9 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.BaseSchemas;
-    using TvDbSharper.Clients.Search.Json;
     using TvDbSharper.Errors;
 
-    public class SearchClient : ISearchClient
+    internal class SearchClient : ISearchClient
     {
         public SearchClient(IApiClient apiClient, IParser parser)
         {
@@ -29,14 +28,9 @@
             CancellationToken cancellationToken)
         {
             string url = $"/search/series?{this.UrlHelpers.PascalCase(parameter.ToString())}={WebUtility.UrlEncode(value)}";
-
             var request = new ApiRequest("GET", url);
-
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-
-            var data = this.Parser.Parse<TvDbResponse<SeriesSearchResult[]>>(response, ErrorMessages.Search.SearchSeriesAsync);
-
-            return data;
+            return this.Parser.Parse<TvDbResponse<SeriesSearchResult[]>>(response, ErrorMessages.Search.SearchSeriesAsync);
         }
 
         public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey)

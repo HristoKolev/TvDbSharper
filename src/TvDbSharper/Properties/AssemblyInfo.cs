@@ -19,8 +19,5 @@ using System.Runtime.InteropServices;
 // This is for the tests assembly
 [assembly: InternalsVisibleTo("TvDbSharper.Tests")]
 
-// This is for NSubstitute 
-[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("6b0e3d9a-b3f7-4434-9109-db088f69544e")]

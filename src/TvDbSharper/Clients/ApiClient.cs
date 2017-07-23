@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper
+﻿namespace TvDbSharper.Clients
 {
     using System.Collections.Generic;
     using System.IO;
@@ -12,7 +12,7 @@
     using TvDbSharper.BaseSchemas;
     using TvDbSharper.Errors;
 
-    public class ApiRequest
+    internal class ApiRequest
     {
         public ApiRequest()
         {
@@ -23,7 +23,6 @@
             this.Method = method;
             this.Url = url;
         }
-
 
         public ApiRequest(string method, string url, string body)
         {
@@ -41,7 +40,7 @@
         public string Url { get; set; }
     }
 
-    public class ApiResponse
+    internal class ApiResponse
     {
         public string Body { get; set; }
 
@@ -50,7 +49,7 @@
         public HttpStatusCode StatusCode { get; set; }
     }
 
-    public interface IApiClient
+    internal interface IApiClient
     {
         string BaseAddress { get; set; }
 
@@ -59,8 +58,13 @@
         Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken);
     }
 
-    public class ApiClient : IApiClient
+    internal class ApiClient : IApiClient
     {
+        public ApiClient()
+        {
+            this.DefaultRequestHeaders = new WebHeaderCollection();
+        }
+
         public string BaseAddress { get; set; }
 
         public WebHeaderCollection DefaultRequestHeaders { get; set; }
@@ -148,12 +152,12 @@
         }
     }
 
-    public interface IParser
+    internal interface IParser
     {
         T Parse<T>(ApiResponse response, IReadOnlyDictionary<HttpStatusCode, string> errorMap);
     }
 
-    public class Parser : IParser
+    internal class Parser : IParser
     {
         private const string UnknownErrorMessage = "The REST API returned an unkown error.";
 

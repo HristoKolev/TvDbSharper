@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Clients.Search.Json
+﻿namespace TvDbSharper.Clients.Search
 {
     public class SeriesSearchResult
     {
