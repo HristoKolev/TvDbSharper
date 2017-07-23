@@ -6,7 +6,7 @@
     using TvDbSharper.Clients;
     using TvDbSharper.Clients.Authentication;
     using TvDbSharper.Errors;
-    using TvDbSharper.Tests.NewPattern;
+    using TvDbSharper.Tests.Mocks;
 
     using Xunit;
 

@@ -1,4 +1,4 @@
-﻿namespace TvDbSharper.Tests.NewPattern
+﻿namespace TvDbSharper.Tests.Mocks
 {
     using System;
     using System.Collections.Generic;

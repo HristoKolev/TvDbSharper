@@ -6,15 +6,14 @@
     using TvDbSharper.Clients;
     using TvDbSharper.Clients.Episodes;
     using TvDbSharper.Errors;
-    using TvDbSharper.Tests.NewPattern;
+    using TvDbSharper.Tests.Mocks;
 
     using Xunit;
 
     public class EpisodesClientTest
     {
         [Theory]
-        [InlineData(42)]
-        [InlineData(69)]
+        [InlineData(1), InlineData(2), InlineData(3)]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Makes_The_Right_Request(int episodeId)
@@ -27,8 +26,7 @@
         }
 
         [Theory]
-        [InlineData(42)]
-        [InlineData(69)]
+        [InlineData(1), InlineData(2), InlineData(3)]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_CT_Makes_The_Right_Request(int episodeId)
