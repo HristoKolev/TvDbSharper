@@ -33,9 +33,9 @@
             return this.Parser.Parse<TvDbResponse<SeriesSearchResult[]>>(response, ErrorMessages.Search.SearchSeriesAsync);
         }
 
-        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey)
+        public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string value, SearchParameter parameterKey)
         {
-            return this.SearchSeriesAsync(parameterValue, parameterKey, CancellationToken.None);
+            return this.SearchSeriesAsync(value, parameterKey, CancellationToken.None);
         }
 
         public Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByImdbIdAsync(string imdbId, CancellationToken cancellationToken)

@@ -14,13 +14,13 @@
         /// <para>[GET /search/series]</para>
         /// <para>Returns a series search result based on the following parameters.</para>
         /// </summary>
-        /// <param name="parameterValue">The parameter value</param>
+        /// <param name="value">The parameter value</param>
         /// <param name="parameterKey">An enum used for searching for series with <see cref="T:ISearchClient.SearchSeriesAsync"/>,
         /// each value represents a property by which the search is performed</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
-            string parameterValue,
+            string value,
             SearchParameter parameterKey,
             CancellationToken cancellationToken);
 
@@ -28,11 +28,11 @@
         /// <para>[GET /search/series]</para>
         /// <para>Returns a series search result based on the following parameters</para>
         /// </summary>
-        /// <param name="parameterValue">The parameter value</param>
+        /// <param name="value">The parameter value</param>
         /// <param name="parameterKey">An enum used for searching for series with <see cref="T:ISearchClient.SearchSeriesAsync"/>,
         /// each value represents a property by which the search is performed</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string parameterValue, SearchParameter parameterKey);
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string value, SearchParameter parameterKey);
 
         /// <summary>
         /// <para>[GET /search/series]</para>
