@@ -19,6 +19,7 @@ namespace TvDbSharper.Clients.Series
 
         ImdbId = 64,
 
+        // ReSharper disable once InconsistentNaming
         Zap2itId = 128,
 
         Added = 256,

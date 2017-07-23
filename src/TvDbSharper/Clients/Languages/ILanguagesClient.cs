@@ -6,7 +6,7 @@
     using TvDbSharper.BaseSchemas;
 
     /// <summary>
-    /// Used for geting available languages and information about them
+    /// Used for getting available languages and information about them
     /// </summary>
     public interface ILanguagesClient
     {

@@ -10,6 +10,7 @@
 
         ImdbId,
 
+        // ReSharper disable once InconsistentNaming
         Zap2itId
     }
 }

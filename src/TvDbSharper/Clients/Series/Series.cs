@@ -36,7 +36,7 @@ namespace TvDbSharper.Clients.Series
         /// <para>TV.com ID</para>
         /// <para>Don't confuse with the Id property.</para>
         /// <para>Usually it is an integer, but there is nothing stopping users of http://thetvdb.com from changing it into any value. 
-        /// This has happend before.</para>
+        /// This has happened before.</para>
         /// </summary>
         public string SeriesId { get; set; }
 
@@ -48,6 +48,7 @@ namespace TvDbSharper.Clients.Series
 
         public string Status { get; set; }
 
+        // ReSharper disable once InconsistentNaming
         public string Zap2itId { get; set; }
     }
 }

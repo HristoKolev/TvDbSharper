@@ -22,8 +22,7 @@
         {
             var request = new ApiRequest("GET", "/languages");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Language[]>>(response, ErrorMessages.Languages.GetAllAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Language[]>>(response, ErrorMessages.Languages.GetAllAsync);
         }
 
         public Task<TvDbResponse<Language[]>> GetAllAsync()
@@ -35,8 +34,7 @@
         {
             var request = new ApiRequest("GET", $"/languages/{languageId}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            var data = this.Parser.Parse<TvDbResponse<Language>>(response, ErrorMessages.Languages.GetAsync);
-            return data;
+            return this.Parser.Parse<TvDbResponse<Language>>(response, ErrorMessages.Languages.GetAsync);
         }
 
         public Task<TvDbResponse<Language>> GetAsync(int languageId)
