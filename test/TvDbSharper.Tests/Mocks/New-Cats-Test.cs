@@ -61,6 +61,8 @@
             this.RequestAssertions = new List<Action<ApiRequest>>();
         }
 
+        public bool SkippParserAssersion { get; set; }
+
         /// <summary>
         /// Holds the response that should be returned from the ApiClient mock.
         /// </summary>
@@ -109,11 +111,20 @@
         /// </summary>
         private object ReturnValue { get; set; }
 
+        private Action<object> ReturnValueAssertion { get; set; }
+
         /// <summary>
         /// Runs the method under test.
         /// Passes a CancellationToken.
         /// </summary>
         private Func<T, CancellationToken, Task<object>> TargetMethod { get; set; }
+
+        public ApiTest<T> AssertReturnValue(Action<object> action)
+        {
+            this.ReturnValueAssertion = action;
+
+            return this;
+        }
 
         public ApiTest<T> AssertThat(Action<IApiClient, IParser> assertion)
         {
@@ -122,9 +133,9 @@
             return this;
         }
 
-        public ApiTest<T> HasNoReturnValue()
+        public ApiTest<T> ShouldNotUseParser()
         {
-            this.IgnoreReturnValue = true;
+            this.SkippParserAssersion = true;
 
             return this;
         }
@@ -185,11 +196,14 @@
                 requestAssertion(apiClient.Request);
             }
 
-            // When parser.Response or parser.ErrorMap are null, it means that the parser was not called
-            Assert.True(apiClient.Response == parser.Response,
-                "The method under test does not pass the reaponse from the ApiClient to the Parser.");
+            if (!this.SkippParserAssersion)
+            {
+                // When parser.Response or parser.ErrorMap are null, it means that the parser was not called
+                Assert.True(apiClient.Response == parser.Response,
+                    "The method under test does not pass the reaponse from the ApiClient to the Parser.");
 
-            Assert.True(this.ErrorMap == parser.ErrorMap, "The error maps do not match.");
+                Assert.True(this.ErrorMap == parser.ErrorMap, "The error maps do not match.");
+            }
 
             if (!this.IgnoreReturnValue)
             {
@@ -197,10 +211,12 @@
                 {
                     Assert.True(this.ReturnValue == result, "The method under test does not return the expected value.");
                 }
-                else
+                else if (!this.SkippParserAssersion)
                 {
                     Assert.True(parser.ResultObject == result, "The method under test does not return the result of the Parser.");
                 }
+
+                this.ReturnValueAssertion?.Invoke(result);
             }
 
             this.ClientAssertion?.Invoke(apiClient, parser);
@@ -216,6 +232,13 @@
         public ApiTest<T> SetResultObject(object result)
         {
             this.ParserResultObject = result;
+
+            return this;
+        }
+
+        public ApiTest<T> ShouldIgnoreParserResult()
+        {
+            this.IgnoreReturnValue = true;
 
             return this;
         }

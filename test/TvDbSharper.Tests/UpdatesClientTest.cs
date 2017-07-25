@@ -1,209 +1,77 @@
-﻿//namespace TvDbSharper.Tests
-//{
-//    using System;
-//    using System.Net;
-//    using System.Threading;
+﻿namespace TvDbSharper.Tests
+{
+    using System;
+    using System.Threading.Tasks;
 
-//    using NSubstitute;
-//    using NSubstitute.ExceptionExtensions;
+    using TvDbSharper.BaseSchemas;
+    using TvDbSharper.Clients;
+    using TvDbSharper.Clients.Updates;
+    using TvDbSharper.Errors;
+    using TvDbSharper.Tests.Data;
+    using TvDbSharper.Tests.Mocks;
 
-//    using TvDbSharper.BaseSchemas;
-//    using TvDbSharper.Clients.Updates;
-//    using TvDbSharper.Clients.Updates.Json;
-//    using TvDbSharper.Errors;
-//    using TvDbSharper.JsonClient;
+    using Xunit;
 
-//    using Xunit;
+    public class UpdatesClientTest
+    {
+        [Theory]
+        [ClassData(typeof(UpdatesData))]
 
-//    public class UpdatesClientTest
-//    {
-//        public UpdatesClientTest()
-//        {
-//            this.ErrorMessages = new ErrorMessages();
-//        }
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_Makes_The_Right_Request(string fromDate, string toDate, string actualFromDate, string actualToDate)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.GetAsync(DateTime.Parse(fromDate), DateTime.Parse(toDate), token))
+                .ShouldRequest("GET", $"/updated/query?fromTime={actualFromDate}&toTime={actualToDate}")
+                .RunAsync();
+        }
 
-//        private IErrorMessages ErrorMessages { get; }
+        [Theory]
+        [ClassData(typeof(UpdatesData))]
 
-//        [Fact]
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_Without_CT_Makes_The_Right_Request(string fromDate, string toDate, string actualFromDate, string actualToDate)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.GetAsync(DateTime.Parse(fromDate), DateTime.Parse(toDate)))
+                .ShouldRequest("GET", $"/updated/query?fromTime={actualFromDate}&toTime={actualToDate}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
 
-//            const string Route = "/updated/query?fromTime=1475280000";
-//            DateTime from = new DateTime(2016, 10, 1);
+        [Theory]
+        [ClassData(typeof(UpdatesData))]
 
-//            var expectedData = new TvDbResponse<Update[]>();
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_Without_ToDate_Makes_The_Right_Request(string fromDate, string toDate, string actualFromDate, string actualToDate)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.GetAsync(DateTime.Parse(fromDate), token))
+                .ShouldRequest("GET", $"/updated/query?fromTime={actualFromDate}")
+                .RunAsync();
+        }
 
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
+        [Theory]
+        [ClassData(typeof(UpdatesData))]
 
-//            var responseData = await client.GetAsync(from, CancellationToken.None);
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_Without_ToDate_Without_CT_Makes_The_Right_Request(string fromDate, string toDate, string actualFromDate, string actualToDate)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.GetAsync(DateTime.Parse(fromDate)))
+                .ShouldRequest("GET", $"/updated/query?fromTime={actualFromDate}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
 
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var fromParam = new DateTime(2016, 10, 1);
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(fromParam, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/updated/query?fromTime=1475280000";
-//            DateTime from = new DateTime(2016, 10, 1);
-
-//            var expectedData = new TvDbResponse<Update[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetAsync(from);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var fromParam = new DateTime(2016, 10, 1);
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(fromParam));
-
-//            Assert.Equal(this.ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsyncWithInterval_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/updated/query?fromTime=1475280000&toTime=1475625600";
-//            DateTime from = new DateTime(2016, 10, 1);
-//            DateTime to = new DateTime(2016, 10, 5);
-
-//            var expectedData = new TvDbResponse<Update[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetAsync(from, to, CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsyncWithInterval_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            DateTime from = new DateTime(2016, 10, 1);
-//            DateTime to = new DateTime(2016, 10, 5);
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(from, to, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsyncWithInterval_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/updated/query?fromTime=1475280000&toTime=1475625600";
-//            DateTime from = new DateTime(2016, 10, 1);
-//            DateTime to = new DateTime(2016, 10, 5);
-
-//            var expectedData = new TvDbResponse<Update[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetAsync(from, to);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<Update[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsyncWithInterval_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<Update[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            DateTime from = new DateTime(2016, 10, 1);
-//            DateTime to = new DateTime(2016, 10, 5);
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(from, to));
-
-//            Assert.Equal(this.ErrorMessages.Updates.GetAsync[statusCode], ex.Message);
-//        }
-
-//        private static IJsonClient CreateJsonClient()
-//        {
-//            return Substitute.For<IJsonClient>();
-//        }
-
-//        private IUpdatesClient CreateClient(IJsonClient jsonClient)
-//        {
-//            return new UpdatesClient(jsonClient, this.ErrorMessages);
-//        }
-//    }
-//}
+        private static ApiTest<UpdatesClient> CreateClient()
+        {
+            return new ApiTest<UpdatesClient>()
+                .WithConstructor((client, parser) => new UpdatesClient(client, parser))
+                .WithErrorMap(ErrorMessages.Updates.GetAsync)
+                .SetApiResponse(new ApiResponse())
+                .SetResultObject(new TvDbResponse<Update[]>());
+        }
+    }
+}

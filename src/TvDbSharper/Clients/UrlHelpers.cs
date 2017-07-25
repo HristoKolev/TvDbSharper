@@ -25,7 +25,7 @@
 
         public string Querify<T>(T obj)
         {
-            IList<string> parts = new List<string>();
+            var parts = new List<string>();
 
             foreach (var propertyInfo in typeof(T).GetTypeInfo().DeclaredProperties.OrderBy(info => info.Name))
             {

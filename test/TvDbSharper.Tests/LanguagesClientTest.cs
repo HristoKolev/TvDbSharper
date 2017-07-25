@@ -6,6 +6,7 @@
     using TvDbSharper.Clients;
     using TvDbSharper.Clients.Languages;
     using TvDbSharper.Errors;
+    using TvDbSharper.Tests.Data;
     using TvDbSharper.Tests.Mocks;
 
     using Xunit;
@@ -38,7 +39,7 @@
         }
 
         [Theory]
-        [InlineData(1), InlineData(2), InlineData(3)]
+        [ClassData(typeof(NumbersData))]
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Makes_The_Right_Request(int languageId)
         {
@@ -51,7 +52,7 @@
         }
 
         [Theory]
-        [InlineData(1), InlineData(2), InlineData(3)]
+        [ClassData(typeof(NumbersData))]
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_CT_Makes_The_Right_Request(int languageId)
         {

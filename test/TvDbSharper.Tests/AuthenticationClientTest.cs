@@ -204,7 +204,7 @@
                 .WithConstructor((client, parser) => new AuthenticationClient(client, parser))
                 .SetApiResponse(new ApiResponse())
                 .SetResultObject(new AuthenticationResponse("auth_token"))
-                .HasNoReturnValue();
+                .ShouldIgnoreParserResult();
         }
 
         private static ApiTest<AuthenticationClient> RefreshTokenAsyncTest()
@@ -214,7 +214,7 @@
                 .WithConstructor((client, parser) => new AuthenticationClient(client, parser))
                 .SetApiResponse(new ApiResponse())
                 .SetResultObject(new AuthenticationResponse("auth_token"))
-                .HasNoReturnValue();
+                .ShouldIgnoreParserResult();
         }
     }
 }
