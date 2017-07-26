@@ -41,10 +41,7 @@
 
         public IEnumerator<object[]> GetEnumerator()
         {
-            foreach (var objects in this.Data)
-            {
-                yield return objects;
-            }
+            return this.Data.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
