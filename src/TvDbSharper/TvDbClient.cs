@@ -20,12 +20,15 @@ namespace TvDbSharper
         private const string DefaultBaseUrl = "https://api.thetvdb.com";
 
         public TvDbClient()
+            : this(new ApiClient(), new Parser())
         {
-            this.ApiClient = new ApiClient();
+        }
+
+        internal TvDbClient(IApiClient apiClient, IParser parser)
+        {
+            this.ApiClient = apiClient;
 
             this.BaseUrl = DefaultBaseUrl;
-
-            var parser = new Parser();
 
             this.Authentication = new AuthenticationClient(this.ApiClient, parser);
             this.Episodes = new EpisodesClient(this.ApiClient, parser);
@@ -39,7 +42,7 @@ namespace TvDbSharper
         public string AcceptedLanguage
         {
             get => this.ApiClient.DefaultRequestHeaders[AcceptLanguage] ?? DefaultAcceptedLanguage;
-             
+
             set
             {
                 if (value == null)

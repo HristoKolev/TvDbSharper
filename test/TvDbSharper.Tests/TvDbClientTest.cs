@@ -1,277 +1,268 @@
-﻿//namespace TvDbSharper.Tests
-//{
-//    using System;
-//    using System.Net.Http;
-//    using System.Net.Http.Headers;
+﻿namespace TvDbSharper.Tests
+{
+    using System;
+    using TvDbSharper.Clients;
+    using TvDbSharper.Clients.Authentication;
+    using TvDbSharper.Clients.Episodes;
+    using TvDbSharper.Clients.Languages;
+    using TvDbSharper.Clients.Search;
+    using TvDbSharper.Clients.Series;
+    using TvDbSharper.Clients.Updates;
+    using TvDbSharper.Clients.Users;
+    using TvDbSharper.Tests.Mocks;
 
-//    using NSubstitute;
+    using Xunit;
 
-//    using TvDbSharper.Clients.Authentication;
-//    using TvDbSharper.Clients.Episodes;
-//    using TvDbSharper.Clients.Languages;
-//    using TvDbSharper.Clients.Search;
-//    using TvDbSharper.Clients.Series;
-//    using TvDbSharper.Clients.Updates;
-//    using TvDbSharper.Clients.Users;
+    public class TvDbClientTest
+    {
+        [Fact]
 
-//    using Xunit;
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Should_Add_Header_To_The_HttpClient()
+        {
+            var httpClient = CreateHttpClient();
+            var parser = CreateParser();
 
-//    public class TvDbClientTest
-//    {
-//        [Fact]
+            var client = CreateClient(httpClient, parser);
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Should_Add_Header_To_The_HttpClient()
-//        {
-//            var httpClient = CreateHttpClient();
+            const string Language = "de";
 
-//            var client = CreateClient(httpClient);
+            client.AcceptedLanguage = Language;
 
-//            const string Language = "de";
+            Assert.True(httpClient.DefaultRequestHeaders["Accept-Language"] == Language);
+        }
 
-//            client.AcceptedLanguage = Language;
+        [Fact]
 
-//            Assert.True(httpClient.DefaultRequestHeaders.AcceptLanguage.Contains(new StringWithQualityHeaderValue(Language)));
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Should_Return_DefaultLanguage_If_Non_Is_Set()
+        {
+            var httpClient = CreateHttpClient();
+            var parser = CreateParser();
 
-//        [Fact]
+            const string DefaultLanguage = "en";
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Should_Return_DefaultLanguage_If_Non_Is_Set()
-//        {
-//            var httpClient = CreateHttpClient();
+            var client = CreateClient(httpClient, parser);
 
-//            const string DefaultLanguage = "en";
+            Assert.Equal(DefaultLanguage, client.AcceptedLanguage);
+        }
 
-//            var client = CreateClient(httpClient);
+        [Fact]
 
-//            Assert.Equal(DefaultLanguage, client.AcceptedLanguage);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Should_Return_The_Current_AcceptedLanguage()
+        {
+            var httpClient = CreateHttpClient();
+            var parser = CreateParser();
 
-//        [Fact]
+            const string Language = "zh";
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Should_Return_The_Current_AcceptedLanguage()
-//        {
-//            var httpClient = CreateHttpClient();
+            httpClient.DefaultRequestHeaders["Accept-Language"] = Language;
 
-//            const string Language = "zh";
+            var client = CreateClient(httpClient, parser);
 
-//            httpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(Language);
+            Assert.Equal(Language, client.AcceptedLanguage);
+        }
 
-//            var client = CreateClient(httpClient);
+        [Fact]
 
-//            Assert.Equal(Language, client.AcceptedLanguage);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Throws_When_Passed_Empty_String()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentException>(() => client.AcceptedLanguage = string.Empty);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Throws_When_Passed_Empty_String()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentException>(() => client.AcceptedLanguage = string.Empty);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Throws_When_Passed_Null_Value()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentNullException>(() => client.AcceptedLanguage = null);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Throws_When_Passed_Null_Value()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentNullException>(() => client.AcceptedLanguage = null);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AcceptedLanguage_Throws_When_Passed_White_Space()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentException>(() => client.AcceptedLanguage = " \t ");
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AcceptedLanguage_Throws_When_Passed_White_Space()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentException>(() => client.AcceptedLanguage = " \t ");
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void AuthenticationClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Authentication);
+            Assert.IsType<AuthenticationClient>(client.Authentication);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void AuthenticationClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.NotNull(client.Authentication);
-//            Assert.IsType<AuthenticationClient>(client.Authentication);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Sets_HttpClient_BaseAddress_To_The_Value()
+        {
+            var httpClient = CreateHttpClient();
+            var parser = CreateParser();
 
-//        [Fact]
+            var client = CreateClient(httpClient, parser);
 
-//        // ReSharper disable once InconsistentNaming
-//        public void BaseUrl_Sets_HttpClient_BaseAddress_To_The_Value()
-//        {
-//            var httpClient = CreateHttpClient();
+            const string Value = "http://example.com";
 
-//            var client = CreateClient(httpClient);
+            client.BaseUrl = Value;
 
-//            const string Value = "http://example.com";
+            Assert.Equal(Value, httpClient.BaseAddress);
+        }
 
-//            client.BaseUrl = Value;
+        [Fact]
 
-//            Assert.Equal(new Uri(Value), httpClient.BaseAddress);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Should_Return_The_Same_Value_That_Is_Passed_In()
+        {
+            var jsonCluent = CreateClient();
 
-//        [Fact]
+            const string Value = "http://example.com";
 
-//        // ReSharper disable once InconsistentNaming
-//        public void BaseUrl_Should_Return_The_Same_Value_That_Is_Passed_In()
-//        {
-//            var jsonCluent = CreateClient();
+            jsonCluent.BaseUrl = Value;
 
-//            const string Value = "http://example.com";
+            Assert.Equal(Value, jsonCluent.BaseUrl);
+        }
 
-//            jsonCluent.BaseUrl = Value;
+        [Fact]
 
-//            Assert.Equal(Value, jsonCluent.BaseUrl);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Throws_When_Passed_Empty_String()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentException>(() => client.BaseUrl = string.Empty);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void BaseUrl_Throws_When_Passed_Empty_String()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentException>(() => client.BaseUrl = string.Empty);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Throws_When_Passed_Null_Value()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentNullException>(() => client.BaseUrl = null);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void BaseUrl_Throws_When_Passed_Null_Value()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentNullException>(() => client.BaseUrl = null);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Throws_When_Passed_White_Space()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.Throws<ArgumentException>(() => client.BaseUrl = " \t ");
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void BaseUrl_Throws_When_Passed_White_Space()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.Throws<ArgumentException>(() => client.BaseUrl = " \t ");
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void Constructor_If_HttpClient_BaseUrl_Is_Null_Should_Set_To_Default()
+        {
+            var httpClient = CreateHttpClient();
+            var parser = CreateParser();
 
-//        [Fact]
+            var client = CreateClient(httpClient, parser);
 
-//        // ReSharper disable once InconsistentNaming
-//        public void Constructor_If_HttpClient_BaseUrl_Is_Null_Should_Set_To_Default()
-//        {
-//            var httpClient = CreateHttpClient();
+            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress);
+        }
 
-//            var client = CreateClient(httpClient);
+        [Fact]
 
-//            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress?.AbsoluteUri?.TrimEnd('/'));
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void EpisodesClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Episodes);
+            Assert.IsType<EpisodesClient>(client.Episodes);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void Constructor_If_HttpClient_Has_BaseUrl_Should_Not_Change_It()
-//        {
-//            var httpClient = CreateHttpClient();
+        [Fact]
 
-//            var uri = new Uri("http://example.com");
+        // ReSharper disable once InconsistentNaming
+        public void LanguagesClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//            httpClient.BaseAddress = uri;
+            Assert.NotNull(client.Languages);
+            Assert.IsType<LanguagesClient>(client.Languages);
+        }
 
-//            var client = CreateClient(httpClient);
+        [Fact]
 
-//            Assert.Equal(uri, httpClient.BaseAddress);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void SearchClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Search);
+            Assert.IsType<SearchClient>(client.Search);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void EpisodesClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.NotNull(client.Episodes);
-//            Assert.IsType<EpisodesClient>(client.Episodes);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void SeriesClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Series);
+            Assert.IsType<SeriesClient>(client.Series);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void LanguagesClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.NotNull(client.Languages);
-//            Assert.IsType<LanguagesClient>(client.Languages);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void UpdatesClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Updates);
+            Assert.IsType<UpdatesClient>(client.Updates);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void SearchClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
+        [Fact]
 
-//            Assert.NotNull(client.Search);
-//            Assert.IsType<SearchClient>(client.Search);
-//        }
+        // ReSharper disable once InconsistentNaming
+        public void UsersClient_Should_Be_Initialized()
+        {
+            var client = CreateClient();
 
-//        [Fact]
+            Assert.NotNull(client.Users);
+            Assert.IsType<UsersClient>(client.Users);
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void SeriesClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
+        private static ITvDbClient CreateClient(IApiClient httpClient, IParser parser)
+        {
+            return new TvDbClient(httpClient, parser);
+        }
 
-//            Assert.NotNull(client.Series);
-//            Assert.IsType<SeriesClient>(client.Series);
-//        }
+        private static ITvDbClient CreateClient()
+        {
+            return new TvDbClient();
+        }
 
-//        [Fact]
+        private static ApiClientMock CreateHttpClient()
+        {
+            return new ApiClientMock();
+        }
 
-//        // ReSharper disable once InconsistentNaming
-//        public void UpdatesClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
-
-//            Assert.NotNull(client.Updates);
-//            Assert.IsType<UpdatesClient>(client.Updates);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public void UsersClient_Should_Be_Initialized()
-//        {
-//            var client = CreateClient();
-
-//            Assert.NotNull(client.Users);
-//            Assert.IsType<UsersClient>(client.Users);
-//        }
-
-//        private static ITvDbClient CreateClient(HttpClient httpClient)
-//        {
-//            return new TvDbClient(httpClient);
-//        }
-
-//        private static ITvDbClient CreateClient()
-//        {
-//            return new TvDbClient();
-//        }
-
-//        private static HttpClient CreateHttpClient()
-//        {
-//            return Substitute.For<HttpClient>();
-//        }
-//    }
-//}
+        private static ParserMock CreateParser()
+        {
+            return new ParserMock();
+        }
+    }
+}
