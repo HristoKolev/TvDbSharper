@@ -15,7 +15,7 @@
     public class SeriesClientTest
     {
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task SearchSeriesAsync_Makes_The_Right_Request(int seriesId)
@@ -29,7 +29,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task SearchSeriesAsync_Without_CT_Makes_The_Right_Request(int seriesId)
@@ -44,7 +44,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Makes_The_Right_Request(int seriesId)
@@ -58,7 +58,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_CT_Makes_The_Right_Request(int seriesId)
@@ -159,7 +159,6 @@
                 .RunAsync();
         }
 
-
         [Theory]
         [InlineData(1, 2, 2, 1, 2)]
         [InlineData(2, 3, 3, 3, 4)]
@@ -181,7 +180,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetEpisodesSummaryAsync_Makes_The_Right_Request(int seriesId)
@@ -195,7 +194,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetEpisodesSummaryAsync_Without_CT_Makes_The_Right_Request(int seriesId)
@@ -249,7 +248,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetImagesSummaryAsync_Makes_The_Right_Request(int seriesId)
@@ -263,7 +262,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetImagesSummaryAsync_Without_CT_Makes_The_Right_Request(int seriesId)
@@ -278,7 +277,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetHeadersAsync_Makes_The_Right_Request(int seriesId)
@@ -301,7 +300,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
 
         // ReSharper disable once InconsistentNaming
         public Task GetHeadersAsync_Without_CT_Makes_The_Right_Request(int seriesId)
@@ -323,7 +322,6 @@
                 .ShouldReturn(headers)
                 .RunAsync();
         }
-
 
         private static ApiTest<SeriesClient> CreateClient()
         {

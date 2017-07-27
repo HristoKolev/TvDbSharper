@@ -39,7 +39,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Makes_The_Right_Request(int languageId)
         {
@@ -52,7 +52,7 @@
         }
 
         [Theory]
-        [ClassData(typeof(NumbersData))]
+        [ClassData(typeof(IntegerData))]
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_CT_Makes_The_Right_Request(int languageId)
         {

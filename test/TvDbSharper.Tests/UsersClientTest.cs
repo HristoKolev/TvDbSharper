@@ -1,1419 +1,514 @@
-﻿//namespace TvDbSharper.Tests
-//{
-//    using System.Net;
-//    using System.Threading;
-
-//    using NSubstitute;
-//    using NSubstitute.ExceptionExtensions;
-
-//    using TvDbSharper.BaseSchemas;
-//    using TvDbSharper.Clients.Users;
-//    using TvDbSharper.Clients.Users.Json;
-//    using TvDbSharper.Errors;
-//    using TvDbSharper.JsonClient;
-
-//    using Xunit;
-
-//    public class UsersClientTest
-//    {
-//        public UsersClientTest()
-//        {
-//            this.ErrorMessages = new ErrorMessages();
-//        }
-
-//        private IErrorMessages ErrorMessages { get; }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddEpisodeRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/episode/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddEpisodeRatingAsync(Id, Rating, CancellationToken.None);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await
-//                    Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddEpisodeRatingAsync(42, 10, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddEpisodeRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/episode/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddEpisodeRatingAsync(Id, Rating);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddEpisodeRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddEpisodeRatingAsync(42, 10));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddImageRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/image/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddImageRatingAsync(Id, Rating, CancellationToken.None);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddImageRatingAsync(42, 10, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddImageRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/image/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddImageRatingAsync(Id, Rating);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddImageRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddImageRatingAsync(42, 10));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/series/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddRatingAsync(Type, Id, Rating, CancellationToken.None);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await
-//                    Assert.ThrowsAsync<TvDbServerException>(
-//                        async () => await client.AddRatingAsync(RatingType.Series, 42, 10, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/series/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddRatingAsync(Type, Id, Rating);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddRatingAsync(RatingType.Series, 42, 10));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddSeriesRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/series/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddSeriesRatingAsync(Id, Rating, CancellationToken.None);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddSeriesRatingAsync(42, 10, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddSeriesRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-//            const int Rating = 10; // awesome!
-//            const string Route = "/user/ratings/series/42/10";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddSeriesRatingAsync(Id, Rating);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddSeriesRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddSeriesRatingAsync(42, 10));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddToFavoritesAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/favorites/42";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddToFavoritesAsync(Id, CancellationToken.None);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-//        [InlineData(409)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddToFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddToFavoritesAsync(42, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.AddToFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddToFavoritesAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/favorites/42";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.AddToFavoritesAsync(Id);
-
-//            await jsonClient.Received().PutJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-//        [InlineData(409)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void AddToFavoritesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.PutJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.AddToFavoritesAsync(42));
-
-//            Assert.Equal(this.ErrorMessages.Users.AddToFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user";
-
-//            var expectedData = new TvDbResponse<User>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<User>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user";
-
-//            var expectedData = new TvDbResponse<User>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<User>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<User>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetEpisodesRatingsAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=episode";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetEpisodesRatingsAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetEpisodesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesRatingsAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetEpisodesRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=episode";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetEpisodesRatingsAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetEpisodesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetEpisodesRatingsAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetFavoritesAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/favorites";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetFavoritesAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetFavoritesAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetFavoritesAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetFavoritesAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/favorites";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetFavoritesAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetFavoritesAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetFavoritesAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetImagesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesRatingsAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetImagesRatingsAsync_With_Type_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=image";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetImagesRatingsAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetImagesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetImagesRatingsAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetImagesRatingsAsync_Without_CancellationToken_With_Type_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=image";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetImagesRatingsAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetRatingsAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetRatingsAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_With_Type_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-
-//            const string Route = "/user/ratings/query?itemType=series";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetRatingsAsync(Type, CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_With_Type_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await
-//                    Assert.ThrowsAsync<TvDbServerException>(
-//                        async () => await client.GetRatingsAsync(RatingType.Series, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetRatingsAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetRatingsAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Without_CancellationToken_With_Type_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-
-//            const string Route = "/user/ratings/query?itemType=series";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetRatingsAsync(Type);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetRatingsAsync_Without_CancellationToken_With_Type_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetRatingsAsync(RatingType.Series));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetSeriesRatingsAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=series";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetSeriesRatingsAsync(CancellationToken.None);
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetSeriesRatingsAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetSeriesRatingsAsync(CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetSeriesRatingsAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const string Route = "/user/ratings/query?itemType=series";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.GetSeriesRatingsAsync();
-
-//            await jsonClient.Received().GetJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void GetSeriesRatingsAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.GetJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.GetSeriesRatingsAsync());
-
-//            Assert.Equal(this.ErrorMessages.Users.GetRatingsAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveEpisodeRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/episode/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveEpisodeRatingAsync(Id, CancellationToken.None);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveEpisodeRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveEpisodeRatingAsync(42, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveEpisodeRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/episode/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveEpisodeRatingAsync(Id);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveEpisodeRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveEpisodeRatingAsync(42));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveFavoriteAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/favorites/42";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.RemoveFromFavoritesAsync(Id, CancellationToken.None);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-//        [InlineData(409)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveFavoriteAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveFavoriteAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/favorites/42";
-
-//            var expectedData = new TvDbResponse<UserFavorites>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            var responseData = await client.RemoveFromFavoritesAsync(Id);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserFavorites>>(Route, CancellationToken.None);
-
-//            Assert.Equal(expectedData, responseData);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-//        [InlineData(409)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveFavoriteAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserFavorites>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveFromFavoritesAsync(42));
-
-//            Assert.Equal(this.ErrorMessages.Users.RemoveFromFavoritesAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveImageRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/image/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveImageRatingAsync(Id, CancellationToken.None);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveImageRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveImageRatingAsync(42, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveImageRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/image/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveImageRatingAsync(Id);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveImageRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveImageRatingAsync(42));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/series/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveRatingAsync(Type, Id, CancellationToken.None);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveRatingAsync(Type, Id, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/series/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveRatingAsync(Type, Id);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            const RatingType Type = RatingType.Series;
-//            const int Id = 42;
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveRatingAsync(Type, Id));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveSeriesRatingAsync_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/series/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveSeriesRatingAsync(Id, CancellationToken.None);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveSeriesRatingAsync_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex =
-//                await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveSeriesRatingAsync(42, CancellationToken.None));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        [Fact]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveSeriesRatingAsync_Without_CancellationToken_Makes_The_Right_Request()
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            const int Id = 42;
-
-//            const string Route = "/user/ratings/series/42";
-
-//            var expectedData = new TvDbResponse<UserRatings[]>();
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None).Returns(expectedData);
-
-//            await client.RemoveSeriesRatingAsync(Id);
-
-//            await jsonClient.Received().DeleteJsonAsync<TvDbResponse<UserRatings[]>>(Route, CancellationToken.None);
-//        }
-
-//        [Theory]
-//        [InlineData(401)]
-//        [InlineData(404)]
-
-//        // ReSharper disable once InconsistentNaming
-//        public async void RemoveSeriesRatingAsync_Without_CancellationToken_Throws_With_The_Correct_Message(int statusCode)
-//        {
-//            var jsonClient = CreateJsonClient();
-//            var client = this.CreateClient(jsonClient);
-
-//            jsonClient.DeleteJsonAsync<TvDbResponse<UserRatings[]>>(null, CancellationToken.None)
-//                      .ThrowsForAnyArgs(info => new TvDbServerException(null, (HttpStatusCode)statusCode, null));
-
-//            var ex = await Assert.ThrowsAsync<TvDbServerException>(async () => await client.RemoveSeriesRatingAsync(42));
-
-//            Assert.Equal(this.ErrorMessages.Users.RateAsync[statusCode], ex.Message);
-//        }
-
-//        private static IJsonClient CreateJsonClient()
-//        {
-//            return Substitute.For<IJsonClient>();
-//        }
-
-//        private IUsersClient CreateClient(IJsonClient jsonClient)
-//        {
-//            return new UsersClient(jsonClient, this.ErrorMessages);
-//        }
-//    }
-//}
+﻿namespace TvDbSharper.Tests
+{
+    using System.Threading.Tasks;
+
+    using TvDbSharper.BaseSchemas;
+    using TvDbSharper.Clients;
+    using TvDbSharper.Clients.Users;
+    using TvDbSharper.Errors;
+    using TvDbSharper.Tests.Data;
+    using TvDbSharper.Tests.Mocks;
+
+    using Xunit;
+
+    public class UsersClientTest
+    {
+        private UrlHelpers UrlHelpers { get; } = new UrlHelpers();
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>), typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddRatingAsync_Makes_The_Right_Request(RatingType itemType, int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddRatingAsync(itemType, itemId, rating, token))
+                .ShouldRequest("PUT", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>), typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddRatingAsync_Without_CT_Makes_The_Right_Request(RatingType itemType, int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddRatingAsync(itemType, itemId, rating))
+                .WithNoCancellationToken()
+                .ShouldRequest("PUT", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(itemType)}/{itemId}/{rating}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddEpisodeRatingAsync_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddEpisodeRatingAsync(itemId, rating, token))
+                .ShouldRequest("PUT", $"/user/ratings/episode/{itemId}/{rating}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddEpisodeRatingAsync_Without_CT_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddEpisodeRatingAsync(itemId, rating))
+                .ShouldRequest("PUT", $"/user/ratings/episode/{itemId}/{rating}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddImageRatingAsync_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddImageRatingAsync(itemId, rating, token))
+                .ShouldRequest("PUT", $"/user/ratings/image/{itemId}/{rating}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddImageRatingAsync_Without_CT_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddImageRatingAsync(itemId, rating))
+                .ShouldRequest("PUT", $"/user/ratings/image/{itemId}/{rating}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddSeriesRatingAsync_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddSeriesRatingAsync(itemId, rating, token))
+                .ShouldRequest("PUT", $"/user/ratings/series/{itemId}/{rating}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData), typeof(DecimalData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddSeriesRatingAsync_Without_CT_Makes_The_Right_Request(int itemId, decimal rating)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RateAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.AddSeriesRatingAsync(itemId, rating))
+                .ShouldRequest("PUT", $"/user/ratings/series/{itemId}/{rating}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetRatingsAsync_Makes_The_Right_Request(RatingType type)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetRatingsAsync(type, token))
+                .ShouldRequest("GET", $"/user/ratings/query?itemType={this.UrlHelpers.QuerifyEnum(type)}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetRatingsAsync_Without_CT_Makes_The_Right_Request(RatingType type)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetRatingsAsync(type))
+                .ShouldRequest("GET", $"/user/ratings/query?itemType={this.UrlHelpers.QuerifyEnum(type)}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetImagesRatingsAsync_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetImagesRatingsAsync(token))
+                .ShouldRequest("GET", "/user/ratings/query?itemType=image")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetImagesRatingsAsync_Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetImagesRatingsAsync())
+                .ShouldRequest("GET", "/user/ratings/query?itemType=image")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetSeriesRatingsAsync_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetSeriesRatingsAsync(token))
+                .ShouldRequest("GET", "/user/ratings/query?itemType=series")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetSeriesRatingsAsync_Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetSeriesRatingsAsync())
+                .ShouldRequest("GET", "/user/ratings/query?itemType=series")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetEpisodesRatingsAsync_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetEpisodesRatingsAsync(token))
+                .ShouldRequest("GET", "/user/ratings/query?itemType=episode")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetEpisodesRatingsAsync_Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetEpisodesRatingsAsync())
+                .ShouldRequest("GET", "/user/ratings/query?itemType=episode")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetAsync_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetAsync)
+                .SetResultObject(new TvDbResponse<User>())
+                .WhenCallingAMethod((impl, token) => impl.GetAsync(token))
+                .ShouldRequest("GET", "/user")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetAsync_Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetAsync)
+                .SetResultObject(new TvDbResponse<User>())
+                .WhenCallingAMethod((impl, token) => impl.GetAsync())
+                .ShouldRequest("GET", "/user")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddToFavoritesAsync_Makes_The_Right_Request(int seriesId)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.AddToFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.AddToFavoritesAsync(seriesId, token))
+                .ShouldRequest("PUT", $"/user/favorites/{seriesId}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task AddToFavoritesAsync_Without_CT_Makes_The_Right_Request(int seriesId)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.AddToFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.AddToFavoritesAsync(seriesId))
+                .ShouldRequest("PUT", $"/user/favorites/{seriesId}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetFavoritesAsync_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.GetFavoritesAsync(token))
+                .ShouldRequest("GET", "/user/favorites")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetFavoritesAsync_Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.GetFavoritesAsync())
+                .ShouldRequest("GET", "/user/favorites")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetRatingsAsync__Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetRatingsAsync(token))
+                .ShouldRequest("GET", "/user/ratings")
+                .RunAsync();
+        }
+
+        [Fact]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetRatingsAsync__Without_CT_Makes_The_Right_Request()
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.GetRatingsAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetRatingsAsync())
+                .ShouldRequest("GET", "/user/ratings")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveFromFavoritesAsync_Makes_The_Right_Request(int seriesId)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveFromFavoritesAsync(seriesId, token))
+                .ShouldRequest("DELETE", $"/user/favorites/{seriesId}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveFromFavoritesAsync_Without_CT_Makes_The_Right_Request(int seriesId)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserFavorites>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveFromFavoritesAsync(seriesId))
+                .ShouldRequest("DELETE", $"/user/favorites/{seriesId}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>), typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveRatingAsync_Makes_The_Right_Request(RatingType type, int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveRatingAsync(type, id, token))
+                .ShouldRequest("DELETE", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(type)}/{id}")
+                .ShouldIgnoreParserResult()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(EnumData<RatingType>), typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveRatingAsync_Without_CT_Makes_The_Right_Request(RatingType type, int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveRatingAsync(type, id))
+                .ShouldRequest("DELETE", $"/user/ratings/{this.UrlHelpers.QuerifyEnum(type)}/{id}")
+                .ShouldIgnoreParserResult()
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveEpisodeRatingAsync_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveEpisodeRatingAsync(id, token))
+                .ShouldRequest("DELETE", $"/user/ratings/episode/{id}")
+                .ShouldIgnoreParserResult()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveEpisodeRatingAsync_Without_CT_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveEpisodeRatingAsync(id))
+                .ShouldRequest("DELETE", $"/user/ratings/episode/{id}")
+                .ShouldIgnoreParserResult()
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveImageRatingAsync_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveImageRatingAsync(id, token))
+                .ShouldRequest("DELETE", $"/user/ratings/image/{id}")
+                .ShouldIgnoreParserResult()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveImageRatingAsync_Without_CT_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveImageRatingAsync(id))
+                .ShouldRequest("DELETE", $"/user/ratings/image/{id}")
+                .ShouldIgnoreParserResult()
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveSeriesRatingAsync_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveSeriesRatingAsync(id, token))
+                .ShouldRequest("DELETE", $"/user/ratings/series/{id}")
+                .ShouldIgnoreParserResult()
+                .RunAsync();
+        }
+
+        [Theory]
+        [CompositeData(typeof(IntegerData))]
+
+        // ReSharper disable once InconsistentNaming
+        public Task RemoveSeriesRatingAsync_Without_CT_Makes_The_Right_Request(int id)
+        {
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Users.RemoveFromFavoritesAsync)
+                .SetResultObject(new TvDbResponse<UserRatings[]>())
+                .WhenCallingAMethod((impl, token) => impl.RemoveSeriesRatingAsync(id))
+                .ShouldRequest("DELETE", $"/user/ratings/series/{id}")
+                .ShouldIgnoreParserResult()
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+
+        private static ApiTest<UsersClient> CreateClient()
+        {
+            return new ApiTest<UsersClient>()
+                .WithConstructor((client, parser) => new UsersClient(client, parser))
+                .SetApiResponse(new ApiResponse());
+        }
+    }
+}

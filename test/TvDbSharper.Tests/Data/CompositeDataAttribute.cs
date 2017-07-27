@@ -18,7 +18,10 @@
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            var sources = this.DataClasses.Select(Activator.CreateInstance).Cast<IEnumerable<object[]>>();
+            var sources = this.DataClasses
+                .Select(Activator.CreateInstance)
+                .Cast<IEnumerable<object[]>>();
+
             var enumerators = sources.Select(x => x.GetEnumerator()).ToList();
 
             while (enumerators.All(e => e.MoveNext()))
