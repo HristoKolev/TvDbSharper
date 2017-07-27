@@ -12,6 +12,8 @@
 
     public class AuthenticationClientTest
     {
+        private const string ContentTypeHeaderName = "Content-Type";
+
         #region AuthenticateAsync tests
 
         [Fact]
@@ -24,6 +26,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync(authenticationRequest, token))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\",\"UserKey\":\"test3\",\"Username\":\"test2\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .RunAsync();
         }
 
@@ -50,6 +56,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync(authenticationRequest))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\",\"UserKey\":\"test3\",\"Username\":\"test2\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .WithNoCancellationToken()
                 .RunAsync();
         }
@@ -62,6 +72,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync("test1", "test2", "test3", token))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\",\"UserKey\":\"test3\",\"Username\":\"test2\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .RunAsync();
         }
 
@@ -73,6 +87,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync("test1", "test2", "test3"))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\",\"UserKey\":\"test3\",\"Username\":\"test2\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .WithNoCancellationToken()
                 .RunAsync();
         }
@@ -85,6 +103,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync("test1", token))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .RunAsync();
         }
 
@@ -96,6 +118,10 @@
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync("test1"))
                 .ShouldRequest("POST", "/login", "{\"ApiKey\":\"test1\"}")
+                .ShouldRequest(request =>
+                {
+                    Assert.Equal("application/json", request.Headers[ContentTypeHeaderName]);
+                })
                 .WithNoCancellationToken()
                 .RunAsync();
         }

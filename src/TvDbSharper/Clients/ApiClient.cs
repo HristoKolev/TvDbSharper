@@ -33,7 +33,7 @@
 
         public string Body { get; set; }
 
-        public WebHeaderCollection Headers { get; }
+        public WebHeaderCollection Headers { get; set; }
 
         public string Method { get; set; }
 
@@ -129,15 +129,12 @@
 
         private async Task<HttpWebRequest> CreateRequestAsync(ApiRequest request)
         {
-            string url = Path.Combine(this.BaseAddress ?? string.Empty, request.Url);
+            string url = (this.BaseAddress ?? string.Empty) + request.Url;
 
             var httpRequest = WebRequest.CreateHttp(url);
             httpRequest.Method = request.Method;
 
-            if (request.Headers != null)
-            {
-                httpRequest.Headers = this.CombineHeaders(this.DefaultRequestHeaders, request.Headers);
-            }
+            httpRequest.Headers = this.CombineHeaders(this.DefaultRequestHeaders, request.Headers ?? new WebHeaderCollection());
 
             if (request.Body != null)
             {
