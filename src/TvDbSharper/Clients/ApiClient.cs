@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Clients
 {
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.IO;
     using System.Net;
@@ -33,7 +34,7 @@
 
         public string Body { get; set; }
 
-        public WebHeaderCollection Headers { get; set; }
+        public IDictionary<string, string> Headers { get; set; }
 
         public string Method { get; set; }
 
@@ -44,7 +45,7 @@
     {
         public string Body { get; set; }
 
-        public WebHeaderCollection Headers { get; set; }
+        public IDictionary<string, string> Headers { get; set; }
 
         public HttpStatusCode StatusCode { get; set; }
     }
@@ -53,7 +54,7 @@
     {
         string BaseAddress { get; set; }
 
-        WebHeaderCollection DefaultRequestHeaders { get; set; }
+        IDictionary<string, string> DefaultRequestHeaders { get; set; }
 
         Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken);
     }
@@ -62,17 +63,29 @@
     {
         public ApiClient()
         {
-            this.DefaultRequestHeaders = new WebHeaderCollection();
+            this.DefaultRequestHeaders = new ConcurrentDictionary<string, string>();
         }
 
         public string BaseAddress { get; set; }
 
-        public WebHeaderCollection DefaultRequestHeaders { get; set; }
+        public IDictionary<string, string> DefaultRequestHeaders { get; set; }
 
         public async Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken)
         {
             return await GetResponseAsync(await this.CreateRequestAsync(request).ConfigureAwait(false), cancellationToken)
                        .ConfigureAwait(false);
+        }
+
+        private static WebHeaderCollection ConvertToHeaderCollection(IDictionary<string, string> headers)
+        {
+            var collection = new WebHeaderCollection();
+
+            foreach (var pair in headers)
+            {
+                collection[pair.Key] = pair.Value;
+            }
+
+            return collection;
         }
 
         private static async Task<ApiResponse> GetResponseAsync(WebRequest httpRequest, CancellationToken cancellationToken)
@@ -108,19 +121,20 @@
             };
         }
 
-        private WebHeaderCollection CombineHeaders(params WebHeaderCollection[] headerCollections)
+        private IDictionary<string, string> CombineHeaders(params IDictionary<string, string>[] headerCollections)
         {
-            var result = new WebHeaderCollection();
+            var result = new Dictionary<string, string>();
 
             for (var i = 0; i < headerCollections.Length; i++)
             {
                 var headerCollection = headerCollections[i];
 
-                foreach (string name in headerCollection)
+                if (headerCollection != null)
                 {
-                    string value = headerCollection[name];
-
-                    result[name] = value;
+                    foreach (var pair in headerCollection)
+                    {
+                        result[pair.Key] = pair.Value;
+                    }
                 }
             }
 
@@ -134,7 +148,7 @@
             var httpRequest = WebRequest.CreateHttp(url);
             httpRequest.Method = request.Method;
 
-            httpRequest.Headers = this.CombineHeaders(this.DefaultRequestHeaders, request.Headers ?? new WebHeaderCollection());
+            httpRequest.Headers = ConvertToHeaderCollection(this.CombineHeaders(this.DefaultRequestHeaders, request.Headers));
 
             if (request.Body != null)
             {

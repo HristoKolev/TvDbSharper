@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Clients.Series
 {
+    using System.Collections.Generic;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -161,7 +162,7 @@
         /// <param name="seriesId">The series ID</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<WebHeaderCollection> GetHeadersAsync(int seriesId, CancellationToken cancellationToken);
+        Task<IDictionary<string, string>> GetHeadersAsync(int seriesId, CancellationToken cancellationToken);
 
         /// <summary>
         /// <para>[HEAD /series/{id}]</para>
@@ -169,7 +170,7 @@
         /// </summary>
         /// <param name="seriesId">The series ID</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<WebHeaderCollection> GetHeadersAsync(int seriesId);
+        Task<IDictionary<string, string>> GetHeadersAsync(int seriesId);
 
         /// <summary>
         /// <para>[GET /series/{id}/images/query]</para>

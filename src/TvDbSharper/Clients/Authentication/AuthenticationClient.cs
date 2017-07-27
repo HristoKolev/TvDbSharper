@@ -1,6 +1,7 @@
 ﻿namespace TvDbSharper.Clients.Authentication
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -28,7 +29,17 @@
 
         public string Token
         {
-            get => this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName]?.Split(' ')?[1];
+            get
+            {
+                var headers = this.ApiClient.DefaultRequestHeaders;
+
+                if (headers.ContainsKey(AuthorizationHeaderName))
+                {
+                    return headers[AuthorizationHeaderName].Split(' ')[1];
+                }
+
+                return null;
+            }
 
             set => this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName] = "Bearer " + value;
         }
@@ -48,7 +59,7 @@
      
             var request = new ApiRequest("POST", "/login", body)
             {
-                Headers = new WebHeaderCollection
+                Headers = new Dictionary<string, string>
                 {
                     [ContentTypeHeaderName] = "application/json"
                 }

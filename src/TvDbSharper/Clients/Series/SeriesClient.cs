@@ -1,6 +1,7 @@
 ﻿namespace TvDbSharper.Clients.Series
 {
     using System;
+    using System.Collections.Generic;
     using System.Net;
     using System.Threading;
     using System.Threading.Tasks;
@@ -100,7 +101,7 @@
             return this.GetEpisodesSummaryAsync(seriesId, CancellationToken.None);
         }
 
-        public async Task<WebHeaderCollection> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, string>> GetHeadersAsync(int seriesId, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("HEAD", $"/series/{seriesId}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
@@ -108,7 +109,7 @@
             return response.Headers;
         }
 
-        public Task<WebHeaderCollection> GetHeadersAsync(int seriesId)
+        public Task<IDictionary<string, string>> GetHeadersAsync(int seriesId)
         {
             return this.GetHeadersAsync(seriesId, CancellationToken.None);
         }

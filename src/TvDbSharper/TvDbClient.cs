@@ -13,7 +13,7 @@ namespace TvDbSharper
 
     public class TvDbClient : ITvDbClient
     {
-        private const string AcceptLanguage = "Accept-Language";
+        private const string AcceptLanguageHeaderName = "Accept-Language";
 
         private const string DefaultAcceptedLanguage = "en";
 
@@ -41,7 +41,17 @@ namespace TvDbSharper
 
         public string AcceptedLanguage
         {
-            get => this.ApiClient.DefaultRequestHeaders[AcceptLanguage] ?? DefaultAcceptedLanguage;
+            get
+            {
+                var headers = this.ApiClient.DefaultRequestHeaders;
+
+                if (headers.ContainsKey(AcceptLanguageHeaderName))
+                {
+                    return headers[AcceptLanguageHeaderName];
+                }
+
+                return DefaultAcceptedLanguage;
+            }
 
             set
             {
@@ -55,7 +65,7 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.ApiClient.DefaultRequestHeaders[AcceptLanguage] = value;
+                this.ApiClient.DefaultRequestHeaders[AcceptLanguageHeaderName] = value;
             }
         }
 

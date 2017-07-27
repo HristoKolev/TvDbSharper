@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Tests
 {
+    using System.Collections.Generic;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -282,7 +283,7 @@
         // ReSharper disable once InconsistentNaming
         public Task GetHeadersAsync_Makes_The_Right_Request(int seriesId)
         {
-            var headers = new WebHeaderCollection();
+            var headers = new Dictionary<string, string>();
 
             var response = new ApiResponse
             {
@@ -305,7 +306,7 @@
         // ReSharper disable once InconsistentNaming
         public Task GetHeadersAsync_Without_CT_Makes_The_Right_Request(int seriesId)
         {
-            var headers = new WebHeaderCollection();
+            var headers = new Dictionary<string, string>();
 
             var response = new ApiResponse
             {

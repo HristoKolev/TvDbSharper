@@ -15,14 +15,14 @@
     {
         public ApiClientMock()
         {
-            this.DefaultRequestHeaders = new WebHeaderCollection();
+            this.DefaultRequestHeaders = new Dictionary<string, string>();
         }
 
         public string BaseAddress { get; set; }
 
         public CancellationToken CancellationToken { get; private set; }
 
-        public WebHeaderCollection DefaultRequestHeaders { get; set; }
+        public IDictionary<string, string> DefaultRequestHeaders { get; set; }
 
         public ApiRequest Request { get; private set; }
 
