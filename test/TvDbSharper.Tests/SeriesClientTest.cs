@@ -1,13 +1,11 @@
 ﻿namespace TvDbSharper.Tests
 {
     using System.Collections.Generic;
-    using System.Net;
     using System.Threading.Tasks;
 
-    using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients;
-    using TvDbSharper.Clients.Series;
-    using TvDbSharper.Errors;
+    using TvDbSharper.Dto;
+    using TvDbSharper.Infrastructure;
     using TvDbSharper.Tests.Data;
     using TvDbSharper.Tests.Mocks;
 

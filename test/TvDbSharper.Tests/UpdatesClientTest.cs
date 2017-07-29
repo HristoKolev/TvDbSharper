@@ -3,10 +3,9 @@
     using System;
     using System.Threading.Tasks;
 
-    using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients;
-    using TvDbSharper.Clients.Updates;
-    using TvDbSharper.Errors;
+    using TvDbSharper.Dto;
+    using TvDbSharper.Infrastructure;
     using TvDbSharper.Tests.Data;
     using TvDbSharper.Tests.Mocks;
 

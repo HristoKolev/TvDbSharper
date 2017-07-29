@@ -4,8 +4,8 @@
     using System.Threading.Tasks;
 
     using TvDbSharper.Clients;
-    using TvDbSharper.Clients.Authentication;
-    using TvDbSharper.Errors;
+    using TvDbSharper.Dto;
+    using TvDbSharper.Infrastructure;
     using TvDbSharper.Tests.Mocks;
 
     using Xunit;

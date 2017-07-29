@@ -3,13 +3,7 @@ namespace TvDbSharper
     using System;
 
     using TvDbSharper.Clients;
-    using TvDbSharper.Clients.Authentication;
-    using TvDbSharper.Clients.Episodes;
-    using TvDbSharper.Clients.Languages;
-    using TvDbSharper.Clients.Search;
-    using TvDbSharper.Clients.Series;
-    using TvDbSharper.Clients.Updates;
-    using TvDbSharper.Clients.Users;
+    using TvDbSharper.Infrastructure;
 
     public class TvDbClient : ITvDbClient
     {

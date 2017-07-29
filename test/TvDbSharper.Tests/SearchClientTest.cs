@@ -2,10 +2,9 @@
 {
     using System.Threading.Tasks;
 
-    using TvDbSharper.BaseSchemas;
     using TvDbSharper.Clients;
-    using TvDbSharper.Clients.Search;
-    using TvDbSharper.Errors;
+    using TvDbSharper.Dto;
+    using TvDbSharper.Infrastructure;
     using TvDbSharper.Tests.Mocks;
 
     using Xunit;

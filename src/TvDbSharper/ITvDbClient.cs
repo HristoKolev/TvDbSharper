@@ -1,13 +1,5 @@
 namespace TvDbSharper
 {
-    using TvDbSharper.Clients.Authentication;
-    using TvDbSharper.Clients.Episodes;
-    using TvDbSharper.Clients.Languages;
-    using TvDbSharper.Clients.Search;
-    using TvDbSharper.Clients.Series;
-    using TvDbSharper.Clients.Updates;
-    using TvDbSharper.Clients.Users;
-
     public interface ITvDbClient
     {
         string AcceptedLanguage { get; set; }

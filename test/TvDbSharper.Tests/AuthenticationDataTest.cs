@@ -2,7 +2,7 @@
 {
     using System;
 
-    using TvDbSharper.Clients.Authentication;
+    using TvDbSharper.Dto;
     using TvDbSharper.Tests.Data;
 
     using Xunit;
