@@ -19,7 +19,7 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <Version>0.6.3</Version>
+    <Version>1.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -221,7 +221,7 @@
                 messages.Add(UnknownErrorMessage);
             }
 
-            string message = string.Join(Environment.NewLine, messages);
+            string message = string.Join("; ", messages);
 
             var exception = new TvDbServerException(message, response.StatusCode)
             {
@@ -237,7 +237,7 @@
             {
                 return JsonConvert.DeserializeObject<ErrorResponse>(body).Error;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

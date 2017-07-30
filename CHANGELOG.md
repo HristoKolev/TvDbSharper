@@ -1,3 +1,11 @@
+# 1.0.0 - Breaking changes
+* Changed namespaces.
+* Replaced any references to `http` or the `HttpClient`.
+* No change of client semantics.
+* No change of method names and parameters.
+* Increased encapsulation.
+* No change in Dto classes.
+
 # 0.6.3
 * Fixed a bug where the value passed to `SearchClient` methods was not properly encoded.
 
