@@ -9,7 +9,11 @@
     {
         public string Parametrify(Enum value)
         {
-            var elements = value.ToString().Split(',').Select(element => this.PascalCase(element.Trim())).OrderBy(element => element);
+            var elements = value
+                .ToString()
+                .Split(',')
+                .Select(element => this.PascalCase(element.Trim()))
+                .OrderBy(element => element);
 
             return string.Join(",", elements);
         }
