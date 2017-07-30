@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/appveyor/ci/HristoKolev/TvDbSharper/master.svg?label=appveyor&style=flat-square)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true&style=flat-square)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
+[![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000&style=flat-square)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true&style=flat-square)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
 # How to installl
 ```PowerShell
