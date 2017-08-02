@@ -77,6 +77,29 @@
                        .ConfigureAwait(false);
         }
 
+        private static void ApplyHeaders(WebRequest request, IDictionary<string, string> headers)
+        {
+            request.Headers = new WebHeaderCollection();
+
+            foreach (var pair in headers)
+            {
+                switch (pair.Key)
+                {
+                    case "Content-Type" :
+                    {
+                        request.ContentType = pair.Value;
+                        break;
+                    }
+
+                    default :
+                    {
+                        request.Headers[pair.Key] = pair.Value;
+                        break;
+                    }
+                }
+            }
+        }
+
         private static IDictionary<string, string> CombineHeaders(params IDictionary<string, string>[] headerCollections)
         {
             var result = new Dictionary<string, string>();
@@ -95,18 +118,6 @@
             }
 
             return result;
-        }
-
-        private static WebHeaderCollection ConvertToHeaderCollection(IDictionary<string, string> headers)
-        {
-            var collection = new WebHeaderCollection();
-
-            foreach (var pair in headers)
-            {
-                collection[pair.Key] = pair.Value;
-            }
-
-            return collection;
         }
 
         private static async Task<ApiResponse> GetResponseAsync(WebRequest httpRequest, CancellationToken cancellationToken)
@@ -164,7 +175,7 @@
             var httpRequest = WebRequest.CreateHttp(url);
             httpRequest.Method = request.Method;
 
-            httpRequest.Headers = ConvertToHeaderCollection(CombineHeaders(this.DefaultRequestHeaders, request.Headers));
+            ApplyHeaders(httpRequest, CombineHeaders(this.DefaultRequestHeaders, request.Headers));
 
             if (request.Body != null)
             {

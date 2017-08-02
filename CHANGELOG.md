@@ -1,3 +1,6 @@
+# 1.0.1
+* Fixed a bug where the HttpWebRequest throws for some content type values in .NET Full Framework
+
 # 1.0.0 - Breaking changes
 * Changed namespaces.
 * Replaced any references to `http` or the `HttpClient`.
