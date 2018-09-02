@@ -2,6 +2,13 @@
 {
     using System;
 
+    public class EpisodeLanguage
+    {
+        public string EpisodeName { get; set; }
+
+        public string Overview { get; set; }
+    }
+
     public class EpisodeRecord
     {
         public int? AbsoluteNumber { get; set; }
@@ -9,6 +16,8 @@
         public int? AiredEpisodeNumber { get; set; }
 
         public int? AiredSeason { get; set; }
+
+        public int? AiredSeasonID { get; set; }
 
         public int? AirsAfterSeason { get; set; }
 
@@ -41,15 +50,17 @@
 
         public string ImdbId { get; set; }
 
+        public EpisodeLanguage Language { get; set; }
+
         public long LastUpdated { get; set; }
 
-        public string LastUpdatedBy { get; set; }
+        public int? LastUpdatedBy { get; set; }
 
         public string Overview { get; set; }
 
         public string ProductionCode { get; set; }
 
-        public string SeriesId { get; set; }
+        public int? SeriesId { get; set; }
 
         public string ShowUrl { get; set; }
 

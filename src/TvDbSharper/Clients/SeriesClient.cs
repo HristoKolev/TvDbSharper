@@ -59,14 +59,14 @@
             return this.GetAsync(seriesId, filter, CancellationToken.None);
         }
 
-        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
+        public async Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken)
         {
             var request = new ApiRequest("GET", $"/series/{seriesId}/episodes?page={Math.Max(page, 1)}");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
+            return this.Parser.Parse<TvDbResponse<EpisodeRecord[]>>(response, ErrorMessages.Series.GetAsync);
         }
 
-        public async Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(
+        public async Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(
             int seriesId,
             int page,
             EpisodeQuery query,
@@ -75,15 +75,15 @@
             string url = $"/series/{seriesId}/episodes/query?page={Math.Max(page, 1)}&{this.UrlHelpers.Querify(query)}";
             var request = new ApiRequest("GET", url);
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return this.Parser.Parse<TvDbResponse<BasicEpisode[]>>(response, ErrorMessages.Series.GetAsync);
+            return this.Parser.Parse<TvDbResponse<EpisodeRecord[]>>(response, ErrorMessages.Series.GetAsync);
         }
 
-        public Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page)
+        public Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page)
         {
             return this.GetEpisodesAsync(seriesId, page, CancellationToken.None);
         }
 
-        public Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query)
+        public Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query)
         {
             return this.GetEpisodesAsync(seriesId, page, query, CancellationToken.None);
         }

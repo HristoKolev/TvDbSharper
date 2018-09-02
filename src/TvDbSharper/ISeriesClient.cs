@@ -103,7 +103,7 @@
         /// <param name="page">The page you want to retrieve.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken);
+        Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page, CancellationToken cancellationToken);
 
         /// <summary>
         /// <para>[GET /series/{id}/episodes/query]</para>
@@ -114,7 +114,7 @@
         /// <param name="query">The structure by which the records are queried.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query, CancellationToken cancellationToken);
+        Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query, CancellationToken cancellationToken);
 
         /// <summary>
         /// <para>[GET /series/{id}/episodes]</para>
@@ -123,7 +123,7 @@
         /// <param name="seriesId">The series ID</param>
         /// <param name="page">The page you want to retrieve.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page);
+        Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page);
 
         /// <summary>
         /// <para>[GET /series/{id}/episodes/query]</para>
@@ -133,7 +133,7 @@
         /// <param name="page">The page you want to retrieve.</param>
         /// <param name="query">The structure by which the records are queried.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
-        Task<TvDbResponse<BasicEpisode[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query);
+        Task<TvDbResponse<EpisodeRecord[]>> GetEpisodesAsync(int seriesId, int page, EpisodeQuery query);
 
         /// <summary>
         /// <para>[GET /series/{id}/episodes/summary]</para>

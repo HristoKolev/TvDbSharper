@@ -23,29 +23,6 @@
         public int? SortOrder { get; set; }
     }
 
-    public class BasicEpisode
-    {
-        public int? AbsoluteNumber { get; set; }
-
-        public int? AiredEpisodeNumber { get; set; }
-
-        public int? AiredSeason { get; set; }
-
-        public decimal? DvdEpisodeNumber { get; set; }
-
-        public int? DvdSeason { get; set; }
-
-        public string EpisodeName { get; set; }
-
-        public string FirstAired { get; set; }
-
-        public int Id { get; set; }
-
-        public long LastUpdated { get; set; }
-
-        public string Overview { get; set; }
-    }
-
     public class EpisodeQuery
     {
         public int? AbsoluteNumber { get; set; }
@@ -78,7 +55,7 @@
     {
         public string FileName { get; set; }
 
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         public string KeyType { get; set; }
 
@@ -110,8 +87,6 @@
 
         public int? Season { get; set; }
 
-        public int? Seasonwide { get; set; }
-
         public int? Series { get; set; }
     }
 
@@ -140,6 +115,8 @@
     public class Series
     {
         public string Added { get; set; }
+
+        public int? AddedBy { get; set; }
 
         public string AirsDayOfWeek { get; set; }
 
@@ -182,6 +159,8 @@
         public decimal? SiteRating { get; set; }
 
         public int? SiteRatingCount { get; set; }
+
+        public string Slug { get; set; }
 
         public string Status { get; set; }
 

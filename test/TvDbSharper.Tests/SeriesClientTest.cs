@@ -115,7 +115,7 @@
         {
             return CreateClient()
                 .WithErrorMap(ErrorMessages.Series.GetAsync)
-                .SetResultObject(new TvDbResponse<BasicEpisode[]>())
+                .SetResultObject(new TvDbResponse<EpisodeRecord[]>())
                 .WhenCallingAMethod((impl, token) => impl.GetEpisodesAsync(seriesId, page, token))
                 .ShouldRequest("GET", $"/series/{seriesId}/episodes?page={actualPage}")
                 .RunAsync();
@@ -132,7 +132,7 @@
         {
             return CreateClient()
                 .WithErrorMap(ErrorMessages.Series.GetAsync)
-                .SetResultObject(new TvDbResponse<BasicEpisode[]>())
+                .SetResultObject(new TvDbResponse<EpisodeRecord[]>())
                 .WhenCallingAMethod((impl, token) => impl.GetEpisodesAsync(seriesId, page))
                 .ShouldRequest("GET", $"/series/{seriesId}/episodes?page={actualPage}")
                 .WithNoCancellationToken()
@@ -152,7 +152,7 @@
 
             return CreateClient()
                 .WithErrorMap(ErrorMessages.Series.GetAsync)
-                .SetResultObject(new TvDbResponse<BasicEpisode[]>())
+                .SetResultObject(new TvDbResponse<EpisodeRecord[]>())
                 .WhenCallingAMethod((impl, token) => impl.GetEpisodesAsync(seriesId, page, query, token))
                 .ShouldRequest("GET", $"/series/{seriesId}/episodes/query?page={actualPage}&airedEpisode={aired}&dvdEpisode={dvd}")
                 .RunAsync();
@@ -171,7 +171,7 @@
 
             return CreateClient()
                 .WithErrorMap(ErrorMessages.Series.GetAsync)
-                .SetResultObject(new TvDbResponse<BasicEpisode[]>())
+                .SetResultObject(new TvDbResponse<EpisodeRecord[]>())
                 .WhenCallingAMethod((impl, token) => impl.GetEpisodesAsync(seriesId, page, query))
                 .ShouldRequest("GET", $"/series/{seriesId}/episodes/query?page={actualPage}&airedEpisode={aired}&dvdEpisode={dvd}")
                 .WithNoCancellationToken()
@@ -208,10 +208,10 @@
         }
 
         [Theory]
-        [InlineData(1, KeyType.Series, 1, 2)]
-        [InlineData(2, KeyType.Fanart, 3, 4)]
-        [InlineData(3, KeyType.Poster, 5, 6)]
-        [InlineData(4, KeyType.Season, 7, 8)]
+        [InlineData(1, KeyType.Series, "1", "2")]
+        [InlineData(2, KeyType.Fanart, "3", "4")]
+        [InlineData(3, KeyType.Poster, "5", "6")]
+        [InlineData(4, KeyType.Season, "7", "8")]
 
         // ReSharper disable once InconsistentNaming
         public Task GetImagesAsync_Makes_The_Right_Request(int seriesId, KeyType keyType, string resolution, string subKey)
@@ -227,10 +227,10 @@
         }
 
         [Theory]
-        [InlineData(1, KeyType.Series, 1, 2)]
-        [InlineData(2, KeyType.Fanart, 3, 4)]
-        [InlineData(3, KeyType.Poster, 5, 6)]
-        [InlineData(4, KeyType.Season, 7, 8)]
+        [InlineData(1, KeyType.Series, "1", "2")]
+        [InlineData(2, KeyType.Fanart, "3", "4")]
+        [InlineData(3, KeyType.Poster, "5", "6")]
+        [InlineData(4, KeyType.Season, "7", "8")]
 
         // ReSharper disable once InconsistentNaming
         public Task GetImagesAsync_Without_CT_Makes_The_Right_Request(int seriesId, KeyType keyType, string resolution, string subKey)

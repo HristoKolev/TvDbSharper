@@ -15,7 +15,7 @@
         /// <summary>
         /// The language ID
         /// </summary>
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// The name of the language in it's native form
