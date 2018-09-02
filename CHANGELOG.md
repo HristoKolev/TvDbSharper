@@ -1,3 +1,35 @@
+# 2.0.0
+
+* Removed the property `Seasonwide` from the `ImagesSummary` model.
+
+* Changed the type of the `Id` property of the `Image` model from `int?` to `int`.
+* Added `AddedBy` (int?) property to the `Series` model.
+
+* Added `Slug ` (string) property to the `Series` model.
+* Added `Slug ` (string) property to the `SeriesSearchResult` model.
+
+* Removed the `BasicEpisode` model in favor of `EpisodeRecord`.
+* Changed the type of the `LastUpdatedBy` property of the `EpisodeRecord` model from `string` to `int?`.
+* Changed the type of the `SeriesId` property of the `EpisodeRecord` model from `string` to `int`.
+* Changed the type of the `Id` property of the `Language` model from `int?` to `int`.
+* Added `Language` property to the `EpisodeRecord` model that is of the new type `Epi
+* Added `AiredSeasonID` (int?) property to the `EpisodeRecord` model.sodeLanguage`:
+
+```csharp
+
+public class EpisodeLanguage
+{
+	public string EpisodeName { get; set; }
+
+	public string Overview { get; set; }
+}
+
+```
+
+* Updated the `Json.NET` package from version `10.0.3` to `11.0.2`.
+
+* Updated the `TvDbSharper.Tests` project to newer framework and library versions.
+
 # 1.0.1
 * Fixed a bug where the HttpWebRequest throws for some content type values in .NET Full Framework
 

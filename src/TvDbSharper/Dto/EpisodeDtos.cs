@@ -60,7 +60,7 @@
 
         public string ProductionCode { get; set; }
 
-        public int? SeriesId { get; set; }
+        public int SeriesId { get; set; }
 
         public string ShowUrl { get; set; }
 
