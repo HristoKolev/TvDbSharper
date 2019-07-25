@@ -70,7 +70,7 @@ namespace TvDbSharper
 
         public string BaseUrl
         {
-            get => this.ApiClient.BaseAddress;
+            get => this.ApiClient.BaseAddress.ToString();
 
             set
             {
@@ -84,7 +84,7 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.ApiClient.BaseAddress = value;
+                this.ApiClient.BaseAddress = new Uri(value);
             }
         }
 

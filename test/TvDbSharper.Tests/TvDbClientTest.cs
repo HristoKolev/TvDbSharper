@@ -114,7 +114,7 @@
 
             client.BaseUrl = Value;
 
-            Assert.Equal(Value, httpClient.BaseAddress);
+            Assert.Equal(Value, httpClient.BaseAddress.ToString());
         }
 
         [Fact]
@@ -171,7 +171,7 @@
 
             var client = CreateClient(httpClient, parser);
 
-            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress);
+            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress.ToString());
         }
 
         [Fact]

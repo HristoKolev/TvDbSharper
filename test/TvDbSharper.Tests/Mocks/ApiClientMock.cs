@@ -17,7 +17,7 @@
             this.DefaultRequestHeaders = new Dictionary<string, string>();
         }
 
-        public string BaseAddress { get; set; }
+        public Uri BaseAddress { get; set; }
 
         public CancellationToken CancellationToken { get; private set; }
 

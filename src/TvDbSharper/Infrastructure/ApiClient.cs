@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Net;
-    using System.Text;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -48,12 +48,12 @@
 
         public IDictionary<string, string> Headers { get; set; }
 
-        public int StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
     }
 
     internal interface IApiClient
     {
-        string BaseAddress { get; set; }
+        Uri BaseAddress { get; set; }
 
         IDictionary<string, string> DefaultRequestHeaders { get; set; }
 
@@ -62,38 +62,39 @@
 
     internal class ApiClient : IApiClient
     {
+        private static HttpClient _httpClient;
+
         public ApiClient()
         {
+            _httpClient = new HttpClient();
             this.DefaultRequestHeaders = new ConcurrentDictionary<string, string>();
         }
 
-        public string BaseAddress { get; set; }
+        public Uri BaseAddress
+        {
+            get => _httpClient.BaseAddress;
+            set => _httpClient.BaseAddress = value;
+        }
 
         public IDictionary<string, string> DefaultRequestHeaders { get; set; }
 
         public async Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken)
-        {
-            return await GetResponseAsync(await this.CreateRequestAsync(request).ConfigureAwait(false), cancellationToken)
-                       .ConfigureAwait(false);
-        }
+            => await GetResponseAsync(this.CreateRequest(request), cancellationToken).ConfigureAwait(false);
 
-        private static void ApplyHeaders(WebRequest request, IDictionary<string, string> headers)
+        private static void ApplyHeaders(HttpRequestMessage request, IDictionary<string, string> headers)
         {
-            request.Headers = new WebHeaderCollection();
-
             foreach (var pair in headers)
             {
                 switch (pair.Key)
                 {
                     case "Content-Type" :
                     {
-                        request.ContentType = pair.Value;
                         break;
                     }
 
                     default :
                     {
-                        request.Headers[pair.Key] = pair.Value;
+                        request.Headers.Add(pair.Key, pair.Value);
                         break;
                     }
                 }
@@ -120,29 +121,13 @@
             return result;
         }
 
-        private static async Task<ApiResponse> GetResponseAsync(WebRequest httpRequest, CancellationToken cancellationToken)
+        private static async Task<ApiResponse> GetResponseAsync(HttpRequestMessage httpRequest, CancellationToken cancellationToken)
         {
-            HttpWebResponse httpResponse;
-
-            try
-            {
-                httpResponse = (HttpWebResponse)await httpRequest.GetResponseAsync().ConfigureAwait(false);
-            }
-            catch (WebException ex)
-            {
-                httpResponse = (HttpWebResponse)ex.Response;
-            }
+            var httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken).ConfigureAwait(false);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var stream = httpResponse.GetResponseStream();
-
-            string body;
-
-            using (var reader = new StreamReader(stream))
-            {
-                body = await reader.ReadToEndAsync().ConfigureAwait(false);
-            }
+            string body = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -151,39 +136,34 @@
             return new ApiResponse
             {
                 Body = body,
-                StatusCode = (int)httpResponse.StatusCode,
+                StatusCode = httpResponse.StatusCode,
                 Headers = headers
             };
         }
 
-        private static IDictionary<string, string> ParseHeaders(WebHeaderCollection headers)
+        private static IDictionary<string, string> ParseHeaders(HttpHeaders headers)
         {
             var dict = new Dictionary<string, string>();
 
-            foreach (string name in headers)
+            foreach (var pair in headers)
             {
-                dict[name] = headers[name];
+                dict[pair.Key] = string.Join(";", pair.Value);
             }
 
             return dict;
         }
 
-        private async Task<HttpWebRequest> CreateRequestAsync(ApiRequest request)
+        private HttpRequestMessage CreateRequest(ApiRequest request)
         {
-            string url = (this.BaseAddress ?? string.Empty) + request.Url;
+            var httpRequest = new HttpRequestMessage(new HttpMethod(request.Method), request.Url);
 
-            var httpRequest = WebRequest.CreateHttp(url);
-            httpRequest.Method = request.Method;
-
-            ApplyHeaders(httpRequest, CombineHeaders(this.DefaultRequestHeaders, request.Headers));
+            var combinedHeaders = CombineHeaders(this.DefaultRequestHeaders, request.Headers);
+            ApplyHeaders(httpRequest, combinedHeaders);
 
             if (request.Body != null)
             {
-                var stream = await httpRequest.GetRequestStreamAsync().ConfigureAwait(false);
-
-                byte[] buffer = Encoding.UTF8.GetBytes(request.Body);
-
-                await stream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                combinedHeaders.TryGetValue("Content-Type", out string contentType);
+                httpRequest.Content = new StringContent(request.Body, null, contentType);
             }
 
             return httpRequest;
@@ -201,7 +181,7 @@
 
         public T Parse<T>(ApiResponse response, IReadOnlyDictionary<int, string> errorMap)
         {
-            if (response.StatusCode == 200)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 return JsonConvert.DeserializeObject<T>(response.Body);
             }
@@ -213,9 +193,9 @@
         {
             var messages = new List<string>();
 
-            if (errorMap.ContainsKey(response.StatusCode))
+            if (errorMap.TryGetValue((int)response.StatusCode, out string msg))
             {
-                messages.Add(errorMap[response.StatusCode]);
+                messages.Add(msg);
             }
 
             string bodyMessage = ReadErrorMessage(response.Body);
@@ -234,7 +214,7 @@
 
             string message = string.Join("; ", messages);
 
-            var exception = new TvDbServerException(message, response.StatusCode)
+            var exception = new TvDbServerException(message, (int)response.StatusCode)
             {
                 UnknownError = unknownError
             };
