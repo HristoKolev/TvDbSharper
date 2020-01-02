@@ -1,10 +1,23 @@
 [![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000?style=plastic)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
 # How to installl
-```PowerShell
-Install-Package TvDbSharper
+
 ```
+
+dotnet add package TvDbSharper
+
+``` 
+
+
+```
+
+Install-Package TvDbSharper
+
+```
+
 or with the NuGet UI in Visual Studio
+
+
 
 # The client
 
@@ -24,8 +37,8 @@ ITvDbClient client = new TvDbClient();
 Before you do anything else you need to authenticate yourself.
 
 * You will need an account on https://thetvdb.com/
-* Then you will need to register an API key here: https://thetvdb.com/?tab=apiregister
-* Then you can see all of the required information on your account page here: https://thetvdb.com/?tab=userinfo
+* Then you will need to register an API key here: https://thetvdb.com/dashboard/account/apikey
+* Then you can see all of the required information on your account page here: https://thetvdb.com/dashboard/account/editinfo
 * **Note**: The "Account Identifier" field holds the UserKey.
 
 Then you can use the client like this:

@@ -10,7 +10,7 @@ namespace TvDbSharper.Dto
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TvDbSharper.Dto.AuthenticationData" /> class.
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         /// <param name="username">The Username needed for authentication.</param>
         /// <param name="userKey">The UserKey or Account Identifier found in the account page of your thetvdb.com profile</param>
         public AuthenticationData(string apiKey, string username, string userKey)
@@ -53,7 +53,7 @@ namespace TvDbSharper.Dto
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TvDbSharper.Dto.AuthenticationData" /> class.
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         public AuthenticationData(string apiKey)
         {
             if (apiKey == null)
@@ -77,7 +77,7 @@ namespace TvDbSharper.Dto
         }
 
         /// <summary>
-        /// The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister
+        /// The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey
         /// </summary>
         public string ApiKey { get; set; }
 

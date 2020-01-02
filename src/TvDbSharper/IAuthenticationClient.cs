@@ -32,7 +32,7 @@
         /// <para>The session token is only valid for 24 hours, but the session can be extended by calling <see cref="RefreshTokenAsync()" /></para>
         /// <para>Call once before calling any other method.</para>
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         /// <param name="username">The Username needed for authentication.</param>
         /// <param name="userKey">The UserKey or Account Identifier found in the account page of your thetvdb.com profile</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -45,7 +45,7 @@
         /// <para>The session token is only valid for 24 hours, but the session can be extended by calling <see cref="RefreshTokenAsync()" /></para>
         /// <para>Call once before calling any other method.</para>
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         /// <param name="username">The Username needed for authentication.</param>
         /// <param name="userKey">The UserKey or Account Identifier found in the account page of your thetvdb.com profile</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task" />.The task object representing the asynchronous operation.</returns>
@@ -57,7 +57,7 @@
         /// <para>The session token is only valid for 24 hours, but the session can be extended by calling <see cref="RefreshTokenAsync()" /></para>
         /// <para>Call once before calling any other method.</para>
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task" />.The task object representing the asynchronous operation.</returns>
         Task AuthenticateAsync(string apiKey, CancellationToken cancellationToken);
@@ -68,7 +68,7 @@
         /// <para>The session token is only valid for 24 hours, but the session can be extended by calling <see cref="RefreshTokenAsync()" /></para>
         /// <para>Call once before calling any other method.</para>
         /// </summary>
-        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/?tab=apiregister </param>
+        /// <param name="apiKey">The ApiKey needed for authentication. Can be generated here: https://thetvdb.com/dashboard/account/apikey </param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task" />.The task object representing the asynchronous operation.</returns>
         Task AuthenticateAsync(string apiKey);
 
