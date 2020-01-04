@@ -33,6 +33,28 @@
         /// each value represents a property by which the search is performed</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string value, SearchParameter parameterKey);
+        
+        /// <summary>
+        /// <para>[GET /search/series]</para>
+        /// <para>Returns a series search result based on the following parameters.</para>
+        /// </summary>
+        /// <param name="value">The parameter value</param>
+        /// <param name="parameterKey">Search parameter as a string.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(
+            string value,
+            string parameterKey,
+            CancellationToken cancellationToken);
+
+        /// <summary>
+        /// <para>[GET /search/series]</para>
+        /// <para>Returns a series search result based on the following parameters</para>
+        /// </summary>
+        /// <param name="value">The parameter value</param>
+        /// <param name="parameterKey">Search parameter as a string.</param>
+        /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesAsync(string value, string parameterKey);
 
         /// <summary>
         /// <para>[GET /search/series]</para>
@@ -84,5 +106,22 @@
         /// <param name="zap2ItId">The Zap2It ID of the series</param>
         /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
         Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesByZap2ItIdAsync(string zap2ItId);
+        
+        /// <summary>
+        /// <para>[GET /search/series]</para>
+        /// <para>Returns a series search result based on their series slug.</para>
+        /// </summary>
+        /// <param name="slug">The slug of the series</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesBySlugAsync(string slug, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// <para>[GET /search/series]</para>
+        /// <para>Returns a series search result based on their series slug.</para>
+        /// </summary>
+        /// <param name="slug">The slug of the series</param>
+        /// <returns>Returns <see cref="T:System.Threading.Tasks.Task`1" />.The task object representing the asynchronous operation.</returns>
+        Task<TvDbResponse<SeriesSearchResult[]>> SearchSeriesBySlugAsync(string slug);
     }
 }

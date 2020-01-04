@@ -121,6 +121,60 @@
                 .WithNoCancellationToken()
                 .RunAsync();
         }
+        
+        [Theory]
+        [InlineData("stargate-universe")]
+        [InlineData("stargate-sg-1")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesBySlugAsync_Makes_The_Right_Request(string slug)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.SearchSeriesBySlugAsync(slug, token))
+                .ShouldRequest("GET", $"/search/series?slug={slug}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [InlineData("stargate-universe")]
+        [InlineData("stargate-sg-1")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesBySlugAsync_Without_CT_Makes_The_Right_Request(string slug)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.SearchSeriesBySlugAsync(slug))
+                .ShouldRequest("GET", $"/search/series?slug={slug}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
+        
+        [Theory]
+        [InlineData("stargate-universe", "slug")]
+        [InlineData("stargate-sg-1", "slug")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_With_String_Param_Makes_The_Right_Request(string value, string key)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.SearchSeriesAsync(value, key, token))
+                .ShouldRequest("GET", $"/search/series?{key}={value}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [InlineData("stargate-universe", "slug")]
+        [InlineData("stargate-sg-1", "slug")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task SearchSeriesAsync_With_String_Param_Without_CT_Makes_The_Right_Request(string value, string key)
+        {
+            return CreateClient()
+                .WhenCallingAMethod((impl, token) => impl.SearchSeriesAsync(value, key))
+                .ShouldRequest("GET", $"/search/series?{key}={value}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
 
         private static ApiTest<SearchClient> CreateClient()
         {

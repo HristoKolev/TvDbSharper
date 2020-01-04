@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace TvDbSharper.Dto
 {
     using System;
@@ -92,6 +94,9 @@ namespace TvDbSharper.Dto
         public string Username { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class AuthenticationResponse
     {
         public AuthenticationResponse()

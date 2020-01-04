@@ -1,7 +1,12 @@
-﻿namespace TvDbSharper.Dto
+﻿using Newtonsoft.Json;
+
+namespace TvDbSharper.Dto
 {
     using System;
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class Actor
     {
         public int Id { get; set; }
@@ -23,6 +28,9 @@
         public int? SortOrder { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class EpisodeQuery
     {
         public int? AbsoluteNumber { get; set; }
@@ -40,6 +48,9 @@
         public string ImdbId { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class EpisodesSummary
     {
         public string AiredEpisodes { get; set; }
@@ -51,6 +62,9 @@
         public string[] DvdSeasons { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class Image
     {
         public string FileName { get; set; }
@@ -61,6 +75,8 @@
 
         public int? LanguageId { get; set; }
 
+        public string Language { get; set; }
+
         public RatingsInfo RatingsInfo { get; set; }
 
         public string Resolution { get; set; }
@@ -70,6 +86,9 @@
         public string Thumbnail { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class ImagesQuery
     {
         public KeyType KeyType { get; set; }
@@ -79,6 +98,9 @@
         public string SubKey { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class ImagesSummary
     {
         public int? Fanart { get; set; }
@@ -105,6 +127,9 @@
         Series
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class RatingsInfo
     {
         public decimal? Average { get; set; }
@@ -112,6 +137,9 @@
         public int? Count { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class Series
     {
         public string Added { get; set; }
@@ -166,6 +194,14 @@
 
         // ReSharper disable once InconsistentNaming
         public string Zap2itId { get; set; }
+        
+        public int Season { get; set; }
+
+        public string Poster { get; set; }
+
+        public string FanArt { get; set; }
+        
+        public string Language { get; set; }
     }
 
     [Flags]

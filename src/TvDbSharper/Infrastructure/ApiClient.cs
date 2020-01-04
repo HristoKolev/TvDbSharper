@@ -1,4 +1,6 @@
-﻿namespace TvDbSharper.Infrastructure
+﻿using Newtonsoft.Json.Serialization;
+
+namespace TvDbSharper.Infrastructure
 {
     using System;
     using System.Collections.Concurrent;
@@ -199,11 +201,18 @@
     {
         private const string UnknownErrorMessage = "The REST API returned an unkown error.";
 
+        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        {
+#if DEBUG
+            MissingMemberHandling = MissingMemberHandling.Error,
+#endif
+        }; 
+
         public T Parse<T>(ApiResponse response, IReadOnlyDictionary<int, string> errorMap)
         {
             if (response.StatusCode == 200)
             {
-                return JsonConvert.DeserializeObject<T>(response.Body);
+                return JsonConvert.DeserializeObject<T>(response.Body, JsonSettings);
             }
 
             throw CreateException(response, errorMap);
@@ -246,7 +255,7 @@
         {
             try
             {
-                return JsonConvert.DeserializeObject<ErrorResponse>(body).Error;
+                return JsonConvert.DeserializeObject<ErrorResponse>(body, JsonSettings).Error;
             }
             catch (Exception)
             {

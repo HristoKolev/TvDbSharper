@@ -1,5 +1,11 @@
-﻿namespace TvDbSharper.Dto
+﻿using Newtonsoft.Json;
+
+namespace TvDbSharper.Dto
 {
+    
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class Language
     {
         /// <summary>

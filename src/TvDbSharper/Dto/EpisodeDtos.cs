@@ -1,7 +1,11 @@
-﻿namespace TvDbSharper.Dto
-{
-    using System;
+﻿using Newtonsoft.Json;
 
+namespace TvDbSharper.Dto
+{
+
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class EpisodeLanguage
     {
         public string EpisodeName { get; set; }
@@ -9,6 +13,9 @@
         public string Overview { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class EpisodeRecord
     {
         public int? AbsoluteNumber { get; set; }
@@ -24,9 +31,6 @@
         public int? AirsBeforeEpisode { get; set; }
 
         public int? AirsBeforeSeason { get; set; }
-
-        [Obsolete("Use string[] Directors")]
-        public string Director { get; set; }
 
         public string[] Directors { get; set; }
 
@@ -77,5 +81,9 @@
         public string ThumbWidth { get; set; }
 
         public string[] Writers { get; set; }
+        
+        public string ContentRating { get; set; }
+        
+        public int IsMovie { get; set; }
     }
 }
