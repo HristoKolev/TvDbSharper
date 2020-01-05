@@ -124,6 +124,18 @@
         {
             return this.GetImagesAsync(seriesId, query, CancellationToken.None);
         }
+        
+        public async Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQueryAlternative query, CancellationToken cancellationToken)
+        {
+            var request = new ApiRequest("GET", $"/series/{seriesId}/images/query?{this.UrlHelpers.Querify(query)}");
+            var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            return this.Parser.Parse<TvDbResponse<Image[]>>(response, ErrorMessages.Series.GetImagesAsync);
+        }
+
+        public Task<TvDbResponse<Image[]>> GetImagesAsync(int seriesId, ImagesQueryAlternative query)
+        {
+            return this.GetImagesAsync(seriesId, query, CancellationToken.None);
+        }
 
         public async Task<TvDbResponse<ImagesSummary>> GetImagesSummaryAsync(int seriesId, CancellationToken cancellationToken)
         {

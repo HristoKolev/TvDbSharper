@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvDbSharper", "src\TvDbShar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TvDbSharper.Tests", "test\TvDbSharper.Tests\TvDbSharper.Tests.csproj", "{D96AD679-2E1B-46A1-87E6-BB26B41E127F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests", "test\ManualTests\ManualTests.csproj", "{6C60ED41-A99D-42AF-8759-4DA6872D7060}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D96AD679-2E1B-46A1-87E6-BB26B41E127F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D96AD679-2E1B-46A1-87E6-BB26B41E127F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D96AD679-2E1B-46A1-87E6-BB26B41E127F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C60ED41-A99D-42AF-8759-4DA6872D7060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C60ED41-A99D-42AF-8759-4DA6872D7060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C60ED41-A99D-42AF-8759-4DA6872D7060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C60ED41-A99D-42AF-8759-4DA6872D7060}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,5 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6B0E3D9A-B3F7-4434-9109-DB088F69544E} = {E3C38358-E2A9-4E9C-AF11-8F664B22E4E8}
 		{D96AD679-2E1B-46A1-87E6-BB26B41E127F} = {1B489136-FEA1-4FEF-BA8D-AF8070701883}
+		{6C60ED41-A99D-42AF-8759-4DA6872D7060} = {1B489136-FEA1-4FEF-BA8D-AF8070701883}
 	EndGlobalSection
 EndGlobal

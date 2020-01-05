@@ -101,6 +101,18 @@ namespace TvDbSharper.Dto
 #if DEBUG
     [JsonObject(ItemRequired = Required.AllowNull)]
 #endif
+    public class ImagesQueryAlternative
+    {
+        public string KeyType { get; set; }
+
+        public string Resolution { get; set; }
+
+        public string SubKey { get; set; }
+    }
+
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class ImagesSummary
     {
         public int? Fanart { get; set; }
