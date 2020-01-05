@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json.Serialization;
-
-namespace TvDbSharper.Infrastructure
+﻿namespace TvDbSharper.Infrastructure
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
-    using System.Net;
+    using System.Net.Http;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -20,18 +17,17 @@ namespace TvDbSharper.Infrastructure
     {
         public ApiRequest()
         {
+            this.Headers = new Dictionary<string, string>();
         }
 
-        public ApiRequest(string method, string url)
+        public ApiRequest(string method, string url) : this()
         {
             this.Method = method;
             this.Url = url;
         }
 
-        public ApiRequest(string method, string url, string body)
+        public ApiRequest(string method, string url, string body) : this(method, url)
         {
-            this.Method = method;
-            this.Url = url;
             this.Body = body;
         }
 
@@ -67,7 +63,10 @@ namespace TvDbSharper.Infrastructure
         public ApiClient()
         {
             this.DefaultRequestHeaders = new ConcurrentDictionary<string, string>();
+            this.HttpClient = new HttpClient();
         }
+
+        private HttpClient HttpClient { get; }
 
         public string BaseAddress { get; set; }
 
@@ -75,120 +74,49 @@ namespace TvDbSharper.Infrastructure
 
         public async Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken)
         {
-            return await GetResponseAsync(await this.CreateRequestAsync(request).ConfigureAwait(false), cancellationToken)
-                       .ConfigureAwait(false);
-        }
-
-        private static void ApplyHeaders(WebRequest request, IDictionary<string, string> headers)
-        {
-            request.Headers = new WebHeaderCollection();
-
-            foreach (var pair in headers)
+            var httpRequestMessage = new HttpRequestMessage
             {
-                switch (pair.Key)
-                {
-                    case "Content-Type" :
-                    {
-                        request.ContentType = pair.Value;
-                        break;
-                    }
-
-                    default :
-                    {
-                        request.Headers[pair.Key] = pair.Value;
-                        break;
-                    }
-                }
-            }
-        }
-
-        private static IDictionary<string, string> CombineHeaders(params IDictionary<string, string>[] headerCollections)
-        {
-            var result = new Dictionary<string, string>();
-
-            for (var i = 0; i < headerCollections.Length; i++)
-            {
-                var headerCollection = headerCollections[i];
-
-                if (headerCollection != null)
-                {
-                    foreach (var pair in headerCollection)
-                    {
-                        result[pair.Key] = pair.Value;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        private static async Task<ApiResponse> GetResponseAsync(WebRequest httpRequest, CancellationToken cancellationToken)
-        {
-            HttpWebResponse httpResponse;
-
-            try
-            {
-                httpResponse = (HttpWebResponse)await httpRequest.GetResponseAsync().ConfigureAwait(false);
-            }
-            catch (WebException ex)
-            {
-                httpResponse = (HttpWebResponse)ex.Response;
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var stream = httpResponse.GetResponseStream();
-
-            string body;
-
-            using (var reader = new StreamReader(stream))
-            {
-                body = await reader.ReadToEndAsync().ConfigureAwait(false);
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var headers = ParseHeaders(httpResponse.Headers);
-
-            return new ApiResponse
-            {
-                Body = body,
-                StatusCode = (int)httpResponse.StatusCode,
-                Headers = headers
+                RequestUri = new Uri(BaseAddress + request.Url),
+                Method = new HttpMethod(request.Method)
             };
-        }
-
-        private static IDictionary<string, string> ParseHeaders(WebHeaderCollection headers)
-        {
-            var dict = new Dictionary<string, string>();
-
-            foreach (string name in headers)
-            {
-                dict[name] = headers[name];
-            }
-
-            return dict;
-        }
-
-        private async Task<HttpWebRequest> CreateRequestAsync(ApiRequest request)
-        {
-            string url = (this.BaseAddress ?? string.Empty) + request.Url;
-
-            var httpRequest = WebRequest.CreateHttp(url);
-            httpRequest.Method = request.Method;
-
-            ApplyHeaders(httpRequest, CombineHeaders(this.DefaultRequestHeaders, request.Headers));
 
             if (request.Body != null)
             {
-                var stream = await httpRequest.GetRequestStreamAsync().ConfigureAwait(false);
-
-                byte[] buffer = Encoding.UTF8.GetBytes(request.Body);
-
-                await stream.WriteAsync(buffer, 0, buffer.Length).ConfigureAwait(false);
+                httpRequestMessage.Content = new StringContent(request.Body, Encoding.UTF8, "application/json");
             }
 
-            return httpRequest;
+            foreach (var pair in DefaultRequestHeaders)
+            {
+                if (!httpRequestMessage.Headers.TryAddWithoutValidation(pair.Key, pair.Value))
+                {
+                    throw new Exception($"Couldn't add header '{pair.Key}'."); 
+                }
+            }
+
+            foreach (var pair in request.Headers)
+            {
+                if (!httpRequestMessage.Headers.TryAddWithoutValidation(pair.Key, pair.Value))
+                {
+                    throw new Exception($"Couldn't add header '{pair.Key}'."); 
+                }
+            }
+
+            var httpResponseMessage = await HttpClient.SendAsync(httpRequestMessage, cancellationToken);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            string responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var headers = httpResponseMessage.Headers.ToDictionary(x => x.Key, x => string.Join(", ", x.Value));
+            
+            return new ApiResponse
+            {
+                Body = responseBody,
+                StatusCode = (int)httpResponseMessage.StatusCode,
+                Headers = headers
+            };
         }
     }
 
