@@ -1,6 +1,6 @@
 # 3.0.0
 
-* Removed property `Directory` from the ` EpisodeRecord` model.
+* Removed property `Director` from the ` EpisodeRecord` model.
 * Added property `ContentRating` (string) to the `EpisodeRecord` model.
 * Added property `IsMovie` (int) to the `EpisodeRecord` model.
 * Renamed property `Previous` to `Prev` in the `Links` model.
