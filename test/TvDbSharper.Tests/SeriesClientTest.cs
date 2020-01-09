@@ -245,6 +245,45 @@
                 .WithNoCancellationToken()
                 .RunAsync();
         }
+        
+        [Theory]
+        [InlineData(1, "series", "1", "2")]
+        [InlineData(2, "fanart", "3", "4")]
+        [InlineData(3, "poster", "5", "6")]
+        [InlineData(4, "season", "7", "8")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetImagesAsync_Alternative_Makes_The_Right_Request(int seriesId, string keyType, string resolution, string subKey)
+        {
+            var query = new ImagesQueryAlternative { Resolution = resolution, SubKey = subKey, KeyType = keyType };
+
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Series.GetImagesAsync)
+                .SetResultObject(new TvDbResponse<Image[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetImagesAsync(seriesId, query, token))
+                .ShouldRequest("GET", $"/series/{seriesId}/images/query?keyType={keyType}&resolution={resolution}&subKey={subKey}")
+                .RunAsync();
+        }
+
+        [Theory]
+        [InlineData(1, "series", "1", "2")]
+        [InlineData(2, "fanart", "3", "4")]
+        [InlineData(3, "poster", "5", "6")]
+        [InlineData(4, "season", "7", "8")]
+
+        // ReSharper disable once InconsistentNaming
+        public Task GetImagesAsync_Alternative_Without_CT_Makes_The_Right_Request(int seriesId, string keyType, string resolution, string subKey)
+        {
+            var query = new ImagesQueryAlternative { Resolution = resolution, SubKey = subKey, KeyType = keyType };
+
+            return CreateClient()
+                .WithErrorMap(ErrorMessages.Series.GetImagesAsync)
+                .SetResultObject(new TvDbResponse<Image[]>())
+                .WhenCallingAMethod((impl, token) => impl.GetImagesAsync(seriesId, query))
+                .ShouldRequest("GET", $"/series/{seriesId}/images/query?keyType={keyType}&resolution={resolution}&subKey={subKey}")
+                .WithNoCancellationToken()
+                .RunAsync();
+        }
 
         [Theory]
         [ClassData(typeof(IntegerData))]

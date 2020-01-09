@@ -1,3 +1,24 @@
+# 3.0.0
+
+* Removed property `Directory` from the ` EpisodeRecord` model.
+* Added property `ContentRating` (string) to the `EpisodeRecord` model.
+* Added property `IsMovie` (int) to the `EpisodeRecord` model.
+* Renamed property `Previous` to `Prev` in the `Links` model.
+* Added property `FanArt` (string) to the `SeriesSearchResult` model.
+* Added property `Poster` (string) to the `SeriesSearchResult` model.
+* Added property `Poster` (string) to the `Series` model.
+* Added property `Season` (string) to the `Series` model.
+* Added property `FanArt` (string) to the `Series` model.
+* Added property `Language` (string) to the `Series` model.
+
+* Added method `SearchSeriesBySlugAsync` to the search client.
+* Added method overload `SearchSeriesAsync` that accepts string type parameter to the search client.
+
+* Added method overload `GetImagesAsync` with alternative query model that allows strings to be used for query type.
+
+* Moved to `HttpClient` for http requests. 
+
+
 # 2.0.0
 
 * Removed the property `Seasonwide` from the `ImagesSummary` model.

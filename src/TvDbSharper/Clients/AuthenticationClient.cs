@@ -1,7 +1,6 @@
 ﻿namespace TvDbSharper.Clients
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -13,8 +12,6 @@
     internal class AuthenticationClient : IAuthenticationClient
     {
         private const string AuthorizationHeaderName = "Authorization";
-
-        private const string ContentTypeHeaderName = "Content-Type";
 
         private readonly JsonSerializerSettings serializerSettings = new JsonSerializerSettings
         {
@@ -57,14 +54,7 @@
 
             string body = JsonConvert.SerializeObject(authenticationData, this.serializerSettings);
      
-            var request = new ApiRequest("POST", "/login", body)
-            {
-                Headers = new Dictionary<string, string>
-                {
-                    [ContentTypeHeaderName] = "application/json"
-                }
-            };
-
+            var request = new ApiRequest("POST", "/login", body);
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var data = this.Parser.Parse<AuthenticationResponse>(response, ErrorMessages.Authentication.AuthenticateAsync);
 

@@ -1,4 +1,6 @@
-﻿namespace TvDbSharper.Dto
+﻿using Newtonsoft.Json;
+
+namespace TvDbSharper.Dto
 {
     public enum RatingType
     {
@@ -9,6 +11,9 @@
         Image
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class User
     {
         // ReSharper disable once IdentifierTypo
@@ -19,11 +24,17 @@
         public string UserName { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class UserFavorites
     {
         public string[] Favorites { get; set; }
     }
 
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class UserRatings
     {
         public decimal? Rating { get; set; }

@@ -1,5 +1,10 @@
+using Newtonsoft.Json;
+
 namespace TvDbSharper.Dto
 {
+#if DEBUG
+    [JsonObject(ItemRequired = Required.AllowNull)]
+#endif
     public class Links
     {
         public int? First { get; set; }
@@ -8,6 +13,6 @@ namespace TvDbSharper.Dto
 
         public int? Next { get; set; }
 
-        public int? Previous { get; set; }
+        public int? Prev { get; set; }
     }
 }
