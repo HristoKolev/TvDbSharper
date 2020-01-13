@@ -7,7 +7,7 @@
 * Added property `FanArt` (string) to the `SeriesSearchResult` model.
 * Added property `Poster` (string) to the `SeriesSearchResult` model.
 * Added property `Poster` (string) to the `Series` model.
-* Added property `Season` (string) to the `Series` model.
+* Added property `Season` (int) to the `Series` model.
 * Added property `FanArt` (string) to the `Series` model.
 * Added property `Language` (string) to the `Series` model.
 
