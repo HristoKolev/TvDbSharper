@@ -207,7 +207,7 @@ namespace TvDbSharper.Dto
         // ReSharper disable once InconsistentNaming
         public string Zap2itId { get; set; }
         
-        public int Season { get; set; }
+        public int? Season { get; set; }
 
         public string Poster { get; set; }
 

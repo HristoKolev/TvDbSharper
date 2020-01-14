@@ -1,3 +1,7 @@
+# 3.0.1
+
+* Changed the type of property Series.Season from `int` to `int?`.    
+
 # 3.0.0
 
 * Removed property `Director` from the ` EpisodeRecord` model.
