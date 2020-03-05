@@ -1,4 +1,6 @@
-﻿namespace TvDbSharper.Clients
+﻿using System.Net.Http.Headers;
+
+namespace TvDbSharper.Clients
 {
     using System;
     using System.Threading;
@@ -28,17 +30,16 @@
         {
             get
             {
-                var headers = this.ApiClient.DefaultRequestHeaders;
 
-                if (headers.ContainsKey(AuthorizationHeaderName))
+                if (this.ApiClient.HttpClient.DefaultRequestHeaders.Contains(AuthorizationHeaderName))
                 {
-                    return headers[AuthorizationHeaderName].Split(' ')[1];
+                    return this.ApiClient.HttpClient.DefaultRequestHeaders.Authorization.Parameter;
                 }
 
                 return null;
             }
 
-            set => this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName] = "Bearer " + value;
+            set => this.ApiClient.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", value);
         }
 
         private IApiClient ApiClient { get; }
@@ -102,7 +103,8 @@
 
         private void UpdateAuthenticationHeader(string token)
         {
-            this.ApiClient.DefaultRequestHeaders[AuthorizationHeaderName] = "Bearer " + token;
+            this.ApiClient.HttpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }

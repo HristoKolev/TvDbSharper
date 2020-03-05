@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Net.Http;
+
 namespace TvDbSharper
 {
     using System;
@@ -7,14 +10,17 @@ namespace TvDbSharper
 
     public class TvDbClient : ITvDbClient
     {
-        private const string AcceptLanguageHeaderName = "Accept-Language";
-
         private const string DefaultAcceptedLanguage = "en";
 
         private const string DefaultBaseUrl = "https://api.thetvdb.com";
 
         public TvDbClient()
-            : this(new ApiClient(), new Parser())
+            : this(new HttpClient())
+        {
+        }
+        
+        public TvDbClient(HttpClient httpClient)
+            : this(new ApiClient(httpClient), new Parser())
         {
         }
 
@@ -22,7 +28,15 @@ namespace TvDbSharper
         {
             this.ApiClient = apiClient;
 
-            this.BaseUrl = DefaultBaseUrl;
+            if (this.AcceptedLanguage == null)
+            {
+                this.AcceptedLanguage = DefaultAcceptedLanguage;                
+            }
+
+            if (this.BaseUrl == null)
+            {
+                this.BaseUrl = DefaultBaseUrl;
+            }
 
             this.Authentication = new AuthenticationClient(this.ApiClient, parser);
             this.Episodes = new EpisodesClient(this.ApiClient, parser);
@@ -35,17 +49,7 @@ namespace TvDbSharper
 
         public string AcceptedLanguage
         {
-            get
-            {
-                var headers = this.ApiClient.DefaultRequestHeaders;
-
-                if (headers.ContainsKey(AcceptLanguageHeaderName))
-                {
-                    return headers[AcceptLanguageHeaderName];
-                }
-
-                return DefaultAcceptedLanguage;
-            }
+            get => this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.SingleOrDefault()?.ToString();
 
             set
             {
@@ -59,7 +63,8 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.ApiClient.DefaultRequestHeaders[AcceptLanguageHeaderName] = value;
+                this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+                this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
             }
         }
 
@@ -70,7 +75,7 @@ namespace TvDbSharper
 
         public string BaseUrl
         {
-            get => this.ApiClient.BaseAddress;
+            get => this.ApiClient.HttpClient.BaseAddress?.ToString()?.TrimEnd('/');
 
             set
             {
@@ -84,7 +89,7 @@ namespace TvDbSharper
                     throw new ArgumentException("The value cannot be an empty string or white space.");
                 }
 
-                this.ApiClient.BaseAddress = value;
+                this.ApiClient.HttpClient.BaseAddress = new Uri(value);
             }
         }
 

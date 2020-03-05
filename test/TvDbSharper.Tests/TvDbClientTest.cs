@@ -15,16 +15,16 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Add_Header_To_The_HttpClient()
         {
-            var httpClient = CreateHttpClient();
+            var apiClient = CreateApiClient();
             var parser = CreateParser();
 
-            var client = CreateClient(httpClient, parser);
+            var client = CreateClient(apiClient, parser);
 
             const string Language = "de";
 
             client.AcceptedLanguage = Language;
 
-            Assert.True(httpClient.DefaultRequestHeaders["Accept-Language"] == Language);
+            Assert.True(apiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ToString() == Language);
         }
 
         [Fact]
@@ -32,7 +32,7 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Return_DefaultLanguage_If_Non_Is_Set()
         {
-            var httpClient = CreateHttpClient();
+            var httpClient = CreateApiClient();
             var parser = CreateParser();
 
             const string DefaultLanguage = "en";
@@ -47,14 +47,15 @@
         // ReSharper disable once InconsistentNaming
         public void AcceptedLanguage_Should_Return_The_Current_AcceptedLanguage()
         {
-            var httpClient = CreateHttpClient();
+            var apiClient = CreateApiClient();
             var parser = CreateParser();
 
             const string Language = "zh";
 
-            httpClient.DefaultRequestHeaders["Accept-Language"] = Language;
+            apiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
+            apiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(Language);
 
-            var client = CreateClient(httpClient, parser);
+            var client = CreateClient(apiClient, parser);
 
             Assert.Equal(Language, client.AcceptedLanguage);
         }
@@ -105,16 +106,16 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Sets_HttpClient_BaseAddress_To_The_Value()
         {
-            var httpClient = CreateHttpClient();
+            var apiClient = CreateApiClient();
             var parser = CreateParser();
 
-            var client = CreateClient(httpClient, parser);
+            var client = CreateClient(apiClient, parser);
 
             const string Value = "http://example.com";
 
             client.BaseUrl = Value;
 
-            Assert.Equal(Value, httpClient.BaseAddress);
+            Assert.Equal(Value, apiClient.HttpClient.BaseAddress.ToString().TrimEnd('/'));
         }
 
         [Fact]
@@ -122,13 +123,29 @@
         // ReSharper disable once InconsistentNaming
         public void BaseUrl_Should_Return_The_Same_Value_That_Is_Passed_In()
         {
-            var jsonCluent = CreateClient();
+            var client = CreateClient();
 
             const string Value = "http://example.com";
 
-            jsonCluent.BaseUrl = Value;
+            client.BaseUrl = Value;
 
-            Assert.Equal(Value, jsonCluent.BaseUrl);
+            Assert.Equal(Value, client.BaseUrl);
+        }
+        
+        [Fact]
+        // ReSharper disable once InconsistentNaming
+        public void BaseUrl_Should_Not_Be_Ovveriden_If_Present_In_The_HttpClient()
+        {
+            var apiClient = CreateApiClient();
+            var parser = CreateParser();
+
+            const string Value = "http://example.com";
+            
+            apiClient.HttpClient.BaseAddress = new Uri(Value);
+            
+            var client = CreateClient(apiClient, parser);
+
+            Assert.Equal(Value, client.BaseUrl);
         }
 
         [Fact]
@@ -166,12 +183,12 @@
         // ReSharper disable once InconsistentNaming
         public void Constructor_If_HttpClient_BaseUrl_Is_Null_Should_Set_To_Default()
         {
-            var httpClient = CreateHttpClient();
+            var apiClient = CreateApiClient();
             var parser = CreateParser();
 
-            var client = CreateClient(httpClient, parser);
+            var client = CreateClient(apiClient, parser);
 
-            Assert.Equal("https://api.thetvdb.com", httpClient.BaseAddress);
+            Assert.Equal("https://api.thetvdb.com", apiClient.HttpClient.BaseAddress.ToString().TrimEnd('/'));
         }
 
         [Fact]
@@ -250,7 +267,7 @@
             return new TvDbClient();
         }
 
-        private static ApiClientMock CreateHttpClient()
+        private static ApiClientMock CreateApiClient()
         {
             return new ApiClientMock();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TvDbSharper;
@@ -12,11 +13,15 @@ namespace ManualTests
     {
         static async Task Main(string[] args)
         {
-            var client = new TvDbClient();
+            var httpClient = new HttpClient();
+            
+            var client = new TvDbClient(httpClient);
 
             var authenticationData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
             
             await client.Authentication.AuthenticateAsync(authenticationData);
+            
+            client = new TvDbClient(httpClient);
 
             int seriesID = 83237;
             

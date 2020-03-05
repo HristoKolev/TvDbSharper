@@ -46,6 +46,11 @@ namespace TvDbSharper.Dto
 #if DEBUG
         [JsonProperty(Required = Required.Default)]
 #endif
+        public string Image { get; set; }
+
+#if DEBUG
+        [JsonProperty(Required = Required.Default)]
+#endif
         public string Overview { get; set; }
 
         public string SeriesName { get; set; }

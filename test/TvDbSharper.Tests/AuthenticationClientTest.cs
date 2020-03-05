@@ -1,4 +1,6 @@
-﻿namespace TvDbSharper.Tests
+﻿using System.Net.Http.Headers;
+
+namespace TvDbSharper.Tests
 {
     using System;
     using System.Threading.Tasks;
@@ -38,7 +40,7 @@
 
             return AuthenticateAsyncTest()
                 .WhenCallingAMethod((client, token) => client.AuthenticateAsync(authenticationRequest, token))
-                .AssertThat((client, parser) => Assert.Equal("Bearer auth_token", client.DefaultRequestHeaders["Authorization"]))
+                .AssertThat((client, parser) => Assert.Equal("Bearer auth_token", client.HttpClient.DefaultRequestHeaders.Authorization.ToString()))
                 .RunAsync();
         }
 
@@ -171,7 +173,8 @@
                 Token = token
             };
 
-            Assert.Equal($"Bearer {token}", client.DefaultRequestHeaders["Authorization"]);
+            Assert.Equal(token, client.HttpClient.DefaultRequestHeaders.Authorization.Parameter);
+            Assert.Equal("Bearer", client.HttpClient.DefaultRequestHeaders.Authorization.Scheme);
         }
 
 
@@ -183,13 +186,8 @@
         // ReSharper disable once InconsistentNaming
         public void Token_Gets_The_Token_From_The_API_Client(string token)
         {
-            var client = new ApiClientMock
-            {
-                DefaultRequestHeaders =
-                {
-                    ["Authorization"] = $"Bearer {token}"
-                }
-            };
+            var client = new ApiClientMock();
+            client.HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var parser = new ParserMock();
 

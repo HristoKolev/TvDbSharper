@@ -9,8 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		CHANGELOG.md = CHANGELOG.md
-		publish-package.sh = publish-package.sh
 		README.md = README.md
+		nuget-push.sh = nuget-push.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1B489136-FEA1-4FEF-BA8D-AF8070701883}"

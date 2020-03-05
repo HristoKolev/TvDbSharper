@@ -1,3 +1,14 @@
+# 3.1.0
+
+* Added property `Image` (string) to the `SeriesSearchResult` model.
+
+* Added an overload to the `TvDbClient` that accepts an HttpClient instance.
+
+* Moved baseUrl state to the HttpClient instance.
+
+* Moved language and auth token state to the HttpClient instance as default headers (AcceptLanguage and Authorization).
+
+
 # 3.0.1
 
 * Changed the type of property Series.Season from `int` to `int?`.    

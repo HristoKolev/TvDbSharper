@@ -51,46 +51,31 @@
 
     internal interface IApiClient
     {
-        string BaseAddress { get; set; }
-
-        IDictionary<string, string> DefaultRequestHeaders { get; set; }
+        HttpClient HttpClient { get; }
 
         Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken);
     }
 
     internal class ApiClient : IApiClient
     {
-        public ApiClient()
+        public ApiClient(HttpClient httpClient)
         {
-            this.DefaultRequestHeaders = new ConcurrentDictionary<string, string>();
-            this.HttpClient = new HttpClient();
+            this.HttpClient = httpClient;
         }
 
-        private HttpClient HttpClient { get; }
-
-        public string BaseAddress { get; set; }
-
-        public IDictionary<string, string> DefaultRequestHeaders { get; set; }
+        public HttpClient HttpClient { get; }
 
         public async Task<ApiResponse> SendRequestAsync(ApiRequest request, CancellationToken cancellationToken)
         {
             var httpRequestMessage = new HttpRequestMessage
             {
-                RequestUri = new Uri(BaseAddress + request.Url),
+                RequestUri = new Uri(request.Url, UriKind.Relative),
                 Method = new HttpMethod(request.Method)
             };
 
             if (request.Body != null)
             {
                 httpRequestMessage.Content = new StringContent(request.Body, Encoding.UTF8, "application/json");
-            }
-
-            foreach (var pair in DefaultRequestHeaders)
-            {
-                if (!httpRequestMessage.Headers.TryAddWithoutValidation(pair.Key, pair.Value))
-                {
-                    throw new Exception($"Couldn't add header '{pair.Key}'."); 
-                }
             }
 
             foreach (var pair in request.Headers)
@@ -101,7 +86,7 @@
                 }
             }
 
-            var httpResponseMessage = await HttpClient.SendAsync(httpRequestMessage, cancellationToken);
+            var httpResponseMessage = await this.HttpClient.SendAsync(httpRequestMessage, cancellationToken);
 
             cancellationToken.ThrowIfCancellationRequested();
 

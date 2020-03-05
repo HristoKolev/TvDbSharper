@@ -1,4 +1,6 @@
-﻿namespace TvDbSharper.Tests.Mocks
+﻿using System.Net.Http;
+
+namespace TvDbSharper.Tests.Mocks
 {
     using System;
     using System.Collections.Generic;
@@ -14,14 +16,12 @@
     {
         public ApiClientMock()
         {
-            this.DefaultRequestHeaders = new Dictionary<string, string>();
+            this.HttpClient = new HttpClient();
         }
-
-        public string BaseAddress { get; set; }
 
         public CancellationToken CancellationToken { get; private set; }
 
-        public IDictionary<string, string> DefaultRequestHeaders { get; set; }
+        public HttpClient HttpClient { get; }
 
         public ApiRequest Request { get; private set; }
 
