@@ -1,27 +1,16 @@
-## Last API compatibility check: 05-03-2020
+TvDbSharper is fully featured modern REST client for the TheTVDB API v3
 
 [![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000?style=plastic)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
-# How to installl
+### Last API compatibility check: 16-03-2020
+
+## How to installl
 
 ```
-
 dotnet add package TvDbSharper
-
-``` 
-
-
 ```
 
-Install-Package TvDbSharper
-
-```
-
-or with the NuGet UI in Visual Studio
-
-
-
-# The client
+## The client
 
 There is one client you need to know about:
 
@@ -34,7 +23,7 @@ or
 ITvDbClient client = new TvDbClient();
 ```
 
-# Authentication
+## Authentication
 
 Before you do anything else you need to authenticate yourself.
 
@@ -55,7 +44,7 @@ The session expires after 24 hours, but you can refresh that period by calling `
 await client.Authentication.RefreshTokenAsync();
 ```
 
-# Series
+## Series
 
 Let's say that you need to get information about a specific show. Doctor Who. You can do it like this:
 
@@ -67,7 +56,7 @@ Console.WriteLine(response.Data.Network); //BBC One
 Console.WriteLine(response.Data.ImdbId); //tt0436992
 ```
 
-If you want to get the episodes of a show... here the REST API shows its shortcomings. You can't do that on one line. You have to do multiple calls because it's paginated at 100 records per page.
+If you want to get the episodes of a show... here the REST API shows its shortcomings. You can't do that on one line. You have to do multiple calls, because it's paginated at 100 records per page.
 
 The code looks something like this:
 ```C#
@@ -98,7 +87,7 @@ var theBestDoctor = response.Data.First();
 Console.WriteLine(theBestDoctor.Name); //David Tennant
 Console.WriteLine(theBestDoctor.Role); //10 (Tenth Doctor)
 ```
-# Search
+## Search
 
 If you want to search for a show you have a few options. You can search by name, imdb ID or zap2it ID
 
@@ -116,7 +105,7 @@ Console.WriteLine(result.Id); //78804
 
 and now that we know the show ID we can do other things with it.
 
-# Updates
+## Updates
 
 If you want to get all of the shows that have been updated in a time interval you can do it like this:
 
@@ -133,7 +122,7 @@ Console.WriteLine(update.LastUpdated.ToDateTime().ToString(CultureInfo.Invariant
 
 If the interval is wider that 7 days it will be reduced to 7 days.
 
-# Working with languages
+## Working with languages
 
 You can get all available languages like that:
 
@@ -158,7 +147,7 @@ If you want to change the language that the client is working with, you can do i
 client.AcceptedLanguage = "de";
 ```
 
-# Everything else
+## Everything else
 
 This client supports all of the functionality of the REST API and I can't list every single method here.
 You can explore that yourself or read the REST API documentation provided by thetvdb.com here https://api.thetvdb.com/swagger
