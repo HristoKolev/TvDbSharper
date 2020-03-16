@@ -86,11 +86,11 @@
                 }
             }
 
-            var httpResponseMessage = await this.HttpClient.SendAsync(httpRequestMessage, cancellationToken);
+            var httpResponseMessage = await this.HttpClient.SendAsync(httpRequestMessage, cancellationToken).ConfigureAwait(false);
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            string responseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+            string responseBody = await httpResponseMessage.Content.ReadAsStringAsync().ConfigureAwait(false);
 
             cancellationToken.ThrowIfCancellationRequested();
 

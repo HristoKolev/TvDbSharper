@@ -1,3 +1,7 @@
+# 3.1.1
+
+* Fixed a potential async issue.
+
 # 3.1.0
 
 * Added property `Image` (string) to the `SeriesSearchResult` model.
