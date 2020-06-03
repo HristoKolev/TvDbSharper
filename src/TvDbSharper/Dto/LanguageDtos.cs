@@ -2,10 +2,7 @@
 
 namespace TvDbSharper.Dto
 {
-    
-#if DEBUG
-    [JsonObject(ItemRequired = Required.AllowNull)]
-#endif
+    [JsonObject(MissingMemberHandling = MissingMemberHandling.Ignore, ItemNullValueHandling = NullValueHandling.Ignore)]
     public class Language
     {
         /// <summary>
@@ -21,7 +18,7 @@ namespace TvDbSharper.Dto
         /// <summary>
         /// The language ID
         /// </summary>
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// The name of the language in it's native form

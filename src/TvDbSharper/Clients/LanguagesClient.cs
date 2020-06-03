@@ -1,5 +1,6 @@
 ﻿namespace TvDbSharper.Clients
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -22,7 +23,12 @@
         {
             var request = new ApiRequest("GET", "/languages");
             var response = await this.ApiClient.SendRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return this.Parser.Parse<TvDbResponse<Language[]>>(response, ErrorMessages.Languages.GetAllAsync);
+            TvDbResponse<Language[]> parsedResponse = this.Parser.Parse<TvDbResponse<Language[]>>(response, ErrorMessages.Languages.GetAllAsync);
+            if (parsedResponse.Data != null)
+            {
+                parsedResponse.Data = Array.FindAll(parsedResponse.Data, language => language.Id != null);
+            }
+            return parsedResponse;
         }
 
         public Task<TvDbResponse<Language[]>> GetAllAsync()
