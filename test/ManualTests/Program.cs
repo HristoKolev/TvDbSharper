@@ -31,7 +31,7 @@ namespace ManualTests
             
             var allLanguages = (await client.Languages.GetAllAsync()).Data;
             
-            var language = (await client.Languages.GetAsync(allLanguages.First().Id)).Data;
+            var language = (await client.Languages.GetAsync(allLanguages.First().Id.Value)).Data;
             
             var searchResult = (await client.Search.SearchSeriesAsync("stargate", SearchParameter.Name)).Data;
             

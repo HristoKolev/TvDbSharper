@@ -84,6 +84,8 @@ namespace TvDbSharper.Dto
         public string SubKey { get; set; }
 
         public string Thumbnail { get; set; }
+        
+        public long SeriesLastUpdated { get; set; }
     }
 
 #if DEBUG

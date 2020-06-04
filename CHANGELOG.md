@@ -1,3 +1,7 @@
+# 3.2.0
+* Added proeprty `SeriesLastUpdated` (long) to the `Image` model.
+* Changed the type of the `Id` property of the `Language` model from `int` to `int?`.
+
 # 3.1.1
 
 * Fixed a potential async issue.
