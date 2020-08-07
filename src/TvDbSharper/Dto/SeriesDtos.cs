@@ -264,6 +264,8 @@ namespace TvDbSharper.Dto
 
         Network = 1048576,
 
-        AddedBy = 2097152
+        AddedBy = 2097152,
+        
+        Slug = 4194304
     }
 }
