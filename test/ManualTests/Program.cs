@@ -31,7 +31,7 @@ namespace ManualTests
             
             var allLanguages = (await client.Languages.GetAllAsync()).Data;
             
-            var language = (await client.Languages.GetAsync(allLanguages.First().Id.Value)).Data;
+            var language = (await client.Languages.GetAsync(allLanguages.First().Id!.Value)).Data;
             
             var searchResult = (await client.Search.SearchSeriesAsync("stargate", SearchParameter.Name)).Data;
             
@@ -51,9 +51,9 @@ namespace ManualTests
             
             var headers = (await client.Series.GetHeadersAsync(seriesID));
             
-            var images = (await client.Series.GetImagesAsync(seriesID, new ImagesQuery() {KeyType = KeyType.Poster})).Data;
+            var images = (await client.Series.GetImagesAsync(seriesID, new ImagesQuery {KeyType = KeyType.Poster})).Data;
             
-            var images2 = (await client.Series.GetImagesAsync(seriesID, new ImagesQueryAlternative() {KeyType = "poster"})).Data;
+            var images2 = (await client.Series.GetImagesAsync(seriesID, new ImagesQueryAlternative {KeyType = "poster"})).Data;
             
             var summaries = (await client.Series.GetEpisodesSummaryAsync(seriesID)).Data;
             

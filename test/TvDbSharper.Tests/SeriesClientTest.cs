@@ -75,6 +75,7 @@
         [InlineData(1, SeriesFilter.Id | SeriesFilter.Genre, "genre,id")]
         [InlineData(2, SeriesFilter.Added | SeriesFilter.AddedBy, "added,addedBy")]
         [InlineData(3, SeriesFilter.Banner | SeriesFilter.Rating, "banner,rating")]
+        [InlineData(4, SeriesFilter.Banner | SeriesFilter.Rating | SeriesFilter.Slug, "banner,rating,slug")]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_Filter_Makes_The_Right_Request(int seriesId, SeriesFilter filter, string stringFilter)
@@ -91,6 +92,7 @@
         [InlineData(1, SeriesFilter.Id | SeriesFilter.Genre, "genre,id")]
         [InlineData(2, SeriesFilter.Added | SeriesFilter.AddedBy, "added,addedBy")]
         [InlineData(3, SeriesFilter.Banner | SeriesFilter.Rating, "banner,rating")]
+        [InlineData(4, SeriesFilter.Banner | SeriesFilter.Rating | SeriesFilter.Slug, "banner,rating,slug")]
 
         // ReSharper disable once InconsistentNaming
         public Task GetAsync_Without_Filter_With_CT_Makes_The_Right_Request(int seriesId, SeriesFilter filter, string stringFilter)
