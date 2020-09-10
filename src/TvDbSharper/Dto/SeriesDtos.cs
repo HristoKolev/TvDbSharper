@@ -124,6 +124,8 @@ namespace TvDbSharper.Dto
         public int? Season { get; set; }
 
         public int? Series { get; set; }
+
+        public int? SeasonWide { get; set; }
     }
 
     public enum KeyType
