@@ -59,6 +59,8 @@ namespace ManualTests
             
             var imageSummaries = (await client.Series.GetImagesSummaryAsync(seriesID)).Data;
             
+            var imageSummaries2 = (await client.Series.GetImagesSummaryAsync(253463)).Data;
+            
             var updates = (await client.Updates.GetAsync(DateTime.Now.Subtract(TimeSpan.FromDays(1)), DateTime.Now)).Data;
             
             // user API

@@ -125,6 +125,9 @@ namespace TvDbSharper.Dto
 
         public int? Series { get; set; }
 
+#if DEBUG
+        [JsonProperty(Required = Required.Default)]
+#endif
         public int? SeasonWide { get; set; }
     }
 

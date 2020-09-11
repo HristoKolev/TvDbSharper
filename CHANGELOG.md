@@ -1,8 +1,11 @@
+# 3.2.2
+Add property `SeasonWide` (int?) to the `ImagesSummary` model.
+
 # 3.2.1
 * Added field `Slug` to the `SeriesFilter` enum.
 
 # 3.2.0
-* Added proeprty `SeriesLastUpdated` (long) to the `Image` model.
+* Added property `SeriesLastUpdated` (long) to the `Image` model.
 * Changed the type of the `Id` property of the `Language` model from `int` to `int?`.
 
 # 3.1.1
@@ -60,7 +63,7 @@
 * Changed the type of the `SeriesId` property of the `EpisodeRecord` model from `string` to `int`.
 * Changed the type of the `Id` property of the `Language` model from `int?` to `int`.
 * Added `Language` property to the `EpisodeRecord` model that is of the new type `Epi
-* Added `AiredSeasonID` (int?) property to the `EpisodeRecord` model.sodeLanguage`:
+* Added `AiredSeasonID` (int?) property to the `EpisodeRecord` model.Episode:
 
 ```csharp
 
@@ -102,7 +105,7 @@ public class EpisodeLanguage
 * Every await now has `ConfigureAwait(false)`
 
 # 0.5.9
-* Removed async/await form methods that don't need it so that the compiler doesn't needlessly generate state machines 
+* Removed async/await form methods that don't need it so that the compiler doesn't needlessly generate state machines.
 
 # 0.5.8
 * Removed the `async` keyword from methods that don't need it, to improve performance.
@@ -127,7 +130,7 @@ public class EpisodeLanguage
 * Changed the type of `SeriesId` property from `int?` to `string` in the `Series` model
 
 # 0.5.1
-* Chnaged the type of `LastUpdated` property form `int?` to `long?` in `EpisodeRecord`, `Series` and `Update` models
+* Changed the type of `LastUpdated` property form `int?` to `long?` in `EpisodeRecord`, `Series` and `Update` models
 
 # 0.5.0
 * Changed the type of `EpisodeRecord.SiteRating` from `int?` to `decimal?`
