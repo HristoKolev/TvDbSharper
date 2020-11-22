@@ -39,12 +39,7 @@ namespace TvDbSharper
             }
 
             this.Authentication = new AuthenticationClient(this.ApiClient, parser);
-            this.Episodes = new EpisodesClient(this.ApiClient, parser);
-            this.Languages = new LanguagesClient(this.ApiClient, parser);
-            this.Search = new SearchClient(this.ApiClient, parser);
-            this.Series = new SeriesClient(this.ApiClient, parser);
-            this.Updates = new UpdatesClient(this.ApiClient, parser);
-            this.Users = new UsersClient(this.ApiClient, parser);
+            // this.Episodes = new EpisodesClient(this.ApiClient, parser);
         }
 
         public string AcceptedLanguage
@@ -96,33 +91,8 @@ namespace TvDbSharper
         /// <summary>
         /// Used for getting information about a specific episode
         /// </summary>
-        public IEpisodesClient Episodes { get; }
-
-        /// <summary>
-        /// Used for getting available languages and information about them
-        /// </summary>
-        public ILanguagesClient Languages { get; }
-
-        /// <summary>
-        /// Used for searching for a particular series
-        /// </summary>
-        public ISearchClient Search { get; }
-
-        /// <summary>
-        /// Used for getting information about a specific series
-        /// </summary>
-        public ISeriesClient Series { get; }
-
-        /// <summary>
-        /// Used for getting series that have been recently updated
-        /// </summary>
-        public IUpdatesClient Updates { get; }
-
-        /// <summary>
-        /// Used for working with the current user
-        /// </summary>
-        public IUsersClient Users { get; }
-
+        //public IEpisodesClient Episodes { get; }
+        
         private IApiClient ApiClient { get; }
     }
 }

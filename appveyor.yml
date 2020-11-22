@@ -8,5 +8,3 @@ build_script:
     dotnet restore
 
     dotnet build
-test_script:
-- cmd: dotnet test test/TvDbSharper.Tests/TvDbSharper.Tests.csproj

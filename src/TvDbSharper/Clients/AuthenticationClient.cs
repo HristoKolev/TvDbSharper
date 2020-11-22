@@ -8,7 +8,6 @@ namespace TvDbSharper.Clients
 
     using Newtonsoft.Json;
 
-    using TvDbSharper.Dto;
     using TvDbSharper.Infrastructure;
 
     internal class AuthenticationClient : IAuthenticationClient
