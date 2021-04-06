@@ -1,10 +1,10 @@
 TvDbSharper is fully featured modern REST client for the TheTVDB API v3
 
-### Last API compatibility check: 15-12-2020
+### Last API compatibility check: 06-04-2021
 
 [![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000?style=plastic)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
-## How to installl
+## How to install
 
 ```
 dotnet add package TvDbSharper
@@ -152,4 +152,4 @@ client.AcceptedLanguage = "de";
 This client supports all of the functionality of the REST API and I can't list every single method here.
 You can explore that yourself or read the REST API documentation provided by thetvdb.com here https://api.thetvdb.com/swagger
 
-You will find equvalent method for every single route there.
+You will find equivalent method for every single route there.
