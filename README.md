@@ -1,6 +1,6 @@
 TvDbSharper is fully featured modern REST client for the TheTVDB API v3
 
-### Last API compatibility check: 06-04-2021
+### Last API compatibility check: 09-05-2021
 
 [![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000?style=plastic)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
