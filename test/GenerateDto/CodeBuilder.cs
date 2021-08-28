@@ -5,7 +5,7 @@ namespace GenerateDto
 
     public class CodeBuilder
     {
-        public static NamespaceModel GetNamespace(DtoModels models)
+        public static NamespaceModel GetNamespace(SwaggerConfig models)
         {
             var ns = new NamespaceModel
             {
@@ -17,7 +17,7 @@ namespace GenerateDto
                 Classes = new List<ClassModel>(),
             };
 
-            foreach ((string modelName, var model) in models.Definitions)
+            foreach ((string modelName, var model) in models.Components.Schemas)
             {
                 var classModel = new ClassModel
                 {
@@ -63,6 +63,11 @@ namespace GenerateDto
                 return ScriptType(fieldName, typeModel);
             }
 
+            if (typeModel.Items != null)
+            {
+                return ScriptComplexType(fieldName, typeModel.Items) + "[]";
+            }
+
             // this is bullshit
             if (fieldName == "name")
             {
@@ -106,6 +111,20 @@ namespace GenerateDto
                 }
                 case "number":
                 {
+                    if (fieldName == "id")
+                    {
+                        return "long";
+                    }
+
+                    return "int";
+                }
+                case "integer":
+                {
+                    if (fieldName == "id")
+                    {
+                        return "long";
+                    }
+
                     return "int";
                 }
                 case "boolean":

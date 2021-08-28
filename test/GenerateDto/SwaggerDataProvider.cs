@@ -2,49 +2,42 @@ namespace GenerateDto
 {
     using System.Collections.Generic;
     using System.Net.Http;
-    using System.Text.Json;
-    using System.Text.Json.Serialization;
     using System.Threading.Tasks;
-    using Newtonsoft.Json.Linq;
+    using YamlDotNet.Serialization;
+    using YamlDotNet.Serialization.NamingConventions;
 
-    public class SwaggerDataProvider
+    public static class SwaggerDataProvider
     {
-        private static async Task<string> GetApiUrl()
+        public static async Task<SwaggerConfig> GetDtoModels()
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("https://app.swaggerhub.com/apiproxy/registry/thetvdb/tvdb-api_v_4");
-            string json = await response.Content.ReadAsStringAsync();
-            string url = JToken.Parse(json)["apis"]![0]!["properties"]![0]!["url"]!.ToString();
-            return url;
-        }
+            var response = await httpClient.GetAsync("https://thetvdb.github.io/v4-api/swagger.yml");
+            string ymlContent = await response.Content.ReadAsStringAsync();
 
-        public static async Task<DtoModels> GetDtoModels()
-        {
-            string url = await GetApiUrl();
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(UnderscoredNamingConvention.Instance) // see height_in_inches in sample yml
+                .IgnoreUnmatchedProperties()
+                .Build();
 
-            var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(url);
-            string json = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
-
-            var model = JsonSerializer.Deserialize<DtoModels>(json, options);
-
-            return model;
+            return deserializer.Deserialize<SwaggerConfig>(ymlContent);
         }
     }
 
-    public class DtoModels
+    public class SwaggerConfig
     {
-        public Dictionary<string, DefinitionModel> Definitions { get; set; }
+        public SwaggerConfigComponents Components { get; set; }
     }
 
-    public class DefinitionModel
+    public class SwaggerConfigComponents
     {
-        public Dictionary<string, TypeModel> Properties { get; set; }
+        public Dictionary<string, SchemaModel> Schemas { get; set; }
+    }
+
+    public class SchemaModel
+    {
+        public string Description { get; set; }
+
+        public Dictionary<string, TypeModel> Properties = new();
     }
 
     public class TypeModel
@@ -53,10 +46,10 @@ namespace GenerateDto
 
         public string Format { get; set; }
 
-        [JsonPropertyName("x-go-name")]
-        public string XGoName { get; set; }
+        [YamlMember(Alias = "x-go-name")]
+        public string GoName { get; set; }
 
-        [JsonPropertyName("$ref")]
+        [YamlMember(Alias = "$ref")]
         public string Reference { get; set; }
 
         public TypeModel Items { get; set; }
