@@ -1,27 +1,29 @@
-﻿using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using TvDbSharper;
-
-namespace ManualTests
+﻿namespace ManualTests
 {
+    using System.IO;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json;
+    using TvDbSharper;
+
     internal static class Program
     {
         private static async Task Main()
         {
             var httpClient = new HttpClient();
-            
+
             var client = new TvDbClient(httpClient);
 
             var authenticationData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
 
             await client.Authentication.AuthenticateAsync(authenticationData);
-            
+
             client = new TvDbClient(httpClient);
-            
+
+            var artworkStatuses = await client.Artwork.GetArtStatuses();
+
             // int seriesID = 83237;
-            
+
             // var episode = (await client.Episodes.GetAsync(418910)).Data;
             //
             // var allLanguages = (await client.Languages.GetAllAsync()).Data;

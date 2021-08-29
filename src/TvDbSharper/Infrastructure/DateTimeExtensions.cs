@@ -1,4 +1,4 @@
-namespace TvDbSharper
+namespace TvDbSharper.Infrastructure
 {
     using System;
 

@@ -17,6 +17,7 @@ There is one client you need to know about:
 ```C#
 var client = new TvDbClient();
 ```
+
 ## Authentication
 
 Before you do anything else you need to authenticate yourself.

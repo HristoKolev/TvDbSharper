@@ -1,25 +1,18 @@
-using System.Net.Http;
-
 namespace TvDbSharper
 {
     using System;
-
-    using TvDbSharper.Clients;
-    using TvDbSharper.Infrastructure;
+    using System.Net.Http;
+    using Infrastructure;
 
     public class TvDbClient : ITvDbClient
     {
         private const string DEFAULT_BASE_URL = "https://api4.thetvdb.com/v4/";
 
         public TvDbClient()
-            : this(new HttpClient())
-        {
-        }
-        
+            : this(new HttpClient()) { }
+
         public TvDbClient(HttpClient httpClient)
-            : this(new ApiClient(httpClient), new Parser())
-        {
-        }
+            : this(new ApiClient(httpClient), new Parser()) { }
 
         internal TvDbClient(IApiClient apiClient, IParser parser)
         {
@@ -31,7 +24,7 @@ namespace TvDbSharper
             }
 
             this.Authentication = new AuthenticationClient(this.ApiClient, parser);
-            // this.Episodes = new EpisodesClient(this.ApiClient, parser);
+            this.Artwork = new ArtworkClient(this.ApiClient, parser);
         }
 
         /// <summary>
@@ -59,11 +52,20 @@ namespace TvDbSharper
             }
         }
 
-        /// <summary>
-        /// Used for getting information about a specific episode
-        /// </summary>
-        //public IEpisodesClient Episodes { get; }
-        
+        public IArtworkClient Artwork { get; }
+
         private IApiClient ApiClient { get; }
+    }
+
+    public interface ITvDbClient
+    {
+        /// <summary>
+        /// Used for obtaining and refreshing your JWT token
+        /// </summary>
+        IAuthenticationClient Authentication { get; }
+
+        IArtworkClient Artwork { get; }
+
+        string BaseUrl { get; set; }
     }
 }

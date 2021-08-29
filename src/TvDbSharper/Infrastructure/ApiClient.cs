@@ -156,7 +156,7 @@
         }
     }
 
-    public class TvDbApiResponse<TData>
+    internal class TvDbApiResponse<TData>
     {
         [JsonProperty("status")]
         public string Status { get; set; }
