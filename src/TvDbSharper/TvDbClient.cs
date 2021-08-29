@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Net.Http;
 
 namespace TvDbSharper
@@ -10,9 +9,7 @@ namespace TvDbSharper
 
     public class TvDbClient : ITvDbClient
     {
-        private const string DefaultAcceptedLanguage = "en";
-
-        private const string DefaultBaseUrl = "https://api.thetvdb.com";
+        private const string DEFAULT_BASE_URL = "https://api4.thetvdb.com/v4/";
 
         public TvDbClient()
             : this(new HttpClient())
@@ -28,39 +25,13 @@ namespace TvDbSharper
         {
             this.ApiClient = apiClient;
 
-            if (this.AcceptedLanguage == null)
-            {
-                this.AcceptedLanguage = DefaultAcceptedLanguage;                
-            }
-
             if (this.BaseUrl == null)
             {
-                this.BaseUrl = DefaultBaseUrl;
+                this.BaseUrl = DEFAULT_BASE_URL;
             }
 
             this.Authentication = new AuthenticationClient(this.ApiClient, parser);
             // this.Episodes = new EpisodesClient(this.ApiClient, parser);
-        }
-
-        public string AcceptedLanguage
-        {
-            get => this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.SingleOrDefault()?.ToString();
-
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("The value cannot be an empty string or white space.");
-                }
-
-                this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.Clear();
-                this.ApiClient.HttpClient.DefaultRequestHeaders.AcceptLanguage.ParseAdd(value);
-            }
         }
 
         /// <summary>
@@ -70,7 +41,7 @@ namespace TvDbSharper
 
         public string BaseUrl
         {
-            get => this.ApiClient.HttpClient.BaseAddress?.ToString()?.TrimEnd('/');
+            get => this.ApiClient.HttpClient.BaseAddress?.ToString();
 
             set
             {

@@ -1,8 +1,9 @@
 namespace GenerateDto
 {
+    using System.Linq;
     using System.Text;
 
-    public class CodeScripter
+    public static class CodeScripter
     {
         public static string Script(NamespaceModel ns)
         {
@@ -43,31 +44,41 @@ namespace GenerateDto
         private static string ScriptDto(ClassModel classModel)
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"    public class {classModel.ClassName}");
-            sb.AppendLine("    {");
+            sb.Append($"    public class {classModel.ClassName}");
 
-            bool first = true;
-
-            foreach (var property in classModel.Properties)
+            if (classModel.Properties.Any())
             {
-                if (first)
+                sb.AppendLine();
+                sb.AppendLine("    {");
+
+                bool first = true;
+
+                foreach (var property in classModel.Properties)
                 {
-                    first = false;
-                }
-                else
-                {
-                    sb.AppendLine();
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.AppendLine();
+                    }
+
+                    foreach (string propertyAttribute in property.PropertyAttributes)
+                    {
+                        sb.AppendLine($"        {propertyAttribute}");
+                    }
+
+                    sb.AppendLine($"        public {property.PropertyType} {property.PropertyName} {{ get; set; }}");
                 }
 
-                foreach (string propertyAttribute in property.PropertyAttributes)
-                {
-                    sb.AppendLine($"        {propertyAttribute}");
-                }
-
-                sb.AppendLine($"        public {property.PropertyType} {property.PropertyName} {{ get; set; }}");
+                sb.AppendLine("    }");
             }
-
-            sb.AppendLine("    }");
+            else
+            {
+                sb.Append(" { }");
+                sb.AppendLine();
+            }
 
             return sb.ToString();
         }

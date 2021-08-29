@@ -7,7 +7,6 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
 
     internal class ApiRequest
@@ -67,7 +66,7 @@
             var httpRequestMessage = new HttpRequestMessage
             {
                 RequestUri = new Uri(request.Url, UriKind.Relative),
-                Method = new HttpMethod(request.Method)
+                Method = new HttpMethod(request.Method),
             };
 
             if (request.Body != null)
@@ -79,7 +78,7 @@
             {
                 if (!httpRequestMessage.Headers.TryAddWithoutValidation(pair.Key, pair.Value))
                 {
-                    throw new Exception($"Couldn't add header '{pair.Key}'."); 
+                    throw new Exception($"Couldn't add header '{pair.Key}'.");
                 }
             }
 
@@ -92,85 +91,77 @@
             cancellationToken.ThrowIfCancellationRequested();
 
             var headers = httpResponseMessage.Headers.ToDictionary(x => x.Key, x => string.Join(", ", x.Value));
-            
+
             return new ApiResponse
             {
                 Body = responseBody,
                 StatusCode = (int)httpResponseMessage.StatusCode,
-                Headers = headers
+                Headers = headers,
             };
         }
     }
 
     internal interface IParser
     {
-        T Parse<T>(ApiResponse response, IReadOnlyDictionary<int, string> errorMap);
+        TvDbApiResponse<T> Parse<T>(ApiResponse response);
     }
 
     internal class Parser : IParser
     {
-        private const string UnknownErrorMessage = "The REST API returned an unkown error.";
-
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
         {
 #if DEBUG
             MissingMemberHandling = MissingMemberHandling.Error,
 #endif
-        }; 
+        };
 
-        public T Parse<T>(ApiResponse response, IReadOnlyDictionary<int, string> errorMap)
+        public TvDbApiResponse<T> Parse<T>(ApiResponse response)
         {
             if (response.StatusCode == 200)
             {
-                return JsonConvert.DeserializeObject<T>(response.Body, JsonSettings);
+                var tvDbApiResponse = JsonConvert.DeserializeObject<TvDbApiResponse<T>>(response.Body, JsonSettings);
+
+                if (tvDbApiResponse?.Status != "success")
+                {
+                    throw new TvDbServerException("Response.Status wasn't 'success'.", response.StatusCode)
+                    {
+                        UnknownError = true,
+                    };
+                }
+
+                return tvDbApiResponse;
             }
 
-            throw CreateException(response, errorMap);
-        }
+            UnauthorizedData body;
 
-        private static TvDbServerException CreateException(ApiResponse response, IReadOnlyDictionary<int, string> errorMap)
-        {
-            var messages = new List<string>();
-
-            if (errorMap.ContainsKey(response.StatusCode))
+            if (response.StatusCode == 401)
             {
-                messages.Add(errorMap[response.StatusCode]);
+                body = JsonConvert.DeserializeObject<UnauthorizedData>(response.Body, JsonSettings);
+
+                throw new TvDbServerException(body?.Message, response.StatusCode);
             }
 
-            string bodyMessage = ReadErrorMessage(response.Body);
+            body = JsonConvert.DeserializeObject<UnauthorizedData>(response.Body, JsonSettings);
 
-            if (bodyMessage != null)
+            throw new TvDbServerException(body?.Message ?? "Unknown error", response.StatusCode)
             {
-                messages.Add(bodyMessage);
-            }
-
-            bool unknownError = !messages.Any();
-
-            if (unknownError)
-            {
-                messages.Add(UnknownErrorMessage);
-            }
-
-            string message = string.Join("; ", messages);
-
-            var exception = new TvDbServerException(message, response.StatusCode)
-            {
-                UnknownError = unknownError
+                UnknownError = true,
             };
-
-            return exception;
         }
 
-        private static string ReadErrorMessage(string body)
+        private class UnauthorizedData
         {
-            try
-            {
-                return JsonConvert.DeserializeObject<ErrorResponse>(body, JsonSettings).Error;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            [JsonProperty("message")]
+            public string Message { get; set; }
         }
+    }
+
+    public class TvDbApiResponse<TData>
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("data")]
+        public TData Data { get; set; }
     }
 }

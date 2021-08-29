@@ -1,0 +1,4394 @@
+{
+  "OpenApi": "3.0.0",
+  "Info": {
+    "Description": "Documentation of the TVDB API V4",
+    "Title": "TVDB API V4",
+    "Version": "4.3.17"
+  },
+  "Security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "Paths": {
+    "/artwork/statuses": {
+      "get": {
+        "Description": "returns list of artwork status records",
+        "OperationId": "getAllArtworkStatuses",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/ArtworkStatus"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "artwork-statuses"
+        ]
+      }
+    },
+    "/artwork/types": {
+      "get": {
+        "Description": "returns list of artworkType records",
+        "OperationId": "getAllArtworkTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/ArtworkType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "artwork-types"
+        ]
+      }
+    },
+    "/artwork/{id}": {
+      "get": {
+        "Description": "Returns artwork base record",
+        "OperationId": "getArtworkBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ArtworkBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "artwork"
+        ]
+      }
+    },
+    "/artwork/{id}/extended": {
+      "get": {
+        "Description": "Returns artwork extended record",
+        "OperationId": "getArtworkExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ArtworkExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "artwork"
+        ]
+      }
+    },
+    "/artwork/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns artwork translation record",
+        "OperationId": "getArtworkTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "artwork"
+        ]
+      }
+    },
+    "/awards/categories/{id}": {
+      "get": {
+        "Description": "Returns a award category base record",
+        "OperationId": "getAwardCategory",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardCategoryBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "award-categories"
+        ]
+      }
+    },
+    "/awards/categories/{id}/extended": {
+      "get": {
+        "Description": "Returns a award category extended record",
+        "OperationId": "getAwardCategoryExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardCategoryExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "award-categories"
+        ]
+      }
+    },
+    "/awards": {
+      "get": {
+        "Description": "returns list of award base records",
+        "OperationId": "getAllAwards",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/AwardBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "awards"
+        ]
+      }
+    },
+    "/awards/{id}": {
+      "get": {
+        "Description": "returns an award base record",
+        "OperationId": "getAward",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "awards"
+        ]
+      }
+    },
+    "/awards/{id}/extended": {
+      "get": {
+        "Description": "returns an award extended record",
+        "OperationId": "getAwardExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "awards"
+        ]
+      }
+    },
+    "/characters/{id}": {
+      "get": {
+        "Description": "Returns character base record",
+        "OperationId": "getCharacterBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Character"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "characters"
+        ]
+      }
+    },
+    "/companies": {
+      "get": {
+        "Description": "returns a paginated list of company records",
+        "OperationId": "getAllCompanies",
+        "Parameters": [
+          {
+            "Description": "name",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Company"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "companies"
+        ]
+      }
+    },
+    "/companies/types": {
+      "get": {
+        "Description": "returns all company type records",
+        "OperationId": "getCompanyTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/CompanyType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "companies"
+        ]
+      }
+    },
+    "/companies/{id}": {
+      "get": {
+        "Description": "returns a company record",
+        "OperationId": "getCompany",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Company"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "companies"
+        ]
+      }
+    },
+    "/content/ratings": {
+      "get": {
+        "Description": "returns list content rating records",
+        "OperationId": "getAllContentRatings",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/ContentRating"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "content-ratings"
+        ]
+      }
+    },
+    "/countries": {
+      "get": {
+        "Description": "returns list of country records",
+        "OperationId": "getAllCountries",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Country"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "countries"
+        ]
+      }
+    },
+    "/entities/types": {
+      "get": {
+        "Description": "returns the active entity types",
+        "OperationId": "getEntityTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/EntityType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "entity-types"
+        ]
+      }
+    },
+    "/episodes/{id}": {
+      "get": {
+        "Description": "Returns episode base record",
+        "OperationId": "getEpisodeBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/EpisodeBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "episodes"
+        ]
+      }
+    },
+    "/episodes/{id}/extended": {
+      "get": {
+        "Description": "Returns episode extended record",
+        "OperationId": "getEpisodeExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "meta",
+            "In": "query",
+            "Name": "meta",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "translations"
+              ],
+              "Example": "translations"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/EpisodeExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "episodes"
+        ]
+      }
+    },
+    "/episodes/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns episode translation record",
+        "OperationId": "getEpisodeTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "episodes"
+        ]
+      }
+    },
+    "/lists/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns list translation record",
+        "OperationId": "getListTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "lists"
+        ]
+      }
+    },
+    "/genders": {
+      "get": {
+        "Description": "returns list of gender records",
+        "OperationId": "getAllGenders",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Gender"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "genders"
+        ]
+      }
+    },
+    "/genres": {
+      "get": {
+        "Description": "returns list of genre records",
+        "OperationId": "getAllGenres",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/GenreBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "genres"
+        ]
+      }
+    },
+    "/genres/{id}": {
+      "get": {
+        "Description": "Returns genre record",
+        "OperationId": "getGenreBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/GenreBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "genres"
+        ]
+      }
+    },
+    "/languages": {
+      "get": {
+        "Description": "returns list of language records",
+        "OperationId": "getAllLanguages",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Language"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "languages"
+        ]
+      }
+    },
+    "/lists": {
+      "get": {
+        "Description": "returns list of list base records",
+        "OperationId": "getAllLists",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/ListBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "lists"
+        ]
+      }
+    },
+    "/lists/{id}": {
+      "get": {
+        "Description": "returns an list base record",
+        "OperationId": "getList",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ListBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "lists"
+        ]
+      }
+    },
+    "/lists/{id}/extended": {
+      "get": {
+        "Description": "returns a list extended record",
+        "OperationId": "getListExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ListExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "lists"
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "Summary": "create an auth token",
+        "RequestBody": {
+          "Content": {
+            "application/json": {
+              "Schema": {
+                "Required": [
+                  "apikey"
+                ],
+                "Properties": {
+                  "apikey": {
+                    "Type": "string"
+                  },
+                  "pin": {
+                    "Type": "string"
+                  }
+                },
+                "Type": "object"
+              }
+            }
+          },
+          "Required": true
+        },
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Properties": {
+                        "token": {
+                          "Type": "string"
+                        }
+                      },
+                      "Type": "object"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "login"
+        ]
+      }
+    },
+    "/movies/statuses": {
+      "get": {
+        "Description": "returns list of status records",
+        "OperationId": "getAllMovieStatuses",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Status"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "movie-statuses"
+        ]
+      }
+    },
+    "/movies": {
+      "get": {
+        "Description": "returns list of movie base records",
+        "OperationId": "getAllMovie",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/MovieBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "movies"
+        ]
+      }
+    },
+    "/movies/{id}": {
+      "get": {
+        "Description": "Returns movie base record",
+        "OperationId": "getMovieBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/MovieBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "movies"
+        ]
+      }
+    },
+    "/movies/{id}/extended": {
+      "get": {
+        "Description": "Returns movie extended record",
+        "OperationId": "getMovieExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "meta",
+            "In": "query",
+            "Name": "meta",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "translations"
+              ],
+              "Example": "translations"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/MovieExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "movies"
+        ]
+      }
+    },
+    "/movies/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns movie translation record",
+        "OperationId": "getMovieTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "movies"
+        ]
+      }
+    },
+    "/people/types": {
+      "get": {
+        "Description": "returns list of peopleType records",
+        "OperationId": "getAllPeopleTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/PeopleType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "people-types"
+        ]
+      }
+    },
+    "/people/{id}": {
+      "get": {
+        "Description": "Returns people base record",
+        "OperationId": "getPeopleBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/PeopleBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "people"
+        ]
+      }
+    },
+    "/people/{id}/extended": {
+      "get": {
+        "Description": "Returns people extended record",
+        "OperationId": "getPeopleExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "meta",
+            "In": "query",
+            "Name": "meta",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "translations"
+              ],
+              "Example": "translations"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/PeopleExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "people"
+        ]
+      }
+    },
+    "/people/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns people translation record",
+        "OperationId": "getPeopleTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "people"
+        ]
+      }
+    },
+    "/search": {
+      "get": {
+        "Description": "Returns a search result record",
+        "OperationId": "getSearchResults",
+        "Parameters": [
+          {
+            "Description": "additional search query param",
+            "In": "query",
+            "Name": "q",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "additional search query param",
+            "In": "query",
+            "Name": "query",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "restrict results to entity type movie|series|person|company",
+            "In": "query",
+            "Name": "type",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "restrict results to a year for movie|series",
+            "In": "query",
+            "Name": "year",
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "offset results",
+            "In": "query",
+            "Name": "offset",
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "limit results",
+            "In": "query",
+            "Name": "limit",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/SearchResult"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "search"
+        ]
+      }
+    },
+    "/seasons": {
+      "get": {
+        "Description": "returns list of seasons base records",
+        "OperationId": "getAllSeasons",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/SeasonBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "seasons"
+        ]
+      }
+    },
+    "/seasons/{id}": {
+      "get": {
+        "Description": "Returns season base record",
+        "OperationId": "getSeasonBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeasonBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "seasons"
+        ]
+      }
+    },
+    "/seasons/{id}/extended": {
+      "get": {
+        "Description": "Returns season extended record",
+        "OperationId": "getSeasonExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeasonExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "seasons"
+        ]
+      }
+    },
+    "/seasons/types": {
+      "get": {
+        "Description": "Returns season type records",
+        "OperationId": "getSeasonTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeasonType"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "seasons"
+        ]
+      }
+    },
+    "/seasons/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns season translation record",
+        "OperationId": "getSeasonTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "seasons"
+        ]
+      }
+    },
+    "/series": {
+      "get": {
+        "Description": "returns list of series base records",
+        "OperationId": "getAllSeries",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/SeriesBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series"
+        ]
+      }
+    },
+    "/series/statuses": {
+      "get": {
+        "Description": "returns list of status records",
+        "OperationId": "getAllSeriesStatuses",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Status"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series-statuses"
+        ]
+      }
+    },
+    "/series/{id}": {
+      "get": {
+        "Description": "Returns series base record",
+        "OperationId": "getSeriesBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series"
+        ]
+      }
+    },
+    "/series/{id}/extended": {
+      "get": {
+        "Description": "Returns series extended record",
+        "OperationId": "getSeriesExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "meta",
+            "In": "query",
+            "Name": "meta",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "translations",
+                "episodes"
+              ],
+              "Example": "translations"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series"
+        ]
+      }
+    },
+    "/series/{id}/episodes/{season-type}": {
+      "get": {
+        "Description": "Returns series episodes from the specified season type, default returns the episodes in the series default season type",
+        "OperationId": "getSeriesEpisodes",
+        "Parameters": [
+          {
+            "In": "query",
+            "Name": "page",
+            "Required": true,
+            "Schema": {
+              "Type": "integer",
+              "Default": "0"
+            }
+          },
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "season-type",
+            "In": "path",
+            "Name": "season-type",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            },
+            "Examples": {
+              "default": {
+                "Value": "default"
+              },
+              "official": {
+                "Value": "official"
+              },
+              "dvd": {
+                "Value": "dvd"
+              },
+              "absolute": {
+                "Value": "absolute"
+              },
+              "alternate": {
+                "Value": "alternate"
+              },
+              "regional": {
+                "Value": "regional"
+              }
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Properties": {
+                        "series": {
+                          "Reference": "#/components/schemas/SeriesExtendedRecord"
+                        },
+                        "episodes": {
+                          "Items": {
+                            "Reference": "#/components/schemas/EpisodeBaseRecord"
+                          },
+                          "Type": "array"
+                        }
+                      },
+                      "Type": "object"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series"
+        ]
+      }
+    },
+    "/series/{id}/translations/{language}": {
+      "get": {
+        "Description": "Returns series translation record",
+        "OperationId": "getSeriesTranslation",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "language",
+            "In": "path",
+            "Name": "language",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/Translation"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "series"
+        ]
+      }
+    },
+    "/sources/types": {
+      "get": {
+        "Description": "returns list of sourceType records",
+        "OperationId": "getAllSourceTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/SourceType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "source-types"
+        ]
+      }
+    },
+    "/updates": {
+      "get": {
+        "Description": "returns updated entities",
+        "OperationId": "updates",
+        "Parameters": [
+          {
+            "In": "query",
+            "Name": "since",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "In": "query",
+            "Name": "type",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "artwork",
+                "award_nominees",
+                "companies",
+                "episodes",
+                "lists",
+                "people",
+                "seasons",
+                "series",
+                "seriespeople",
+                "artworktypes",
+                "award_categories",
+                "awards",
+                "company_types",
+                "content_ratings",
+                "countries",
+                "entity_types",
+                "genres",
+                "languages",
+                "movies",
+                "movie_genres",
+                "movie_status",
+                "peopletypes",
+                "seasontypes",
+                "sourcetypes",
+                "tag_options",
+                "tags",
+                "translatedcharacters",
+                "translatedcompanies",
+                "translatedepisodes",
+                "translatedlists",
+                "translatedmovies",
+                "translatedpeople",
+                "translatedseasons",
+                "translatedserierk"
+              ],
+              "Example": "movies"
+            }
+          },
+          {
+            "In": "query",
+            "Name": "action",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "create",
+                "delete",
+                "update"
+              ],
+              "Example": "movies"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/EntityUpdate"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "updates"
+        ]
+      }
+    }
+  },
+  "Servers": [
+    {
+      "Url": "https://api4.thetvdb.com/v4"
+    }
+  ],
+  "Components": {
+    "Schemas": {
+      "Alias": {
+        "Description": "An alias model",
+        "Properties": {
+          "language": {
+            "GoName": "Language",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          }
+        },
+        "Type": "object"
+      },
+      "ArtworkBaseRecord": {
+        "Description": "base artwork record",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "image": {
+            "GoName": "Image",
+            "Type": "string"
+          },
+          "language": {
+            "Type": "string"
+          },
+          "score": {
+            "Type": "number"
+          },
+          "thumbnail": {
+            "GoName": "Thumbnail",
+            "Type": "string"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "ArtworkExtendedRecord": {
+        "Description": "extended artwork record",
+        "Properties": {
+          "episodeId": {
+            "Type": "integer"
+          },
+          "height": {
+            "Format": "int64",
+            "GoName": "Height",
+            "Type": "integer"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "GoName": "Image",
+            "Type": "string"
+          },
+          "language": {
+            "Type": "string"
+          },
+          "movieId": {
+            "Type": "integer"
+          },
+          "networkId": {
+            "Type": "integer"
+          },
+          "peopleId": {
+            "Type": "integer"
+          },
+          "score": {
+            "Type": "number"
+          },
+          "seasonId": {
+            "Type": "integer"
+          },
+          "seriesId": {
+            "Type": "integer"
+          },
+          "seriesPeopleId": {
+            "Type": "integer"
+          },
+          "thumbnail": {
+            "GoName": "Thumbnail",
+            "Type": "string"
+          },
+          "thumbnailHeight": {
+            "Format": "int64",
+            "GoName": "ThumbnailHeight",
+            "Type": "integer"
+          },
+          "thumbnailWidth": {
+            "Format": "int64",
+            "GoName": "ThumbnailWidth",
+            "Type": "integer"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          },
+          "updatedAt": {
+            "Format": "int64",
+            "GoName": "UpdatedAt",
+            "Type": "integer"
+          },
+          "width": {
+            "Format": "int64",
+            "GoName": "Width",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "ArtworkStatus": {
+        "Description": "artwork status record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "ArtworkType": {
+        "Description": "artwork type record",
+        "Properties": {
+          "height": {
+            "Format": "int64",
+            "Type": "integer"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "imageFormat": {
+            "GoName": "ImageFormat",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "recordType": {
+            "GoName": "RecordType",
+            "Type": "string"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          },
+          "thumbHeight": {
+            "Format": "int64",
+            "GoName": "ThumbHeight",
+            "Type": "integer"
+          },
+          "thumbWidth": {
+            "Format": "int64",
+            "GoName": "ThumbWidth",
+            "Type": "integer"
+          },
+          "width": {
+            "Format": "int64",
+            "GoName": "Width",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "AwardBaseRecord": {
+        "Description": "base award record",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "AwardCategoryBaseRecord": {
+        "Description": "base award category record",
+        "Properties": {
+          "allowCoNominees": {
+            "GoName": "AllowCoNominees",
+            "Type": "boolean"
+          },
+          "award": {
+            "Reference": "#/components/schemas/AwardBaseRecord"
+          },
+          "forMovies": {
+            "GoName": "ForMovies",
+            "Type": "boolean"
+          },
+          "forSeries": {
+            "GoName": "ForSeries",
+            "Type": "boolean"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "AwardCategoryExtendedRecord": {
+        "Description": "extended award category record",
+        "Properties": {
+          "allowCoNominees": {
+            "GoName": "AllowCoNominees",
+            "Type": "boolean"
+          },
+          "award": {
+            "Reference": "#/components/schemas/AwardBaseRecord"
+          },
+          "forMovies": {
+            "GoName": "ForMovies",
+            "Type": "boolean"
+          },
+          "forSeries": {
+            "GoName": "ForSeries",
+            "Type": "boolean"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nominees": {
+            "GoName": "Nominees",
+            "Items": {
+              "Reference": "#/components/schemas/AwardNomineeBaseRecord"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "AwardExtendedRecord": {
+        "Description": "extended award record",
+        "Properties": {
+          "categories": {
+            "GoName": "Categories",
+            "Items": {
+              "Reference": "#/components/schemas/AwardCategoryBaseRecord"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "score": {
+            "Format": "int64",
+            "GoName": "Score",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "AwardNomineeBaseRecord": {
+        "Description": "base award nominee record",
+        "Properties": {
+          "character": {
+            "Reference": "#/components/schemas/Character"
+          },
+          "details": {
+            "Type": "string"
+          },
+          "episode": {
+            "Reference": "#/components/schemas/EpisodeBaseRecord"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "isWinner": {
+            "GoName": "IsWinner",
+            "Type": "boolean"
+          },
+          "movie": {
+            "Reference": "#/components/schemas/MovieBaseRecord"
+          },
+          "series": {
+            "Reference": "#/components/schemas/SeriesBaseRecord"
+          },
+          "year": {
+            "Type": "string"
+          },
+          "category": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Biography": {
+        "Description": "biography record",
+        "Properties": {
+          "biography": {
+            "GoName": "Biography",
+            "Type": "string"
+          },
+          "language": {
+            "GoName": "Language",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Character": {
+        "Description": "character record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "episodeId": {
+            "Type": "integer"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "isFeatured": {
+            "GoName": "IsFeatured",
+            "Type": "boolean"
+          },
+          "movieId": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "peopleId": {
+            "Type": "integer"
+          },
+          "seriesId": {
+            "Type": "integer"
+          },
+          "sort": {
+            "Format": "int64",
+            "GoName": "Sort",
+            "Type": "integer"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          },
+          "url": {
+            "GoName": "URL",
+            "Type": "string"
+          },
+          "personName": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Company": {
+        "Description": "A company record",
+        "Properties": {
+          "activeDate": {
+            "Type": "string"
+          },
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "inactiveDate": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "primaryCompanyType": {
+            "Format": "int64",
+            "GoName": "PrimaryCompanyType",
+            "Type": "integer"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "CompanyType": {
+        "Description": "A company type record",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          }
+        },
+        "Type": "object"
+      },
+      "ContentRating": {
+        "Description": "content rating record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "contentType": {
+            "Type": "string"
+          },
+          "order": {
+            "Type": "integer"
+          },
+          "fullName": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Country": {
+        "Description": "country record",
+        "Properties": {
+          "id": {
+            "GoName": "ID",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "shortCode": {
+            "GoName": "ShortCode",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Entity": {
+        "Description": "Entity record",
+        "Properties": {
+          "movieId": {
+            "Type": "integer"
+          },
+          "order": {
+            "Format": "int64",
+            "GoName": "Order",
+            "Type": "integer"
+          },
+          "seriesId": {
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "EntityType": {
+        "Description": "Entity Type record",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Order",
+            "Type": "string"
+          },
+          "seriesId": {
+            "Type": "integer"
+          }
+        },
+        "Type": "object"
+      },
+      "EntityUpdate": {
+        "Description": "entity update record",
+        "Properties": {
+          "entityType": {
+            "GoName": "EnitityType",
+            "Type": "string"
+          },
+          "method": {
+            "GoName": "Method",
+            "Type": "string"
+          },
+          "recordId": {
+            "Format": "int64",
+            "GoName": "RecordID",
+            "Type": "integer"
+          },
+          "timeStamp": {
+            "Format": "int64",
+            "GoName": "TimeStamp",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "EpisodeBaseRecord": {
+        "Description": "base episode record",
+        "Properties": {
+          "aired": {
+            "Type": "string"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageType": {
+            "Type": "integer"
+          },
+          "isMovie": {
+            "Format": "int64",
+            "GoName": "IsMovie",
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "number": {
+            "Type": "integer"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "runtime": {
+            "Type": "integer"
+          },
+          "seasonNumber": {
+            "Type": "integer"
+          },
+          "seasons": {
+            "GoName": "Seasons",
+            "Items": {
+              "Reference": "#/components/schemas/SeasonBaseRecord"
+            },
+            "Type": "array"
+          },
+          "seriesId": {
+            "Format": "int64",
+            "GoName": "SeriesID",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "EpisodeExtendedRecord": {
+        "Description": "extended episode record",
+        "Properties": {
+          "aired": {
+            "Type": "string"
+          },
+          "airsAfterSeason": {
+            "Type": "integer"
+          },
+          "airsBeforeEpisode": {
+            "Type": "integer"
+          },
+          "airsBeforeSeason": {
+            "Type": "integer"
+          },
+          "awards": {
+            "GoName": "Awards",
+            "Items": {
+              "Reference": "#/components/schemas/AwardBaseRecord"
+            },
+            "Type": "array"
+          },
+          "characters": {
+            "GoName": "Characters",
+            "Items": {
+              "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "contentRatings": {
+            "GoName": "ContentRatings",
+            "Items": {
+              "Reference": "#/components/schemas/ContentRating"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageType": {
+            "Type": "integer"
+          },
+          "isMovie": {
+            "Format": "int64",
+            "GoName": "IsMovie",
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "network": {
+            "Reference": "#/components/schemas/NetworkBaseRecord"
+          },
+          "number": {
+            "Type": "integer"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "productionCode": {
+            "Type": "string"
+          },
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "runtime": {
+            "Type": "integer"
+          },
+          "seasonNumber": {
+            "Type": "integer"
+          },
+          "seasons": {
+            "GoName": "Seasons",
+            "Items": {
+              "Reference": "#/components/schemas/SeasonBaseRecord"
+            },
+            "Type": "array"
+          },
+          "seriesId": {
+            "Format": "int64",
+            "GoName": "SeriesID",
+            "Type": "integer"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          },
+          "trailers": {
+            "GoName": "Trailers",
+            "Items": {
+              "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Gender": {
+        "Description": "gender record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "GenreBaseRecord": {
+        "Description": "base genre record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Language": {
+        "Description": "language record",
+        "Properties": {
+          "id": {
+            "GoName": "ID",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "nativeName": {
+            "GoName": "NativeName",
+            "Type": "string"
+          },
+          "shortCode": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "ListBaseRecord": {
+        "Description": "base list record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "isOfficial": {
+            "GoName": "IsOfficial",
+            "Type": "boolean"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overview": {
+            "Type": "string"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "url": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "ListExtendedRecord": {
+        "Description": "extended list record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "entities": {
+            "GoName": "Entities",
+            "Items": {
+              "Reference": "#/components/schemas/Entity"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "isOfficial": {
+            "GoName": "IsOfficial",
+            "Type": "boolean"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overview": {
+            "Type": "string"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "int64",
+            "GoName": "Score",
+            "Type": "integer"
+          },
+          "url": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "MovieBaseRecord": {
+        "Description": "base movie record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "GoName": "Image",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "double",
+            "GoName": "Score",
+            "Type": "number"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          },
+          "status": {
+            "Reference": "#/components/schemas/Status"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "MovieExtendedRecord": {
+        "Description": "extended movie record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "artworks": {
+            "GoName": "Artworks",
+            "Items": {
+              "Reference": "#/components/schemas/ArtworkBaseRecord"
+            },
+            "Type": "array"
+          },
+          "audioLanguages": {
+            "GoName": "AudioLanguages",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "awards": {
+            "GoName": "Awards",
+            "Items": {
+              "Reference": "#/components/schemas/AwardBaseRecord"
+            },
+            "Type": "array"
+          },
+          "boxOffice": {
+            "Type": "string"
+          },
+          "budget": {
+            "Type": "string"
+          },
+          "characters": {
+            "GoName": "Characters",
+            "Items": {
+              "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "lists": {
+            "Items": {
+              "Reference": "#/components/schemas/ListBaseRecord"
+            },
+            "Type": "array"
+          },
+          "genres": {
+            "GoName": "Genres",
+            "Items": {
+              "Reference": "#/components/schemas/GenreBaseRecord"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "GoName": "Image",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "originalCountry": {
+            "Type": "string"
+          },
+          "originalLanguage": {
+            "Type": "string"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "releases": {
+            "GoName": "Releases",
+            "Items": {
+              "Reference": "#/components/schemas/Release"
+            },
+            "Type": "array"
+          },
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "contentRatings": {
+            "Items": {
+              "Reference": "#/components/schemas/ContentRating"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "double",
+            "GoName": "Score",
+            "Type": "number"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          },
+          "status": {
+            "Reference": "#/components/schemas/Status"
+          },
+          "studios": {
+            "GoName": "Studios",
+            "Items": {
+              "Reference": "#/components/schemas/StudioBaseRecord"
+            },
+            "Type": "array"
+          },
+          "subtitleLanguages": {
+            "GoName": "SubtitleLanguages",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          },
+          "trailers": {
+            "GoName": "Trailers",
+            "Items": {
+              "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          },
+          "inspirations": {
+            "GoName": "Inspirations",
+            "Items": {
+              "Reference": "#/components/schemas/Inspiration"
+            },
+            "Type": "array"
+          },
+          "productionCountries": {
+            "GoName": "ProductionCountries",
+            "Items": {
+              "Reference": "#/components/schemas/ProductionCountry"
+            },
+            "Type": "array"
+          },
+          "spokenLanguages": {
+            "GoName": "SpokenLanguages",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "firstRelease": {
+            "Reference": "#/components/schemas/Release",
+            "Type": "object"
+          },
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "NetworkBaseRecord": {
+        "Description": "base network record",
+        "Properties": {
+          "abbreviation": {
+            "Type": "string"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "slug": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "PeopleBaseRecord": {
+        "Description": "base people record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "score": {
+            "Format": "int64",
+            "GoName": "Score",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "PeopleExtendedRecord": {
+        "Description": "extended people record",
+        "Properties": {
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "awards": {
+            "GoName": "Awards",
+            "Items": {
+              "Reference": "#/components/schemas/AwardBaseRecord"
+            },
+            "Type": "array"
+          },
+          "biographies": {
+            "GoName": "Biographies",
+            "Items": {
+              "Reference": "#/components/schemas/Biography"
+            },
+            "Type": "array"
+          },
+          "birth": {
+            "Type": "string"
+          },
+          "birthPlace": {
+            "Type": "string"
+          },
+          "characters": {
+            "GoName": "Characters",
+            "Items": {
+              "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "death": {
+            "Type": "string"
+          },
+          "gender": {
+            "Type": "integer"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "races": {
+            "GoName": "Races",
+            "Items": {
+              "Reference": "#/components/schemas/Race"
+            },
+            "Type": "array"
+          },
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "int64",
+            "GoName": "Score",
+            "Type": "integer"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "PeopleType": {
+        "Description": "people type record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Race": {
+        "Description": "race record",
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Release": {
+        "Description": "release record",
+        "Properties": {
+          "country": {
+            "Type": "string"
+          },
+          "date": {
+            "Type": "string"
+          },
+          "detail": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "RemoteID": {
+        "Description": "remote id record",
+        "Properties": {
+          "id": {
+            "GoName": "ID",
+            "Type": "string"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SearchResult": {
+        "Description": "search result",
+        "Properties": {
+          "aliases": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "companies": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "companyType": {
+            "Type": "string"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "director": {
+            "Type": "string"
+          },
+          "extendedTitle": {
+            "Type": "string"
+          },
+          "genres": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Type": "string"
+          },
+          "imageUrl": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslated": {
+            "Type": "string"
+          },
+          "officialList": {
+            "Type": "string"
+          },
+          "overview": {
+            "Type": "string"
+          },
+          "overview_translated": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "posters": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "primaryLanguage": {
+            "Type": "string"
+          },
+          "primaryType": {
+            "Type": "string"
+          },
+          "status": {
+            "GoName": "Status",
+            "Type": "string"
+          },
+          "translationsWithLang": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "tvdb_id": {
+            "Type": "string"
+          },
+          "type": {
+            "Type": "string"
+          },
+          "year": {
+            "Type": "string"
+          }
+        },
+        "Type": "object"
+      },
+      "SeasonBaseRecord": {
+        "Description": "season genre record",
+        "Properties": {
+          "abbreviation": {
+            "Type": "string"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageType": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "number": {
+            "Format": "int64",
+            "GoName": "Number",
+            "Type": "integer"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "seriesId": {
+            "Format": "int64",
+            "GoName": "SeriesID",
+            "Type": "integer"
+          },
+          "slug": {
+            "Type": "string"
+          },
+          "type": {
+            "Reference": "#/components/schemas/SeasonType"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SeasonExtendedRecord": {
+        "Description": "extended season record",
+        "Properties": {
+          "abbreviation": {
+            "Type": "string"
+          },
+          "artwork": {
+            "GoName": "Artwork",
+            "Items": {
+              "Reference": "#/components/schemas/ArtworkBaseRecord"
+            },
+            "Type": "array"
+          },
+          "episodes": {
+            "GoName": "Episodes",
+            "Items": {
+              "Reference": "#/components/schemas/EpisodeBaseRecord"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageType": {
+            "Type": "integer"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "number": {
+            "Format": "int64",
+            "GoName": "Number",
+            "Type": "integer"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "seriesId": {
+            "Format": "int64",
+            "GoName": "SeriesID",
+            "Type": "integer"
+          },
+          "slug": {
+            "Type": "string"
+          },
+          "trailers": {
+            "GoName": "Trailers",
+            "Items": {
+              "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          },
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SeasonType": {
+        "Description": "season type record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "type": {
+            "Format": "int64",
+            "GoName": "Type",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SeriesAirsDays": {
+        "Description": "A series airs day record",
+        "Properties": {
+          "friday": {
+            "GoName": "Friday",
+            "Type": "boolean"
+          },
+          "monday": {
+            "GoName": "Monday",
+            "Type": "boolean"
+          },
+          "saturday": {
+            "GoName": "Saturday",
+            "Type": "boolean"
+          },
+          "sunday": {
+            "GoName": "Sunday",
+            "Type": "boolean"
+          },
+          "thursday": {
+            "GoName": "Thursday",
+            "Type": "boolean"
+          },
+          "tuesday": {
+            "GoName": "Tuesday",
+            "Type": "boolean"
+          },
+          "wednesday": {
+            "GoName": "Wednesday",
+            "Type": "boolean"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SeriesBaseRecord": {
+        "Description": "The base record for a series",
+        "Properties": {
+          "abbreviation": {
+            "Type": "string"
+          },
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "defaultSeasonType": {
+            "Format": "int64",
+            "GoName": "DefaultSeasonType",
+            "Type": "integer"
+          },
+          "firstAired": {
+            "Type": "string"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "isOrderRandomized": {
+            "GoName": "IsOrderRandomized",
+            "Type": "boolean"
+          },
+          "lastAired": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "nextAired": {
+            "GoName": "NextAired",
+            "Type": "string"
+          },
+          "originalCountry": {
+            "Type": "string"
+          },
+          "originalLanguage": {
+            "Type": "string"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "double",
+            "GoName": "Score",
+            "Type": "number"
+          },
+          "slug": {
+            "Type": "string"
+          },
+          "status": {
+            "Reference": "#/components/schemas/Status"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SeriesExtendedRecord": {
+        "Description": "The extended record for a series",
+        "Properties": {
+          "abbreviation": {
+            "Type": "string"
+          },
+          "airsDays": {
+            "Reference": "#/components/schemas/SeriesAirsDays"
+          },
+          "airsTime": {
+            "Type": "string"
+          },
+          "aliases": {
+            "GoName": "Aliases",
+            "Items": {
+              "Reference": "#/components/schemas/Alias"
+            },
+            "Type": "array"
+          },
+          "artworks": {
+            "GoName": "Artworks",
+            "Items": {
+              "Reference": "#/components/schemas/ArtworkBaseRecord"
+            },
+            "Type": "array"
+          },
+          "characters": {
+            "GoName": "Characters",
+            "Items": {
+              "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "defaultSeasonType": {
+            "Format": "int64",
+            "GoName": "DefaultSeasonType",
+            "Type": "integer"
+          },
+          "firstAired": {
+            "Type": "string"
+          },
+          "lists": {
+            "Items": {
+              "Reference": "#/components/schemas/ListBaseRecord"
+            }
+          },
+          "genres": {
+            "GoName": "Genres",
+            "Items": {
+              "Reference": "#/components/schemas/GenreBaseRecord"
+            },
+            "Type": "array"
+          },
+          "id": {
+            "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "isOrderRandomized": {
+            "GoName": "IsOrderRandomized",
+            "Type": "boolean"
+          },
+          "lastAired": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "companies": {
+            "Items": {
+              "Reference": "#/components/schemas/Company"
+            },
+            "Type": "array"
+          },
+          "nextAired": {
+            "GoName": "NextAired",
+            "Type": "string"
+          },
+          "originalCountry": {
+            "Type": "string"
+          },
+          "originalLanguage": {
+            "Type": "string"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "score": {
+            "Format": "double",
+            "GoName": "Score",
+            "Type": "number"
+          },
+          "seasons": {
+            "GoName": "Seasons",
+            "Items": {
+              "Reference": "#/components/schemas/SeasonBaseRecord"
+            },
+            "Type": "array"
+          },
+          "slug": {
+            "Type": "string"
+          },
+          "status": {
+            "Reference": "#/components/schemas/Status"
+          },
+          "trailers": {
+            "GoName": "Trailers",
+            "Items": {
+              "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "SourceType": {
+        "Description": "source type record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "postfix": {
+            "Type": "string"
+          },
+          "prefix": {
+            "Type": "string"
+          },
+          "slug": {
+            "GoName": "Slug",
+            "Type": "string"
+          },
+          "sort": {
+            "Format": "int64",
+            "GoName": "Sort",
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Status": {
+        "Description": "status record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "keepUpdated": {
+            "GoName": "KeepUpdated",
+            "Type": "boolean"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "recordType": {
+            "GoName": "RecordType",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "StudioBaseRecord": {
+        "Description": "studio record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "parentStudio": {
+            "Type": "integer"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Tag": {
+        "Description": "tag record",
+        "Properties": {
+          "allowsMultiple": {
+            "GoName": "AllowsMultiple",
+            "Type": "boolean"
+          },
+          "helpText": {
+            "Type": "string"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "options": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "TagOption": {
+        "Description": "tag option record",
+        "Properties": {
+          "helpText": {
+            "Type": "string"
+          },
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "tag": {
+            "Format": "int64",
+            "GoName": "Tag",
+            "Type": "integer"
+          },
+          "tagName": {
+            "GoName": "TagName",
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Trailer": {
+        "Description": "trailer record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "language": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "url": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Translation": {
+        "Description": "translation record",
+        "Properties": {
+          "aliases": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "isAlias": {
+            "Type": "boolean"
+          },
+          "isPrimary": {
+            "Type": "boolean"
+          },
+          "language": {
+            "GoName": "Language",
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "overview": {
+            "Type": "string"
+          }
+        },
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "TagOptionEntity": {
+        "Description": "a entity with selected tag option",
+        "Properties": {
+          "name": {
+            "Type": "string"
+          },
+          "tagName": {
+            "Type": "string"
+          },
+          "tagId": {
+            "Type": "integer"
+          }
+        },
+        "Type": "object"
+      },
+      "Inspiration": {
+        "Description": "Movie inspiration record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "type": {
+            "Type": "string"
+          },
+          "typeName": {
+            "Type": "string"
+          },
+          "url": {
+            "Type": "string"
+          }
+        }
+      },
+      "ProductionCountry": {
+        "Description": "Production country record",
+        "Properties": {
+          "id": {
+            "Format": "int64",
+            "GoName": "ID",
+            "Type": "integer"
+          },
+          "country": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          }
+        }
+      },
+      "Companies": {
+        "Description": "Companies by type record",
+        "Properties": {
+          "studio": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "array"
+          },
+          "network": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "array"
+          },
+          "production": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "array"
+          },
+          "distributor": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "array"
+          },
+          "specialEffects": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "array"
+          }
+        }
+      }
+    },
+    "SecuritySchemes": {
+      "BearerAuth": {
+        "Type": "http",
+        "Scheme": "bearer",
+        "BearerFormat": "JWT"
+      }
+    }
+  }
+}

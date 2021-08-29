@@ -833,9 +833,7 @@ namespace TvDbSharper
         public string Name { get; set; }
     }
 
-    public class RaceDto
-    {
-    }
+    public class RaceDto { }
 
     public class ReleaseDto
     {
@@ -900,7 +898,7 @@ namespace TvDbSharper
         public string Overview { get; set; }
 
         [JsonProperty("overview_translated")]
-        public string[] Overview_translated { get; set; }
+        public string[] OverviewTranslated { get; set; }
 
         [JsonProperty("posters")]
         public string[] Posters { get; set; }
@@ -918,7 +916,7 @@ namespace TvDbSharper
         public string[] TranslationsWithLang { get; set; }
 
         [JsonProperty("tvdb_id")]
-        public string Tvdb_id { get; set; }
+        public string TvdbId { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -1372,5 +1370,14 @@ namespace TvDbSharper
 
         [JsonProperty("specialEffects")]
         public CompanyDto SpecialEffects { get; set; }
+    }
+
+    public class GetSeriesEpisodesResponseData
+    {
+        [JsonProperty("series")]
+        public SeriesExtendedRecordDto Series { get; set; }
+
+        [JsonProperty("episodes")]
+        public EpisodeBaseRecordDto[] Episodes { get; set; }
     }
 }
