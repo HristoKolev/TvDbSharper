@@ -172,5 +172,9 @@ namespace GenerateDto
         public Dictionary<string, TypeModel> Properties { get; set; }
 
         public string Type { get; set; }
+
+        public int Maximum { get; set; }
+        
+        public string Description { get; set; }
     }
 }

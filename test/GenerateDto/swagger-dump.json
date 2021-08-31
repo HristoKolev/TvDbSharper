@@ -1,7 +1,7 @@
 {
   "OpenApi": "3.0.0",
   "Info": {
-    "Description": "Documentation of the TVDB API V4",
+    "Description": "Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).",
     "Title": "TVDB API V4",
     "Version": "4.3.17"
   },
@@ -11,10 +11,30 @@
     }
   ],
   "Paths": {
-    "/artwork/statuses": {
-      "get": {
-        "Description": "returns list of artwork status records",
-        "OperationId": "getAllArtworkStatuses",
+    "/login": {
+      "post": {
+        "Summary": "create an auth token",
+        "RequestBody": {
+          "Content": {
+            "application/json": {
+              "Schema": {
+                "Required": [
+                  "apikey"
+                ],
+                "Properties": {
+                  "apikey": {
+                    "Type": "string"
+                  },
+                  "pin": {
+                    "Type": "string"
+                  }
+                },
+                "Type": "object"
+              }
+            }
+          },
+          "Required": true
+        },
         "Responses": {
           "200": {
             "Description": "response",
@@ -23,10 +43,12 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/ArtworkStatus"
+                      "Properties": {
+                        "token": {
+                          "Type": "string"
+                        }
                       },
-                      "Type": "array"
+                      "Type": "object"
                     },
                     "status": {
                       "Type": "string"
@@ -39,45 +61,13 @@
           }
         },
         "Tags": [
-          "artwork-statuses"
-        ]
-      }
-    },
-    "/artwork/types": {
-      "get": {
-        "Description": "returns list of artworkType records",
-        "OperationId": "getAllArtworkTypes",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/ArtworkType"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "artwork-types"
+          "Login"
         ]
       }
     },
     "/artwork/{id}": {
       "get": {
-        "Description": "Returns artwork base record",
+        "Description": "Returns a single artwork base record.",
         "OperationId": "getArtworkBase",
         "Parameters": [
           {
@@ -111,13 +101,13 @@
           }
         },
         "Tags": [
-          "artwork"
+          "Artwork"
         ]
       }
     },
     "/artwork/{id}/extended": {
       "get": {
-        "Description": "Returns artwork extended record",
+        "Description": "Returns a single artwork extended record.",
         "OperationId": "getArtworkExtended",
         "Parameters": [
           {
@@ -151,13 +141,13 @@
           }
         },
         "Tags": [
-          "artwork"
+          "Artwork"
         ]
       }
     },
     "/artwork/{id}/translations/{language}": {
       "get": {
-        "Description": "Returns artwork translation record",
+        "Description": "Returns a single artwork translation record.",
         "OperationId": "getArtworkTranslation",
         "Parameters": [
           {
@@ -200,25 +190,14 @@
           }
         },
         "Tags": [
-          "artwork"
+          "Artwork"
         ]
       }
     },
-    "/awards/categories/{id}": {
+    "/artwork/statuses": {
       "get": {
-        "Description": "Returns a award category base record",
-        "OperationId": "getAwardCategory",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
+        "Description": "Returns list of artwork status records.",
+        "OperationId": "getAllArtworkStatuses",
         "Responses": {
           "200": {
             "Description": "response",
@@ -227,7 +206,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/AwardCategoryBaseRecord"
+                      "Items": {
+                        "Reference": "#/components/schemas/ArtworkStatus"
+                      },
+                      "Type": "array"
                     },
                     "status": {
                       "Type": "string"
@@ -240,25 +222,14 @@
           }
         },
         "Tags": [
-          "award-categories"
+          "Artwork Statuses"
         ]
       }
     },
-    "/awards/categories/{id}/extended": {
+    "/artwork/types": {
       "get": {
-        "Description": "Returns a award category extended record",
-        "OperationId": "getAwardCategoryExtended",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
+        "Description": "Returns a list of artworkType records",
+        "OperationId": "getAllArtworkTypes",
         "Responses": {
           "200": {
             "Description": "response",
@@ -267,7 +238,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/AwardCategoryExtendedRecord"
+                      "Items": {
+                        "Reference": "#/components/schemas/ArtworkType"
+                      },
+                      "Type": "array"
                     },
                     "status": {
                       "Type": "string"
@@ -280,13 +254,13 @@
           }
         },
         "Tags": [
-          "award-categories"
+          "Artwork Types"
         ]
       }
     },
     "/awards": {
       "get": {
-        "Description": "returns list of award base records",
+        "Description": "Returns a list of award base records",
         "OperationId": "getAllAwards",
         "Responses": {
           "200": {
@@ -312,13 +286,13 @@
           }
         },
         "Tags": [
-          "awards"
+          "Awards"
         ]
       }
     },
     "/awards/{id}": {
       "get": {
-        "Description": "returns an award base record",
+        "Description": "Returns a single award base record",
         "OperationId": "getAward",
         "Parameters": [
           {
@@ -352,13 +326,13 @@
           }
         },
         "Tags": [
-          "awards"
+          "Awards"
         ]
       }
     },
     "/awards/{id}/extended": {
       "get": {
-        "Description": "returns an award extended record",
+        "Description": "Returns a single award extended record",
         "OperationId": "getAwardExtended",
         "Parameters": [
           {
@@ -392,7 +366,87 @@
           }
         },
         "Tags": [
-          "awards"
+          "Awards"
+        ]
+      }
+    },
+    "/awards/categories/{id}": {
+      "get": {
+        "Description": "Returns a single award category base record",
+        "OperationId": "getAwardCategory",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardCategoryBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Award Categories"
+        ]
+      }
+    },
+    "/awards/categories/{id}/extended": {
+      "get": {
+        "Description": "Returns a single award category extended record",
+        "OperationId": "getAwardCategoryExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/AwardCategoryExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Award Categories"
         ]
       }
     },
@@ -432,7 +486,7 @@
           }
         },
         "Tags": [
-          "characters"
+          "Characters"
         ]
       }
     },
@@ -474,7 +528,7 @@
           }
         },
         "Tags": [
-          "companies"
+          "Companies"
         ]
       }
     },
@@ -506,7 +560,7 @@
           }
         },
         "Tags": [
-          "companies"
+          "Companies"
         ]
       }
     },
@@ -546,7 +600,7 @@
           }
         },
         "Tags": [
-          "companies"
+          "Companies"
         ]
       }
     },
@@ -578,7 +632,7 @@
           }
         },
         "Tags": [
-          "content-ratings"
+          "Content Ratings"
         ]
       }
     },
@@ -610,7 +664,7 @@
           }
         },
         "Tags": [
-          "countries"
+          "Countries"
         ]
       }
     },
@@ -642,7 +696,7 @@
           }
         },
         "Tags": [
-          "entity-types"
+          "Entity Types"
         ]
       }
     },
@@ -682,7 +736,7 @@
           }
         },
         "Tags": [
-          "episodes"
+          "Episodes"
         ]
       }
     },
@@ -734,7 +788,7 @@
           }
         },
         "Tags": [
-          "episodes"
+          "Episodes"
         ]
       }
     },
@@ -783,7 +837,265 @@
           }
         },
         "Tags": [
-          "episodes"
+          "Episodes"
+        ]
+      }
+    },
+    "/genders": {
+      "get": {
+        "Description": "returns list of gender records",
+        "OperationId": "getAllGenders",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Gender"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Genders"
+        ]
+      }
+    },
+    "/genres": {
+      "get": {
+        "Description": "returns list of genre records",
+        "OperationId": "getAllGenres",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/GenreBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Genres"
+        ]
+      }
+    },
+    "/genres/{id}": {
+      "get": {
+        "Description": "Returns genre record",
+        "OperationId": "getGenreBase",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/GenreBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Genres"
+        ]
+      }
+    },
+    "/languages": {
+      "get": {
+        "Description": "returns list of language records",
+        "OperationId": "getAllLanguages",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Language"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Languages"
+        ]
+      }
+    },
+    "/lists": {
+      "get": {
+        "Description": "returns list of list base records",
+        "OperationId": "getAllLists",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/ListBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Lists"
+        ]
+      }
+    },
+    "/lists/{id}": {
+      "get": {
+        "Description": "returns an list base record",
+        "OperationId": "getList",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ListBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Lists"
+        ]
+      }
+    },
+    "/lists/{id}/extended": {
+      "get": {
+        "Description": "returns a list extended record",
+        "OperationId": "getListExtended",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ListExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Lists"
         ]
       }
     },
@@ -832,351 +1144,7 @@
           }
         },
         "Tags": [
-          "lists"
-        ]
-      }
-    },
-    "/genders": {
-      "get": {
-        "Description": "returns list of gender records",
-        "OperationId": "getAllGenders",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/Gender"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "genders"
-        ]
-      }
-    },
-    "/genres": {
-      "get": {
-        "Description": "returns list of genre records",
-        "OperationId": "getAllGenres",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/GenreBaseRecord"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "genres"
-        ]
-      }
-    },
-    "/genres/{id}": {
-      "get": {
-        "Description": "Returns genre record",
-        "OperationId": "getGenreBase",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Reference": "#/components/schemas/GenreBaseRecord"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "genres"
-        ]
-      }
-    },
-    "/languages": {
-      "get": {
-        "Description": "returns list of language records",
-        "OperationId": "getAllLanguages",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/Language"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "languages"
-        ]
-      }
-    },
-    "/lists": {
-      "get": {
-        "Description": "returns list of list base records",
-        "OperationId": "getAllLists",
-        "Parameters": [
-          {
-            "Description": "page number",
-            "In": "query",
-            "Name": "page",
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/ListBaseRecord"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "lists"
-        ]
-      }
-    },
-    "/lists/{id}": {
-      "get": {
-        "Description": "returns an list base record",
-        "OperationId": "getList",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Reference": "#/components/schemas/ListBaseRecord"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "lists"
-        ]
-      }
-    },
-    "/lists/{id}/extended": {
-      "get": {
-        "Description": "returns a list extended record",
-        "OperationId": "getListExtended",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
-          }
-        ],
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Reference": "#/components/schemas/ListExtendedRecord"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "lists"
-        ]
-      }
-    },
-    "/login": {
-      "post": {
-        "Summary": "create an auth token",
-        "RequestBody": {
-          "Content": {
-            "application/json": {
-              "Schema": {
-                "Required": [
-                  "apikey"
-                ],
-                "Properties": {
-                  "apikey": {
-                    "Type": "string"
-                  },
-                  "pin": {
-                    "Type": "string"
-                  }
-                },
-                "Type": "object"
-              }
-            }
-          },
-          "Required": true
-        },
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Properties": {
-                        "token": {
-                          "Type": "string"
-                        }
-                      },
-                      "Type": "object"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "login"
-        ]
-      }
-    },
-    "/movies/statuses": {
-      "get": {
-        "Description": "returns list of status records",
-        "OperationId": "getAllMovieStatuses",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/Status"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "movie-statuses"
+          "Lists"
         ]
       }
     },
@@ -1218,7 +1186,7 @@
           }
         },
         "Tags": [
-          "movies"
+          "Movies"
         ]
       }
     },
@@ -1258,7 +1226,7 @@
           }
         },
         "Tags": [
-          "movies"
+          "Movies"
         ]
       }
     },
@@ -1310,7 +1278,7 @@
           }
         },
         "Tags": [
-          "movies"
+          "Movies"
         ]
       }
     },
@@ -1359,14 +1327,14 @@
           }
         },
         "Tags": [
-          "movies"
+          "Movies"
         ]
       }
     },
-    "/people/types": {
+    "/movies/statuses": {
       "get": {
-        "Description": "returns list of peopleType records",
-        "OperationId": "getAllPeopleTypes",
+        "Description": "returns list of status records",
+        "OperationId": "getAllMovieStatuses",
         "Responses": {
           "200": {
             "Description": "response",
@@ -1376,7 +1344,7 @@
                   "Properties": {
                     "data": {
                       "Items": {
-                        "Reference": "#/components/schemas/PeopleType"
+                        "Reference": "#/components/schemas/Status"
                       },
                       "Type": "array"
                     },
@@ -1391,7 +1359,7 @@
           }
         },
         "Tags": [
-          "people-types"
+          "Movie Statuses"
         ]
       }
     },
@@ -1431,7 +1399,7 @@
           }
         },
         "Tags": [
-          "people"
+          "People"
         ]
       }
     },
@@ -1483,7 +1451,7 @@
           }
         },
         "Tags": [
-          "people"
+          "People"
         ]
       }
     },
@@ -1532,7 +1500,39 @@
           }
         },
         "Tags": [
-          "people"
+          "People"
+        ]
+      }
+    },
+    "/people/types": {
+      "get": {
+        "Description": "returns list of peopleType records",
+        "OperationId": "getAllPeopleTypes",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/PeopleType"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "People Types"
         ]
       }
     },
@@ -1614,7 +1614,7 @@
           }
         },
         "Tags": [
-          "search"
+          "Search"
         ]
       }
     },
@@ -1656,7 +1656,7 @@
           }
         },
         "Tags": [
-          "seasons"
+          "Seasons"
         ]
       }
     },
@@ -1696,7 +1696,7 @@
           }
         },
         "Tags": [
-          "seasons"
+          "Seasons"
         ]
       }
     },
@@ -1736,7 +1736,7 @@
           }
         },
         "Tags": [
-          "seasons"
+          "Seasons"
         ]
       }
     },
@@ -1765,7 +1765,7 @@
           }
         },
         "Tags": [
-          "seasons"
+          "Seasons"
         ]
       }
     },
@@ -1814,7 +1814,7 @@
           }
         },
         "Tags": [
-          "seasons"
+          "Seasons"
         ]
       }
     },
@@ -1856,39 +1856,7 @@
           }
         },
         "Tags": [
-          "series"
-        ]
-      }
-    },
-    "/series/statuses": {
-      "get": {
-        "Description": "returns list of status records",
-        "OperationId": "getAllSeriesStatuses",
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Items": {
-                        "Reference": "#/components/schemas/Status"
-                      },
-                      "Type": "array"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
-          }
-        },
-        "Tags": [
-          "series-statuses"
+          "Series"
         ]
       }
     },
@@ -1928,7 +1896,7 @@
           }
         },
         "Tags": [
-          "series"
+          "Series"
         ]
       }
     },
@@ -1981,7 +1949,7 @@
           }
         },
         "Tags": [
-          "series"
+          "Series"
         ]
       }
     },
@@ -2070,7 +2038,7 @@
           }
         },
         "Tags": [
-          "series"
+          "Series"
         ]
       }
     },
@@ -2119,7 +2087,39 @@
           }
         },
         "Tags": [
-          "series"
+          "Series"
+        ]
+      }
+    },
+    "/series/statuses": {
+      "get": {
+        "Description": "returns list of status records",
+        "OperationId": "getAllSeriesStatuses",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Status"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        },
+        "Tags": [
+          "Series Statuses"
         ]
       }
     },
@@ -2151,7 +2151,7 @@
           }
         },
         "Tags": [
-          "source-types"
+          "Source Types"
         ]
       }
     },
@@ -2250,7 +2250,7 @@
           }
         },
         "Tags": [
-          "updates"
+          "Updates"
         ]
       }
     }
@@ -2263,15 +2263,17 @@
   "Components": {
     "Schemas": {
       "Alias": {
-        "Description": "An alias model",
+        "Description": "An alias model, which can be associated with a series, season, movie, person, or list.",
         "Properties": {
           "language": {
-            "GoName": "Language",
-            "Type": "string"
+            "Type": "string",
+            "Maximum": 4,
+            "Description": "A 3-4 character string indicating the language of the alias, as defined in Language."
           },
           "name": {
-            "GoName": "Name",
-            "Type": "string"
+            "Type": "string",
+            "Maximum": 100,
+            "Description": "A string containing the alias itself."
           }
         },
         "Type": "object"
