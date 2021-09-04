@@ -9,6 +9,16 @@ namespace GenerateDto
         {
             var sb = new StringBuilder();
 
+            foreach (string comment in ns.TopLevelComments)
+            {
+                sb.AppendLine(comment);
+            }
+
+            if (ns.TopLevelComments.Any())
+            {
+                sb.AppendLine();
+            }
+
             sb.AppendLine($"namespace {ns.NamespaceName}");
 
             sb.AppendLine("{");
@@ -33,7 +43,7 @@ namespace GenerateDto
                     sb.AppendLine();
                 }
 
-                sb.Append(ScriptDto(classModel));
+                sb.Append(ScriptClass(classModel));
             }
 
             sb.AppendLine("}");
@@ -41,12 +51,12 @@ namespace GenerateDto
             return sb.ToString();
         }
 
-        private static string ScriptDto(ClassModel classModel)
+        private static string ScriptClass(ClassModel classModel)
         {
             var sb = new StringBuilder();
-            sb.Append($"    public class {classModel.ClassName}");
+            sb.Append($"    public{(classModel.Partial ? " partial" : "")} class {classModel.ClassName}");
 
-            if (classModel.Properties.Any())
+            if (!classModel.IsEmpty)
             {
                 sb.AppendLine();
                 sb.AppendLine("    {");
@@ -70,6 +80,25 @@ namespace GenerateDto
                     }
 
                     sb.AppendLine($"        public {property.PropertyType} {property.PropertyName} {{ get; set; }}");
+                }
+
+                foreach (var method in classModel.Methods)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        sb.AppendLine();
+                    }
+
+                    string argumentList = string.Join(", ", method.Arguments.Select(x => $"{x.Type} {x.Name}"));
+
+                    sb.AppendLine($"        public {method.ReturnType} {method.MethodName}({argumentList})");
+                    sb.AppendLine("        {");
+                    sb.AppendLine($"            {method.Body}");
+                    sb.AppendLine("        }");
                 }
 
                 sb.AppendLine("    }");

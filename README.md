@@ -1,6 +1,6 @@
 TvDbSharper is fully featured modern REST client for the TheTVDB API v4
 
-### Last API compatibility check: 29-08-2021
+### Last API compatibility check: 04-09-2021
 
 [![NuGet](https://img.shields.io/nuget/v/TvDbSharper.svg?maxAge=2592000?style=plastic)](https://www.nuget.org/packages/TvDbSharper/)  [![Build status](https://ci.appveyor.com/api/projects/status/yt4ng6wtcd1nrd3b/branch/master?svg=true)](https://ci.appveyor.com/project/HristoKolev/tvdbsharper/branch/master)
 
@@ -28,7 +28,7 @@ Before you do anything else you need to authenticate yourself.
 Then you can use the client like this:
 
 ```C#
-await client.Authentication.AuthenticateAsync(new AuthenticationData { ApiKey = "ApiKey", Pin = "PIN" });
+await client.Login("ApiKey", "PIN");
 ```
 
 ## Everything else

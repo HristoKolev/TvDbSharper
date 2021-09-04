@@ -1,5 +1,6 @@
 ﻿namespace ManualTests
 {
+    using System;
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -11,16 +12,16 @@
         private static async Task Main()
         {
             var httpClient = new HttpClient();
-
             var client = new TvDbClient(httpClient);
-
-            var authenticationData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
-
-            await client.Authentication.AuthenticateAsync(authenticationData);
-
+            var authData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
+            await client.Login(authData!.ApiKey, authData.Pin);
             client = new TvDbClient(httpClient);
+            Console.WriteLine("AuthToken: " + client.AuthToken);
 
-            var artworkStatuses = await client.Artwork.GetArtStatuses();
+            Test("ArtworkStatuses", await client.ArtworkStatuses());
+            Test("ArtworkTypes", await client.ArtworkTypes());
+            Test("Artwork", await client.Artwork(62803637));
+            Test("ArtworkExtended", await client.ArtworkExtended(62803637));
 
             // int seriesID = 83237;
 
@@ -78,5 +79,18 @@
             //
             // Console.WriteLine("Done.");
         }
+
+        private static void Test(string tag, object obj)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"{tag} => {JsonConvert.SerializeObject(obj)}");
+        }
+    }
+
+    public class AuthenticationData
+    {
+        public string ApiKey { get; set; }
+
+        public string Pin { get; set; }
     }
 }

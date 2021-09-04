@@ -1,6 +1,771 @@
+// ReSharper disable HeapView.BoxingAllocation
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
+// ReSharper disable RedundantStringInterpolation
+
 namespace TvDbSharper
 {
+    using System.Threading;
+    using System.Threading.Tasks;
     using Newtonsoft.Json;
+
+    public partial class TvDbClient
+    {
+        public Task<ArtworkBaseRecordDto> Artwork(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ArtworkBaseRecordDto>($"artwork/{id}", null, cancellationToken);
+        }
+
+        public Task<ArtworkBaseRecordDto> Artwork(int id)
+        {
+            return this.Artwork(id, CancellationToken.None);
+        }
+
+        public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ArtworkExtendedRecordDto>($"artwork/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id)
+        {
+            return this.ArtworkExtended(id, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> ArtworkTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"artwork/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> ArtworkTranslation(int id, string language)
+        {
+            return this.ArtworkTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<ArtworkStatusDto[]> ArtworkStatuses(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ArtworkStatusDto[]>($"artwork/statuses", null, cancellationToken);
+        }
+
+        public Task<ArtworkStatusDto[]> ArtworkStatuses()
+        {
+            return this.ArtworkStatuses(CancellationToken.None);
+        }
+
+        public Task<ArtworkTypeDto[]> ArtworkTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ArtworkTypeDto[]>($"artwork/types", null, cancellationToken);
+        }
+
+        public Task<ArtworkTypeDto[]> ArtworkTypes()
+        {
+            return this.ArtworkTypes(CancellationToken.None);
+        }
+
+        public Task<AwardBaseRecordDto[]> Awards(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<AwardBaseRecordDto[]>($"awards", null, cancellationToken);
+        }
+
+        public Task<AwardBaseRecordDto[]> Awards()
+        {
+            return this.Awards(CancellationToken.None);
+        }
+
+        public Task<AwardBaseRecordDto> Award(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<AwardBaseRecordDto>($"awards/{id}", null, cancellationToken);
+        }
+
+        public Task<AwardBaseRecordDto> Award(int id)
+        {
+            return this.Award(id, CancellationToken.None);
+        }
+
+        public Task<AwardExtendedRecordDto> AwardExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<AwardExtendedRecordDto>($"awards/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<AwardExtendedRecordDto> AwardExtended(int id)
+        {
+            return this.AwardExtended(id, CancellationToken.None);
+        }
+
+        public Task<AwardCategoryBaseRecordDto> AwardCategory(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<AwardCategoryBaseRecordDto>($"awards/categories/{id}", null, cancellationToken);
+        }
+
+        public Task<AwardCategoryBaseRecordDto> AwardCategory(int id)
+        {
+            return this.AwardCategory(id, CancellationToken.None);
+        }
+
+        public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<AwardCategoryExtendedRecordDto>($"awards/categories/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id)
+        {
+            return this.AwardCategoryExtended(id, CancellationToken.None);
+        }
+
+        public Task<CharacterDto> Character(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CharacterDto>($"characters/{id}", null, cancellationToken);
+        }
+
+        public Task<CharacterDto> Character(int id)
+        {
+            return this.Character(id, CancellationToken.None);
+        }
+
+        public Task<CompanyDto[]> Companies(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CompanyDto[]>($"companies", null, cancellationToken);
+        }
+
+        public Task<CompanyDto[]> Companies()
+        {
+            return this.Companies(CancellationToken.None);
+        }
+
+        public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CompanyDto[]>($"companies", optionalParameters, cancellationToken);
+        }
+
+        public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters)
+        {
+            return this.Companies(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<CompanyTypeDto[]> CompanyTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CompanyTypeDto[]>($"companies/types", null, cancellationToken);
+        }
+
+        public Task<CompanyTypeDto[]> CompanyTypes()
+        {
+            return this.CompanyTypes(CancellationToken.None);
+        }
+
+        public Task<CompanyDto> Company(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CompanyDto>($"companies/{id}", null, cancellationToken);
+        }
+
+        public Task<CompanyDto> Company(int id)
+        {
+            return this.Company(id, CancellationToken.None);
+        }
+
+        public Task<ContentRatingDto[]> ContentRatings(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ContentRatingDto[]>($"content/ratings", null, cancellationToken);
+        }
+
+        public Task<ContentRatingDto[]> ContentRatings()
+        {
+            return this.ContentRatings(CancellationToken.None);
+        }
+
+        public Task<CountryDto[]> Countries(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<CountryDto[]>($"countries", null, cancellationToken);
+        }
+
+        public Task<CountryDto[]> Countries()
+        {
+            return this.Countries(CancellationToken.None);
+        }
+
+        public Task<EntityTypeDto[]> EntityTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EntityTypeDto[]>($"entities/types", null, cancellationToken);
+        }
+
+        public Task<EntityTypeDto[]> EntityTypes()
+        {
+            return this.EntityTypes(CancellationToken.None);
+        }
+
+        public Task<EpisodeBaseRecordDto> Episode(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EpisodeBaseRecordDto>($"episodes/{id}", null, cancellationToken);
+        }
+
+        public Task<EpisodeBaseRecordDto> Episode(int id)
+        {
+            return this.Episode(id, CancellationToken.None);
+        }
+
+        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EpisodeExtendedRecordDto>($"episodes/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id)
+        {
+            return this.EpisodeExtended(id, CancellationToken.None);
+        }
+
+        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EpisodeExtendedRecordDto>($"episodes/{id}/extended", optionalParameters, cancellationToken);
+        }
+
+        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters)
+        {
+            return this.EpisodeExtended(id, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> EpisodeTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"episodes/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> EpisodeTranslation(int id, string language)
+        {
+            return this.EpisodeTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<GenderDto[]> Genders(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GenderDto[]>($"genders", null, cancellationToken);
+        }
+
+        public Task<GenderDto[]> Genders()
+        {
+            return this.Genders(CancellationToken.None);
+        }
+
+        public Task<GenreBaseRecordDto[]> Genres(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GenreBaseRecordDto[]>($"genres", null, cancellationToken);
+        }
+
+        public Task<GenreBaseRecordDto[]> Genres()
+        {
+            return this.Genres(CancellationToken.None);
+        }
+
+        public Task<GenreBaseRecordDto> Genre(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GenreBaseRecordDto>($"genres/{id}", null, cancellationToken);
+        }
+
+        public Task<GenreBaseRecordDto> Genre(int id)
+        {
+            return this.Genre(id, CancellationToken.None);
+        }
+
+        public Task<LanguageDto[]> Languages(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<LanguageDto[]>($"languages", null, cancellationToken);
+        }
+
+        public Task<LanguageDto[]> Languages()
+        {
+            return this.Languages(CancellationToken.None);
+        }
+
+        public Task<ListBaseRecordDto[]> Lists(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ListBaseRecordDto[]>($"lists", null, cancellationToken);
+        }
+
+        public Task<ListBaseRecordDto[]> Lists()
+        {
+            return this.Lists(CancellationToken.None);
+        }
+
+        public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ListBaseRecordDto[]>($"lists", optionalParameters, cancellationToken);
+        }
+
+        public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters)
+        {
+            return this.Lists(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<ListBaseRecordDto> List(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ListBaseRecordDto>($"lists/{id}", null, cancellationToken);
+        }
+
+        public Task<ListBaseRecordDto> List(int id)
+        {
+            return this.List(id, CancellationToken.None);
+        }
+
+        public Task<ListExtendedRecordDto> ListExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<ListExtendedRecordDto>($"lists/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<ListExtendedRecordDto> ListExtended(int id)
+        {
+            return this.ListExtended(id, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> ListTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"lists/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> ListTranslation(int id, string language)
+        {
+            return this.ListTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<MovieBaseRecordDto[]> Movies(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<MovieBaseRecordDto[]>($"movies", null, cancellationToken);
+        }
+
+        public Task<MovieBaseRecordDto[]> Movies()
+        {
+            return this.Movies(CancellationToken.None);
+        }
+
+        public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<MovieBaseRecordDto[]>($"movies", optionalParameters, cancellationToken);
+        }
+
+        public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters)
+        {
+            return this.Movies(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<MovieBaseRecordDto> Movie(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<MovieBaseRecordDto>($"movies/{id}", null, cancellationToken);
+        }
+
+        public Task<MovieBaseRecordDto> Movie(int id)
+        {
+            return this.Movie(id, CancellationToken.None);
+        }
+
+        public Task<MovieExtendedRecordDto> MovieExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<MovieExtendedRecordDto>($"movies/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<MovieExtendedRecordDto> MovieExtended(int id)
+        {
+            return this.MovieExtended(id, CancellationToken.None);
+        }
+
+        public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<MovieExtendedRecordDto>($"movies/{id}/extended", optionalParameters, cancellationToken);
+        }
+
+        public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters)
+        {
+            return this.MovieExtended(id, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> MovieTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"movies/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> MovieTranslation(int id, string language)
+        {
+            return this.MovieTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<StatusDto[]> MovieStatuses(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<StatusDto[]>($"movies/statuses", null, cancellationToken);
+        }
+
+        public Task<StatusDto[]> MovieStatuses()
+        {
+            return this.MovieStatuses(CancellationToken.None);
+        }
+
+        public Task<PeopleBaseRecordDto> People(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<PeopleBaseRecordDto>($"people/{id}", null, cancellationToken);
+        }
+
+        public Task<PeopleBaseRecordDto> People(int id)
+        {
+            return this.People(id, CancellationToken.None);
+        }
+
+        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<PeopleExtendedRecordDto>($"people/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<PeopleExtendedRecordDto> PeopleExtended(int id)
+        {
+            return this.PeopleExtended(id, CancellationToken.None);
+        }
+
+        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<PeopleExtendedRecordDto>($"people/{id}/extended", optionalParameters, cancellationToken);
+        }
+
+        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters)
+        {
+            return this.PeopleExtended(id, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> PeopleTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"people/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> PeopleTranslation(int id, string language)
+        {
+            return this.PeopleTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<PeopleTypeDto[]> PeopleTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<PeopleTypeDto[]>($"people/types", null, cancellationToken);
+        }
+
+        public Task<PeopleTypeDto[]> PeopleTypes()
+        {
+            return this.PeopleTypes(CancellationToken.None);
+        }
+
+        public Task<SearchResultDto[]> Search(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SearchResultDto[]>($"search", null, cancellationToken);
+        }
+
+        public Task<SearchResultDto[]> Search()
+        {
+            return this.Search(CancellationToken.None);
+        }
+
+        public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SearchResultDto[]>($"search", optionalParameters, cancellationToken);
+        }
+
+        public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters)
+        {
+            return this.Search(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<SeasonBaseRecordDto[]> Seasons(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeasonBaseRecordDto[]>($"seasons", null, cancellationToken);
+        }
+
+        public Task<SeasonBaseRecordDto[]> Seasons()
+        {
+            return this.Seasons(CancellationToken.None);
+        }
+
+        public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeasonBaseRecordDto[]>($"seasons", optionalParameters, cancellationToken);
+        }
+
+        public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters)
+        {
+            return this.Seasons(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<SeasonBaseRecordDto> Season(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeasonBaseRecordDto>($"seasons/{id}", null, cancellationToken);
+        }
+
+        public Task<SeasonBaseRecordDto> Season(int id)
+        {
+            return this.Season(id, CancellationToken.None);
+        }
+
+        public Task<SeasonExtendedRecordDto> SeasonExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeasonExtendedRecordDto>($"seasons/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<SeasonExtendedRecordDto> SeasonExtended(int id)
+        {
+            return this.SeasonExtended(id, CancellationToken.None);
+        }
+
+        public Task<SeasonTypeDto> SeasonTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeasonTypeDto>($"seasons/types", null, cancellationToken);
+        }
+
+        public Task<SeasonTypeDto> SeasonTypes()
+        {
+            return this.SeasonTypes(CancellationToken.None);
+        }
+
+        public Task<TranslationDto> SeasonTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"seasons/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> SeasonTranslation(int id, string language)
+        {
+            return this.SeasonTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<SeriesBaseRecordDto[]> AllSeries(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeriesBaseRecordDto[]>($"series", null, cancellationToken);
+        }
+
+        public Task<SeriesBaseRecordDto[]> AllSeries()
+        {
+            return this.AllSeries(CancellationToken.None);
+        }
+
+        public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeriesBaseRecordDto[]>($"series", optionalParameters, cancellationToken);
+        }
+
+        public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters)
+        {
+            return this.AllSeries(optionalParameters, CancellationToken.None);
+        }
+
+        public Task<SeriesBaseRecordDto> Series(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeriesBaseRecordDto>($"series/{id}", null, cancellationToken);
+        }
+
+        public Task<SeriesBaseRecordDto> Series(int id)
+        {
+            return this.Series(id, CancellationToken.None);
+        }
+
+        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeriesExtendedRecordDto>($"series/{id}/extended", null, cancellationToken);
+        }
+
+        public Task<SeriesExtendedRecordDto> SeriesExtended(int id)
+        {
+            return this.SeriesExtended(id, CancellationToken.None);
+        }
+
+        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SeriesExtendedRecordDto>($"series/{id}/extended", optionalParameters, cancellationToken);
+        }
+
+        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters)
+        {
+            return this.SeriesExtended(id, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", null, cancellationToken);
+        }
+
+        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType)
+        {
+            return this.SeriesEpisodes(id, seasonType, CancellationToken.None);
+        }
+
+        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", optionalParameters, cancellationToken);
+        }
+
+        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters)
+        {
+            return this.SeriesEpisodes(id, seasonType, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", null, cancellationToken);
+        }
+
+        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang)
+        {
+            return this.SeriesSeasonEpisodesTranslated(id, seasonType, lang, CancellationToken.None);
+        }
+
+        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", optionalParameters, cancellationToken);
+        }
+
+        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters)
+        {
+            return this.SeriesSeasonEpisodesTranslated(id, seasonType, lang, optionalParameters, CancellationToken.None);
+        }
+
+        public Task<TranslationDto> SeriesTranslation(int id, string language, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<TranslationDto>($"series/{id}/translations/{language}", null, cancellationToken);
+        }
+
+        public Task<TranslationDto> SeriesTranslation(int id, string language)
+        {
+            return this.SeriesTranslation(id, language, CancellationToken.None);
+        }
+
+        public Task<StatusDto[]> SeriesStatuses(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<StatusDto[]>($"series/statuses", null, cancellationToken);
+        }
+
+        public Task<StatusDto[]> SeriesStatuses()
+        {
+            return this.SeriesStatuses(CancellationToken.None);
+        }
+
+        public Task<SourceTypeDto[]> SourceTypes(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<SourceTypeDto[]>($"sources/types", null, cancellationToken);
+        }
+
+        public Task<SourceTypeDto[]> SourceTypes()
+        {
+            return this.SourceTypes(CancellationToken.None);
+        }
+
+        public Task<EntityUpdateDto[]> Updates(CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EntityUpdateDto[]>($"updates", null, cancellationToken);
+        }
+
+        public Task<EntityUpdateDto[]> Updates()
+        {
+            return this.Updates(CancellationToken.None);
+        }
+
+        public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.GenericRequest<EntityUpdateDto[]>($"updates", optionalParameters, cancellationToken);
+        }
+
+        public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters)
+        {
+            return this.Updates(optionalParameters, CancellationToken.None);
+        }
+    }
+
+    public class CompaniesOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class EpisodeExtendedOptionalParams
+    {
+        [QueryParameter("meta")]
+        public string Meta { get; set; }
+    }
+
+    public class ListsOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class MoviesOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class MovieExtendedOptionalParams
+    {
+        [QueryParameter("meta")]
+        public string Meta { get; set; }
+    }
+
+    public class PeopleExtendedOptionalParams
+    {
+        [QueryParameter("meta")]
+        public string Meta { get; set; }
+    }
+
+    public class SearchOptionalParams
+    {
+        [QueryParameter("q")]
+        public string Q { get; set; }
+
+        [QueryParameter("query")]
+        public string Query { get; set; }
+
+        [QueryParameter("type")]
+        public string Type { get; set; }
+
+        [QueryParameter("year")]
+        public int? Year { get; set; }
+
+        [QueryParameter("offset")]
+        public int? Offset { get; set; }
+
+        [QueryParameter("limit")]
+        public int? Limit { get; set; }
+    }
+
+    public class SeasonsOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class AllSeriesOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class SeriesExtendedOptionalParams
+    {
+        [QueryParameter("meta")]
+        public string Meta { get; set; }
+    }
+
+    public class SeriesEpisodesOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+
+        [QueryParameter("season")]
+        public int? Season { get; set; }
+    }
+
+    public class SeriesSeasonEpisodesTranslatedOptionalParams
+    {
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
+
+    public class UpdatesOptionalParams
+    {
+        [QueryParameter("since")]
+        public int? Since { get; set; }
+
+        [QueryParameter("type")]
+        public string Type { get; set; }
+
+        [QueryParameter("action")]
+        public string Action { get; set; }
+
+        [QueryParameter("page")]
+        public int? Page { get; set; }
+    }
 
     public class AliasDto
     {
@@ -35,7 +800,7 @@ namespace TvDbSharper
     public class ArtworkExtendedRecordDto
     {
         [JsonProperty("episodeId")]
-        public int EpisodeId { get; set; }
+        public int? EpisodeId { get; set; }
 
         [JsonProperty("height")]
         public long Height { get; set; }
@@ -50,25 +815,25 @@ namespace TvDbSharper
         public string Language { get; set; }
 
         [JsonProperty("movieId")]
-        public int MovieId { get; set; }
+        public int? MovieId { get; set; }
 
         [JsonProperty("networkId")]
-        public int NetworkId { get; set; }
+        public int? NetworkId { get; set; }
 
         [JsonProperty("peopleId")]
-        public int PeopleId { get; set; }
+        public int? PeopleId { get; set; }
 
         [JsonProperty("score")]
         public int Score { get; set; }
 
         [JsonProperty("seasonId")]
-        public int SeasonId { get; set; }
+        public int? SeasonId { get; set; }
 
         [JsonProperty("seriesId")]
         public int SeriesId { get; set; }
 
         [JsonProperty("seriesPeopleId")]
-        public int SeriesPeopleId { get; set; }
+        public int? SeriesPeopleId { get; set; }
 
         [JsonProperty("thumbnail")]
         public string Thumbnail { get; set; }
@@ -87,6 +852,12 @@ namespace TvDbSharper
 
         [JsonProperty("width")]
         public long Width { get; set; }
+
+        [JsonIgnore]
+        public object Status { get; set; }
+
+        [JsonIgnore]
+        public object TagOptions { get; set; }
     }
 
     public class ArtworkStatusDto
@@ -854,6 +1625,9 @@ namespace TvDbSharper
 
         [JsonProperty("type")]
         public long Type { get; set; }
+
+        [JsonProperty("sourceName")]
+        public string SourceName { get; set; }
     }
 
     public class SearchResultDto
@@ -923,6 +1697,30 @@ namespace TvDbSharper
 
         [JsonProperty("year")]
         public string Year { get; set; }
+
+        [JsonProperty("thumbnail")]
+        public string Thumbnail { get; set; }
+
+        [JsonProperty("poster")]
+        public string Poster { get; set; }
+
+        [JsonProperty("translations")]
+        public TranslationSimpleDto[] Translations { get; set; }
+
+        [JsonProperty("is_official")]
+        public bool IsOfficial { get; set; }
+
+        [JsonProperty("remoteIds")]
+        public RemoteIDDto[] RemoteIds { get; set; }
+
+        [JsonProperty("network")]
+        public string Network { get; set; }
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("overviews")]
+        public TranslationSimpleDto[] Overviews { get; set; }
     }
 
     public class SeasonBaseRecordDto
@@ -1123,7 +1921,7 @@ namespace TvDbSharper
         public AliasDto[] Aliases { get; set; }
 
         [JsonProperty("artworks")]
-        public ArtworkBaseRecordDto[] Artworks { get; set; }
+        public ArtworkExtendedRecordDto[] Artworks { get; set; }
 
         [JsonProperty("characters")]
         public CharacterDto[] Characters { get; set; }
@@ -1315,6 +2113,12 @@ namespace TvDbSharper
         public string Overview { get; set; }
     }
 
+    public class TranslationSimpleDto
+    {
+        [JsonProperty("language")]
+        public string Language { get; set; }
+    }
+
     public class TagOptionEntityDto
     {
         [JsonProperty("name")]
@@ -1372,7 +2176,28 @@ namespace TvDbSharper
         public CompanyDto SpecialEffects { get; set; }
     }
 
+    public class LinksDto
+    {
+        [JsonProperty("prev")]
+        public string Prev { get; set; }
+
+        [JsonProperty("self")]
+        public string Self { get; set; }
+
+        [JsonProperty("next")]
+        public string Next { get; set; }
+    }
+
     public class GetSeriesEpisodesResponseData
+    {
+        [JsonProperty("series")]
+        public SeriesExtendedRecordDto Series { get; set; }
+
+        [JsonProperty("episodes")]
+        public EpisodeBaseRecordDto[] Episodes { get; set; }
+    }
+
+    public class GetSeriesSeasonEpisodesTranslatedResponseData
     {
         [JsonProperty("series")]
         public SeriesExtendedRecordDto Series { get; set; }

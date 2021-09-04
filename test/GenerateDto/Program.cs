@@ -9,6 +9,8 @@
 
     public static class Program
     {
+        private const string SWAGGER_URL = "https://thetvdb.github.io/v4-api/swagger.yml";
+
         private static void Main()
         {
             string yml = FetchSwaggerConfig().GetAwaiter().GetResult();
@@ -21,7 +23,7 @@
 
             DumpPaths(swaggerConfig);
 
-            GenerateDto(swaggerConfig);
+            GenerateRequests(swaggerConfig);
         }
 
         private static void DumpFullSwaggerConfig(SwaggerConfig swaggerConfig)
@@ -36,13 +38,13 @@
             File.WriteAllText("../../../../../test/GenerateDto/swagger-dump.json", json);
         }
 
-        private static void GenerateDto(SwaggerConfig swaggerConfig)
+        private static void GenerateRequests(SwaggerConfig swaggerConfig)
         {
-            var namespaceModel = CodeBuilder.GetNamespace(swaggerConfig);
+            var ns = CodeBuilder.GetNamespace(swaggerConfig);
 
-            string codeContent = CodeScripter.Script(namespaceModel);
+            string codeContent = CodeScripter.Script(ns);
 
-            File.WriteAllText("../../../../../src/TvDbSharper/Dto.cs", codeContent);
+            File.WriteAllText("../../../../../src/TvDbSharper/TvDbClient.Generated.cs", codeContent);
         }
 
         private static void DumpPaths(SwaggerConfig swaggerConfig)
@@ -60,22 +62,24 @@
                     result += string.Join(", ", requestInfo.Parameters.Select(x => x.Name + ": " + x.Schema.Type));
                 }
 
-                string returnType = requestInfo.Responses["200"].Content["application/json"].Schema.Properties["data"].Reference;
+                var returnData = requestInfo.Responses["200"].Content["application/json"].Schema.Properties["data"];
 
-                if (returnType != null)
+                string returnType = "unknown";
+
+                if (returnData.Reference != null)
                 {
-                    returnType = returnType.Split('/')[^1];
+                    returnType = returnData.Reference.Split('/')[^1];
                 }
-                else
+                else if (returnData.Type == "array")
                 {
-                    returnType = "unknown";
+                    returnType = returnData.Items.Reference.Split('/')[^1] + "[]";
                 }
 
                 result += $") => {returnType} | {method.ToUpper()} {path}";
 
                 lines.Add(result);
             }
-            
+
             lines.Sort();
 
             File.WriteAllText("../../../../../test/GenerateDto/swagger-paths.txt", string.Join("\n", lines));
@@ -84,7 +88,7 @@
         private static async Task<string> FetchSwaggerConfig()
         {
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync("https://thetvdb.github.io/v4-api/swagger.yml");
+            var response = await httpClient.GetAsync(SWAGGER_URL);
             return await response.Content.ReadAsStringAsync();
         }
     }

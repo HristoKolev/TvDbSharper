@@ -174,7 +174,7 @@ namespace GenerateDto
         public string Type { get; set; }
 
         public int Maximum { get; set; }
-        
+
         public string Description { get; set; }
     }
 }

@@ -13,7 +13,7 @@
   "Paths": {
     "/login": {
       "post": {
-        "Summary": "create an auth token",
+        "Summary": "create an auth token. The token has one month valition length.",
         "RequestBody": {
           "Content": {
             "application/json": {
@@ -1177,6 +1177,9 @@
                     },
                     "status": {
                       "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
                     }
                   },
                   "Type": "object"
@@ -1847,6 +1850,9 @@
                     },
                     "status": {
                       "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
                     }
                   },
                   "Type": "object"
@@ -2003,6 +2009,108 @@
               "regional": {
                 "Value": "regional"
               }
+            }
+          },
+          {
+            "In": "query",
+            "Name": "season",
+            "Schema": {
+              "Type": "integer",
+              "Default": "0"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Properties": {
+                        "series": {
+                          "Reference": "#/components/schemas/SeriesExtendedRecord"
+                        },
+                        "episodes": {
+                          "Items": {
+                            "Reference": "#/components/schemas/EpisodeBaseRecord"
+                          },
+                          "Type": "array"
+                        }
+                      },
+                      "Type": "object"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/series/{id}/episodes/{season-type}/{lang}": {
+      "get": {
+        "Description": "Returns series episodes from the specified season type and language. Default returns the episodes in the series default season type.",
+        "OperationId": "getSeriesSeasonEpisodesTranslated",
+        "Parameters": [
+          {
+            "In": "query",
+            "Name": "page",
+            "Required": true,
+            "Schema": {
+              "Type": "integer",
+              "Default": "0"
+            }
+          },
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "season-type",
+            "In": "path",
+            "Name": "season-type",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            },
+            "Examples": {
+              "default": {
+                "Value": "default"
+              },
+              "official": {
+                "Value": "official"
+              },
+              "dvd": {
+                "Value": "dvd"
+              },
+              "absolute": {
+                "Value": "absolute"
+              },
+              "alternate": {
+                "Value": "alternate"
+              },
+              "regional": {
+                "Value": "regional"
+              }
+            }
+          },
+          {
+            "In": "path",
+            "Name": "lang",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
             }
           }
         ],
@@ -2218,11 +2326,18 @@
             "Schema": {
               "Type": "string",
               "Enum": [
-                "create",
                 "delete",
                 "update"
               ],
               "Example": "movies"
+            }
+          },
+          {
+            "Description": "name",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
             }
           }
         ],
@@ -2241,6 +2356,9 @@
                     },
                     "status": {
                       "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
                     }
                   },
                   "Type": "object"
@@ -3617,6 +3735,10 @@
             "Format": "int64",
             "GoName": "Type",
             "Type": "integer"
+          },
+          "sourceName": {
+            "GoName": "SourceName",
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -3709,6 +3831,40 @@
           },
           "year": {
             "Type": "string"
+          },
+          "thumbnail": {
+            "Type": "string"
+          },
+          "poster": {
+            "Type": "string"
+          },
+          "translations": {
+            "Items": {
+              "Reference": "#/components/schemas/TranslationSimple"
+            },
+            "Type": "array"
+          },
+          "is_official": {
+            "Type": "boolean"
+          },
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "network": {
+            "Type": "string"
+          },
+          "title": {
+            "Type": "string"
+          },
+          "overviews": {
+            "Items": {
+              "Reference": "#/components/schemas/TranslationSimple"
+            },
+            "Type": "array"
           }
         },
         "Type": "object"
@@ -4011,7 +4167,7 @@
           "artworks": {
             "GoName": "Artworks",
             "Items": {
-              "Reference": "#/components/schemas/ArtworkBaseRecord"
+              "Reference": "#/components/schemas/ArtworkExtendedRecord"
             },
             "Type": "array"
           },
@@ -4309,6 +4465,16 @@
         "Type": "object",
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
       },
+      "TranslationSimple": {
+        "Description": "translation simple record",
+        "Properties": {
+          "language": {
+            "GoName": "Language",
+            "Type": "string"
+          }
+        },
+        "Type": "object"
+      },
       "TagOptionEntity": {
         "Description": "a entity with selected tag option",
         "Properties": {
@@ -4381,6 +4547,20 @@
           "specialEffects": {
             "Reference": "#/components/schemas/Company",
             "Type": "array"
+          }
+        }
+      },
+      "Links": {
+        "Description": "Links for next, previous and current record",
+        "Properties": {
+          "prev": {
+            "Type": "string"
+          },
+          "self": {
+            "Type": "string"
+          },
+          "next": {
+            "Type": "string"
           }
         }
       }
