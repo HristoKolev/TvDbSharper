@@ -2,7 +2,6 @@
 {
     using System;
     using System.IO;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using TvDbSharper;
@@ -11,17 +10,40 @@
     {
         private static async Task Main()
         {
-            var httpClient = new HttpClient();
-            var client = new TvDbClient(httpClient);
+            // Client
+            var client = new TvDbClient();
             var authData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
             await client.Login(authData!.ApiKey, authData.Pin);
-            client = new TvDbClient(httpClient);
-            Console.WriteLine("AuthToken: " + client.AuthToken);
 
+            // Artwork
+            Test("Artwork(62803637)", await client.Artwork(62803637));
+            Test("ArtworkExtended(62803637)", await client.ArtworkExtended(62803637));
+            // Test("ArtworkTranslation(62803637, 'de')", await client.ArtworkTranslation(62803637, "de")); // what do I pass as a language ???
+            
+            // Artwork Statuses
             Test("ArtworkStatuses", await client.ArtworkStatuses());
+            
+            // Artwork Types
             Test("ArtworkTypes", await client.ArtworkTypes());
-            Test("Artwork", await client.Artwork(62803637));
-            Test("ArtworkExtended", await client.ArtworkExtended(62803637));
+            
+            // Awards
+            Test("Awards", await client.Awards());
+            Test("Award(1)", await client.Award(1));
+            Test("AwardExtended(1)", await client.AwardExtended(1));
+            
+            // Award Categories
+            Test("AwardCategory(1)", await client.AwardCategory(1));
+            Test("AwardCategoryExtended(1)", await client.AwardCategoryExtended(1));
+            
+            // Characters
+            Test("Character(67482807)", await client.Character(67482807));
+            
+            // Companies
+            Test("Companies", await client.Companies());
+            Test("CompanyTypes", await client.CompanyTypes());
+            Test("Company(1)", await client.Company(1));
+
+            // Test("Search", await client.Search(new SearchOptionalParams { Query = "stargate" }));
 
             // int seriesID = 83237;
 

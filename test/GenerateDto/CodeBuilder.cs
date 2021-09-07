@@ -128,7 +128,7 @@ namespace GenerateDto
                     Arguments = methodArgumentsMap.Values
                         .Concat(new[] { new MethodArgument { Type = "CancellationToken", Name = "cancellationToken" } }).ToList(),
                     ReturnType = $"Task<{returnType}>",
-                    Body = $"return this.GenericRequest<{returnType}>($\"{url}\", null, cancellationToken);",
+                    Body = $"return this.Get<{returnType}>($\"{url}\", null, cancellationToken);",
                 });
 
                 // Without CT
@@ -174,7 +174,7 @@ namespace GenerateDto
                                 new MethodArgument { Type = "CancellationToken", Name = "cancellationToken" },
                             }).ToList(),
                         ReturnType = $"Task<{returnType}>",
-                        Body = $"return this.GenericRequest<{returnType}>($\"{url}\", optionalParameters, cancellationToken);",
+                        Body = $"return this.Get<{returnType}>($\"{url}\", optionalParameters, cancellationToken);",
                     });
 
                     // With optional parameters and without CT
@@ -506,6 +506,46 @@ namespace GenerateDto
                     MatchFieldName = "movieId",
                     OverrideType = "int?",
                 },
+                new()
+                {
+                    MatchClassName = "MovieBaseRecordDto",
+                    MatchFieldName = "score",
+                    OverrideType = "double?",
+                },
+                new()
+                {
+                    MatchClassName = "CharacterDto",
+                    MatchFieldName = "episodeId",
+                    OverrideType = "int?",
+                },
+                new()
+                {
+                    MatchClassName = "CharacterDto",
+                    MatchFieldName = "movieId",
+                    OverrideType = "int?",
+                },
+                new()
+                {
+                    MatchClassName = "CompanyTypeDto",
+                    MatchFieldName = "id",
+                    OverrideFieldName = "companyTypeId",
+                    OverridePropertyName = "CompanyTypeId",
+                    OverridePropertyAttributes = new List<string>
+                    {
+                        "[JsonProperty(\"companyTypeId\")]",
+                    },
+                },
+                new()
+                {
+                    MatchClassName = "CompanyTypeDto",
+                    MatchFieldName = "name",
+                    OverrideFieldName = "companyTypeName",
+                    OverridePropertyName = "CompanyTypeName",
+                    OverridePropertyAttributes = new List<string>
+                    {
+                        "[JsonProperty(\"companyTypeName\")]",
+                    },
+                },
             };
 
             var extraProperties = new Dictionary<string, List<PropertyModel>>
@@ -535,6 +575,61 @@ namespace GenerateDto
                         },
                     }
                 },
+                {
+                    "MovieBaseRecordDto", new List<PropertyModel>
+                    {
+                        new()
+                        {
+                            FieldName = "runtime",
+                            PropertyName = "Runtime",
+                            PropertyType = "int",
+                            PropertyAttributes = new List<string>
+                            {
+                                "[JsonProperty(\"runtime\")]",
+                            },
+                        },
+                        new()
+                        {
+                            FieldName = "lastUpdated",
+                            PropertyName = "LastUpdated",
+                            PropertyType = "string",
+                            PropertyAttributes = new List<string>
+                            {
+                                "[JsonProperty(\"lastUpdated\")]",
+                            },
+                        },
+                    }
+                },
+                {
+                    "CharacterDto", new List<PropertyModel>
+                    {
+                        new()
+                        {
+                            FieldName = "peopleType",
+                            PropertyName = "PeopleType",
+                            PropertyType = "string",
+                            PropertyAttributes = new List<string>
+                            {
+                                "[JsonProperty(\"peopleType\")]",
+                            },
+                        },
+                    }
+                },
+                {
+                    "CompanyDto", new List<PropertyModel>
+                    {
+                        new()
+                        {
+                            FieldName = "companyType",
+                            PropertyName = "CompanyType",
+                            PropertyType = "CompanyTypeDto",
+                            PropertyAttributes = new List<string>
+                            {
+                                "[JsonProperty(\"companyType\")]",
+                            },
+                        },
+                    }
+                },
             };
 
             foreach (var classModel in namespaceModel.Classes)
@@ -558,6 +653,16 @@ namespace GenerateDto
                             if (overrideModel.OverridePropertyName != null)
                             {
                                 modelProperty.PropertyName = overrideModel.OverridePropertyName;
+                            }
+
+                            if (overrideModel.OverrideFieldName != null)
+                            {
+                                modelProperty.FieldName = overrideModel.OverrideFieldName;
+                            }
+
+                            if (overrideModel.OverridePropertyAttributes.Any())
+                            {
+                                modelProperty.PropertyAttributes = overrideModel.OverridePropertyAttributes;
                             }
                         }
                     }
@@ -628,5 +733,9 @@ namespace GenerateDto
         public string OverrideType { get; set; }
 
         public string OverridePropertyName { get; set; }
+
+        public string OverrideFieldName { get; set; }
+
+        public List<string> OverridePropertyAttributes { get; set; } = new();
     }
 }

@@ -13,7 +13,7 @@ namespace TvDbSharper
     {
         public Task<ArtworkBaseRecordDto> Artwork(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ArtworkBaseRecordDto>($"artwork/{id}", null, cancellationToken);
+            return this.Get<ArtworkBaseRecordDto>($"artwork/{id}", null, cancellationToken);
         }
 
         public Task<ArtworkBaseRecordDto> Artwork(int id)
@@ -23,7 +23,7 @@ namespace TvDbSharper
 
         public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ArtworkExtendedRecordDto>($"artwork/{id}/extended", null, cancellationToken);
+            return this.Get<ArtworkExtendedRecordDto>($"artwork/{id}/extended", null, cancellationToken);
         }
 
         public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id)
@@ -33,7 +33,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> ArtworkTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"artwork/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"artwork/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> ArtworkTranslation(int id, string language)
@@ -43,7 +43,7 @@ namespace TvDbSharper
 
         public Task<ArtworkStatusDto[]> ArtworkStatuses(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ArtworkStatusDto[]>($"artwork/statuses", null, cancellationToken);
+            return this.Get<ArtworkStatusDto[]>($"artwork/statuses", null, cancellationToken);
         }
 
         public Task<ArtworkStatusDto[]> ArtworkStatuses()
@@ -53,7 +53,7 @@ namespace TvDbSharper
 
         public Task<ArtworkTypeDto[]> ArtworkTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ArtworkTypeDto[]>($"artwork/types", null, cancellationToken);
+            return this.Get<ArtworkTypeDto[]>($"artwork/types", null, cancellationToken);
         }
 
         public Task<ArtworkTypeDto[]> ArtworkTypes()
@@ -63,7 +63,7 @@ namespace TvDbSharper
 
         public Task<AwardBaseRecordDto[]> Awards(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<AwardBaseRecordDto[]>($"awards", null, cancellationToken);
+            return this.Get<AwardBaseRecordDto[]>($"awards", null, cancellationToken);
         }
 
         public Task<AwardBaseRecordDto[]> Awards()
@@ -73,7 +73,7 @@ namespace TvDbSharper
 
         public Task<AwardBaseRecordDto> Award(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<AwardBaseRecordDto>($"awards/{id}", null, cancellationToken);
+            return this.Get<AwardBaseRecordDto>($"awards/{id}", null, cancellationToken);
         }
 
         public Task<AwardBaseRecordDto> Award(int id)
@@ -83,7 +83,7 @@ namespace TvDbSharper
 
         public Task<AwardExtendedRecordDto> AwardExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<AwardExtendedRecordDto>($"awards/{id}/extended", null, cancellationToken);
+            return this.Get<AwardExtendedRecordDto>($"awards/{id}/extended", null, cancellationToken);
         }
 
         public Task<AwardExtendedRecordDto> AwardExtended(int id)
@@ -93,7 +93,7 @@ namespace TvDbSharper
 
         public Task<AwardCategoryBaseRecordDto> AwardCategory(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<AwardCategoryBaseRecordDto>($"awards/categories/{id}", null, cancellationToken);
+            return this.Get<AwardCategoryBaseRecordDto>($"awards/categories/{id}", null, cancellationToken);
         }
 
         public Task<AwardCategoryBaseRecordDto> AwardCategory(int id)
@@ -103,7 +103,7 @@ namespace TvDbSharper
 
         public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<AwardCategoryExtendedRecordDto>($"awards/categories/{id}/extended", null, cancellationToken);
+            return this.Get<AwardCategoryExtendedRecordDto>($"awards/categories/{id}/extended", null, cancellationToken);
         }
 
         public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id)
@@ -113,7 +113,7 @@ namespace TvDbSharper
 
         public Task<CharacterDto> Character(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CharacterDto>($"characters/{id}", null, cancellationToken);
+            return this.Get<CharacterDto>($"characters/{id}", null, cancellationToken);
         }
 
         public Task<CharacterDto> Character(int id)
@@ -123,7 +123,7 @@ namespace TvDbSharper
 
         public Task<CompanyDto[]> Companies(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CompanyDto[]>($"companies", null, cancellationToken);
+            return this.Get<CompanyDto[]>($"companies", null, cancellationToken);
         }
 
         public Task<CompanyDto[]> Companies()
@@ -133,7 +133,7 @@ namespace TvDbSharper
 
         public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CompanyDto[]>($"companies", optionalParameters, cancellationToken);
+            return this.Get<CompanyDto[]>($"companies", optionalParameters, cancellationToken);
         }
 
         public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters)
@@ -143,7 +143,7 @@ namespace TvDbSharper
 
         public Task<CompanyTypeDto[]> CompanyTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CompanyTypeDto[]>($"companies/types", null, cancellationToken);
+            return this.Get<CompanyTypeDto[]>($"companies/types", null, cancellationToken);
         }
 
         public Task<CompanyTypeDto[]> CompanyTypes()
@@ -153,7 +153,7 @@ namespace TvDbSharper
 
         public Task<CompanyDto> Company(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CompanyDto>($"companies/{id}", null, cancellationToken);
+            return this.Get<CompanyDto>($"companies/{id}", null, cancellationToken);
         }
 
         public Task<CompanyDto> Company(int id)
@@ -163,7 +163,7 @@ namespace TvDbSharper
 
         public Task<ContentRatingDto[]> ContentRatings(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ContentRatingDto[]>($"content/ratings", null, cancellationToken);
+            return this.Get<ContentRatingDto[]>($"content/ratings", null, cancellationToken);
         }
 
         public Task<ContentRatingDto[]> ContentRatings()
@@ -173,7 +173,7 @@ namespace TvDbSharper
 
         public Task<CountryDto[]> Countries(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<CountryDto[]>($"countries", null, cancellationToken);
+            return this.Get<CountryDto[]>($"countries", null, cancellationToken);
         }
 
         public Task<CountryDto[]> Countries()
@@ -183,7 +183,7 @@ namespace TvDbSharper
 
         public Task<EntityTypeDto[]> EntityTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EntityTypeDto[]>($"entities/types", null, cancellationToken);
+            return this.Get<EntityTypeDto[]>($"entities/types", null, cancellationToken);
         }
 
         public Task<EntityTypeDto[]> EntityTypes()
@@ -193,7 +193,7 @@ namespace TvDbSharper
 
         public Task<EpisodeBaseRecordDto> Episode(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EpisodeBaseRecordDto>($"episodes/{id}", null, cancellationToken);
+            return this.Get<EpisodeBaseRecordDto>($"episodes/{id}", null, cancellationToken);
         }
 
         public Task<EpisodeBaseRecordDto> Episode(int id)
@@ -203,7 +203,7 @@ namespace TvDbSharper
 
         public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EpisodeExtendedRecordDto>($"episodes/{id}/extended", null, cancellationToken);
+            return this.Get<EpisodeExtendedRecordDto>($"episodes/{id}/extended", null, cancellationToken);
         }
 
         public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id)
@@ -213,7 +213,7 @@ namespace TvDbSharper
 
         public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EpisodeExtendedRecordDto>($"episodes/{id}/extended", optionalParameters, cancellationToken);
+            return this.Get<EpisodeExtendedRecordDto>($"episodes/{id}/extended", optionalParameters, cancellationToken);
         }
 
         public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters)
@@ -223,7 +223,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> EpisodeTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"episodes/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"episodes/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> EpisodeTranslation(int id, string language)
@@ -233,7 +233,7 @@ namespace TvDbSharper
 
         public Task<GenderDto[]> Genders(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GenderDto[]>($"genders", null, cancellationToken);
+            return this.Get<GenderDto[]>($"genders", null, cancellationToken);
         }
 
         public Task<GenderDto[]> Genders()
@@ -243,7 +243,7 @@ namespace TvDbSharper
 
         public Task<GenreBaseRecordDto[]> Genres(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GenreBaseRecordDto[]>($"genres", null, cancellationToken);
+            return this.Get<GenreBaseRecordDto[]>($"genres", null, cancellationToken);
         }
 
         public Task<GenreBaseRecordDto[]> Genres()
@@ -253,7 +253,7 @@ namespace TvDbSharper
 
         public Task<GenreBaseRecordDto> Genre(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GenreBaseRecordDto>($"genres/{id}", null, cancellationToken);
+            return this.Get<GenreBaseRecordDto>($"genres/{id}", null, cancellationToken);
         }
 
         public Task<GenreBaseRecordDto> Genre(int id)
@@ -263,7 +263,7 @@ namespace TvDbSharper
 
         public Task<LanguageDto[]> Languages(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<LanguageDto[]>($"languages", null, cancellationToken);
+            return this.Get<LanguageDto[]>($"languages", null, cancellationToken);
         }
 
         public Task<LanguageDto[]> Languages()
@@ -273,7 +273,7 @@ namespace TvDbSharper
 
         public Task<ListBaseRecordDto[]> Lists(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ListBaseRecordDto[]>($"lists", null, cancellationToken);
+            return this.Get<ListBaseRecordDto[]>($"lists", null, cancellationToken);
         }
 
         public Task<ListBaseRecordDto[]> Lists()
@@ -283,7 +283,7 @@ namespace TvDbSharper
 
         public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ListBaseRecordDto[]>($"lists", optionalParameters, cancellationToken);
+            return this.Get<ListBaseRecordDto[]>($"lists", optionalParameters, cancellationToken);
         }
 
         public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters)
@@ -293,7 +293,7 @@ namespace TvDbSharper
 
         public Task<ListBaseRecordDto> List(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ListBaseRecordDto>($"lists/{id}", null, cancellationToken);
+            return this.Get<ListBaseRecordDto>($"lists/{id}", null, cancellationToken);
         }
 
         public Task<ListBaseRecordDto> List(int id)
@@ -303,7 +303,7 @@ namespace TvDbSharper
 
         public Task<ListExtendedRecordDto> ListExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<ListExtendedRecordDto>($"lists/{id}/extended", null, cancellationToken);
+            return this.Get<ListExtendedRecordDto>($"lists/{id}/extended", null, cancellationToken);
         }
 
         public Task<ListExtendedRecordDto> ListExtended(int id)
@@ -313,7 +313,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> ListTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"lists/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"lists/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> ListTranslation(int id, string language)
@@ -323,7 +323,7 @@ namespace TvDbSharper
 
         public Task<MovieBaseRecordDto[]> Movies(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<MovieBaseRecordDto[]>($"movies", null, cancellationToken);
+            return this.Get<MovieBaseRecordDto[]>($"movies", null, cancellationToken);
         }
 
         public Task<MovieBaseRecordDto[]> Movies()
@@ -333,7 +333,7 @@ namespace TvDbSharper
 
         public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<MovieBaseRecordDto[]>($"movies", optionalParameters, cancellationToken);
+            return this.Get<MovieBaseRecordDto[]>($"movies", optionalParameters, cancellationToken);
         }
 
         public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters)
@@ -343,7 +343,7 @@ namespace TvDbSharper
 
         public Task<MovieBaseRecordDto> Movie(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<MovieBaseRecordDto>($"movies/{id}", null, cancellationToken);
+            return this.Get<MovieBaseRecordDto>($"movies/{id}", null, cancellationToken);
         }
 
         public Task<MovieBaseRecordDto> Movie(int id)
@@ -353,7 +353,7 @@ namespace TvDbSharper
 
         public Task<MovieExtendedRecordDto> MovieExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<MovieExtendedRecordDto>($"movies/{id}/extended", null, cancellationToken);
+            return this.Get<MovieExtendedRecordDto>($"movies/{id}/extended", null, cancellationToken);
         }
 
         public Task<MovieExtendedRecordDto> MovieExtended(int id)
@@ -363,7 +363,7 @@ namespace TvDbSharper
 
         public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<MovieExtendedRecordDto>($"movies/{id}/extended", optionalParameters, cancellationToken);
+            return this.Get<MovieExtendedRecordDto>($"movies/{id}/extended", optionalParameters, cancellationToken);
         }
 
         public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters)
@@ -373,7 +373,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> MovieTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"movies/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"movies/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> MovieTranslation(int id, string language)
@@ -383,7 +383,7 @@ namespace TvDbSharper
 
         public Task<StatusDto[]> MovieStatuses(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<StatusDto[]>($"movies/statuses", null, cancellationToken);
+            return this.Get<StatusDto[]>($"movies/statuses", null, cancellationToken);
         }
 
         public Task<StatusDto[]> MovieStatuses()
@@ -393,7 +393,7 @@ namespace TvDbSharper
 
         public Task<PeopleBaseRecordDto> People(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<PeopleBaseRecordDto>($"people/{id}", null, cancellationToken);
+            return this.Get<PeopleBaseRecordDto>($"people/{id}", null, cancellationToken);
         }
 
         public Task<PeopleBaseRecordDto> People(int id)
@@ -403,7 +403,7 @@ namespace TvDbSharper
 
         public Task<PeopleExtendedRecordDto> PeopleExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<PeopleExtendedRecordDto>($"people/{id}/extended", null, cancellationToken);
+            return this.Get<PeopleExtendedRecordDto>($"people/{id}/extended", null, cancellationToken);
         }
 
         public Task<PeopleExtendedRecordDto> PeopleExtended(int id)
@@ -413,7 +413,7 @@ namespace TvDbSharper
 
         public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<PeopleExtendedRecordDto>($"people/{id}/extended", optionalParameters, cancellationToken);
+            return this.Get<PeopleExtendedRecordDto>($"people/{id}/extended", optionalParameters, cancellationToken);
         }
 
         public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters)
@@ -423,7 +423,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> PeopleTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"people/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"people/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> PeopleTranslation(int id, string language)
@@ -433,7 +433,7 @@ namespace TvDbSharper
 
         public Task<PeopleTypeDto[]> PeopleTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<PeopleTypeDto[]>($"people/types", null, cancellationToken);
+            return this.Get<PeopleTypeDto[]>($"people/types", null, cancellationToken);
         }
 
         public Task<PeopleTypeDto[]> PeopleTypes()
@@ -443,7 +443,7 @@ namespace TvDbSharper
 
         public Task<SearchResultDto[]> Search(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SearchResultDto[]>($"search", null, cancellationToken);
+            return this.Get<SearchResultDto[]>($"search", null, cancellationToken);
         }
 
         public Task<SearchResultDto[]> Search()
@@ -453,7 +453,7 @@ namespace TvDbSharper
 
         public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SearchResultDto[]>($"search", optionalParameters, cancellationToken);
+            return this.Get<SearchResultDto[]>($"search", optionalParameters, cancellationToken);
         }
 
         public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters)
@@ -463,7 +463,7 @@ namespace TvDbSharper
 
         public Task<SeasonBaseRecordDto[]> Seasons(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeasonBaseRecordDto[]>($"seasons", null, cancellationToken);
+            return this.Get<SeasonBaseRecordDto[]>($"seasons", null, cancellationToken);
         }
 
         public Task<SeasonBaseRecordDto[]> Seasons()
@@ -473,7 +473,7 @@ namespace TvDbSharper
 
         public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeasonBaseRecordDto[]>($"seasons", optionalParameters, cancellationToken);
+            return this.Get<SeasonBaseRecordDto[]>($"seasons", optionalParameters, cancellationToken);
         }
 
         public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters)
@@ -483,7 +483,7 @@ namespace TvDbSharper
 
         public Task<SeasonBaseRecordDto> Season(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeasonBaseRecordDto>($"seasons/{id}", null, cancellationToken);
+            return this.Get<SeasonBaseRecordDto>($"seasons/{id}", null, cancellationToken);
         }
 
         public Task<SeasonBaseRecordDto> Season(int id)
@@ -493,7 +493,7 @@ namespace TvDbSharper
 
         public Task<SeasonExtendedRecordDto> SeasonExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeasonExtendedRecordDto>($"seasons/{id}/extended", null, cancellationToken);
+            return this.Get<SeasonExtendedRecordDto>($"seasons/{id}/extended", null, cancellationToken);
         }
 
         public Task<SeasonExtendedRecordDto> SeasonExtended(int id)
@@ -503,7 +503,7 @@ namespace TvDbSharper
 
         public Task<SeasonTypeDto> SeasonTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeasonTypeDto>($"seasons/types", null, cancellationToken);
+            return this.Get<SeasonTypeDto>($"seasons/types", null, cancellationToken);
         }
 
         public Task<SeasonTypeDto> SeasonTypes()
@@ -513,7 +513,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> SeasonTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"seasons/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"seasons/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> SeasonTranslation(int id, string language)
@@ -523,7 +523,7 @@ namespace TvDbSharper
 
         public Task<SeriesBaseRecordDto[]> AllSeries(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeriesBaseRecordDto[]>($"series", null, cancellationToken);
+            return this.Get<SeriesBaseRecordDto[]>($"series", null, cancellationToken);
         }
 
         public Task<SeriesBaseRecordDto[]> AllSeries()
@@ -533,7 +533,7 @@ namespace TvDbSharper
 
         public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeriesBaseRecordDto[]>($"series", optionalParameters, cancellationToken);
+            return this.Get<SeriesBaseRecordDto[]>($"series", optionalParameters, cancellationToken);
         }
 
         public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters)
@@ -543,7 +543,7 @@ namespace TvDbSharper
 
         public Task<SeriesBaseRecordDto> Series(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeriesBaseRecordDto>($"series/{id}", null, cancellationToken);
+            return this.Get<SeriesBaseRecordDto>($"series/{id}", null, cancellationToken);
         }
 
         public Task<SeriesBaseRecordDto> Series(int id)
@@ -553,7 +553,7 @@ namespace TvDbSharper
 
         public Task<SeriesExtendedRecordDto> SeriesExtended(int id, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeriesExtendedRecordDto>($"series/{id}/extended", null, cancellationToken);
+            return this.Get<SeriesExtendedRecordDto>($"series/{id}/extended", null, cancellationToken);
         }
 
         public Task<SeriesExtendedRecordDto> SeriesExtended(int id)
@@ -563,7 +563,7 @@ namespace TvDbSharper
 
         public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SeriesExtendedRecordDto>($"series/{id}/extended", optionalParameters, cancellationToken);
+            return this.Get<SeriesExtendedRecordDto>($"series/{id}/extended", optionalParameters, cancellationToken);
         }
 
         public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters)
@@ -573,7 +573,7 @@ namespace TvDbSharper
 
         public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", null, cancellationToken);
+            return this.Get<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", null, cancellationToken);
         }
 
         public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType)
@@ -583,7 +583,7 @@ namespace TvDbSharper
 
         public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", optionalParameters, cancellationToken);
+            return this.Get<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", optionalParameters, cancellationToken);
         }
 
         public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters)
@@ -593,7 +593,7 @@ namespace TvDbSharper
 
         public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", null, cancellationToken);
+            return this.Get<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", null, cancellationToken);
         }
 
         public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang)
@@ -603,7 +603,7 @@ namespace TvDbSharper
 
         public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", optionalParameters, cancellationToken);
+            return this.Get<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", optionalParameters, cancellationToken);
         }
 
         public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters)
@@ -613,7 +613,7 @@ namespace TvDbSharper
 
         public Task<TranslationDto> SeriesTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<TranslationDto>($"series/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto>($"series/{id}/translations/{language}", null, cancellationToken);
         }
 
         public Task<TranslationDto> SeriesTranslation(int id, string language)
@@ -623,7 +623,7 @@ namespace TvDbSharper
 
         public Task<StatusDto[]> SeriesStatuses(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<StatusDto[]>($"series/statuses", null, cancellationToken);
+            return this.Get<StatusDto[]>($"series/statuses", null, cancellationToken);
         }
 
         public Task<StatusDto[]> SeriesStatuses()
@@ -633,7 +633,7 @@ namespace TvDbSharper
 
         public Task<SourceTypeDto[]> SourceTypes(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<SourceTypeDto[]>($"sources/types", null, cancellationToken);
+            return this.Get<SourceTypeDto[]>($"sources/types", null, cancellationToken);
         }
 
         public Task<SourceTypeDto[]> SourceTypes()
@@ -643,7 +643,7 @@ namespace TvDbSharper
 
         public Task<EntityUpdateDto[]> Updates(CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EntityUpdateDto[]>($"updates", null, cancellationToken);
+            return this.Get<EntityUpdateDto[]>($"updates", null, cancellationToken);
         }
 
         public Task<EntityUpdateDto[]> Updates()
@@ -653,7 +653,7 @@ namespace TvDbSharper
 
         public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
-            return this.GenericRequest<EntityUpdateDto[]>($"updates", optionalParameters, cancellationToken);
+            return this.Get<EntityUpdateDto[]>($"updates", optionalParameters, cancellationToken);
         }
 
         public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters)
@@ -1016,7 +1016,7 @@ namespace TvDbSharper
         public AliasDto[] Aliases { get; set; }
 
         [JsonProperty("episodeId")]
-        public int EpisodeId { get; set; }
+        public int? EpisodeId { get; set; }
 
         [JsonProperty("id")]
         public long Id { get; set; }
@@ -1028,7 +1028,7 @@ namespace TvDbSharper
         public bool IsFeatured { get; set; }
 
         [JsonProperty("movieId")]
-        public int MovieId { get; set; }
+        public int? MovieId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -1056,6 +1056,9 @@ namespace TvDbSharper
 
         [JsonProperty("personName")]
         public string PersonName { get; set; }
+
+        [JsonProperty("peopleType")]
+        public string PeopleType { get; set; }
     }
 
     public class CompanyDto
@@ -1089,15 +1092,18 @@ namespace TvDbSharper
 
         [JsonProperty("slug")]
         public string Slug { get; set; }
+
+        [JsonProperty("companyType")]
+        public CompanyTypeDto CompanyType { get; set; }
     }
 
     public class CompanyTypeDto
     {
-        [JsonProperty("id")]
-        public long Id { get; set; }
+        [JsonProperty("companyTypeId")]
+        public long CompanyTypeId { get; set; }
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        [JsonProperty("companyTypeName")]
+        public string CompanyTypeName { get; set; }
     }
 
     public class ContentRatingDto
@@ -1406,13 +1412,19 @@ namespace TvDbSharper
         public string[] OverviewTranslations { get; set; }
 
         [JsonProperty("score")]
-        public double Score { get; set; }
+        public double? Score { get; set; }
 
         [JsonProperty("slug")]
         public string Slug { get; set; }
 
         [JsonProperty("status")]
         public StatusDto Status { get; set; }
+
+        [JsonProperty("runtime")]
+        public int Runtime { get; set; }
+
+        [JsonProperty("lastUpdated")]
+        public string LastUpdated { get; set; }
     }
 
     public class MovieExtendedRecordDto
