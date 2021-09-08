@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -15,9 +14,6 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-
-// This is for the tests assembly
-[assembly: InternalsVisibleTo("TvDbSharper.Tests")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("6b0e3d9a-b3f7-4434-9109-db088f69544e")]

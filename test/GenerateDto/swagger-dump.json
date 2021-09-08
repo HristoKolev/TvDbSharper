@@ -58,6 +58,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "invalid credentials"
           }
         },
         "Tags": [
@@ -98,6 +101,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid artwork id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Artwork not found"
           }
         },
         "Tags": [
@@ -138,55 +150,15 @@
                 }
               }
             }
-          }
-        },
-        "Tags": [
-          "Artwork"
-        ]
-      }
-    },
-    "/artwork/{id}/translations/{language}": {
-      "get": {
-        "Description": "Returns a single artwork translation record.",
-        "OperationId": "getArtworkTranslation",
-        "Parameters": [
-          {
-            "Description": "id",
-            "In": "path",
-            "Name": "id",
-            "Required": true,
-            "Schema": {
-              "Type": "number"
-            }
           },
-          {
-            "Description": "language",
-            "In": "path",
-            "Name": "language",
-            "Required": true,
-            "Schema": {
-              "Type": "string"
-            }
-          }
-        ],
-        "Responses": {
-          "200": {
-            "Description": "response",
-            "Content": {
-              "application/json": {
-                "Schema": {
-                  "Properties": {
-                    "data": {
-                      "Reference": "#/components/schemas/Translation"
-                    },
-                    "status": {
-                      "Type": "string"
-                    }
-                  },
-                  "Type": "object"
-                }
-              }
-            }
+          "400": {
+            "Description": "Invalid artwork id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Artwork not found"
           }
         },
         "Tags": [
@@ -219,6 +191,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -251,6 +226,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -283,6 +261,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -323,6 +304,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid awards id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Awards not found"
           }
         },
         "Tags": [
@@ -363,6 +353,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid awards id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Awards not found"
           }
         },
         "Tags": [
@@ -403,6 +402,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid category id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Category not found"
           }
         },
         "Tags": [
@@ -443,6 +451,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid category id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Category not found"
           }
         },
         "Tags": [
@@ -483,6 +500,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid character id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Character not found"
           }
         },
         "Tags": [
@@ -525,6 +551,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -557,6 +586,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -597,6 +629,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid company id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Company not found"
           }
         },
         "Tags": [
@@ -629,6 +670,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -693,6 +737,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -733,6 +780,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid episode id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Episode not found"
           }
         },
         "Tags": [
@@ -785,6 +841,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid episode id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Episode not found"
           }
         },
         "Tags": [
@@ -834,6 +899,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid episode id. Invalid language."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Episode not found"
           }
         },
         "Tags": [
@@ -898,6 +972,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -938,6 +1015,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid genre id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Genre not found"
           }
         },
         "Tags": [
@@ -970,6 +1056,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1012,6 +1101,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1052,6 +1144,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid list id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Lists not found"
           }
         },
         "Tags": [
@@ -1092,6 +1193,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid list id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Lists not found"
           }
         },
         "Tags": [
@@ -1141,6 +1251,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid lists id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Lists not found"
           }
         },
         "Tags": [
@@ -1186,6 +1305,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1226,6 +1348,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid movie id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Movie not found"
           }
         },
         "Tags": [
@@ -1278,6 +1409,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid movie id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Movie not found"
           }
         },
         "Tags": [
@@ -1327,6 +1467,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid movie id, invalid language."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Movie not found"
           }
         },
         "Tags": [
@@ -1359,6 +1508,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1399,6 +1551,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid people id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "People not found"
           }
         },
         "Tags": [
@@ -1451,6 +1612,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid people id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "People not found"
           }
         },
         "Tags": [
@@ -1500,6 +1670,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid people id, invalid language."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "People not found"
           }
         },
         "Tags": [
@@ -1569,6 +1748,14 @@
             }
           },
           {
+            "Description": "restrict results to remote id",
+            "In": "query",
+            "Name": "remote_id",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
             "Description": "restrict results to a year for movie|series",
             "In": "query",
             "Name": "year",
@@ -1614,6 +1801,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1656,6 +1846,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1696,6 +1889,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid season id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Season not found"
           }
         },
         "Tags": [
@@ -1736,6 +1938,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid seasons id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Season not found"
           }
         },
         "Tags": [
@@ -1765,6 +1976,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1814,6 +2028,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid season id, language not found."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Season not found"
           }
         },
         "Tags": [
@@ -1859,6 +2082,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -1899,6 +2125,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid sereis id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Sereis not found"
           }
         },
         "Tags": [
@@ -1952,6 +2187,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid series id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -2049,8 +2293,20 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid series id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
-        }
+        },
+        "Tags": [
+          "Series"
+        ]
       }
     },
     "/series/{id}/episodes/{season-type}/{lang}": {
@@ -2143,6 +2399,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid series id, invalid language."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -2192,6 +2457,15 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid series id, invalid language."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -2224,6 +2498,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -2256,6 +2533,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -2365,6 +2645,12 @@
                 }
               }
             }
+          },
+          "400": {
+            "Description": "Invalid since, type param."
+          },
+          "401": {
+            "Description": "Unauthorized"
           }
         },
         "Tags": [
@@ -4460,6 +4746,10 @@
           },
           "overview": {
             "Type": "string"
+          },
+          "tagline": {
+            "Type": "string",
+            "Description": "Only populated for movie translations.  We disallow taglines without a title."
           }
         },
         "Type": "object",

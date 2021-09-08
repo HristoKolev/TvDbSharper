@@ -101,7 +101,7 @@ namespace TvDbSharper
             return this.Login(apiKey, pin, CancellationToken.None);
         }
 
-        private async Task<TResponse> Get<TResponse>(string url, object queryParams, CancellationToken cancellationToken)
+        private async Task<TvDbApiResponse<TResponse>> Get<TResponse>(string url, object queryParams, CancellationToken cancellationToken)
         {
             var httpResponseMessage = await this.httpClient.GetAsync(new Uri(url + Querify(queryParams), UriKind.Relative), cancellationToken)
                 .ConfigureAwait(false);
@@ -112,7 +112,7 @@ namespace TvDbSharper
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Parse<TResponse>((int)httpResponseMessage.StatusCode, responseJson).Data;
+            return Parse<TResponse>((int)httpResponseMessage.StatusCode, responseJson);
         }
 
         private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
@@ -218,21 +218,24 @@ namespace TvDbSharper
             public string Message { get; set; }
         }
 
-        private class TvDbApiResponse<TData>
-        {
-            [JsonProperty("status")]
-            public string Status { get; set; }
-
-            [JsonProperty("data")]
-            public TData Data { get; set; }
-        }
-
         private class QueryParamModel
         {
             public string Name { get; set; }
 
             public Func<object, object> Getter { get; set; }
         }
+    }
+
+    public class TvDbApiResponse<TData>
+    {
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
+        [JsonProperty("data")]
+        public TData Data { get; set; }
+
+        [JsonProperty("links")]
+        public LinksDto Links { get; set; }
     }
 
     public class TvDbServerException : Exception

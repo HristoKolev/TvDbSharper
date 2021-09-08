@@ -62,6 +62,535 @@ namespace GenerateDto
             { "updates", "Updates" },
         };
 
+        private static readonly List<PropertyOverrideModel> PropertyOverrides = new()
+        {
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "peopleId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "seasonId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "episodeId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "seriesPeopleId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "networkId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "movieId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "MovieBaseRecordDto",
+                MatchFieldName = "score",
+                OverrideType = "double?",
+            },
+            new()
+            {
+                MatchClassName = "CharacterDto",
+                MatchFieldName = "episodeId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "CharacterDto",
+                MatchFieldName = "movieId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "CompanyTypeDto",
+                MatchFieldName = "id",
+                OverrideFieldName = "companyTypeId",
+                OverridePropertyName = "CompanyTypeId",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"companyTypeId\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "CompanyTypeDto",
+                MatchFieldName = "name",
+                OverrideFieldName = "companyTypeName",
+                OverridePropertyName = "CompanyTypeName",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"companyTypeName\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SeasonTypeDto",
+                MatchFieldName = "type",
+                OverrideType = "string",
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "specialEffects",
+                OverrideFieldName = "special_effects",
+                OverrideType = "CompanyDto[]",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"special_effects\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "studio",
+                OverrideType = "CompanyDto[]",
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "network",
+                OverrideType = "CompanyDto[]",
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "production",
+                OverrideType = "CompanyDto[]",
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "distributor",
+                OverrideType = "CompanyDto[]",
+            },
+            new()
+            {
+                MatchClassName = "EpisodeExtendedRecordDto",
+                MatchFieldName = "airsAfterSeason",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "EpisodeExtendedRecordDto",
+                MatchFieldName = "airsBeforeSeason",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "EpisodeExtendedRecordDto",
+                MatchFieldName = "airsBeforeEpisode",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "EntityDto",
+                MatchFieldName = "seriesId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "MovieBaseRecordDto",
+                MatchFieldName = "runtime",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "MovieExtendedRecordDto",
+                MatchFieldName = "score",
+                OverrideType = "double?",
+            },
+            new()
+            {
+                MatchClassName = "CharacterDto",
+                MatchFieldName = "seriesId",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "MovieExtendedRecordDto",
+                MatchFieldName = "productionCountries",
+                OverrideFieldName = "production_countries",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"production_countries\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "MovieExtendedRecordDto",
+                MatchFieldName = "spokenLanguages",
+                OverrideFieldName = "spoken_languages",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"spoken_languages\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "MovieExtendedRecordDto",
+                MatchFieldName = "firstRelease",
+                OverrideFieldName = "first_release",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"first_release\")]",
+                },
+            },
+        };
+
+        private static readonly Dictionary<string, List<PropertyModel>> ExtraProperties = new()
+        {
+            {
+                "ArtworkExtendedRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "status",
+                        PropertyName = "Status",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonIgnore]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "tagOptions",
+                        PropertyName = "TagOptions",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonIgnore]",
+                        },
+                    },
+                }
+            },
+            {
+                "MovieBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "runtime",
+                        PropertyName = "Runtime",
+                        PropertyType = "int",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"runtime\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "CharacterDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "peopleType",
+                        PropertyName = "PeopleType",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"peopleType\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "CompanyDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "companyType",
+                        PropertyName = "CompanyType",
+                        PropertyType = "CompanyTypeDto",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"companyType\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "ContentRatingDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "description",
+                        PropertyName = "Description",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"description\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "EntityTypeDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "hasSpecials",
+                        PropertyName = "HasSpecials",
+                        PropertyType = "bool",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"hasSpecials\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "EpisodeBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "overview",
+                        PropertyName = "Overview",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"overview\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "finaleType",
+                        PropertyName = "FinaleType",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"finaleType\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "SeasonBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "companies",
+                        PropertyName = "Companies",
+                        PropertyType = "CompaniesDto",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"companies\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "EpisodeExtendedRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "overview",
+                        PropertyName = "Overview",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"overview\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "finaleType",
+                        PropertyName = "FinaleType",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"finaleType\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "nominations",
+                        PropertyName = "Nominations",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"nominations\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "networks",
+                        PropertyName = "Networks",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"networks\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "studios",
+                        PropertyName = "Studios",
+                        PropertyType = "StudioBaseRecordDto[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"studios\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "ListBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "score",
+                        PropertyName = "Score",
+                        PropertyType = "int",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"score\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "MovieExtendedRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "runtime",
+                        PropertyName = "Runtime",
+                        PropertyType = "int",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"runtime\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "PeopleBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "nameTranslations",
+                        PropertyName = "NameTranslations",
+                        PropertyType = "string[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"nameTranslations\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "overviewTranslations",
+                        PropertyName = "OverviewTranslations",
+                        PropertyType = "string[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"overviewTranslations\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "PeopleExtendedRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "nameTranslations",
+                        PropertyName = "NameTranslations",
+                        PropertyType = "string[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"nameTranslations\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "overviewTranslations",
+                        PropertyName = "OverviewTranslations",
+                        PropertyType = "string[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"overviewTranslations\")]",
+                        },
+                    },
+                    // new()
+                    // {
+                    //     FieldName = "translations",
+                    //     PropertyName = "Translations",
+                    //     PropertyType = "TranslationSimpleDto",
+                    //     PropertyAttributes = new List<string>
+                    //     {
+                    //         "[JsonProperty(\"translations\")]",
+                    //     },
+                    // },
+                }
+            },
+        };
+
+        private static readonly Dictionary<string, string> MethodReturnTypeOverrides = new()
+        {
+            { "getSeriesEpisodes", "GetSeriesEpisodesResponseData" },
+            { "getSeriesSeasonEpisodesTranslated", "GetSeriesSeasonEpisodesTranslatedResponseData" },
+            { "getListTranslation", "TranslationDto[]" },
+        };
+
         public static NamespaceModel GetNamespace(SwaggerConfig swaggerConfig)
         {
             var tvdbClient = new ClassModel
@@ -127,7 +656,7 @@ namespace GenerateDto
                     MethodName = methodName,
                     Arguments = methodArgumentsMap.Values
                         .Concat(new[] { new MethodArgument { Type = "CancellationToken", Name = "cancellationToken" } }).ToList(),
-                    ReturnType = $"Task<{returnType}>",
+                    ReturnType = $"Task<TvDbApiResponse<{returnType}>>",
                     Body = $"return this.Get<{returnType}>($\"{url}\", null, cancellationToken);",
                 });
 
@@ -136,7 +665,7 @@ namespace GenerateDto
                 {
                     MethodName = methodName,
                     Arguments = methodArgumentsMap.Values.ToList(),
-                    ReturnType = $"Task<{returnType}>",
+                    ReturnType = $"Task<TvDbApiResponse<{returnType}>>",
                     Body =
                         $"return this.{methodName}({string.Join(", ", methodArgumentsMap.Values.Select(x => x.Name).Concat(new[] { "CancellationToken.None" }))});",
                 });
@@ -173,7 +702,7 @@ namespace GenerateDto
                                 new MethodArgument { Type = optionalParamsClassName, Name = "optionalParameters" },
                                 new MethodArgument { Type = "CancellationToken", Name = "cancellationToken" },
                             }).ToList(),
-                        ReturnType = $"Task<{returnType}>",
+                        ReturnType = $"Task<TvDbApiResponse<{returnType}>>",
                         Body = $"return this.Get<{returnType}>($\"{url}\", optionalParameters, cancellationToken);",
                     });
 
@@ -185,7 +714,7 @@ namespace GenerateDto
                         {
                             new MethodArgument { Type = optionalParamsClassName, Name = "optionalParameters" },
                         }).ToList(),
-                        ReturnType = $"Task<{returnType}>",
+                        ReturnType = $"Task<TvDbApiResponse<{returnType}>>",
                         Body =
                             $"return this.{methodName}({string.Join(", ", methodArgumentsMap.Values.Select(x => x.Name).Concat(new[] { "optionalParameters", "CancellationToken.None" }))});",
                     });
@@ -311,14 +840,9 @@ namespace GenerateDto
 
         private static string GetMethodReturnType(RequestInfo requestInfo)
         {
-            if (requestInfo.OperationId == "getSeriesEpisodes")
+            if (MethodReturnTypeOverrides.ContainsKey(requestInfo.OperationId))
             {
-                return "GetSeriesEpisodesResponseData";
-            }
-
-            if (requestInfo.OperationId == "getSeriesSeasonEpisodesTranslated")
-            {
-                return "GetSeriesSeasonEpisodesTranslatedResponseData";
+                return MethodReturnTypeOverrides[requestInfo.OperationId];
             }
 
             var returnData = requestInfo.Responses["200"].Content["application/json"].Schema.Properties["data"];
@@ -468,180 +992,16 @@ namespace GenerateDto
 
         private static void ApplyDtoPropertyOverrides(NamespaceModel namespaceModel)
         {
-            var propertyOverrides = new List<PropertyOverrideModel>
-            {
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "peopleId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "seasonId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "episodeId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "seriesPeopleId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "networkId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "ArtworkExtendedRecordDto",
-                    MatchFieldName = "movieId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "MovieBaseRecordDto",
-                    MatchFieldName = "score",
-                    OverrideType = "double?",
-                },
-                new()
-                {
-                    MatchClassName = "CharacterDto",
-                    MatchFieldName = "episodeId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "CharacterDto",
-                    MatchFieldName = "movieId",
-                    OverrideType = "int?",
-                },
-                new()
-                {
-                    MatchClassName = "CompanyTypeDto",
-                    MatchFieldName = "id",
-                    OverrideFieldName = "companyTypeId",
-                    OverridePropertyName = "CompanyTypeId",
-                    OverridePropertyAttributes = new List<string>
-                    {
-                        "[JsonProperty(\"companyTypeId\")]",
-                    },
-                },
-                new()
-                {
-                    MatchClassName = "CompanyTypeDto",
-                    MatchFieldName = "name",
-                    OverrideFieldName = "companyTypeName",
-                    OverridePropertyName = "CompanyTypeName",
-                    OverridePropertyAttributes = new List<string>
-                    {
-                        "[JsonProperty(\"companyTypeName\")]",
-                    },
-                },
-            };
-
-            var extraProperties = new Dictionary<string, List<PropertyModel>>
-            {
-                {
-                    "ArtworkExtendedRecordDto", new List<PropertyModel>
-                    {
-                        new()
-                        {
-                            FieldName = "status",
-                            PropertyName = "Status",
-                            PropertyType = "object",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonIgnore]",
-                            },
-                        },
-                        new()
-                        {
-                            FieldName = "tagOptions",
-                            PropertyName = "TagOptions",
-                            PropertyType = "object",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonIgnore]",
-                            },
-                        },
-                    }
-                },
-                {
-                    "MovieBaseRecordDto", new List<PropertyModel>
-                    {
-                        new()
-                        {
-                            FieldName = "runtime",
-                            PropertyName = "Runtime",
-                            PropertyType = "int",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonProperty(\"runtime\")]",
-                            },
-                        },
-                        new()
-                        {
-                            FieldName = "lastUpdated",
-                            PropertyName = "LastUpdated",
-                            PropertyType = "string",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonProperty(\"lastUpdated\")]",
-                            },
-                        },
-                    }
-                },
-                {
-                    "CharacterDto", new List<PropertyModel>
-                    {
-                        new()
-                        {
-                            FieldName = "peopleType",
-                            PropertyName = "PeopleType",
-                            PropertyType = "string",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonProperty(\"peopleType\")]",
-                            },
-                        },
-                    }
-                },
-                {
-                    "CompanyDto", new List<PropertyModel>
-                    {
-                        new()
-                        {
-                            FieldName = "companyType",
-                            PropertyName = "CompanyType",
-                            PropertyType = "CompanyTypeDto",
-                            PropertyAttributes = new List<string>
-                            {
-                                "[JsonProperty(\"companyType\")]",
-                            },
-                        },
-                    }
-                },
-            };
-
             foreach (var classModel in namespaceModel.Classes)
             {
-                if (extraProperties.ContainsKey(classModel.ClassName))
+                if (ExtraProperties.ContainsKey(classModel.ClassName))
                 {
-                    classModel.Properties.AddRange(extraProperties[classModel.ClassName]);
+                    classModel.Properties.AddRange(ExtraProperties[classModel.ClassName]);
                 }
 
                 foreach (var modelProperty in classModel.Properties)
                 {
-                    foreach (var overrideModel in propertyOverrides)
+                    foreach (var overrideModel in PropertyOverrides)
                     {
                         if (classModel.ClassName == overrideModel.MatchClassName && modelProperty.FieldName == overrideModel.MatchFieldName)
                         {

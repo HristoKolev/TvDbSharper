@@ -11,652 +11,642 @@ namespace TvDbSharper
 
     public partial class TvDbClient
     {
-        public Task<ArtworkBaseRecordDto> Artwork(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ArtworkBaseRecordDto>> Artwork(int id, CancellationToken cancellationToken)
         {
             return this.Get<ArtworkBaseRecordDto>($"artwork/{id}", null, cancellationToken);
         }
 
-        public Task<ArtworkBaseRecordDto> Artwork(int id)
+        public Task<TvDbApiResponse<ArtworkBaseRecordDto>> Artwork(int id)
         {
             return this.Artwork(id, CancellationToken.None);
         }
 
-        public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ArtworkExtendedRecordDto>> ArtworkExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<ArtworkExtendedRecordDto>($"artwork/{id}/extended", null, cancellationToken);
         }
 
-        public Task<ArtworkExtendedRecordDto> ArtworkExtended(int id)
+        public Task<TvDbApiResponse<ArtworkExtendedRecordDto>> ArtworkExtended(int id)
         {
             return this.ArtworkExtended(id, CancellationToken.None);
         }
 
-        public Task<TranslationDto> ArtworkTranslation(int id, string language, CancellationToken cancellationToken)
-        {
-            return this.Get<TranslationDto>($"artwork/{id}/translations/{language}", null, cancellationToken);
-        }
-
-        public Task<TranslationDto> ArtworkTranslation(int id, string language)
-        {
-            return this.ArtworkTranslation(id, language, CancellationToken.None);
-        }
-
-        public Task<ArtworkStatusDto[]> ArtworkStatuses(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ArtworkStatusDto[]>> ArtworkStatuses(CancellationToken cancellationToken)
         {
             return this.Get<ArtworkStatusDto[]>($"artwork/statuses", null, cancellationToken);
         }
 
-        public Task<ArtworkStatusDto[]> ArtworkStatuses()
+        public Task<TvDbApiResponse<ArtworkStatusDto[]>> ArtworkStatuses()
         {
             return this.ArtworkStatuses(CancellationToken.None);
         }
 
-        public Task<ArtworkTypeDto[]> ArtworkTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ArtworkTypeDto[]>> ArtworkTypes(CancellationToken cancellationToken)
         {
             return this.Get<ArtworkTypeDto[]>($"artwork/types", null, cancellationToken);
         }
 
-        public Task<ArtworkTypeDto[]> ArtworkTypes()
+        public Task<TvDbApiResponse<ArtworkTypeDto[]>> ArtworkTypes()
         {
             return this.ArtworkTypes(CancellationToken.None);
         }
 
-        public Task<AwardBaseRecordDto[]> Awards(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<AwardBaseRecordDto[]>> Awards(CancellationToken cancellationToken)
         {
             return this.Get<AwardBaseRecordDto[]>($"awards", null, cancellationToken);
         }
 
-        public Task<AwardBaseRecordDto[]> Awards()
+        public Task<TvDbApiResponse<AwardBaseRecordDto[]>> Awards()
         {
             return this.Awards(CancellationToken.None);
         }
 
-        public Task<AwardBaseRecordDto> Award(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<AwardBaseRecordDto>> Award(int id, CancellationToken cancellationToken)
         {
             return this.Get<AwardBaseRecordDto>($"awards/{id}", null, cancellationToken);
         }
 
-        public Task<AwardBaseRecordDto> Award(int id)
+        public Task<TvDbApiResponse<AwardBaseRecordDto>> Award(int id)
         {
             return this.Award(id, CancellationToken.None);
         }
 
-        public Task<AwardExtendedRecordDto> AwardExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<AwardExtendedRecordDto>> AwardExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<AwardExtendedRecordDto>($"awards/{id}/extended", null, cancellationToken);
         }
 
-        public Task<AwardExtendedRecordDto> AwardExtended(int id)
+        public Task<TvDbApiResponse<AwardExtendedRecordDto>> AwardExtended(int id)
         {
             return this.AwardExtended(id, CancellationToken.None);
         }
 
-        public Task<AwardCategoryBaseRecordDto> AwardCategory(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<AwardCategoryBaseRecordDto>> AwardCategory(int id, CancellationToken cancellationToken)
         {
             return this.Get<AwardCategoryBaseRecordDto>($"awards/categories/{id}", null, cancellationToken);
         }
 
-        public Task<AwardCategoryBaseRecordDto> AwardCategory(int id)
+        public Task<TvDbApiResponse<AwardCategoryBaseRecordDto>> AwardCategory(int id)
         {
             return this.AwardCategory(id, CancellationToken.None);
         }
 
-        public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<AwardCategoryExtendedRecordDto>> AwardCategoryExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<AwardCategoryExtendedRecordDto>($"awards/categories/{id}/extended", null, cancellationToken);
         }
 
-        public Task<AwardCategoryExtendedRecordDto> AwardCategoryExtended(int id)
+        public Task<TvDbApiResponse<AwardCategoryExtendedRecordDto>> AwardCategoryExtended(int id)
         {
             return this.AwardCategoryExtended(id, CancellationToken.None);
         }
 
-        public Task<CharacterDto> Character(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CharacterDto>> Character(int id, CancellationToken cancellationToken)
         {
             return this.Get<CharacterDto>($"characters/{id}", null, cancellationToken);
         }
 
-        public Task<CharacterDto> Character(int id)
+        public Task<TvDbApiResponse<CharacterDto>> Character(int id)
         {
             return this.Character(id, CancellationToken.None);
         }
 
-        public Task<CompanyDto[]> Companies(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CompanyDto[]>> Companies(CancellationToken cancellationToken)
         {
             return this.Get<CompanyDto[]>($"companies", null, cancellationToken);
         }
 
-        public Task<CompanyDto[]> Companies()
+        public Task<TvDbApiResponse<CompanyDto[]>> Companies()
         {
             return this.Companies(CancellationToken.None);
         }
 
-        public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CompanyDto[]>> Companies(CompaniesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<CompanyDto[]>($"companies", optionalParameters, cancellationToken);
         }
 
-        public Task<CompanyDto[]> Companies(CompaniesOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<CompanyDto[]>> Companies(CompaniesOptionalParams optionalParameters)
         {
             return this.Companies(optionalParameters, CancellationToken.None);
         }
 
-        public Task<CompanyTypeDto[]> CompanyTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CompanyTypeDto[]>> CompanyTypes(CancellationToken cancellationToken)
         {
             return this.Get<CompanyTypeDto[]>($"companies/types", null, cancellationToken);
         }
 
-        public Task<CompanyTypeDto[]> CompanyTypes()
+        public Task<TvDbApiResponse<CompanyTypeDto[]>> CompanyTypes()
         {
             return this.CompanyTypes(CancellationToken.None);
         }
 
-        public Task<CompanyDto> Company(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CompanyDto>> Company(int id, CancellationToken cancellationToken)
         {
             return this.Get<CompanyDto>($"companies/{id}", null, cancellationToken);
         }
 
-        public Task<CompanyDto> Company(int id)
+        public Task<TvDbApiResponse<CompanyDto>> Company(int id)
         {
             return this.Company(id, CancellationToken.None);
         }
 
-        public Task<ContentRatingDto[]> ContentRatings(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ContentRatingDto[]>> ContentRatings(CancellationToken cancellationToken)
         {
             return this.Get<ContentRatingDto[]>($"content/ratings", null, cancellationToken);
         }
 
-        public Task<ContentRatingDto[]> ContentRatings()
+        public Task<TvDbApiResponse<ContentRatingDto[]>> ContentRatings()
         {
             return this.ContentRatings(CancellationToken.None);
         }
 
-        public Task<CountryDto[]> Countries(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<CountryDto[]>> Countries(CancellationToken cancellationToken)
         {
             return this.Get<CountryDto[]>($"countries", null, cancellationToken);
         }
 
-        public Task<CountryDto[]> Countries()
+        public Task<TvDbApiResponse<CountryDto[]>> Countries()
         {
             return this.Countries(CancellationToken.None);
         }
 
-        public Task<EntityTypeDto[]> EntityTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EntityTypeDto[]>> EntityTypes(CancellationToken cancellationToken)
         {
             return this.Get<EntityTypeDto[]>($"entities/types", null, cancellationToken);
         }
 
-        public Task<EntityTypeDto[]> EntityTypes()
+        public Task<TvDbApiResponse<EntityTypeDto[]>> EntityTypes()
         {
             return this.EntityTypes(CancellationToken.None);
         }
 
-        public Task<EpisodeBaseRecordDto> Episode(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EpisodeBaseRecordDto>> Episode(int id, CancellationToken cancellationToken)
         {
             return this.Get<EpisodeBaseRecordDto>($"episodes/{id}", null, cancellationToken);
         }
 
-        public Task<EpisodeBaseRecordDto> Episode(int id)
+        public Task<TvDbApiResponse<EpisodeBaseRecordDto>> Episode(int id)
         {
             return this.Episode(id, CancellationToken.None);
         }
 
-        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EpisodeExtendedRecordDto>> EpisodeExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<EpisodeExtendedRecordDto>($"episodes/{id}/extended", null, cancellationToken);
         }
 
-        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id)
+        public Task<TvDbApiResponse<EpisodeExtendedRecordDto>> EpisodeExtended(int id)
         {
             return this.EpisodeExtended(id, CancellationToken.None);
         }
 
-        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EpisodeExtendedRecordDto>> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<EpisodeExtendedRecordDto>($"episodes/{id}/extended", optionalParameters, cancellationToken);
         }
 
-        public Task<EpisodeExtendedRecordDto> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<EpisodeExtendedRecordDto>> EpisodeExtended(int id, EpisodeExtendedOptionalParams optionalParameters)
         {
             return this.EpisodeExtended(id, optionalParameters, CancellationToken.None);
         }
 
-        public Task<TranslationDto> EpisodeTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto>> EpisodeTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"episodes/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> EpisodeTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto>> EpisodeTranslation(int id, string language)
         {
             return this.EpisodeTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<GenderDto[]> Genders(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GenderDto[]>> Genders(CancellationToken cancellationToken)
         {
             return this.Get<GenderDto[]>($"genders", null, cancellationToken);
         }
 
-        public Task<GenderDto[]> Genders()
+        public Task<TvDbApiResponse<GenderDto[]>> Genders()
         {
             return this.Genders(CancellationToken.None);
         }
 
-        public Task<GenreBaseRecordDto[]> Genres(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GenreBaseRecordDto[]>> Genres(CancellationToken cancellationToken)
         {
             return this.Get<GenreBaseRecordDto[]>($"genres", null, cancellationToken);
         }
 
-        public Task<GenreBaseRecordDto[]> Genres()
+        public Task<TvDbApiResponse<GenreBaseRecordDto[]>> Genres()
         {
             return this.Genres(CancellationToken.None);
         }
 
-        public Task<GenreBaseRecordDto> Genre(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GenreBaseRecordDto>> Genre(int id, CancellationToken cancellationToken)
         {
             return this.Get<GenreBaseRecordDto>($"genres/{id}", null, cancellationToken);
         }
 
-        public Task<GenreBaseRecordDto> Genre(int id)
+        public Task<TvDbApiResponse<GenreBaseRecordDto>> Genre(int id)
         {
             return this.Genre(id, CancellationToken.None);
         }
 
-        public Task<LanguageDto[]> Languages(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<LanguageDto[]>> Languages(CancellationToken cancellationToken)
         {
             return this.Get<LanguageDto[]>($"languages", null, cancellationToken);
         }
 
-        public Task<LanguageDto[]> Languages()
+        public Task<TvDbApiResponse<LanguageDto[]>> Languages()
         {
             return this.Languages(CancellationToken.None);
         }
 
-        public Task<ListBaseRecordDto[]> Lists(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ListBaseRecordDto[]>> Lists(CancellationToken cancellationToken)
         {
             return this.Get<ListBaseRecordDto[]>($"lists", null, cancellationToken);
         }
 
-        public Task<ListBaseRecordDto[]> Lists()
+        public Task<TvDbApiResponse<ListBaseRecordDto[]>> Lists()
         {
             return this.Lists(CancellationToken.None);
         }
 
-        public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ListBaseRecordDto[]>> Lists(ListsOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<ListBaseRecordDto[]>($"lists", optionalParameters, cancellationToken);
         }
 
-        public Task<ListBaseRecordDto[]> Lists(ListsOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<ListBaseRecordDto[]>> Lists(ListsOptionalParams optionalParameters)
         {
             return this.Lists(optionalParameters, CancellationToken.None);
         }
 
-        public Task<ListBaseRecordDto> List(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ListBaseRecordDto>> List(int id, CancellationToken cancellationToken)
         {
             return this.Get<ListBaseRecordDto>($"lists/{id}", null, cancellationToken);
         }
 
-        public Task<ListBaseRecordDto> List(int id)
+        public Task<TvDbApiResponse<ListBaseRecordDto>> List(int id)
         {
             return this.List(id, CancellationToken.None);
         }
 
-        public Task<ListExtendedRecordDto> ListExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<ListExtendedRecordDto>> ListExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<ListExtendedRecordDto>($"lists/{id}/extended", null, cancellationToken);
         }
 
-        public Task<ListExtendedRecordDto> ListExtended(int id)
+        public Task<TvDbApiResponse<ListExtendedRecordDto>> ListExtended(int id)
         {
             return this.ListExtended(id, CancellationToken.None);
         }
 
-        public Task<TranslationDto> ListTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto[]>> ListTranslation(int id, string language, CancellationToken cancellationToken)
         {
-            return this.Get<TranslationDto>($"lists/{id}/translations/{language}", null, cancellationToken);
+            return this.Get<TranslationDto[]>($"lists/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> ListTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto[]>> ListTranslation(int id, string language)
         {
             return this.ListTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<MovieBaseRecordDto[]> Movies(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<MovieBaseRecordDto[]>> Movies(CancellationToken cancellationToken)
         {
             return this.Get<MovieBaseRecordDto[]>($"movies", null, cancellationToken);
         }
 
-        public Task<MovieBaseRecordDto[]> Movies()
+        public Task<TvDbApiResponse<MovieBaseRecordDto[]>> Movies()
         {
             return this.Movies(CancellationToken.None);
         }
 
-        public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<MovieBaseRecordDto[]>> Movies(MoviesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<MovieBaseRecordDto[]>($"movies", optionalParameters, cancellationToken);
         }
 
-        public Task<MovieBaseRecordDto[]> Movies(MoviesOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<MovieBaseRecordDto[]>> Movies(MoviesOptionalParams optionalParameters)
         {
             return this.Movies(optionalParameters, CancellationToken.None);
         }
 
-        public Task<MovieBaseRecordDto> Movie(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> Movie(int id, CancellationToken cancellationToken)
         {
             return this.Get<MovieBaseRecordDto>($"movies/{id}", null, cancellationToken);
         }
 
-        public Task<MovieBaseRecordDto> Movie(int id)
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> Movie(int id)
         {
             return this.Movie(id, CancellationToken.None);
         }
 
-        public Task<MovieExtendedRecordDto> MovieExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<MovieExtendedRecordDto>> MovieExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<MovieExtendedRecordDto>($"movies/{id}/extended", null, cancellationToken);
         }
 
-        public Task<MovieExtendedRecordDto> MovieExtended(int id)
+        public Task<TvDbApiResponse<MovieExtendedRecordDto>> MovieExtended(int id)
         {
             return this.MovieExtended(id, CancellationToken.None);
         }
 
-        public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<MovieExtendedRecordDto>> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<MovieExtendedRecordDto>($"movies/{id}/extended", optionalParameters, cancellationToken);
         }
 
-        public Task<MovieExtendedRecordDto> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<MovieExtendedRecordDto>> MovieExtended(int id, MovieExtendedOptionalParams optionalParameters)
         {
             return this.MovieExtended(id, optionalParameters, CancellationToken.None);
         }
 
-        public Task<TranslationDto> MovieTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto>> MovieTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"movies/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> MovieTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto>> MovieTranslation(int id, string language)
         {
             return this.MovieTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<StatusDto[]> MovieStatuses(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<StatusDto[]>> MovieStatuses(CancellationToken cancellationToken)
         {
             return this.Get<StatusDto[]>($"movies/statuses", null, cancellationToken);
         }
 
-        public Task<StatusDto[]> MovieStatuses()
+        public Task<TvDbApiResponse<StatusDto[]>> MovieStatuses()
         {
             return this.MovieStatuses(CancellationToken.None);
         }
 
-        public Task<PeopleBaseRecordDto> People(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<PeopleBaseRecordDto>> People(int id, CancellationToken cancellationToken)
         {
             return this.Get<PeopleBaseRecordDto>($"people/{id}", null, cancellationToken);
         }
 
-        public Task<PeopleBaseRecordDto> People(int id)
+        public Task<TvDbApiResponse<PeopleBaseRecordDto>> People(int id)
         {
             return this.People(id, CancellationToken.None);
         }
 
-        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<PeopleExtendedRecordDto>> PeopleExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<PeopleExtendedRecordDto>($"people/{id}/extended", null, cancellationToken);
         }
 
-        public Task<PeopleExtendedRecordDto> PeopleExtended(int id)
+        public Task<TvDbApiResponse<PeopleExtendedRecordDto>> PeopleExtended(int id)
         {
             return this.PeopleExtended(id, CancellationToken.None);
         }
 
-        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<PeopleExtendedRecordDto>> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<PeopleExtendedRecordDto>($"people/{id}/extended", optionalParameters, cancellationToken);
         }
 
-        public Task<PeopleExtendedRecordDto> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<PeopleExtendedRecordDto>> PeopleExtended(int id, PeopleExtendedOptionalParams optionalParameters)
         {
             return this.PeopleExtended(id, optionalParameters, CancellationToken.None);
         }
 
-        public Task<TranslationDto> PeopleTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto>> PeopleTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"people/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> PeopleTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto>> PeopleTranslation(int id, string language)
         {
             return this.PeopleTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<PeopleTypeDto[]> PeopleTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<PeopleTypeDto[]>> PeopleTypes(CancellationToken cancellationToken)
         {
             return this.Get<PeopleTypeDto[]>($"people/types", null, cancellationToken);
         }
 
-        public Task<PeopleTypeDto[]> PeopleTypes()
+        public Task<TvDbApiResponse<PeopleTypeDto[]>> PeopleTypes()
         {
             return this.PeopleTypes(CancellationToken.None);
         }
 
-        public Task<SearchResultDto[]> Search(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SearchResultDto[]>> Search(CancellationToken cancellationToken)
         {
             return this.Get<SearchResultDto[]>($"search", null, cancellationToken);
         }
 
-        public Task<SearchResultDto[]> Search()
+        public Task<TvDbApiResponse<SearchResultDto[]>> Search()
         {
             return this.Search(CancellationToken.None);
         }
 
-        public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SearchResultDto[]>> Search(SearchOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<SearchResultDto[]>($"search", optionalParameters, cancellationToken);
         }
 
-        public Task<SearchResultDto[]> Search(SearchOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<SearchResultDto[]>> Search(SearchOptionalParams optionalParameters)
         {
             return this.Search(optionalParameters, CancellationToken.None);
         }
 
-        public Task<SeasonBaseRecordDto[]> Seasons(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeasonBaseRecordDto[]>> Seasons(CancellationToken cancellationToken)
         {
             return this.Get<SeasonBaseRecordDto[]>($"seasons", null, cancellationToken);
         }
 
-        public Task<SeasonBaseRecordDto[]> Seasons()
+        public Task<TvDbApiResponse<SeasonBaseRecordDto[]>> Seasons()
         {
             return this.Seasons(CancellationToken.None);
         }
 
-        public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeasonBaseRecordDto[]>> Seasons(SeasonsOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<SeasonBaseRecordDto[]>($"seasons", optionalParameters, cancellationToken);
         }
 
-        public Task<SeasonBaseRecordDto[]> Seasons(SeasonsOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<SeasonBaseRecordDto[]>> Seasons(SeasonsOptionalParams optionalParameters)
         {
             return this.Seasons(optionalParameters, CancellationToken.None);
         }
 
-        public Task<SeasonBaseRecordDto> Season(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeasonBaseRecordDto>> Season(int id, CancellationToken cancellationToken)
         {
             return this.Get<SeasonBaseRecordDto>($"seasons/{id}", null, cancellationToken);
         }
 
-        public Task<SeasonBaseRecordDto> Season(int id)
+        public Task<TvDbApiResponse<SeasonBaseRecordDto>> Season(int id)
         {
             return this.Season(id, CancellationToken.None);
         }
 
-        public Task<SeasonExtendedRecordDto> SeasonExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeasonExtendedRecordDto>> SeasonExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<SeasonExtendedRecordDto>($"seasons/{id}/extended", null, cancellationToken);
         }
 
-        public Task<SeasonExtendedRecordDto> SeasonExtended(int id)
+        public Task<TvDbApiResponse<SeasonExtendedRecordDto>> SeasonExtended(int id)
         {
             return this.SeasonExtended(id, CancellationToken.None);
         }
 
-        public Task<SeasonTypeDto> SeasonTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeasonTypeDto>> SeasonTypes(CancellationToken cancellationToken)
         {
             return this.Get<SeasonTypeDto>($"seasons/types", null, cancellationToken);
         }
 
-        public Task<SeasonTypeDto> SeasonTypes()
+        public Task<TvDbApiResponse<SeasonTypeDto>> SeasonTypes()
         {
             return this.SeasonTypes(CancellationToken.None);
         }
 
-        public Task<TranslationDto> SeasonTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto>> SeasonTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"seasons/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> SeasonTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto>> SeasonTranslation(int id, string language)
         {
             return this.SeasonTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<SeriesBaseRecordDto[]> AllSeries(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeriesBaseRecordDto[]>> AllSeries(CancellationToken cancellationToken)
         {
             return this.Get<SeriesBaseRecordDto[]>($"series", null, cancellationToken);
         }
 
-        public Task<SeriesBaseRecordDto[]> AllSeries()
+        public Task<TvDbApiResponse<SeriesBaseRecordDto[]>> AllSeries()
         {
             return this.AllSeries(CancellationToken.None);
         }
 
-        public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeriesBaseRecordDto[]>> AllSeries(AllSeriesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<SeriesBaseRecordDto[]>($"series", optionalParameters, cancellationToken);
         }
 
-        public Task<SeriesBaseRecordDto[]> AllSeries(AllSeriesOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<SeriesBaseRecordDto[]>> AllSeries(AllSeriesOptionalParams optionalParameters)
         {
             return this.AllSeries(optionalParameters, CancellationToken.None);
         }
 
-        public Task<SeriesBaseRecordDto> Series(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> Series(int id, CancellationToken cancellationToken)
         {
             return this.Get<SeriesBaseRecordDto>($"series/{id}", null, cancellationToken);
         }
 
-        public Task<SeriesBaseRecordDto> Series(int id)
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> Series(int id)
         {
             return this.Series(id, CancellationToken.None);
         }
 
-        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeriesExtendedRecordDto>> SeriesExtended(int id, CancellationToken cancellationToken)
         {
             return this.Get<SeriesExtendedRecordDto>($"series/{id}/extended", null, cancellationToken);
         }
 
-        public Task<SeriesExtendedRecordDto> SeriesExtended(int id)
+        public Task<TvDbApiResponse<SeriesExtendedRecordDto>> SeriesExtended(int id)
         {
             return this.SeriesExtended(id, CancellationToken.None);
         }
 
-        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SeriesExtendedRecordDto>> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<SeriesExtendedRecordDto>($"series/{id}/extended", optionalParameters, cancellationToken);
         }
 
-        public Task<SeriesExtendedRecordDto> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<SeriesExtendedRecordDto>> SeriesExtended(int id, SeriesExtendedOptionalParams optionalParameters)
         {
             return this.SeriesExtended(id, optionalParameters, CancellationToken.None);
         }
 
-        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GetSeriesEpisodesResponseData>> SeriesEpisodes(int id, string seasonType, CancellationToken cancellationToken)
         {
             return this.Get<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", null, cancellationToken);
         }
 
-        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType)
+        public Task<TvDbApiResponse<GetSeriesEpisodesResponseData>> SeriesEpisodes(int id, string seasonType)
         {
             return this.SeriesEpisodes(id, seasonType, CancellationToken.None);
         }
 
-        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GetSeriesEpisodesResponseData>> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<GetSeriesEpisodesResponseData>($"series/{id}/episodes/{seasonType}", optionalParameters, cancellationToken);
         }
 
-        public Task<GetSeriesEpisodesResponseData> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<GetSeriesEpisodesResponseData>> SeriesEpisodes(int id, string seasonType, SeriesEpisodesOptionalParams optionalParameters)
         {
             return this.SeriesEpisodes(id, seasonType, optionalParameters, CancellationToken.None);
         }
 
-        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GetSeriesSeasonEpisodesTranslatedResponseData>> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, CancellationToken cancellationToken)
         {
             return this.Get<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", null, cancellationToken);
         }
 
-        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang)
+        public Task<TvDbApiResponse<GetSeriesSeasonEpisodesTranslatedResponseData>> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang)
         {
             return this.SeriesSeasonEpisodesTranslated(id, seasonType, lang, CancellationToken.None);
         }
 
-        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<GetSeriesSeasonEpisodesTranslatedResponseData>> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<GetSeriesSeasonEpisodesTranslatedResponseData>($"series/{id}/episodes/{seasonType}/{lang}", optionalParameters, cancellationToken);
         }
 
-        public Task<GetSeriesSeasonEpisodesTranslatedResponseData> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<GetSeriesSeasonEpisodesTranslatedResponseData>> SeriesSeasonEpisodesTranslated(int id, string seasonType, string lang, SeriesSeasonEpisodesTranslatedOptionalParams optionalParameters)
         {
             return this.SeriesSeasonEpisodesTranslated(id, seasonType, lang, optionalParameters, CancellationToken.None);
         }
 
-        public Task<TranslationDto> SeriesTranslation(int id, string language, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<TranslationDto>> SeriesTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"series/{id}/translations/{language}", null, cancellationToken);
         }
 
-        public Task<TranslationDto> SeriesTranslation(int id, string language)
+        public Task<TvDbApiResponse<TranslationDto>> SeriesTranslation(int id, string language)
         {
             return this.SeriesTranslation(id, language, CancellationToken.None);
         }
 
-        public Task<StatusDto[]> SeriesStatuses(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<StatusDto[]>> SeriesStatuses(CancellationToken cancellationToken)
         {
             return this.Get<StatusDto[]>($"series/statuses", null, cancellationToken);
         }
 
-        public Task<StatusDto[]> SeriesStatuses()
+        public Task<TvDbApiResponse<StatusDto[]>> SeriesStatuses()
         {
             return this.SeriesStatuses(CancellationToken.None);
         }
 
-        public Task<SourceTypeDto[]> SourceTypes(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<SourceTypeDto[]>> SourceTypes(CancellationToken cancellationToken)
         {
             return this.Get<SourceTypeDto[]>($"sources/types", null, cancellationToken);
         }
 
-        public Task<SourceTypeDto[]> SourceTypes()
+        public Task<TvDbApiResponse<SourceTypeDto[]>> SourceTypes()
         {
             return this.SourceTypes(CancellationToken.None);
         }
 
-        public Task<EntityUpdateDto[]> Updates(CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EntityUpdateDto[]>> Updates(CancellationToken cancellationToken)
         {
             return this.Get<EntityUpdateDto[]>($"updates", null, cancellationToken);
         }
 
-        public Task<EntityUpdateDto[]> Updates()
+        public Task<TvDbApiResponse<EntityUpdateDto[]>> Updates()
         {
             return this.Updates(CancellationToken.None);
         }
 
-        public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters, CancellationToken cancellationToken)
+        public Task<TvDbApiResponse<EntityUpdateDto[]>> Updates(UpdatesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<EntityUpdateDto[]>($"updates", optionalParameters, cancellationToken);
         }
 
-        public Task<EntityUpdateDto[]> Updates(UpdatesOptionalParams optionalParameters)
+        public Task<TvDbApiResponse<EntityUpdateDto[]>> Updates(UpdatesOptionalParams optionalParameters)
         {
             return this.Updates(optionalParameters, CancellationToken.None);
         }
@@ -708,6 +698,9 @@ namespace TvDbSharper
 
         [QueryParameter("type")]
         public string Type { get; set; }
+
+        [QueryParameter("remote_id")]
+        public string Remote_id { get; set; }
 
         [QueryParameter("year")]
         public int? Year { get; set; }
@@ -1043,7 +1036,7 @@ namespace TvDbSharper
         public int PeopleId { get; set; }
 
         [JsonProperty("seriesId")]
-        public int SeriesId { get; set; }
+        public int? SeriesId { get; set; }
 
         [JsonProperty("sort")]
         public long Sort { get; set; }
@@ -1125,6 +1118,9 @@ namespace TvDbSharper
 
         [JsonProperty("fullName")]
         public string FullName { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
     }
 
     public class CountryDto
@@ -1148,7 +1144,7 @@ namespace TvDbSharper
         public long Order { get; set; }
 
         [JsonProperty("seriesId")]
-        public int SeriesId { get; set; }
+        public int? SeriesId { get; set; }
     }
 
     public class EntityTypeDto
@@ -1161,6 +1157,9 @@ namespace TvDbSharper
 
         [JsonProperty("seriesId")]
         public int SeriesId { get; set; }
+
+        [JsonProperty("hasSpecials")]
+        public bool HasSpecials { get; set; }
     }
 
     public class EntityUpdateDto
@@ -1218,6 +1217,15 @@ namespace TvDbSharper
 
         [JsonProperty("seriesId")]
         public long SeriesId { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
+
+        [JsonProperty("lastUpdated")]
+        public string LastUpdated { get; set; }
+
+        [JsonProperty("finaleType")]
+        public string FinaleType { get; set; }
     }
 
     public class EpisodeExtendedRecordDto
@@ -1226,13 +1234,13 @@ namespace TvDbSharper
         public string Aired { get; set; }
 
         [JsonProperty("airsAfterSeason")]
-        public int AirsAfterSeason { get; set; }
+        public int? AirsAfterSeason { get; set; }
 
         [JsonProperty("airsBeforeEpisode")]
-        public int AirsBeforeEpisode { get; set; }
+        public int? AirsBeforeEpisode { get; set; }
 
         [JsonProperty("airsBeforeSeason")]
-        public int AirsBeforeSeason { get; set; }
+        public int? AirsBeforeSeason { get; set; }
 
         [JsonProperty("awards")]
         public AwardBaseRecordDto[] Awards { get; set; }
@@ -1293,6 +1301,24 @@ namespace TvDbSharper
 
         [JsonProperty("trailers")]
         public TrailerDto[] Trailers { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
+
+        [JsonProperty("lastUpdated")]
+        public string LastUpdated { get; set; }
+
+        [JsonProperty("finaleType")]
+        public string FinaleType { get; set; }
+
+        [JsonProperty("nominations")]
+        public string Nominations { get; set; }
+
+        [JsonProperty("networks")]
+        public string Networks { get; set; }
+
+        [JsonProperty("studios")]
+        public StudioBaseRecordDto[] Studios { get; set; }
     }
 
     public class GenderDto
@@ -1356,6 +1382,9 @@ namespace TvDbSharper
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("score")]
+        public int Score { get; set; }
     }
 
     public class ListExtendedRecordDto
@@ -1421,7 +1450,7 @@ namespace TvDbSharper
         public StatusDto Status { get; set; }
 
         [JsonProperty("runtime")]
-        public int Runtime { get; set; }
+        public int? Runtime { get; set; }
 
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
@@ -1487,7 +1516,7 @@ namespace TvDbSharper
         public ContentRatingDto[] ContentRatings { get; set; }
 
         [JsonProperty("score")]
-        public double Score { get; set; }
+        public double? Score { get; set; }
 
         [JsonProperty("slug")]
         public string Slug { get; set; }
@@ -1510,17 +1539,23 @@ namespace TvDbSharper
         [JsonProperty("inspirations")]
         public InspirationDto[] Inspirations { get; set; }
 
-        [JsonProperty("productionCountries")]
+        [JsonProperty("production_countries")]
         public ProductionCountryDto[] ProductionCountries { get; set; }
 
-        [JsonProperty("spokenLanguages")]
+        [JsonProperty("spoken_languages")]
         public string[] SpokenLanguages { get; set; }
 
-        [JsonProperty("firstRelease")]
+        [JsonProperty("first_release")]
         public ReleaseDto FirstRelease { get; set; }
 
         [JsonProperty("companies")]
         public CompaniesDto Companies { get; set; }
+
+        [JsonProperty("runtime")]
+        public int Runtime { get; set; }
+
+        [JsonProperty("lastUpdated")]
+        public string LastUpdated { get; set; }
     }
 
     public class NetworkBaseRecordDto
@@ -1557,6 +1592,12 @@ namespace TvDbSharper
 
         [JsonProperty("score")]
         public long Score { get; set; }
+
+        [JsonProperty("nameTranslations")]
+        public string[] NameTranslations { get; set; }
+
+        [JsonProperty("overviewTranslations")]
+        public string[] OverviewTranslations { get; set; }
     }
 
     public class PeopleExtendedRecordDto
@@ -1605,6 +1646,12 @@ namespace TvDbSharper
 
         [JsonProperty("tagOptions")]
         public TagOptionDto[] TagOptions { get; set; }
+
+        [JsonProperty("nameTranslations")]
+        public string[] NameTranslations { get; set; }
+
+        [JsonProperty("overviewTranslations")]
+        public string[] OverviewTranslations { get; set; }
     }
 
     public class PeopleTypeDto
@@ -1772,6 +1819,9 @@ namespace TvDbSharper
 
         [JsonProperty("type")]
         public SeasonTypeDto Type { get; set; }
+
+        [JsonProperty("companies")]
+        public CompaniesDto Companies { get; set; }
     }
 
     public class SeasonExtendedRecordDto
@@ -1834,7 +1884,7 @@ namespace TvDbSharper
         public string Name { get; set; }
 
         [JsonProperty("type")]
-        public long Type { get; set; }
+        public string Type { get; set; }
     }
 
     public class SeriesAirsDaysDto
@@ -2123,6 +2173,9 @@ namespace TvDbSharper
 
         [JsonProperty("overview")]
         public string Overview { get; set; }
+
+        [JsonProperty("tagline")]
+        public string Tagline { get; set; }
     }
 
     public class TranslationSimpleDto
@@ -2173,19 +2226,19 @@ namespace TvDbSharper
     public class CompaniesDto
     {
         [JsonProperty("studio")]
-        public CompanyDto Studio { get; set; }
+        public CompanyDto[] Studio { get; set; }
 
         [JsonProperty("network")]
-        public CompanyDto Network { get; set; }
+        public CompanyDto[] Network { get; set; }
 
         [JsonProperty("production")]
-        public CompanyDto Production { get; set; }
+        public CompanyDto[] Production { get; set; }
 
         [JsonProperty("distributor")]
-        public CompanyDto Distributor { get; set; }
+        public CompanyDto[] Distributor { get; set; }
 
-        [JsonProperty("specialEffects")]
-        public CompanyDto SpecialEffects { get; set; }
+        [JsonProperty("special_effects")]
+        public CompanyDto[] SpecialEffects { get; set; }
     }
 
     public class LinksDto
