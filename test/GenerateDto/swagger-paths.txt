@@ -7,6 +7,7 @@ getAllContentRatings() => ContentRating[] | GET /content/ratings
 getAllCountries() => Country[] | GET /countries
 getAllGenders() => Gender[] | GET /genders
 getAllGenres() => GenreBaseRecord[] | GET /genres
+getAllInspirationTypes() => InspirationType[] | GET /inspiration/types
 getAllLanguages() => Language[] | GET /languages
 getAllLists(page: number) => ListBaseRecord[] | GET /lists
 getAllMovie(page: number) => MovieBaseRecord[] | GET /movies

@@ -9,6 +9,8 @@ SCRIPT_PATH="$( cd -P "$( dirname "$TMP_SOURCE" )" >/dev/null 2>&1 && pwd )"
 
 HERE=`pwd`
 
+set -eu
+
 # build generator
 cd $SCRIPT_PATH/test/GenerateDto && dotnet build
 

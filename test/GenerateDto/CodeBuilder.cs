@@ -60,6 +60,7 @@ namespace GenerateDto
             { "getSeriesSeasonEpisodesTranslated", "SeriesSeasonEpisodesTranslated" },
             { "getSeriesTranslation", "SeriesTranslation" },
             { "updates", "Updates" },
+            { "getAllInspirationTypes", "InspirationTypes" },
         };
 
         private static readonly List<PropertyOverrideModel> PropertyOverrides = new()
@@ -252,6 +253,98 @@ namespace GenerateDto
                 {
                     "[JsonProperty(\"first_release\")]",
                 },
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "extendedTitle",
+                OverrideFieldName = "extended_title",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"extended_title\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "imageUrl",
+                OverrideFieldName = "image_url",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"image_url\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "primaryLanguage",
+                OverrideFieldName = "primary_language",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"primary_language\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "translations",
+                OverrideType = "Dictionary<string, string>",
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "overviews",
+                OverrideType = "Dictionary<string, string>",
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "remoteIds",
+                OverrideFieldName = "remote_ids",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"remote_ids\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SearchResultDto",
+                MatchFieldName = "nameTranslated",
+                OverrideFieldName = "name_translated",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"name_translated\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SeasonBaseRecordDto",
+                MatchFieldName = "imageType",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "SeasonExtendedRecordDto",
+                MatchFieldName = "type",
+                OverrideType = "SeasonTypeDto",
+            },
+            new()
+            {
+                MatchClassName = "SeasonExtendedRecordDto",
+                MatchFieldName = "imageType",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "StatusDto",
+                MatchFieldName = "id",
+                OverrideType = "long?",
+            },
+            new()
+            {
+                MatchClassName = "ArtworkExtendedRecordDto",
+                MatchFieldName = "seriesId",
+                OverrideType = "int?",
             },
         };
 
@@ -570,16 +663,141 @@ namespace GenerateDto
                             "[JsonProperty(\"overviewTranslations\")]",
                         },
                     },
-                    // new()
-                    // {
-                    //     FieldName = "translations",
-                    //     PropertyName = "Translations",
-                    //     PropertyType = "TranslationSimpleDto",
-                    //     PropertyAttributes = new List<string>
-                    //     {
-                    //         "[JsonProperty(\"translations\")]",
-                    //     },
-                    // },
+                    new()
+                    {
+                        FieldName = "translations",
+                        PropertyName = "Translations",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonIgnore]",
+                        },
+                    },
+                }
+            },
+            {
+                "SearchResultDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "objectID",
+                        PropertyName = "ObjectID",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"objectID\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "studios",
+                        PropertyName = "Studios",
+                        PropertyType = "string[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"studios\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "first_air_time",
+                        PropertyName = "FirstAirTime",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"first_air_time\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "slug",
+                        PropertyName = "Slug",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"slug\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "SeriesBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "averageRuntime",
+                        PropertyName = "AverageRuntime",
+                        PropertyType = "int?",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"averageRuntime\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "SeriesExtendedRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "lastUpdated",
+                        PropertyName = "LastUpdated",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"lastUpdated\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "averageRuntime",
+                        PropertyName = "AverageRuntime",
+                        PropertyType = "int?",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"averageRuntime\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "airsTimeUTC",
+                        PropertyName = "AirsTimeUTC",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"airsTimeUTC\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "translations",
+                        PropertyName = "Translations",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonIgnore]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "episodes",
+                        PropertyName = "Episodes",
+                        PropertyType = "EpisodeBaseRecordDto[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"episodes\")]",
+                        },
+                    },
                 }
             },
         };
@@ -587,8 +805,9 @@ namespace GenerateDto
         private static readonly Dictionary<string, string> MethodReturnTypeOverrides = new()
         {
             { "getSeriesEpisodes", "GetSeriesEpisodesResponseData" },
-            { "getSeriesSeasonEpisodesTranslated", "GetSeriesSeasonEpisodesTranslatedResponseData" },
+            { "getSeriesSeasonEpisodesTranslated", "SeriesExtendedRecordDto" },
             { "getListTranslation", "TranslationDto[]" },
+            { "getSeasonTypes", "SeasonTypeDto[]" },
         };
 
         public static NamespaceModel GetNamespace(SwaggerConfig swaggerConfig)
@@ -614,6 +833,7 @@ namespace GenerateDto
                     "System.Threading",
                     "System.Threading.Tasks",
                     "Newtonsoft.Json",
+                    "System.Collections.Generic",
                 },
                 Classes = new List<ClassModel>
                 {
