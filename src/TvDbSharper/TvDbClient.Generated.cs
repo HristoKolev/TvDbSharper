@@ -1200,7 +1200,7 @@ namespace TvDbSharper
         public string Image { get; set; }
 
         [JsonProperty("imageType")]
-        public int ImageType { get; set; }
+        public int? ImageType { get; set; }
 
         [JsonProperty("isMovie")]
         public long IsMovie { get; set; }
@@ -1269,7 +1269,7 @@ namespace TvDbSharper
         public string Image { get; set; }
 
         [JsonProperty("imageType")]
-        public int ImageType { get; set; }
+        public int? ImageType { get; set; }
 
         [JsonProperty("isMovie")]
         public long IsMovie { get; set; }
