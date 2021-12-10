@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
   description: |
-   Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).
-   ## Authentication
-   1. Use the /login endpoint and provide your API key as "apikey". If you have a user-supported key, also provide your subscriber PIN as "pin". Otherwise completely remove "pin" from your call.
-   2. Executing this call will provide you with a bearer token, which is valid for 1 month.
-   3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`
+    Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).
+    ## Authentication
+    1. Use the /login endpoint and provide your API key as "apikey". If you have a user-supported key, also provide your subscriber PIN as "pin". Otherwise completely remove "pin" from your call.
+    2. Executing this call will provide you with a bearer token, which is valid for 1 month.
+    3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`
   title: TVDB API V4
   version: 4.4.0
 security:
@@ -361,6 +361,8 @@ paths:
                     type: array
                   status:
                     type: string
+                  links:
+                    $ref: '#/components/schemas/Links'
                 type: object
         '401':
           description: Unauthorized
@@ -734,7 +736,8 @@ paths:
                     type: array
                   status:
                     type: string
-                type: object
+                  links:
+                    $ref: '#/components/schemas/Links'
         '401':
           description: Unauthorized
       tags:
@@ -827,7 +830,9 @@ paths:
               schema:
                 properties:
                   data:
-                    $ref: '#/components/schemas/Translation'
+                    items:
+                      $ref: '#/components/schemas/Translation'
+                    type: array
                   status:
                     type: string
                 type: object
@@ -1475,6 +1480,18 @@ paths:
           schema:
             type: integer
             default: 0
+        - in: query
+          name: episodeNumber
+          required: false
+          schema:
+            type: integer
+            default: 0
+        - description: airDate of the episode, format is yyyy-mm-dd
+          in: query
+          name: airDate
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: response
@@ -1495,7 +1512,7 @@ paths:
                     type: string
                 type: object
         '400':
-          description: Invalid series id
+          description: Invalid series id, episodeNumber is not null then season must be present
         '401':
           description: Unauthorized
         '404':
@@ -1779,6 +1796,11 @@ components:
           type: integer
         seriesPeopleId:
           type: integer
+        tagOptions:
+          items:
+            $ref: '#/components/schemas/TagOption'
+          type: array
+          x-go-name: TagOptions
         thumbnail:
           type: string
           x-go-name: Thumbnail
@@ -2055,15 +2077,39 @@ components:
         slug:
           type: string
           x-go-name: Slug
+        companies:
+          type: object
+          $ref: '#/components/schemas/Companies'
+        parentCompany:
+          type: object
+          $ref: '#/components/schemas/ParentCompany'
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
-    CompanyType:
-      description: A company type record
+    ParentCompany:
+      description: A parent company record
       type: object
       properties:
         id:
           type: integer
         name:
+          type: string
+        relation:
+          type: object
+          $ref: '#/components/schemas/CompanyRelationShip'
+    CompanyRelationShip:
+      description: A company relationship
+      properties:
+        id:
+          type: integer
+        typeName:
+          type: string
+    CompanyType:
+      description: A company type record
+      type: object
+      properties:
+        companyTypeId:
+          type: integer
+        companyTypeName:
           type: string
     ContentRating:
       description: content rating record
@@ -2140,6 +2186,11 @@ components:
           format: int64
           type: integer
           x-go-name: TimeStamp
+        seriesId:
+          description: Only present for episodes records
+          format: int64
+          type: integer
+          x-go-name: RecordID
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     EpisodeBaseRecord:
@@ -2186,6 +2237,8 @@ components:
           format: int64
           type: integer
           x-go-name: SeriesID
+        seasonName:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     EpisodeExtendedRecord:
@@ -2272,6 +2325,10 @@ components:
             $ref: '#/components/schemas/Trailer'
           type: array
           x-go-name: Trailers
+        companies:
+          items:
+            $ref: '#/components/schemas/Company'
+          type: array
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     Gender:
@@ -2884,11 +2941,18 @@ components:
             $ref: '#/components/schemas/TagOption'
           type: array
           x-go-name: TagOptions
+        translations:
+          items:
+            $ref: '#/components/schemas/Translation'
+          type: array
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeasonType:
       description: season type record
       properties:
+        alternateName:
+          type: string
+          x-go-name: Name
         id:
           format: int64
           type: integer
@@ -2900,6 +2964,7 @@ components:
           format: int64
           type: integer
           x-go-name: Type
+
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeriesAirsDays:
@@ -2929,7 +2994,7 @@ components:
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeriesBaseRecord:
-      description: The base record for a series
+      description: The base record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.
       properties:
         abbreviation:
           type: string
@@ -2982,10 +3047,15 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/Status'
+        episodes:
+          items:
+            $ref: '#/components/schemas/EpisodeBaseRecord'
+          type: array
+          x-go-name: Trailers
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeriesExtendedRecord:
-      description: The extended record for a series
+      description: The extended record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.
       properties:
         abbreviation:
           type: string
@@ -3051,6 +3121,10 @@ components:
           type: string
         originalLanguage:
           type: string
+        originalNetwork:
+          $ref: '#/components/schemas/Company'
+        latestNetwork:
+          $ref: '#/components/schemas/Company'
         overviewTranslations:
           items:
             type: string
@@ -3074,6 +3148,11 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/Status'
+        tags:
+          items:
+            $ref: '#/components/schemas/TagOption'
+          type: array
+          x-go-name: TagOptions
         trailers:
           items:
             $ref: '#/components/schemas/Trailer'
@@ -3300,3 +3379,7 @@ components:
           type: string
         next:
           type: string
+        total_items:
+          type: integer
+        page_size:
+          type: integer

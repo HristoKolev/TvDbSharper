@@ -184,6 +184,12 @@ namespace GenerateDto
             },
             new()
             {
+                MatchClassName = "EpisodeBaseRecordDto",
+                MatchFieldName = "imageType",
+                OverrideType = "int?",
+            },
+            new()
+            {
                 MatchClassName = "EpisodeExtendedRecordDto",
                 MatchFieldName = "airsAfterSeason",
                 OverrideType = "int?",
@@ -198,6 +204,12 @@ namespace GenerateDto
             {
                 MatchClassName = "EpisodeExtendedRecordDto",
                 MatchFieldName = "airsBeforeEpisode",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "EpisodeExtendedRecordDto",
+                MatchFieldName = "imageType",
                 OverrideType = "int?",
             },
             new()
@@ -363,16 +375,6 @@ namespace GenerateDto
                             "[JsonIgnore]",
                         },
                     },
-                    new()
-                    {
-                        FieldName = "tagOptions",
-                        PropertyName = "TagOptions",
-                        PropertyType = "object",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonIgnore]",
-                        },
-                    },
                 }
             },
             {
@@ -413,6 +415,16 @@ namespace GenerateDto
                             "[JsonProperty(\"peopleType\")]",
                         },
                     },
+                    new()
+                    {
+                        FieldName = "tagOptions",
+                        PropertyName = "TagOptions",
+                        PropertyType = "TagOptionDto[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"tagOptions\")]",
+                        },
+                    },
                 }
             },
             {
@@ -426,6 +438,16 @@ namespace GenerateDto
                         PropertyAttributes = new List<string>
                         {
                             "[JsonProperty(\"companyType\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "tagOptions",
+                        PropertyName = "TagOptions",
+                        PropertyType = "TagOptionDto[]",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"tagOptions\")]",
                         },
                     },
                 }

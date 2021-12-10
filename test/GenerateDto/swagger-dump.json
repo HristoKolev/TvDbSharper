@@ -545,6 +545,9 @@
                     },
                     "status": {
                       "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
                     }
                   },
                   "Type": "object"
@@ -1130,9 +1133,11 @@
                     },
                     "status": {
                       "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
                     }
-                  },
-                  "Type": "object"
+                  }
                 }
               }
             }
@@ -1276,7 +1281,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/Translation"
+                      "Items": {
+                        "Reference": "#/components/schemas/Translation"
+                      },
+                      "Type": "array"
                     },
                     "status": {
                       "Type": "string"
@@ -2297,6 +2305,22 @@
               "Type": "integer",
               "Default": "0"
             }
+          },
+          {
+            "In": "query",
+            "Name": "episodeNumber",
+            "Schema": {
+              "Type": "integer",
+              "Default": "0"
+            }
+          },
+          {
+            "Description": "airDate of the episode, format is yyyy-mm-dd",
+            "In": "query",
+            "Name": "airDate",
+            "Schema": {
+              "Type": "string"
+            }
           }
         ],
         "Responses": {
@@ -2330,7 +2354,7 @@
             }
           },
           "400": {
-            "Description": "Invalid series id"
+            "Description": "Invalid series id, episodeNumber is not null then season must be present"
           },
           "401": {
             "Description": "Unauthorized"
@@ -2790,6 +2814,13 @@
           "seriesPeopleId": {
             "Type": "integer"
           },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
+          },
           "thumbnail": {
             "GoName": "Thumbnail",
             "Type": "string"
@@ -3166,18 +3197,53 @@
           "slug": {
             "GoName": "Slug",
             "Type": "string"
+          },
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
+          },
+          "parentCompany": {
+            "Reference": "#/components/schemas/ParentCompany",
+            "Type": "object"
           }
         },
         "Type": "object",
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
       },
-      "CompanyType": {
-        "Description": "A company type record",
+      "ParentCompany": {
+        "Description": "A parent company record",
         "Properties": {
           "id": {
             "Type": "integer"
           },
           "name": {
+            "Type": "string"
+          },
+          "relation": {
+            "Reference": "#/components/schemas/CompanyRelationShip",
+            "Type": "object"
+          }
+        },
+        "Type": "object"
+      },
+      "CompanyRelationShip": {
+        "Description": "A company relationship",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "typeName": {
+            "Type": "string"
+          }
+        }
+      },
+      "CompanyType": {
+        "Description": "A company type record",
+        "Properties": {
+          "companyTypeId": {
+            "Type": "integer"
+          },
+          "companyTypeName": {
             "Type": "string"
           }
         },
@@ -3284,6 +3350,12 @@
             "Format": "int64",
             "GoName": "TimeStamp",
             "Type": "integer"
+          },
+          "seriesId": {
+            "Format": "int64",
+            "GoName": "RecordID",
+            "Type": "integer",
+            "Description": "Only present for episodes records"
           }
         },
         "Type": "object",
@@ -3348,6 +3420,9 @@
             "Format": "int64",
             "GoName": "SeriesID",
             "Type": "integer"
+          },
+          "seasonName": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -3467,6 +3542,12 @@
             "GoName": "Trailers",
             "Items": {
               "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          },
+          "companies": {
+            "Items": {
+              "Reference": "#/components/schemas/Company"
             },
             "Type": "array"
           }
@@ -4326,6 +4407,12 @@
               "Reference": "#/components/schemas/TagOption"
             },
             "Type": "array"
+          },
+          "translations": {
+            "Items": {
+              "Reference": "#/components/schemas/Translation"
+            },
+            "Type": "array"
           }
         },
         "Type": "object",
@@ -4334,6 +4421,10 @@
       "SeasonType": {
         "Description": "season type record",
         "Properties": {
+          "alternateName": {
+            "GoName": "Name",
+            "Type": "string"
+          },
           "id": {
             "Format": "int64",
             "GoName": "ID",
@@ -4388,7 +4479,7 @@
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
       },
       "SeriesBaseRecord": {
-        "Description": "The base record for a series",
+        "Description": "The base record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.",
         "Properties": {
           "abbreviation": {
             "Type": "string"
@@ -4461,13 +4552,20 @@
           },
           "status": {
             "Reference": "#/components/schemas/Status"
+          },
+          "episodes": {
+            "GoName": "Trailers",
+            "Items": {
+              "Reference": "#/components/schemas/EpisodeBaseRecord"
+            },
+            "Type": "array"
           }
         },
         "Type": "object",
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
       },
       "SeriesExtendedRecord": {
-        "Description": "The extended record for a series",
+        "Description": "The extended record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.",
         "Properties": {
           "abbreviation": {
             "Type": "string"
@@ -4561,6 +4659,12 @@
           "originalLanguage": {
             "Type": "string"
           },
+          "originalNetwork": {
+            "Reference": "#/components/schemas/Company"
+          },
+          "latestNetwork": {
+            "Reference": "#/components/schemas/Company"
+          },
           "overviewTranslations": {
             "GoName": "OverviewTranslations",
             "Items": {
@@ -4592,6 +4696,13 @@
           },
           "status": {
             "Reference": "#/components/schemas/Status"
+          },
+          "tags": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
           },
           "trailers": {
             "GoName": "Trailers",
@@ -4908,6 +5019,12 @@
           },
           "next": {
             "Type": "string"
+          },
+          "total_items": {
+            "Type": "integer"
+          },
+          "page_size": {
+            "Type": "integer"
           }
         }
       }
