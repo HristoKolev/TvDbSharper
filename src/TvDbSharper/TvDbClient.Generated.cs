@@ -1260,7 +1260,7 @@ namespace TvDbSharper
         public string[] OverviewTranslations { get; set; }
 
         [JsonProperty("runtime")]
-        public int Runtime { get; set; }
+        public int? Runtime { get; set; }
 
         [JsonProperty("seasonNumber")]
         public int SeasonNumber { get; set; }
@@ -1341,7 +1341,7 @@ namespace TvDbSharper
         public RemoteIDDto[] RemoteIds { get; set; }
 
         [JsonProperty("runtime")]
-        public int Runtime { get; set; }
+        public int? Runtime { get; set; }
 
         [JsonProperty("seasonNumber")]
         public int SeasonNumber { get; set; }

@@ -190,6 +190,12 @@ namespace GenerateDto
             },
             new()
             {
+                MatchClassName = "EpisodeBaseRecordDto",
+                MatchFieldName = "runtime",
+                OverrideType = "int?",
+            },
+            new()
+            {
                 MatchClassName = "EpisodeExtendedRecordDto",
                 MatchFieldName = "airsAfterSeason",
                 OverrideType = "int?",
@@ -210,6 +216,12 @@ namespace GenerateDto
             {
                 MatchClassName = "EpisodeExtendedRecordDto",
                 MatchFieldName = "imageType",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "EpisodeExtendedRecordDto",
+                MatchFieldName = "runtime",
                 OverrideType = "int?",
             },
             new()
