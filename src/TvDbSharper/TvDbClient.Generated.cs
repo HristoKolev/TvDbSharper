@@ -1052,6 +1052,9 @@ namespace TvDbSharper
         [JsonProperty("peopleId")]
         public int PeopleId { get; set; }
 
+        [JsonProperty("personImgURL")]
+        public string PersonImgURL { get; set; }
+
         [JsonProperty("seriesId")]
         public int? SeriesId { get; set; }
 
@@ -1157,6 +1160,9 @@ namespace TvDbSharper
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
         [JsonProperty("country")]
         public string Country { get; set; }
 
@@ -1168,9 +1174,6 @@ namespace TvDbSharper
 
         [JsonProperty("fullName")]
         public string FullName { get; set; }
-
-        [JsonProperty("description")]
-        public string Description { get; set; }
     }
 
     public class CountryDto
@@ -1204,9 +1207,6 @@ namespace TvDbSharper
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        [JsonProperty("seriesId")]
-        public int SeriesId { get; set; }
 
         [JsonProperty("hasSpecials")]
         public bool HasSpecials { get; set; }
@@ -1274,14 +1274,14 @@ namespace TvDbSharper
         [JsonProperty("seasonName")]
         public string SeasonName { get; set; }
 
-        [JsonProperty("overview")]
-        public string Overview { get; set; }
-
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
 
         [JsonProperty("finaleType")]
         public string FinaleType { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
     }
 
     public class EpisodeExtendedRecordDto
@@ -1361,14 +1361,14 @@ namespace TvDbSharper
         [JsonProperty("companies")]
         public CompanyDto[] Companies { get; set; }
 
-        [JsonProperty("overview")]
-        public string Overview { get; set; }
-
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
 
         [JsonProperty("finaleType")]
         public string FinaleType { get; set; }
+
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
 
         [JsonProperty("nominations")]
         public string Nominations { get; set; }
@@ -1444,6 +1444,12 @@ namespace TvDbSharper
 
         [JsonProperty("score")]
         public int Score { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("imageIsFallback")]
+        public bool ImageIsFallback { get; set; }
     }
 
     public class ListExtendedRecordDto
@@ -1456,6 +1462,12 @@ namespace TvDbSharper
 
         [JsonProperty("id")]
         public long Id { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("imageIsFallback")]
+        public bool ImageIsFallback { get; set; }
 
         [JsonProperty("isOfficial")]
         public bool IsOfficial { get; set; }
@@ -1649,14 +1661,14 @@ namespace TvDbSharper
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("score")]
-        public long Score { get; set; }
-
         [JsonProperty("nameTranslations")]
         public string[] NameTranslations { get; set; }
 
         [JsonProperty("overviewTranslations")]
         public string[] OverviewTranslations { get; set; }
+
+        [JsonProperty("score")]
+        public long Score { get; set; }
     }
 
     public class PeopleExtendedRecordDto
@@ -1768,11 +1780,14 @@ namespace TvDbSharper
         [JsonProperty("director")]
         public string Director { get; set; }
 
-        [JsonProperty("extended_title")]
-        public string ExtendedTitle { get; set; }
-
         [JsonProperty("genres")]
         public string[] Genres { get; set; }
+
+        [JsonProperty("objectID")]
+        public string ObjectID { get; set; }
+
+        [JsonProperty("slug")]
+        public string Slug { get; set; }
 
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -1800,9 +1815,6 @@ namespace TvDbSharper
 
         [JsonProperty("primary_language")]
         public string PrimaryLanguage { get; set; }
-
-        [JsonProperty("primaryType")]
-        public string PrimaryType { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
@@ -1843,27 +1855,18 @@ namespace TvDbSharper
         [JsonProperty("overviews")]
         public Dictionary<string, string> Overviews { get; set; }
 
-        [JsonProperty("objectID")]
-        public string ObjectID { get; set; }
-
         [JsonProperty("studios")]
         public string[] Studios { get; set; }
 
         [JsonProperty("first_air_time")]
         public string FirstAirTime { get; set; }
 
-        [JsonProperty("slug")]
-        public string Slug { get; set; }
+        [JsonProperty("extended_title")]
+        public string ExtendedTitle { get; set; }
     }
 
     public class SeasonBaseRecordDto
     {
-        [JsonProperty("abbreviation")]
-        public string Abbreviation { get; set; }
-
-        [JsonProperty("country")]
-        public string Country { get; set; }
-
         [JsonProperty("id")]
         public long Id { get; set; }
 
@@ -1885,17 +1888,14 @@ namespace TvDbSharper
         [JsonProperty("overviewTranslations")]
         public string[] OverviewTranslations { get; set; }
 
+        [JsonProperty("companies")]
+        public CompaniesDto Companies { get; set; }
+
         [JsonProperty("seriesId")]
         public long SeriesId { get; set; }
 
-        [JsonProperty("slug")]
-        public string Slug { get; set; }
-
         [JsonProperty("type")]
         public SeasonTypeDto Type { get; set; }
-
-        [JsonProperty("companies")]
-        public CompaniesDto Companies { get; set; }
     }
 
     public class SeasonExtendedRecordDto
@@ -2047,14 +2047,14 @@ namespace TvDbSharper
         [JsonProperty("status")]
         public StatusDto Status { get; set; }
 
-        [JsonProperty("episodes")]
-        public EpisodeBaseRecordDto[] Episodes { get; set; }
-
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
 
         [JsonProperty("averageRuntime")]
         public int? AverageRuntime { get; set; }
+
+        [JsonProperty("episodes")]
+        public EpisodeBaseRecordDto[] Episodes { get; set; }
     }
 
     public class SeriesExtendedRecordDto
@@ -2152,6 +2152,9 @@ namespace TvDbSharper
         [JsonProperty("trailers")]
         public TrailerDto[] Trailers { get; set; }
 
+        [JsonProperty("translations")]
+        public TranslationExtendedDto[] Translations { get; set; }
+
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
 
@@ -2160,9 +2163,6 @@ namespace TvDbSharper
 
         [JsonProperty("airsTimeUTC")]
         public string AirsTimeUTC { get; set; }
-
-        [JsonIgnore]
-        public object Translations { get; set; }
 
         [JsonProperty("episodes")]
         public EpisodeBaseRecordDto[] Episodes { get; set; }
@@ -2297,6 +2297,18 @@ namespace TvDbSharper
         public string Language { get; set; }
     }
 
+    public class TranslationExtendedDto
+    {
+        [JsonProperty("nameTranslations")]
+        public TranslationDto[] NameTranslations { get; set; }
+
+        [JsonProperty("overviewTranslations")]
+        public TranslationDto[] OverviewTranslations { get; set; }
+
+        [JsonProperty("alias")]
+        public string[] Alias { get; set; }
+    }
+
     public class TagOptionEntityDto
     {
         [JsonProperty("name")]
@@ -2393,7 +2405,7 @@ namespace TvDbSharper
     public class GetSeriesEpisodesResponseData
     {
         [JsonProperty("series")]
-        public SeriesExtendedRecordDto Series { get; set; }
+        public SeriesBaseRecordDto Series { get; set; }
 
         [JsonProperty("episodes")]
         public EpisodeBaseRecordDto[] Episodes { get; set; }

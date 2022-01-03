@@ -2333,7 +2333,7 @@
                     "data": {
                       "Properties": {
                         "series": {
-                          "Reference": "#/components/schemas/SeriesExtendedRecord"
+                          "Reference": "#/components/schemas/SeriesBaseRecord"
                         },
                         "episodes": {
                           "Items": {
@@ -3124,6 +3124,9 @@
           "peopleId": {
             "Type": "integer"
           },
+          "personImgURL": {
+            "Type": "string"
+          },
           "seriesId": {
             "Type": "integer"
           },
@@ -3261,6 +3264,9 @@
             "GoName": "Name",
             "Type": "string"
           },
+          "description": {
+            "Type": "string"
+          },
           "country": {
             "Type": "string"
           },
@@ -3324,8 +3330,8 @@
             "GoName": "Order",
             "Type": "string"
           },
-          "seriesId": {
-            "Type": "integer"
+          "hasSpecials": {
+            "Type": "boolean"
           }
         },
         "Type": "object"
@@ -3423,6 +3429,13 @@
           },
           "seasonName": {
             "Type": "string"
+          },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "finaleType": {
+            "Type": "string",
+            "Description": "season, midseason, or series"
           }
         },
         "Type": "object",
@@ -3550,6 +3563,13 @@
               "Reference": "#/components/schemas/Company"
             },
             "Type": "array"
+          },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "finaleType": {
+            "Type": "string",
+            "Description": "season, midseason, or series"
           }
         },
         "Type": "object",
@@ -3654,6 +3674,9 @@
           },
           "url": {
             "Type": "string"
+          },
+          "score": {
+            "Type": "integer"
           }
         },
         "Type": "object",
@@ -3680,6 +3703,12 @@
             "Format": "int64",
             "GoName": "ID",
             "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageIsFallback": {
+            "Type": "boolean"
           },
           "isOfficial": {
             "GoName": "IsOfficial",
@@ -3765,6 +3794,12 @@
           },
           "status": {
             "Reference": "#/components/schemas/Status"
+          },
+          "runtime": {
+            "Type": "integer"
+          },
+          "lastUpdated": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -3996,6 +4031,20 @@
           "name": {
             "Type": "string"
           },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
           "score": {
             "Format": "int64",
             "GoName": "Score",
@@ -4170,25 +4219,28 @@
           "director": {
             "Type": "string"
           },
-          "extendedTitle": {
-            "Type": "string"
-          },
           "genres": {
             "Items": {
               "Type": "string"
             },
             "Type": "array"
           },
+          "objectID": {
+            "Type": "string"
+          },
+          "slug": {
+            "Type": "string"
+          },
           "id": {
             "Type": "string"
           },
-          "imageUrl": {
+          "image_url": {
             "Type": "string"
           },
           "name": {
             "Type": "string"
           },
-          "nameTranslated": {
+          "name_translated": {
             "Type": "string"
           },
           "officialList": {
@@ -4209,10 +4261,7 @@
             },
             "Type": "array"
           },
-          "primaryLanguage": {
-            "Type": "string"
-          },
-          "primaryType": {
+          "primary_language": {
             "Type": "string"
           },
           "status": {
@@ -4249,7 +4298,7 @@
           "is_official": {
             "Type": "boolean"
           },
-          "remoteIds": {
+          "remote_ids": {
             "GoName": "RemoteIDs",
             "Items": {
               "Reference": "#/components/schemas/RemoteID"
@@ -4274,12 +4323,6 @@
       "SeasonBaseRecord": {
         "Description": "season genre record",
         "Properties": {
-          "abbreviation": {
-            "Type": "string"
-          },
-          "country": {
-            "Type": "string"
-          },
           "id": {
             "Type": "integer"
           },
@@ -4311,13 +4354,14 @@
             },
             "Type": "array"
           },
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
+          },
           "seriesId": {
             "Format": "int64",
             "GoName": "SeriesID",
             "Type": "integer"
-          },
-          "slug": {
-            "Type": "string"
           },
           "type": {
             "Reference": "#/components/schemas/SeasonType"
@@ -4435,9 +4479,8 @@
             "Type": "string"
           },
           "type": {
-            "Format": "int64",
             "GoName": "Type",
-            "Type": "integer"
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -4552,6 +4595,12 @@
           },
           "status": {
             "Reference": "#/components/schemas/Status"
+          },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "averageRuntime": {
+            "Type": "integer"
           },
           "episodes": {
             "GoName": "Trailers",
@@ -4708,6 +4757,12 @@
             "GoName": "Trailers",
             "Items": {
               "Reference": "#/components/schemas/Trailer"
+            },
+            "Type": "array"
+          },
+          "translations": {
+            "Items": {
+              "Reference": "#/components/schemas/TranslationExtended"
             },
             "Type": "array"
           }
@@ -4907,6 +4962,30 @@
           "language": {
             "GoName": "Language",
             "Type": "string"
+          }
+        },
+        "Type": "object"
+      },
+      "TranslationExtended": {
+        "Description": "translation extended record",
+        "Properties": {
+          "nameTranslations": {
+            "Items": {
+              "Reference": "#/components/schemas/Translation"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "Items": {
+              "Reference": "#/components/schemas/Translation"
+            },
+            "Type": "array"
+          },
+          "alias": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
           }
         },
         "Type": "object"
