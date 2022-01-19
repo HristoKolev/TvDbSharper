@@ -14,7 +14,7 @@
             var client = new TvDbClient();
             var authData = JsonConvert.DeserializeObject<AuthenticationData>(await File.ReadAllTextAsync("../../../auth.json"));
             await client.Login(authData!.ApiKey, authData.Pin);
-
+            
             // Artwork
             Test("Artwork(62803637)", await client.Artwork(62803637));
             Test("ArtworkExtended(62803637)", await client.ArtworkExtended(62803637));
@@ -74,12 +74,12 @@
             Test("Lists(6007)", await client.List(6007));
             Test("ListExtended(6007)", await client.ListExtended(6007));
             Test("ListTranslation(6007, 'eng')", await client.ListTranslation(6007, "eng"));
-
+            
             // Movies
             Test("Movies()", await client.Movies());
-            Test("Movie(503)", await client.Movie(503));
-            Test("MovieExtended(503)", await client.MovieExtended(503));
-            Test("MovieTranslation(503, 'eng')", await client.MovieTranslation(503, "eng"));
+            Test("Movie(165)", await client.Movie(503));
+            Test("MovieExtended(165)", await client.MovieExtended(165));
+            Test("MovieTranslation(165, 'eng')", await client.MovieTranslation(165, "eng"));
 
             // Movie Statuses
             Test("MovieStatuses()", await client.MovieStatuses());

@@ -3,7 +3,7 @@
   "Info": {
     "Description": "Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).\n## Authentication\n1. Use the /login endpoint and provide your API key as \"apikey\". If you have a user-supported key, also provide your subscriber PIN as \"pin\". Otherwise completely remove \"pin\" from your call.\n2. Executing this call will provide you with a bearer token, which is valid for 1 month.\n3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`\n",
     "Title": "TVDB API V4",
-    "Version": "4.4.0"
+    "Version": "4.5.0"
   },
   "Security": [
     {
@@ -3373,6 +3373,15 @@
           "aired": {
             "Type": "string"
           },
+          "airsAfterSeason": {
+            "Type": "integer"
+          },
+          "airsBeforeEpisode": {
+            "Type": "integer"
+          },
+          "airsBeforeSeason": {
+            "Type": "integer"
+          },
           "id": {
             "Format": "int64",
             "GoName": "ID",
@@ -3446,15 +3455,6 @@
         "Properties": {
           "aired": {
             "Type": "string"
-          },
-          "airsAfterSeason": {
-            "Type": "integer"
-          },
-          "airsBeforeEpisode": {
-            "Type": "integer"
-          },
-          "airsBeforeSeason": {
-            "Type": "integer"
           },
           "awards": {
             "GoName": "Awards",
@@ -4126,6 +4126,9 @@
             "Format": "int64",
             "GoName": "Score",
             "Type": "integer"
+          },
+          "slug": {
+            "Type": "string"
           },
           "tagOptions": {
             "GoName": "TagOptions",
@@ -5016,7 +5019,7 @@
           "type": {
             "Type": "string"
           },
-          "typeName": {
+          "type_name": {
             "Type": "string"
           },
           "url": {

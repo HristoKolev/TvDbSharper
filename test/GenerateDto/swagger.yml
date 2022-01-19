@@ -7,7 +7,7 @@ info:
     2. Executing this call will provide you with a bearer token, which is valid for 1 month.
     3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`
   title: TVDB API V4
-  version: 4.4.0
+  version: 4.5.0
 security:
   - bearerAuth: []
 paths:
@@ -2202,6 +2202,12 @@ components:
       properties:
         aired:
           type: string
+        airsAfterSeason:
+          type: integer
+        airsBeforeEpisode:
+          type: integer
+        airsBeforeSeason:
+          type: integer
         id:
           format: int64
           type: integer
@@ -2255,12 +2261,6 @@ components:
       properties:
         aired:
           type: string
-        airsAfterSeason:
-          type: integer
-        airsBeforeEpisode:
-          type: integer
-        airsBeforeSeason:
-          type: integer
         awards:
           items:
             $ref: '#/components/schemas/AwardBaseRecord'
@@ -2743,6 +2743,8 @@ components:
           format: int64
           type: integer
           x-go-name: Score
+        slug:
+          type: string
         tagOptions:
           items:
             $ref: '#/components/schemas/TagOption'
@@ -3377,7 +3379,7 @@ components:
           x-go-name: ID
         type:
           type: string
-        typeName:
+        type_name:
           type: string
         url:
           type: string

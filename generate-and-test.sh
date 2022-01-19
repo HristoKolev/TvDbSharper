@@ -15,12 +15,12 @@ set -eu
 cd $SCRIPT_PATH/test/GenerateDto && dotnet build
 
 # run generator
-cd $SCRIPT_PATH/test/GenerateDto/bin/Debug/net5.0/ && dotnet exec GenerateDto.dll
+cd $SCRIPT_PATH/test/GenerateDto/bin/Debug/net6.0/ && dotnet exec GenerateDto.dll
 
 # build tests
 cd $SCRIPT_PATH/test/ManualTests && dotnet build
 
 # run tests
-cd $SCRIPT_PATH/test/ManualTests/bin/Debug/net5.0/ && dotnet exec ManualTests.dll
+cd $SCRIPT_PATH/test/ManualTests/bin/Debug/net6.0/ && dotnet exec ManualTests.dll
 
 cd $HERE

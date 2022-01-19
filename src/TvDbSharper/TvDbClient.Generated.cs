@@ -1125,7 +1125,7 @@ namespace TvDbSharper
     public class ParentCompanyDto
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -1137,7 +1137,7 @@ namespace TvDbSharper
     public class CompanyRelationShipDto
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonProperty("typeName")]
         public string TypeName { get; set; }
@@ -1235,6 +1235,15 @@ namespace TvDbSharper
         [JsonProperty("aired")]
         public string Aired { get; set; }
 
+        [JsonProperty("airsAfterSeason")]
+        public int AirsAfterSeason { get; set; }
+
+        [JsonProperty("airsBeforeEpisode")]
+        public int AirsBeforeEpisode { get; set; }
+
+        [JsonProperty("airsBeforeSeason")]
+        public int AirsBeforeSeason { get; set; }
+
         [JsonProperty("id")]
         public long Id { get; set; }
 
@@ -1288,15 +1297,6 @@ namespace TvDbSharper
     {
         [JsonProperty("aired")]
         public string Aired { get; set; }
-
-        [JsonProperty("airsAfterSeason")]
-        public int? AirsAfterSeason { get; set; }
-
-        [JsonProperty("airsBeforeEpisode")]
-        public int? AirsBeforeEpisode { get; set; }
-
-        [JsonProperty("airsBeforeSeason")]
-        public int? AirsBeforeSeason { get; set; }
 
         [JsonProperty("awards")]
         public AwardBaseRecordDto[] Awards { get; set; }
@@ -1715,6 +1715,9 @@ namespace TvDbSharper
         [JsonProperty("score")]
         public long Score { get; set; }
 
+        [JsonProperty("slug")]
+        public string Slug { get; set; }
+
         [JsonProperty("tagOptions")]
         public TagOptionDto[] TagOptions { get; set; }
 
@@ -1948,7 +1951,7 @@ namespace TvDbSharper
         [JsonProperty("tagOptions")]
         public TagOptionDto[] TagOptions { get; set; }
 
-        [JsonProperty("translations")]
+        [JsonIgnore]
         public TranslationDto[] Translations { get; set; }
     }
 
@@ -2213,7 +2216,7 @@ namespace TvDbSharper
         public string Name { get; set; }
 
         [JsonProperty("parentStudio")]
-        public int ParentStudio { get; set; }
+        public int? ParentStudio { get; set; }
     }
 
     public class TagDto
@@ -2329,7 +2332,7 @@ namespace TvDbSharper
         [JsonProperty("type")]
         public string Type { get; set; }
 
-        [JsonProperty("typeName")]
+        [JsonProperty("type_name")]
         public string TypeName { get; set; }
 
         [JsonProperty("url")]
