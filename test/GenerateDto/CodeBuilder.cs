@@ -360,6 +360,12 @@ namespace GenerateDto
             },
             new()
             {
+                MatchClassName = "SeasonExtendedRecordDto",
+                MatchFieldName = "translations",
+                OverrideType = "TranslationExtendedDto",
+            },
+            new()
+            {
                 MatchClassName = "StatusDto",
                 MatchFieldName = "id",
                 OverrideType = "long?",
@@ -376,6 +382,47 @@ namespace GenerateDto
                 MatchFieldName = "averageRuntime",
                 OverrideType = "int?",
             },
+            new()
+            {
+                MatchClassName = "ParentCompanyDto",
+                MatchFieldName = "id",
+                OverrideType = "long?",
+            },
+            new()
+            {
+                MatchClassName = "CompanyRelationShipDto",
+                MatchFieldName = "id",
+                OverrideType = "long?",
+            },
+            new()
+            {
+                MatchClassName = "StudioBaseRecordDto",
+                MatchFieldName = "parentStudio",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "StudioBaseRecordDto",
+                MatchFieldName = "parentStudio",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "TranslationExtendedDto",
+                MatchFieldName = "alias",
+                OverrideFieldName = "aliases",
+                OverridePropertyName = "Aliases",
+                OverridePropertyAttributes = new List<string>
+                {
+                    "[JsonProperty(\"aliases\")]",
+                },
+            },
+            new()
+            {
+                MatchClassName = "SeriesExtendedRecordDto",
+                MatchFieldName = "translations",
+                OverrideType = "TranslationExtendedDto",
+            },
         };
 
         private static readonly Dictionary<string, List<PropertyModel>> ExtraProperties = new()
@@ -390,7 +437,7 @@ namespace GenerateDto
                         PropertyType = "object",
                         PropertyAttributes = new List<string>
                         {
-                            "[JsonIgnore]",
+                            "[JsonProperty(\"status\")]",
                         },
                     },
                 }
@@ -510,6 +557,16 @@ namespace GenerateDto
                 {
                     new()
                     {
+                        FieldName = "translations",
+                        PropertyName = "Translations",
+                        PropertyType = "TranslationExtendedDto",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"translations\")]",
+                        },
+                    },
+                    new()
+                    {
                         FieldName = "runtime",
                         PropertyName = "Runtime",
                         PropertyType = "int",
@@ -518,6 +575,7 @@ namespace GenerateDto
                             "[JsonProperty(\"runtime\")]",
                         },
                     },
+
                     new()
                     {
                         FieldName = "lastUpdated",
@@ -557,10 +615,10 @@ namespace GenerateDto
                     {
                         FieldName = "translations",
                         PropertyName = "Translations",
-                        PropertyType = "object",
+                        PropertyType = "TranslationExtendedDto",
                         PropertyAttributes = new List<string>
                         {
-                            "[JsonIgnore]",
+                            "[JsonProperty(\"translations\")]",
                         },
                     },
                 }
@@ -666,6 +724,91 @@ namespace GenerateDto
                         PropertyAttributes = new List<string>
                         {
                             "[JsonProperty(\"imageIsFallback\")]",
+                        },
+                    },
+                }
+            },
+            {
+                "AwardBaseRecordDto", new List<PropertyModel>
+                {
+                    new()
+                    {
+                        FieldName = "year",
+                        PropertyName = "Year",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"year\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "category",
+                        PropertyName = "Category",
+                        PropertyType = "string",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"category\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "isWinner",
+                        PropertyName = "IsWinner",
+                        PropertyType = "bool",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"isWinner\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "details",
+                        PropertyName = "Details",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"details\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "series",
+                        PropertyName = "Series",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"series\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "movie",
+                        PropertyName = "Movie",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"movie\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "episode",
+                        PropertyName = "Episode",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"episode\")]",
+                        },
+                    },
+                    new()
+                    {
+                        FieldName = "character",
+                        PropertyName = "Character",
+                        PropertyType = "object",
+                        PropertyAttributes = new List<string>
+                        {
+                            "[JsonProperty(\"character\")]",
                         },
                     },
                 }

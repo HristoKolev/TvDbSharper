@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>TvDbSharper is fully featured modern REST client for the TheTVDB API v4</Description>
-    <VersionPrefix>4.0.6</VersionPrefix>
+    <VersionPrefix>4.0.7</VersionPrefix>
     <Authors>HristoKolev</Authors>
     <TargetFramework>netstandard1.1</TargetFramework>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -19,12 +19,12 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <Version>4.0.6</Version>
-    <PackageVersion>4.0.6</PackageVersion>
+    <Version>4.0.7</Version>
+    <PackageVersion>4.0.7</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
   </ItemGroup>
 
 </Project>

@@ -2,6 +2,16 @@
 
 VERSION_POSITION=$1
 
+TMP_SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$TMP_SOURCE" ]; do
+  SCRIPT_PATH="$( cd -P "$( dirname "$TMP_SOURCE" )" >/dev/null 2>&1 && pwd )"
+  TMP_SOURCE="$(readlink "$TMP_SOURCE")"
+  [[ $TMP_SOURCE != /* ]] && TMP_SOURCE="$SCRIPT_PATH/$TMP_SOURCE"
+done
+SCRIPT_PATH="$( cd -P "$( dirname "$TMP_SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+set -eu -o pipefail
+
 # Accepts a version string and prints it incremented by one.
 # Usage: increment_version <version> [<position>] [<leftmost>]
 increment_version() {
@@ -66,15 +76,15 @@ increment_version() {
    return 0
 }
 
-FIRST_PROJECT_FILE_PATH=$(find ./ -name '*.csproj' | head -n 1)
-VERSION_NUMBER=$(cat $FIRST_PROJECT_FILE_PATH | grep -Eo '<Version>.+</Version>' | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
+FIRST_PROJECT_FILE_PATH=$(find "$SCRIPT_PATH" -name '*.csproj' | head -n 1)
+VERSION_NUMBER=$(cat "$FIRST_PROJECT_FILE_PATH" | grep -Eo '<Version>.+</Version>' | grep -Eo '[0-9]+.[0-9]+.[0-9]+')
 
 INCREMENTED_VERSION=$(increment_version $VERSION_NUMBER $VERSION_POSITION)
 
 echo "$VERSION_NUMBER => $INCREMENTED_VERSION"
 
-find ./ -name '*.csproj' -print0 | while read -d $'\0' file; do    
-    sed -i -E "s,<Version>.+</Version>,<Version>$INCREMENTED_VERSION</Version>,g" $file
-    sed -i -E "s,<VersionPrefix>.+</VersionPrefix>,<VersionPrefix>$INCREMENTED_VERSION</VersionPrefix>,g" $file
-    sed -i -E "s,<PackageVersion>.+</PackageVersion>,<PackageVersion>$INCREMENTED_VERSION</PackageVersion>,g" $file
+find "$SCRIPT_PATH" -name '*.csproj' -print0 | while read -d $'\0' file; do    
+    sed -i -E "s,<Version>.+</Version>,<Version>$INCREMENTED_VERSION</Version>,g" "$file"
+    sed -i -E "s,<VersionPrefix>.+</VersionPrefix>,<VersionPrefix>$INCREMENTED_VERSION</VersionPrefix>,g" "$file"
+    sed -i -E "s,<PackageVersion>.+</PackageVersion>,<PackageVersion>$INCREMENTED_VERSION</PackageVersion>,g" "$file"
 done

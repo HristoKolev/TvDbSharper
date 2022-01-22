@@ -866,7 +866,7 @@ namespace TvDbSharper
         [JsonProperty("width")]
         public long Width { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("status")]
         public object Status { get; set; }
     }
 
@@ -916,6 +916,30 @@ namespace TvDbSharper
 
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("year")]
+        public string Year { get; set; }
+
+        [JsonProperty("category")]
+        public string Category { get; set; }
+
+        [JsonProperty("isWinner")]
+        public bool IsWinner { get; set; }
+
+        [JsonProperty("details")]
+        public object Details { get; set; }
+
+        [JsonProperty("series")]
+        public object Series { get; set; }
+
+        [JsonProperty("movie")]
+        public object Movie { get; set; }
+
+        [JsonProperty("episode")]
+        public object Episode { get; set; }
+
+        [JsonProperty("character")]
+        public object Character { get; set; }
     }
 
     public class AwardCategoryBaseRecordDto
@@ -1622,6 +1646,9 @@ namespace TvDbSharper
         [JsonProperty("companies")]
         public CompaniesDto Companies { get; set; }
 
+        [JsonProperty("translations")]
+        public TranslationExtendedDto Translations { get; set; }
+
         [JsonProperty("runtime")]
         public int Runtime { get; set; }
 
@@ -1727,8 +1754,8 @@ namespace TvDbSharper
         [JsonProperty("overviewTranslations")]
         public string[] OverviewTranslations { get; set; }
 
-        [JsonIgnore]
-        public object Translations { get; set; }
+        [JsonProperty("translations")]
+        public TranslationExtendedDto Translations { get; set; }
     }
 
     public class PeopleTypeDto
@@ -1951,8 +1978,8 @@ namespace TvDbSharper
         [JsonProperty("tagOptions")]
         public TagOptionDto[] TagOptions { get; set; }
 
-        [JsonIgnore]
-        public TranslationDto[] Translations { get; set; }
+        [JsonProperty("translations")]
+        public TranslationExtendedDto Translations { get; set; }
     }
 
     public class SeasonTypeDto
@@ -2156,7 +2183,7 @@ namespace TvDbSharper
         public TrailerDto[] Trailers { get; set; }
 
         [JsonProperty("translations")]
-        public TranslationExtendedDto[] Translations { get; set; }
+        public TranslationExtendedDto Translations { get; set; }
 
         [JsonProperty("lastUpdated")]
         public string LastUpdated { get; set; }
@@ -2308,8 +2335,8 @@ namespace TvDbSharper
         [JsonProperty("overviewTranslations")]
         public TranslationDto[] OverviewTranslations { get; set; }
 
-        [JsonProperty("alias")]
-        public string[] Alias { get; set; }
+        [JsonProperty("aliases")]
+        public string[] Aliases { get; set; }
     }
 
     public class TagOptionEntityDto
