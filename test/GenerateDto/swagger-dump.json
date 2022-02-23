@@ -715,7 +715,7 @@
         ]
       }
     },
-    "/entities/types": {
+    "/entities": {
       "get": {
         "Description": "returns the active entity types",
         "OperationId": "getEntityTypes",
@@ -1763,19 +1763,11 @@
     },
     "/search": {
       "get": {
-        "Description": "Returns a search result record",
+        "Description": "Our search index includes series, movies, people, and companies.",
         "OperationId": "getSearchResults",
         "Parameters": [
           {
-            "Description": "additional search query param",
-            "In": "query",
-            "Name": "q",
-            "Schema": {
-              "Type": "string"
-            }
-          },
-          {
-            "Description": "additional search query param",
+            "Description": "The primary search string, which can include the main title for a record including all translations and aliases.",
             "In": "query",
             "Name": "query",
             "Schema": {
@@ -1783,7 +1775,15 @@
             }
           },
           {
-            "Description": "restrict results to entity type movie|series|person|company",
+            "Description": "Alias of the \"query\" parameter.  Recommend using query instead as this field will eventually be deprecated.",
+            "In": "query",
+            "Name": "q",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific entity type.  Can be movie, series, person, or company.",
             "In": "query",
             "Name": "type",
             "Schema": {
@@ -1791,15 +1791,7 @@
             }
           },
           {
-            "Description": "restrict results to remote id",
-            "In": "query",
-            "Name": "remote_id",
-            "Schema": {
-              "Type": "string"
-            }
-          },
-          {
-            "Description": "restrict results to a year for movie|series",
+            "Description": "Restrict results to a specific year. Currently only used for series and movies.",
             "In": "query",
             "Name": "year",
             "Schema": {
@@ -1807,7 +1799,63 @@
             }
           },
           {
-            "Description": "offset results",
+            "Description": "Restrict results to a specific company (original network, production company, studio, etc).  As an example, \"The Walking Dead\" would have companies of \"AMC\", \"AMC+\", and \"Disney+\".",
+            "In": "query",
+            "Name": "company",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific country of origin. Should contain a 3 character country code. Currently only used for series and movies.",
+            "In": "query",
+            "Name": "country",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific director.  Generally only used for movies.  Should include the full name of the director, such as \"Steven Spielberg\".",
+            "In": "query",
+            "Name": "director",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific primary language.  Should include the 3 character language code.  Currently only used for series and movies.",
+            "In": "query",
+            "Name": "language",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific type of company.  Should include the full name of the type of company, such as \"Production Company\".  Only used for companies.",
+            "In": "query",
+            "Name": "primaryType",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Restrict results to a specific network.  Used for TV and TV movies, and functions the same as the company parameter with more specificity.",
+            "In": "query",
+            "Name": "network",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Search for a specific remote id.  Allows searching for an IMDB or EIDR id, for example.",
+            "In": "query",
+            "Name": "remote_id",
+            "Schema": {
+              "Type": "string"
+            }
+          },
+          {
+            "Description": "Offset results.",
             "In": "query",
             "Name": "offset",
             "Schema": {
@@ -1815,7 +1863,7 @@
             }
           },
           {
-            "Description": "limit results",
+            "Description": "Limit results.",
             "In": "query",
             "Name": "limit",
             "Schema": {
@@ -2009,7 +2057,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/SeasonType"
+                      "Items": {
+                        "Reference": "#/components/schemas/SeasonType"
+                      },
+                      "Type": "array"
                     },
                     "status": {
                       "Type": "string"
@@ -2177,6 +2228,73 @@
           },
           "404": {
             "Description": "Sereis not found"
+          }
+        },
+        "Tags": [
+          "Series"
+        ]
+      }
+    },
+    "/series/{id}/artworks": {
+      "get": {
+        "Description": "Returns series artworks base on language and type.",
+        "OperationId": "getSeriesArtworks",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          },
+          {
+            "Description": "lang",
+            "In": "query",
+            "Name": "lang",
+            "Schema": {
+              "Type": "string",
+              "Example": "eng, spa"
+            }
+          },
+          {
+            "Description": "type",
+            "In": "query",
+            "Name": "type",
+            "Schema": {
+              "Type": "integer",
+              "Example": "1"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid series id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -2370,7 +2488,7 @@
     },
     "/series/{id}/episodes/{season-type}/{lang}": {
       "get": {
-        "Description": "Returns series episodes from the specified season type and language. Default returns the episodes in the series default season type.",
+        "Description": "Returns series base record with episodes from the specified season type and language. Default returns the episodes in the series default season type.",
         "OperationId": "getSeriesSeasonEpisodesTranslated",
         "Parameters": [
           {
@@ -2439,13 +2557,7 @@
                     "data": {
                       "Properties": {
                         "series": {
-                          "Reference": "#/components/schemas/SeriesExtendedRecord"
-                        },
-                        "episodes": {
-                          "Items": {
-                            "Reference": "#/components/schemas/EpisodeBaseRecord"
-                          },
-                          "Type": "array"
+                          "Reference": "#/components/schemas/SeriesBaseRecord"
                         }
                       },
                       "Type": "object"
@@ -2814,6 +2926,9 @@
           "seriesPeopleId": {
             "Type": "integer"
           },
+          "status": {
+            "Reference": "#/components/schemas/ArtworkStatus"
+          },
           "tagOptions": {
             "GoName": "TagOptions",
             "Items": {
@@ -3127,6 +3242,9 @@
           "personImgURL": {
             "Type": "string"
           },
+          "peopleType": {
+            "Type": "string"
+          },
           "seriesId": {
             "Type": "integer"
           },
@@ -3134,6 +3252,13 @@
             "Format": "int64",
             "GoName": "Sort",
             "Type": "integer"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
           },
           "type": {
             "Format": "int64",
@@ -3201,13 +3326,16 @@
             "GoName": "Slug",
             "Type": "string"
           },
-          "companies": {
-            "Reference": "#/components/schemas/Companies",
-            "Type": "object"
-          },
           "parentCompany": {
             "Reference": "#/components/schemas/ParentCompany",
             "Type": "object"
+          },
+          "tagOptions": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
           }
         },
         "Type": "object",
@@ -3411,6 +3539,9 @@
           "number": {
             "Type": "integer"
           },
+          "overview": {
+            "Type": "string"
+          },
           "overviewTranslations": {
             "GoName": "OverviewTranslations",
             "Items": {
@@ -3456,6 +3587,15 @@
           "aired": {
             "Type": "string"
           },
+          "airsAfterSeason": {
+            "Type": "integer"
+          },
+          "airsBeforeEpisode": {
+            "Type": "integer"
+          },
+          "airsBeforeSeason": {
+            "Type": "integer"
+          },
           "awards": {
             "GoName": "Awards",
             "Items": {
@@ -3467,6 +3607,12 @@
             "GoName": "Characters",
             "Items": {
               "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "companies": {
+            "Items": {
+              "Reference": "#/components/schemas/Company"
             },
             "Type": "array"
           },
@@ -3504,10 +3650,23 @@
             "Type": "array"
           },
           "network": {
-            "Reference": "#/components/schemas/NetworkBaseRecord"
+            "Items": {
+              "Reference": "#/components/schemas/Company"
+            },
+            "Type": "array"
+          },
+          "nominations": {
+            "GoName": "Nominees",
+            "Items": {
+              "Reference": "#/components/schemas/AwardNomineeBaseRecord"
+            },
+            "Type": "array"
           },
           "number": {
             "Type": "integer"
+          },
+          "overview": {
+            "Type": "string"
           },
           "overviewTranslations": {
             "GoName": "OverviewTranslations",
@@ -3544,6 +3703,12 @@
             "GoName": "SeriesID",
             "Type": "integer"
           },
+          "studios": {
+            "Items": {
+              "Reference": "#/components/schemas/Company"
+            },
+            "Type": "array"
+          },
           "tagOptions": {
             "GoName": "TagOptions",
             "Items": {
@@ -3555,12 +3720,6 @@
             "GoName": "Trailers",
             "Items": {
               "Reference": "#/components/schemas/Trailer"
-            },
-            "Type": "array"
-          },
-          "companies": {
-            "Items": {
-              "Reference": "#/components/schemas/Company"
             },
             "Type": "array"
           },
@@ -3647,6 +3806,12 @@
             "Format": "int64",
             "GoName": "ID",
             "Type": "integer"
+          },
+          "image": {
+            "Type": "string"
+          },
+          "imageIsFallback": {
+            "Type": "boolean"
           },
           "isOfficial": {
             "GoName": "IsOfficial",
@@ -3849,11 +4014,19 @@
             },
             "Type": "array"
           },
-          "lists": {
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
+          },
+          "contentRatings": {
             "Items": {
-              "Reference": "#/components/schemas/ListBaseRecord"
+              "Reference": "#/components/schemas/ContentRating"
             },
             "Type": "array"
+          },
+          "first_release": {
+            "Reference": "#/components/schemas/Release",
+            "Type": "object"
           },
           "genres": {
             "GoName": "Genres",
@@ -3870,6 +4043,22 @@
           "image": {
             "GoName": "Image",
             "Type": "string"
+          },
+          "inspirations": {
+            "GoName": "Inspirations",
+            "Items": {
+              "Reference": "#/components/schemas/Inspiration"
+            },
+            "Type": "array"
+          },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "lists": {
+            "Items": {
+              "Reference": "#/components/schemas/ListBaseRecord"
+            },
+            "Type": "array"
           },
           "name": {
             "GoName": "Name",
@@ -3895,6 +4084,13 @@
             },
             "Type": "array"
           },
+          "production_countries": {
+            "GoName": "ProductionCountries",
+            "Items": {
+              "Reference": "#/components/schemas/ProductionCountry"
+            },
+            "Type": "array"
+          },
           "releases": {
             "GoName": "Releases",
             "Items": {
@@ -3909,11 +4105,8 @@
             },
             "Type": "array"
           },
-          "contentRatings": {
-            "Items": {
-              "Reference": "#/components/schemas/ContentRating"
-            },
-            "Type": "array"
+          "runtime": {
+            "Type": "integer"
           },
           "score": {
             "Format": "double",
@@ -3923,6 +4116,13 @@
           "slug": {
             "GoName": "Slug",
             "Type": "string"
+          },
+          "spoken_languages": {
+            "GoName": "SpokenLanguages",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
           },
           "status": {
             "Reference": "#/components/schemas/Status"
@@ -3954,57 +4154,6 @@
               "Reference": "#/components/schemas/Trailer"
             },
             "Type": "array"
-          },
-          "inspirations": {
-            "GoName": "Inspirations",
-            "Items": {
-              "Reference": "#/components/schemas/Inspiration"
-            },
-            "Type": "array"
-          },
-          "productionCountries": {
-            "GoName": "ProductionCountries",
-            "Items": {
-              "Reference": "#/components/schemas/ProductionCountry"
-            },
-            "Type": "array"
-          },
-          "spokenLanguages": {
-            "GoName": "SpokenLanguages",
-            "Items": {
-              "Type": "string"
-            },
-            "Type": "array"
-          },
-          "firstRelease": {
-            "Reference": "#/components/schemas/Release",
-            "Type": "object"
-          },
-          "companies": {
-            "Reference": "#/components/schemas/Companies",
-            "Type": "object"
-          }
-        },
-        "Type": "object",
-        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
-      },
-      "NetworkBaseRecord": {
-        "Description": "base network record",
-        "Properties": {
-          "abbreviation": {
-            "Type": "string"
-          },
-          "country": {
-            "Type": "string"
-          },
-          "id": {
-            "Type": "integer"
-          },
-          "name": {
-            "Type": "string"
-          },
-          "slug": {
-            "Type": "string"
           }
         },
         "Type": "object",
@@ -4107,6 +4256,20 @@
           },
           "name": {
             "Type": "string"
+          },
+          "nameTranslations": {
+            "GoName": "NameTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "overviewTranslations": {
+            "GoName": "OverviewTranslations",
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
           },
           "races": {
             "GoName": "Races",
@@ -4222,17 +4385,14 @@
           "director": {
             "Type": "string"
           },
+          "first_air_time": {
+            "Type": "string"
+          },
           "genres": {
             "Items": {
               "Type": "string"
             },
             "Type": "array"
-          },
-          "objectID": {
-            "Type": "string"
-          },
-          "slug": {
-            "Type": "string"
           },
           "id": {
             "Type": "string"
@@ -4243,7 +4403,16 @@
           "name": {
             "Type": "string"
           },
+          "is_official": {
+            "Type": "boolean"
+          },
           "name_translated": {
+            "Type": "string"
+          },
+          "network": {
+            "Type": "string"
+          },
+          "objectID": {
             "Type": "string"
           },
           "officialList": {
@@ -4252,11 +4421,20 @@
           "overview": {
             "Type": "string"
           },
+          "overviews": {
+            "Items": {
+              "Reference": "#/components/schemas/TranslationSimple"
+            },
+            "Type": "array"
+          },
           "overview_translated": {
             "Items": {
               "Type": "string"
             },
             "Type": "array"
+          },
+          "poster": {
+            "Type": "string"
           },
           "posters": {
             "Items": {
@@ -4267,9 +4445,37 @@
           "primary_language": {
             "Type": "string"
           },
+          "remote_ids": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
           "status": {
             "GoName": "Status",
             "Type": "string"
+          },
+          "slug": {
+            "Type": "string"
+          },
+          "studios": {
+            "Items": {
+              "Type": "string"
+            },
+            "Type": "array"
+          },
+          "title": {
+            "Type": "string"
+          },
+          "thumbnail": {
+            "Type": "string"
+          },
+          "translations": {
+            "Items": {
+              "Reference": "#/components/schemas/TranslationSimple"
+            },
+            "Type": "array"
           },
           "translationsWithLang": {
             "Items": {
@@ -4285,40 +4491,6 @@
           },
           "year": {
             "Type": "string"
-          },
-          "thumbnail": {
-            "Type": "string"
-          },
-          "poster": {
-            "Type": "string"
-          },
-          "translations": {
-            "Items": {
-              "Reference": "#/components/schemas/TranslationSimple"
-            },
-            "Type": "array"
-          },
-          "is_official": {
-            "Type": "boolean"
-          },
-          "remote_ids": {
-            "GoName": "RemoteIDs",
-            "Items": {
-              "Reference": "#/components/schemas/RemoteID"
-            },
-            "Type": "array"
-          },
-          "network": {
-            "Type": "string"
-          },
-          "title": {
-            "Type": "string"
-          },
-          "overviews": {
-            "Items": {
-              "Reference": "#/components/schemas/TranslationSimple"
-            },
-            "Type": "array"
           }
         },
         "Type": "object"
@@ -4376,15 +4548,16 @@
       "SeasonExtendedRecord": {
         "Description": "extended season record",
         "Properties": {
-          "abbreviation": {
-            "Type": "string"
-          },
           "artwork": {
             "GoName": "Artwork",
             "Items": {
               "Reference": "#/components/schemas/ArtworkBaseRecord"
             },
             "Type": "array"
+          },
+          "companies": {
+            "Reference": "#/components/schemas/Companies",
+            "Type": "object"
           },
           "episodes": {
             "GoName": "Episodes",
@@ -4429,9 +4602,6 @@
             "GoName": "SeriesID",
             "Type": "integer"
           },
-          "slug": {
-            "Type": "string"
-          },
           "trailers": {
             "GoName": "Trailers",
             "Items": {
@@ -4440,13 +4610,7 @@
             "Type": "array"
           },
           "type": {
-            "Format": "int64",
-            "GoName": "Type",
-            "Type": "integer"
-          },
-          "companies": {
-            "Reference": "#/components/schemas/Companies",
-            "Type": "object"
+            "Reference": "#/components/schemas/SeasonType"
           },
           "tagOptions": {
             "GoName": "TagOptions",
@@ -4537,6 +4701,9 @@
             },
             "Type": "array"
           },
+          "averageRuntime": {
+            "Type": "integer"
+          },
           "country": {
             "Type": "string"
           },
@@ -4544,6 +4711,13 @@
             "Format": "int64",
             "GoName": "DefaultSeasonType",
             "Type": "integer"
+          },
+          "episodes": {
+            "GoName": "Episodes",
+            "Items": {
+              "Reference": "#/components/schemas/EpisodeBaseRecord"
+            },
+            "Type": "array"
           },
           "firstAired": {
             "Type": "string"
@@ -4601,16 +4775,6 @@
           },
           "lastUpdated": {
             "Type": "string"
-          },
-          "averageRuntime": {
-            "Type": "integer"
-          },
-          "episodes": {
-            "GoName": "Trailers",
-            "Items": {
-              "Reference": "#/components/schemas/EpisodeBaseRecord"
-            },
-            "Type": "array"
           }
         },
         "Type": "object",
@@ -4628,6 +4792,9 @@
           "airsTime": {
             "Type": "string"
           },
+          "airsTimeUTC": {
+            "Type": "string"
+          },
           "aliases": {
             "GoName": "Aliases",
             "Items": {
@@ -4642,10 +4809,19 @@
             },
             "Type": "array"
           },
+          "averageRuntime": {
+            "Type": "integer"
+          },
           "characters": {
             "GoName": "Characters",
             "Items": {
               "Reference": "#/components/schemas/Character"
+            },
+            "Type": "array"
+          },
+          "contentRatings": {
+            "Items": {
+              "Reference": "#/components/schemas/ContentRating"
             },
             "Type": "array"
           },
@@ -4685,6 +4861,9 @@
           "lastAired": {
             "Type": "string"
           },
+          "lastUpdated": {
+            "Type": "string"
+          },
           "name": {
             "Type": "string"
           },
@@ -4714,6 +4893,9 @@
           "originalNetwork": {
             "Reference": "#/components/schemas/Company"
           },
+          "overview": {
+            "Type": "string"
+          },
           "latestNetwork": {
             "Reference": "#/components/schemas/Company"
           },
@@ -4740,6 +4922,13 @@
             "GoName": "Seasons",
             "Items": {
               "Reference": "#/components/schemas/SeasonBaseRecord"
+            },
+            "Type": "array"
+          },
+          "seasonTypes": {
+            "GoName": "Seasons",
+            "Items": {
+              "Reference": "#/components/schemas/SeasonType"
             },
             "Type": "array"
           },
@@ -5084,7 +5273,7 @@
             "Reference": "#/components/schemas/Company",
             "Type": "array"
           },
-          "specialEffects": {
+          "special_effects": {
             "Reference": "#/components/schemas/Company",
             "Type": "array"
           }

@@ -59,6 +59,7 @@ namespace GenerateDto
             { "getSeriesEpisodes", "SeriesEpisodes" },
             { "getSeriesSeasonEpisodesTranslated", "SeriesSeasonEpisodesTranslated" },
             { "getSeriesTranslation", "SeriesTranslation" },
+            { "getSeriesArtworks", "SeriesArtworks" },
             { "updates", "Updates" },
             { "getAllInspirationTypes", "InspirationTypes" },
         };
@@ -162,6 +163,12 @@ namespace GenerateDto
             {
                 MatchClassName = "CompaniesDto",
                 MatchFieldName = "studio",
+                OverrideType = "CompanyDto[]",
+            },
+            new()
+            {
+                MatchClassName = "CompaniesDto",
+                MatchFieldName = "special_effects",
                 OverrideType = "CompanyDto[]",
             },
             new()
@@ -428,46 +435,6 @@ namespace GenerateDto
         private static readonly Dictionary<string, List<PropertyModel>> ExtraProperties = new()
         {
             {
-                "ArtworkExtendedRecordDto", new List<PropertyModel>
-                {
-                    new()
-                    {
-                        FieldName = "status",
-                        PropertyName = "Status",
-                        PropertyType = "object",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"status\")]",
-                        },
-                    },
-                }
-            },
-            {
-                "CharacterDto", new List<PropertyModel>
-                {
-                    new()
-                    {
-                        FieldName = "peopleType",
-                        PropertyName = "PeopleType",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"peopleType\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "tagOptions",
-                        PropertyName = "TagOptions",
-                        PropertyType = "TagOptionDto[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"tagOptions\")]",
-                        },
-                    },
-                }
-            },
-            {
                 "CompanyDto", new List<PropertyModel>
                 {
                     new()
@@ -480,56 +447,11 @@ namespace GenerateDto
                             "[JsonProperty(\"companyType\")]",
                         },
                     },
-                    new()
-                    {
-                        FieldName = "tagOptions",
-                        PropertyName = "TagOptions",
-                        PropertyType = "TagOptionDto[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"tagOptions\")]",
-                        },
-                    },
-                }
-            },
-            {
-                "EpisodeBaseRecordDto", new List<PropertyModel>
-                {
-                    new()
-                    {
-                        FieldName = "overview",
-                        PropertyName = "Overview",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"overview\")]",
-                        },
-                    },
                 }
             },
             {
                 "EpisodeExtendedRecordDto", new List<PropertyModel>
                 {
-                    new()
-                    {
-                        FieldName = "overview",
-                        PropertyName = "Overview",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"overview\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "nominations",
-                        PropertyName = "Nominations",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"nominations\")]",
-                        },
-                    },
                     new()
                     {
                         FieldName = "networks",
@@ -538,16 +460,6 @@ namespace GenerateDto
                         PropertyAttributes = new List<string>
                         {
                             "[JsonProperty(\"networks\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "studios",
-                        PropertyName = "Studios",
-                        PropertyType = "StudioBaseRecordDto[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"studios\")]",
                         },
                     },
                 }
@@ -565,52 +477,11 @@ namespace GenerateDto
                             "[JsonProperty(\"translations\")]",
                         },
                     },
-                    new()
-                    {
-                        FieldName = "runtime",
-                        PropertyName = "Runtime",
-                        PropertyType = "int",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"runtime\")]",
-                        },
-                    },
-
-                    new()
-                    {
-                        FieldName = "lastUpdated",
-                        PropertyName = "LastUpdated",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"lastUpdated\")]",
-                        },
-                    },
                 }
             },
             {
                 "PeopleExtendedRecordDto", new List<PropertyModel>
                 {
-                    new()
-                    {
-                        FieldName = "nameTranslations",
-                        PropertyName = "NameTranslations",
-                        PropertyType = "string[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"nameTranslations\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "overviewTranslations",
-                        PropertyName = "OverviewTranslations",
-                        PropertyType = "string[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"overviewTranslations\")]",
-                        },
-                    },
                     new()
                     {
                         FieldName = "translations",
@@ -628,26 +499,6 @@ namespace GenerateDto
                 {
                     new()
                     {
-                        FieldName = "studios",
-                        PropertyName = "Studios",
-                        PropertyType = "string[]",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"studios\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "first_air_time",
-                        PropertyName = "FirstAirTime",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"first_air_time\")]",
-                        },
-                    },
-                    new()
-                    {
                         FieldName = "extended_title",
                         PropertyName = "ExtendedTitle",
                         PropertyType = "string",
@@ -663,36 +514,6 @@ namespace GenerateDto
                 {
                     new()
                     {
-                        FieldName = "lastUpdated",
-                        PropertyName = "LastUpdated",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"lastUpdated\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "averageRuntime",
-                        PropertyName = "AverageRuntime",
-                        PropertyType = "int?",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"averageRuntime\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "airsTimeUTC",
-                        PropertyName = "AirsTimeUTC",
-                        PropertyType = "string",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"airsTimeUTC\")]",
-                        },
-                    },
-                    new()
-                    {
                         FieldName = "episodes",
                         PropertyName = "Episodes",
                         PropertyType = "EpisodeBaseRecordDto[]",
@@ -704,26 +525,16 @@ namespace GenerateDto
                 }
             },
             {
-                "ListBaseRecordDto", new List<PropertyModel>
+                "SeriesBaseRecordDto", new List<PropertyModel>
                 {
                     new()
                     {
-                        FieldName = "image",
-                        PropertyName = "Image",
+                        FieldName = "overview",
+                        PropertyName = "Overview",
                         PropertyType = "string",
                         PropertyAttributes = new List<string>
                         {
-                            "[JsonProperty(\"image\")]",
-                        },
-                    },
-                    new()
-                    {
-                        FieldName = "imageIsFallback",
-                        PropertyName = "ImageIsFallback",
-                        PropertyType = "bool",
-                        PropertyAttributes = new List<string>
-                        {
-                            "[JsonProperty(\"imageIsFallback\")]",
+                            "[JsonProperty(\"overview\")]",
                         },
                     },
                 }
