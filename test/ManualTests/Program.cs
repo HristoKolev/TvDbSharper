@@ -77,8 +77,15 @@
 
             // Movies
             Test("Movies()", await client.Movies());
-            Test("Movie(165)", await client.Movie(503));
+
+            Test("Movie(165)", await client.Movie(165));
+            Test("Movie(503)", await client.Movie(503));
+            Test("Movie(198054)", await client.Movie(198054));
+
             Test("MovieExtended(165)", await client.MovieExtended(165, new MovieExtendedOptionalParams { Meta = "translations" }));
+            Test("MovieExtended(503)", await client.MovieExtended(503, new MovieExtendedOptionalParams { Meta = "translations" }));
+            Test("MovieExtended(198054)", await client.MovieExtended(198054, new MovieExtendedOptionalParams { Meta = "translations" }));
+
             Test("MovieTranslation(165, 'eng')", await client.MovieTranslation(165, "eng"));
 
             // Movie Statuses
@@ -122,10 +129,8 @@
 
         private static void Test(string tag, object obj)
         {
-            string json = JsonConvert.SerializeObject(obj, Formatting.Indented);
-
-            Console.WriteLine();
-            Console.WriteLine($"{tag} => {json}");
+            JsonConvert.SerializeObject(obj, Formatting.Indented);
+            Console.WriteLine(tag);
         }
     }
 

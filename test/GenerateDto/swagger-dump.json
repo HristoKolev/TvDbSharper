@@ -1468,6 +1468,162 @@
         ]
       }
     },
+    "/movies/filter": {
+      "get": {
+        "Description": "Search movies based on filter parameters",
+        "OperationId": "getMoviesFilter",
+        "Parameters": [
+          {
+            "Description": "production company",
+            "In": "query",
+            "Name": "company",
+            "Schema": {
+              "Type": "number",
+              "Example": "1"
+            }
+          },
+          {
+            "Description": "content rating id base on a country",
+            "In": "query",
+            "Name": "contentRating",
+            "Schema": {
+              "Type": "number",
+              "Example": "245"
+            }
+          },
+          {
+            "Description": "country of origin",
+            "In": "query",
+            "Name": "country",
+            "Required": true,
+            "Schema": {
+              "Type": "string",
+              "Example": "usa"
+            }
+          },
+          {
+            "Description": "genre",
+            "In": "query",
+            "Name": "genre",
+            "Schema": {
+              "Type": "number",
+              "Enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34",
+                "35",
+                "36"
+              ],
+              "Example": "3"
+            }
+          },
+          {
+            "Description": "original language",
+            "In": "query",
+            "Name": "lang",
+            "Required": true,
+            "Schema": {
+              "Type": "string",
+              "Example": "eng"
+            }
+          },
+          {
+            "Description": "sort by results",
+            "In": "query",
+            "Name": "sort",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "score",
+                "firstAired",
+                "name"
+              ]
+            }
+          },
+          {
+            "Description": "status",
+            "In": "query",
+            "Name": "status",
+            "Schema": {
+              "Type": "number",
+              "Enum": [
+                "1",
+                "2",
+                "3"
+              ]
+            }
+          },
+          {
+            "Description": "release year",
+            "In": "query",
+            "Name": "year",
+            "Schema": {
+              "Type": "number",
+              "Example": "2020"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/MovieBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid format parameter."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Movies"
+        ]
+      }
+    },
     "/movies/{id}/translations/{language}": {
       "get": {
         "Description": "Returns movie translation record",
@@ -2586,6 +2742,162 @@
         ]
       }
     },
+    "/series/filter": {
+      "get": {
+        "Description": "Search series based on filter parameters",
+        "OperationId": "getSeriesFilter",
+        "Parameters": [
+          {
+            "Description": "production company",
+            "In": "query",
+            "Name": "company",
+            "Schema": {
+              "Type": "number",
+              "Example": "1"
+            }
+          },
+          {
+            "Description": "content rating id base on a country",
+            "In": "query",
+            "Name": "contentRating",
+            "Schema": {
+              "Type": "number",
+              "Example": "245"
+            }
+          },
+          {
+            "Description": "country of origin",
+            "In": "query",
+            "Name": "country",
+            "Required": true,
+            "Schema": {
+              "Type": "string",
+              "Example": "usa"
+            }
+          },
+          {
+            "Description": "genre",
+            "In": "query",
+            "Name": "genre",
+            "Schema": {
+              "Type": "number",
+              "Enum": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "15",
+                "16",
+                "17",
+                "18",
+                "19",
+                "21",
+                "22",
+                "23",
+                "24",
+                "25",
+                "26",
+                "27",
+                "28",
+                "29",
+                "30",
+                "31",
+                "32",
+                "33",
+                "34",
+                "35",
+                "36"
+              ],
+              "Example": "3"
+            }
+          },
+          {
+            "Description": "original language",
+            "In": "query",
+            "Name": "lang",
+            "Required": true,
+            "Schema": {
+              "Type": "string",
+              "Example": "eng"
+            }
+          },
+          {
+            "Description": "sort by results",
+            "In": "query",
+            "Name": "sort",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "score",
+                "firstAired",
+                "name"
+              ]
+            }
+          },
+          {
+            "Description": "status",
+            "In": "query",
+            "Name": "status",
+            "Schema": {
+              "Type": "number",
+              "Enum": [
+                "1",
+                "2",
+                "3"
+              ]
+            }
+          },
+          {
+            "Description": "release year",
+            "In": "query",
+            "Name": "year",
+            "Schema": {
+              "Type": "number",
+              "Example": "2020"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid format parameter."
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Series"
+        ]
+      }
+    },
     "/series/{id}/translations/{language}": {
       "get": {
         "Description": "Returns series translation record",
@@ -2826,6 +3138,68 @@
         },
         "Tags": [
           "Updates"
+        ]
+      }
+    },
+    "/user/favorites": {
+      "get": {
+        "Description": "returns user favorites",
+        "OperationId": "getUserFavorites",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/Favorites"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Favorites"
+        ]
+      },
+      "post": {
+        "Description": "creates a new user favorite",
+        "RequestBody": {
+          "Content": {
+            "application/json": {
+              "Schema": {
+                "Ref": "#/components/schemas/FavoriteRecord"
+              }
+            }
+          }
+        },
+        "OperationId": "createUserFavorites",
+        "Responses": {
+          "200": {
+            "Description": "Ok"
+          },
+          "400": {
+            "Description": "Bad format"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Favorites"
         ]
       }
     }
@@ -3490,6 +3864,13 @@
             "GoName": "RecordID",
             "Type": "integer",
             "Description": "Only present for episodes records"
+          },
+          "mergeToId": {
+            "Format": "int64",
+            "Type": "integer"
+          },
+          "mergeToEntityType": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -3733,6 +4114,82 @@
         },
         "Type": "object",
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "Favorites": {
+        "Description": "User favorites record",
+        "Properties": {
+          "series": {
+            "GoName": "series",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          },
+          "movies": {
+            "GoName": "movies",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          },
+          "episodes": {
+            "GoName": "episodes",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          },
+          "artwork": {
+            "GoName": "artwork",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          },
+          "people": {
+            "GoName": "people",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          },
+          "lists": {
+            "GoName": "list",
+            "Items": {
+              "Type": "integer"
+            },
+            "Type": "array"
+          }
+        }
+      },
+      "FavoriteRecord": {
+        "Description": "Favorites record",
+        "Properties": {
+          "series": {
+            "GoName": "series",
+            "Type": "integer"
+          },
+          "movies": {
+            "GoName": "movies",
+            "Type": "integer"
+          },
+          "episodes": {
+            "GoName": "episodes",
+            "Type": "integer"
+          },
+          "artwork": {
+            "GoName": "artwork",
+            "Type": "integer"
+          },
+          "people": {
+            "GoName": "people",
+            "Type": "integer"
+          },
+          "list": {
+            "GoName": "list",
+            "Type": "integer"
+          }
+        }
       },
       "Gender": {
         "Description": "gender record",

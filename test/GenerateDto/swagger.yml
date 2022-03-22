@@ -945,6 +945,86 @@ paths:
           description: Movie not found
       tags:
         - Movies
+  '/movies/filter':
+    get:
+      description: Search movies based on filter parameters
+      operationId: getMoviesFilter
+      parameters:
+        - description: production company
+          in: query
+          name: company
+          required: false
+          schema:
+            type: number
+            example: 1
+        - description: content rating id base on a country
+          in: query
+          name: contentRating
+          required: false
+          schema:
+            type: number
+            example: 245
+        - description: country of origin
+          in: query
+          name: country
+          required: true
+          schema:
+            type: string
+            example: usa
+        - description: genre
+          in: query
+          name: genre
+          required: false
+          schema:
+            type: number
+            example: 3
+            enum: [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 ]
+        - description: original language
+          in: query
+          name: lang
+          required: true
+          schema:
+            type: string
+            example: eng
+        - description: sort by results
+          in: query
+          name: sort
+          required: false
+          schema:
+            type: string
+            enum: [ score,firstAired,name ]
+        - description: status
+          in: query
+          name: status
+          required: false
+          schema:
+            type: number
+            enum: [ 1,2,3 ]
+        - description: release year
+          in: query
+          name: year
+          required: false
+          schema:
+            type: number
+            example: 2020
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MovieBaseRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid format parameter.
+        '401':
+          description: Unauthorized
+      tags:
+        - Movies
   '/movies/{id}/translations/{language}':
     get:
       description: Returns movie translation record
@@ -1664,6 +1744,86 @@ paths:
           description: Series not found
       tags:
         - Series
+  '/series/filter':
+    get:
+      description: Search series based on filter parameters
+      operationId: getSeriesFilter
+      parameters:
+        - description: production company
+          in: query
+          name: company
+          required: false
+          schema:
+            type: number
+            example: 1
+        - description: content rating id base on a country
+          in: query
+          name: contentRating
+          required: false
+          schema:
+            type: number
+            example: 245
+        - description: country of origin
+          in: query
+          name: country
+          required: true
+          schema:
+            type: string
+            example: usa
+        - description: genre
+          in: query
+          name: genre
+          required: false
+          schema:
+            type: number
+            example: 3
+            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]
+        - description: original language
+          in: query
+          name: lang
+          required: true
+          schema:
+            type: string
+            example : eng
+        - description: sort by results
+          in: query
+          name: sort
+          required: false
+          schema:
+            type: string
+            enum: [score,firstAired,name]
+        - description: status
+          in: query
+          name: status
+          required: false
+          schema:
+            type: number
+            enum: [1,2,3]
+        - description: release year
+          in: query
+          name: year
+          required: false
+          schema:
+            type: number
+            example: 2020
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SeriesBaseRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid format parameter.
+        '401':
+          description: Unauthorized
+      tags:
+        - Series
   '/series/{id}/translations/{language}':
     get:
       description: Returns series translation record
@@ -1797,6 +1957,47 @@ paths:
 
       tags:
         - Updates
+  /user/favorites:
+    get:
+      description: returns user favorites
+      operationId: getUserFavorites
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/Favorites'
+                    type: array
+                  status:
+                    type: string
+                type: object
+        '401':
+          description: Unauthorized
+
+      tags:
+        - Favorites
+    post:
+      description: creates a new user favorite
+      operationId: createUserFavorites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteRecord'
+      responses:
+        '200':
+          description: Ok
+        '400':
+          description: Bad format
+        '401':
+          description: Unauthorized
+
+      tags:
+        - Favorites
 
 servers:
   - url: 'https://api4.thetvdb.com/v4'
@@ -2282,6 +2483,11 @@ components:
           format: int64
           type: integer
           x-go-name: RecordID
+        mergeToId:
+          format: int64
+          type: integer
+        mergeToEntityType:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     EpisodeBaseRecord:
@@ -2453,6 +2659,60 @@ components:
           type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
+    Favorites:
+      description: User favorites record
+      properties:
+        series:
+          items:
+            type: integer
+          type: array
+          x-go-name: series
+        movies:
+          items:
+            type: integer
+          type: array
+          x-go-name: movies
+        episodes:
+          items:
+            type: integer
+          type: array
+          x-go-name: episodes
+        artwork:
+          items:
+            type: integer
+          type: array
+          x-go-name: artwork
+        people:
+          items:
+            type: integer
+          type: array
+          x-go-name: people
+        lists:
+          items:
+            type: integer
+          type: array
+          x-go-name: list
+    FavoriteRecord:
+      description: Favorites record
+      properties:
+        series:
+          type: integer
+          x-go-name: series
+        movies:
+          type: integer
+          x-go-name: movies
+        episodes:
+          type: integer
+          x-go-name: episodes
+        artwork:
+          type: integer
+          x-go-name: artwork
+        people:
+          type: integer
+          x-go-name: people
+        list:
+          type: integer
+          x-go-name: list
     Gender:
       description: gender record
       properties:

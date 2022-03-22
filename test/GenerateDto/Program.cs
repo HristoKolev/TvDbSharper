@@ -53,6 +53,11 @@
 
             foreach ((string path, var rest) in swaggerConfig.Paths)
             {
+                if (rest.Count > 1)
+                {
+                    continue;
+                }
+                
                 (string method, var requestInfo) = rest.Single();
 
                 string result = $"{requestInfo.OperationId}(";

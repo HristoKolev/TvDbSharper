@@ -62,6 +62,8 @@ namespace GenerateDto
             { "getSeriesArtworks", "SeriesArtworks" },
             { "updates", "Updates" },
             { "getAllInspirationTypes", "InspirationTypes" },
+            { "getMoviesFilter", "MoviesFilter" },
+            { "getSeriesFilter", "SeriesFilter" },
         };
 
         private static readonly List<PropertyOverrideModel> PropertyOverrides = new()
@@ -240,6 +242,12 @@ namespace GenerateDto
             new()
             {
                 MatchClassName = "MovieBaseRecordDto",
+                MatchFieldName = "runtime",
+                OverrideType = "int?",
+            },
+            new()
+            {
+                MatchClassName = "MovieExtendedRecordDto",
                 MatchFieldName = "runtime",
                 OverrideType = "int?",
             },
@@ -668,7 +676,7 @@ namespace GenerateDto
             // Generate client methods
             foreach ((string path, var rest) in swaggerConfig.Paths)
             {
-                if (path == "/login")
+                if (path == "/login" || rest.Count > 1)
                 {
                     continue;
                 }

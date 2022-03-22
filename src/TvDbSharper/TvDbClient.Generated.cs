@@ -372,6 +372,26 @@ namespace TvDbSharper
             return this.MovieExtended(id, optionalParameters, CancellationToken.None);
         }
 
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> MoviesFilter(CancellationToken cancellationToken)
+        {
+            return this.Get<MovieBaseRecordDto>($"movies/filter", null, cancellationToken);
+        }
+
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> MoviesFilter()
+        {
+            return this.MoviesFilter(CancellationToken.None);
+        }
+
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> MoviesFilter(MoviesFilterOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.Get<MovieBaseRecordDto>($"movies/filter", optionalParameters, cancellationToken);
+        }
+
+        public Task<TvDbApiResponse<MovieBaseRecordDto>> MoviesFilter(MoviesFilterOptionalParams optionalParameters)
+        {
+            return this.MoviesFilter(optionalParameters, CancellationToken.None);
+        }
+
         public Task<TvDbApiResponse<TranslationDto>> MovieTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"movies/{id}/translations/{language}", null, cancellationToken);
@@ -632,6 +652,26 @@ namespace TvDbSharper
             return this.SeriesSeasonEpisodesTranslated(id, seasonType, lang, optionalParameters, CancellationToken.None);
         }
 
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> SeriesFilter(CancellationToken cancellationToken)
+        {
+            return this.Get<SeriesBaseRecordDto>($"series/filter", null, cancellationToken);
+        }
+
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> SeriesFilter()
+        {
+            return this.SeriesFilter(CancellationToken.None);
+        }
+
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> SeriesFilter(SeriesFilterOptionalParams optionalParameters, CancellationToken cancellationToken)
+        {
+            return this.Get<SeriesBaseRecordDto>($"series/filter", optionalParameters, cancellationToken);
+        }
+
+        public Task<TvDbApiResponse<SeriesBaseRecordDto>> SeriesFilter(SeriesFilterOptionalParams optionalParameters)
+        {
+            return this.SeriesFilter(optionalParameters, CancellationToken.None);
+        }
+
         public Task<TvDbApiResponse<TranslationDto>> SeriesTranslation(int id, string language, CancellationToken cancellationToken)
         {
             return this.Get<TranslationDto>($"series/{id}/translations/{language}", null, cancellationToken);
@@ -711,6 +751,33 @@ namespace TvDbSharper
     {
         [QueryParameter("meta")]
         public string Meta { get; set; }
+    }
+
+    public class MoviesFilterOptionalParams
+    {
+        [QueryParameter("company")]
+        public int? Company { get; set; }
+
+        [QueryParameter("contentRating")]
+        public int? ContentRating { get; set; }
+
+        [QueryParameter("country")]
+        public string Country { get; set; }
+
+        [QueryParameter("genre")]
+        public int? Genre { get; set; }
+
+        [QueryParameter("lang")]
+        public string Lang { get; set; }
+
+        [QueryParameter("sort")]
+        public string Sort { get; set; }
+
+        [QueryParameter("status")]
+        public int? Status { get; set; }
+
+        [QueryParameter("year")]
+        public int? Year { get; set; }
     }
 
     public class PeopleExtendedOptionalParams
@@ -807,6 +874,33 @@ namespace TvDbSharper
     {
         [QueryParameter("page")]
         public int? Page { get; set; }
+    }
+
+    public class SeriesFilterOptionalParams
+    {
+        [QueryParameter("company")]
+        public int? Company { get; set; }
+
+        [QueryParameter("contentRating")]
+        public int? ContentRating { get; set; }
+
+        [QueryParameter("country")]
+        public string Country { get; set; }
+
+        [QueryParameter("genre")]
+        public int? Genre { get; set; }
+
+        [QueryParameter("lang")]
+        public string Lang { get; set; }
+
+        [QueryParameter("sort")]
+        public string Sort { get; set; }
+
+        [QueryParameter("status")]
+        public int? Status { get; set; }
+
+        [QueryParameter("year")]
+        public int? Year { get; set; }
     }
 
     public class UpdatesOptionalParams
@@ -1296,6 +1390,12 @@ namespace TvDbSharper
 
         [JsonProperty("seriesId")]
         public long SeriesId { get; set; }
+
+        [JsonProperty("mergeToId")]
+        public long MergeToId { get; set; }
+
+        [JsonProperty("mergeToEntityType")]
+        public string MergeToEntityType { get; set; }
     }
 
     public class EpisodeBaseRecordDto
@@ -1455,6 +1555,48 @@ namespace TvDbSharper
 
         [JsonProperty("networks")]
         public string Networks { get; set; }
+    }
+
+    public class FavoritesDto
+    {
+        [JsonProperty("series")]
+        public int[] Series { get; set; }
+
+        [JsonProperty("movies")]
+        public int[] Movies { get; set; }
+
+        [JsonProperty("episodes")]
+        public int[] Episodes { get; set; }
+
+        [JsonProperty("artwork")]
+        public int[] Artwork { get; set; }
+
+        [JsonProperty("people")]
+        public int[] People { get; set; }
+
+        [JsonProperty("lists")]
+        public int[] Lists { get; set; }
+    }
+
+    public class FavoriteRecordDto
+    {
+        [JsonProperty("series")]
+        public int Series { get; set; }
+
+        [JsonProperty("movies")]
+        public int Movies { get; set; }
+
+        [JsonProperty("episodes")]
+        public int Episodes { get; set; }
+
+        [JsonProperty("artwork")]
+        public int Artwork { get; set; }
+
+        [JsonProperty("people")]
+        public int People { get; set; }
+
+        [JsonProperty("list")]
+        public int List { get; set; }
     }
 
     public class GenderDto
@@ -1679,7 +1821,7 @@ namespace TvDbSharper
         public RemoteIDDto[] RemoteIds { get; set; }
 
         [JsonProperty("runtime")]
-        public int Runtime { get; set; }
+        public int? Runtime { get; set; }
 
         [JsonProperty("score")]
         public double? Score { get; set; }

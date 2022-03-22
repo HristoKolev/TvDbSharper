@@ -154,6 +154,9 @@ namespace GenerateDto
 
         [YamlMember(Alias = "x-go-package", ApplyNamingConventions = false)]
         public string GoPackage { get; set; }
+        
+        [YamlMember(Alias = "$ref", ApplyNamingConventions = false)]
+        public string Ref { get; set; }
     }
 
     public class TypeModel
