@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Description>TvDbSharper is fully featured modern REST client for the TheTVDB API v4</Description>
-    <VersionPrefix>4.0.9</VersionPrefix>
+    <VersionPrefix>4.0.10</VersionPrefix>
     <Authors>HristoKolev</Authors>
     <TargetFramework>netstandard1.1</TargetFramework>
     <NoWarn>$(NoWarn);1591</NoWarn>
@@ -19,8 +19,8 @@
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <Version>4.0.9</Version>
-    <PackageVersion>4.0.9</PackageVersion>
+    <Version>4.0.10</Version>
+    <PackageVersion>4.0.10</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

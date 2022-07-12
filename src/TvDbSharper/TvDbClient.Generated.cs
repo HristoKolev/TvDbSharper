@@ -1899,7 +1899,7 @@ namespace TvDbSharper
         public string Death { get; set; }
 
         [JsonProperty("gender")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [JsonProperty("id")]
         public long Id { get; set; }
