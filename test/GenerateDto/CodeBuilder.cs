@@ -438,6 +438,12 @@ namespace GenerateDto
                 MatchFieldName = "translations",
                 OverrideType = "TranslationExtendedDto",
             },
+            new()
+            {
+                MatchClassName = "SeriesExtendedRecordDto",
+                MatchFieldName = "averageRuntime",
+                OverrideType = "int?",
+            },
         };
 
         private static readonly Dictionary<string, List<PropertyModel>> ExtraProperties = new()
