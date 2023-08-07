@@ -1,19 +1,22 @@
 openapi: 3.0.0
 info:
   description: |
-    Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).
+    Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api). You might also want to use our [Postman collection] (https://www.getpostman.com/collections/7a9397ce69ff246f74d0)
     ## Authentication
     1. Use the /login endpoint and provide your API key as "apikey". If you have a user-supported key, also provide your subscriber PIN as "pin". Otherwise completely remove "pin" from your call.
     2. Executing this call will provide you with a bearer token, which is valid for 1 month.
     3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`
+
+    ## Notes
+    1. "score" is a field across almost all entities.  We generate scores for different types of entities in various ways, so no assumptions should be made about the meaning of this value.  It is simply used to hint at relative popularity for sorting purposes.
   title: TVDB API V4
-  version: 4.5.0
+  version: 4.7.5
 security:
-  - bearerAuth: []
+  - bearerAuth: [ ]
 paths:
   /login:
     post:
-      summary: create an auth token. The token has one month valition length.
+      summary: create an auth token. The token has one month validation length.
       requestBody:
         content:
           application/json:
@@ -485,6 +488,36 @@ paths:
           description: Unauthorized
       tags:
         - Entity Types
+  '/episodes':
+    get:
+      description: Returns a list of episodes base records with the basic attributes.<br> Note that all episodes are returned, even those that may not be included in a series' default season order.
+      operationId: getAllEpisodes
+      parameters:
+        - description: page number
+          in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/EpisodeBaseRecord'
+                    type: array
+                  status:
+                    type: string
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          description: Unauthorized
+      tags:
+        - Episodes
   '/episodes/{id}':
     get:
       description: Returns episode base record
@@ -533,7 +566,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [translations]
+            enum: [ translations ]
             example: translations
       responses:
         '200':
@@ -771,7 +804,38 @@ paths:
         '401':
           description: Unauthorized
         '404':
-          description: Lists not found
+          description: List not found
+      tags:
+        - Lists
+  '/lists/slug/{slug}':
+    get:
+      description: returns an list base record search by slug
+      operationId: getListBySlug
+      parameters:
+        - description: slug
+          in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ListBaseRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid list slug
+        '401':
+          description: Unauthorized
+        '404':
+          description: List not found
       tags:
         - Lists
   '/lists/{id}/extended':
@@ -923,8 +987,15 @@ paths:
           required: false
           schema:
             type: string
-            enum: [translations]
+            enum: [ translations ]
             example: translations
+        - description: reduce the payload and returns the short version of this record without characters, artworks and trailers.
+          in: query
+          name: short
+          required: false
+          schema:
+            type: boolean
+            enum: [ true, false ]
       responses:
         '200':
           description: response
@@ -1015,7 +1086,9 @@ paths:
               schema:
                 properties:
                   data:
-                    $ref: '#/components/schemas/MovieBaseRecord'
+                    items:
+                      $ref: '#/components/schemas/MovieBaseRecord'
+                    type: array
                   status:
                     type: string
                 type: object
@@ -1023,6 +1096,37 @@ paths:
           description: Invalid format parameter.
         '401':
           description: Unauthorized
+      tags:
+        - Movies
+  '/movies/slug/{slug}':
+    get:
+      description: Returns movie base record search by slug
+      operationId: getMovieBaseBySlug
+      parameters:
+        - description: slug
+          in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MovieBaseRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid movie slug
+        '401':
+          description: Unauthorized
+        '404':
+          description: Movie not found
       tags:
         - Movies
   '/movies/{id}/translations/{language}':
@@ -1084,6 +1188,36 @@ paths:
           description: Unauthorized
       tags:
         - Movie Statuses
+  '/people':
+    get:
+      description: Returns a list of people base records with the basic attributes.
+      operationId: getAllPeople
+      parameters:
+        - description: page number
+          in: query
+          name: page
+          schema:
+            type: number
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/PeopleBaseRecord'
+                    type: array
+                  status:
+                    type: string
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          description: Unauthorized
+      tags:
+        - People
 
   '/people/{id}':
     get:
@@ -1133,7 +1267,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [translations]
+            enum: [ translations ]
             example: translations
       responses:
         '200':
@@ -1215,7 +1349,7 @@ paths:
 
   /search:
     get:
-      description: Our search index includes series, movies, people, and companies.
+      description: Our search index includes series, movies, people, and companies. Search is limited to 5k results max.
       operationId: getSearchResults
       parameters:
         - description: The primary search string, which can include the main title for a record including all translations and aliases.
@@ -1299,11 +1433,45 @@ paths:
                     type: array
                   status:
                     type: string
+                  links:
+                    $ref: '#/components/schemas/Links'
+                type: object
+        '401':
+          description: Unauthorized
+        '400':
+          description: Max results overflow
+      tags:
+        - Search
+  /search/remoteid/{remoteId}:
+    get:
+      description: Search a series, movie, people, episode, company or season by specific remote id and returns a base record for that entity.
+      operationId: getSearchResultsByRemoteId
+      parameters:
+        - description: Search for a specific remote id.  Allows searching for an IMDB or EIDR id, for example.
+          in: path
+          required: true
+          name: remoteId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/SearchByRemoteIdResult'
+                    type: array
+                  status:
+                    type: string
                 type: object
         '401':
           description: Unauthorized
       tags:
         - Search
+
   /seasons:
     get:
       description: returns list of seasons base records
@@ -1507,16 +1675,16 @@ paths:
                     type: string
                 type: object
         '400':
-          description: Invalid sereis id
+          description: Invalid series id
         '401':
           description: Unauthorized
         '404':
-          description: Sereis not found
+          description: Series not found
       tags:
         - Series
   '/series/{id}/artworks':
     get:
-      description: Returns series artworks base on language and type.
+      description: Returns series artworks base on language and type. <br> Note&#58; Artwork type is an id that can be found using **/artwork/types** endpoint.
       operationId: getSeriesArtworks
       parameters:
         - description: id
@@ -1538,7 +1706,7 @@ paths:
           required: false
           schema:
             type: integer
-            example: 1
+            example: 1,2,3
       responses:
         '200':
           description: response
@@ -1548,6 +1716,37 @@ paths:
                 properties:
                   data:
                     $ref: '#/components/schemas/SeriesExtendedRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid series id
+        '401':
+          description: Unauthorized
+        '404':
+          description: Series not found
+      tags:
+        - Series
+  '/series/{id}/nextAired':
+    get:
+      description: Returns series base record including the nextAired field. <br> Note&#58; nextAired was included in the base record endpoint but that field will deprecated in the future so developers should use the nextAired endpoint.
+      operationId: getSeriesNextAired
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SeriesBaseRecord'
                   status:
                     type: string
                 type: object
@@ -1576,8 +1775,15 @@ paths:
           required: false
           schema:
             type: string
-            enum: [translations, episodes]
+            enum: [ translations, episodes ]
             example: translations
+        - description: reduce the payload and returns the short version of this record without characters and artworks
+          in: query
+          name: short
+          required: false
+          schema:
+            type: boolean
+            enum: [ true, false ]
       responses:
         '200':
           description: response
@@ -1770,35 +1976,42 @@ paths:
           schema:
             type: string
             example: usa
-        - description: genre
+        - description: Genre id. This id can be found using **/genres** endpoint.
           in: query
           name: genre
           required: false
           schema:
             type: number
             example: 3
-            enum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36]
+            enum: [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 ]
         - description: original language
           in: query
           name: lang
           required: true
           schema:
             type: string
-            example : eng
+            example: eng
         - description: sort by results
           in: query
           name: sort
           required: false
           schema:
             type: string
-            enum: [score,firstAired,name]
+            enum: [ score,firstAired,lastAired,name ]
+        - description: sort type ascending or descending
+          in: query
+          name: sortType
+          required: false
+          schema:
+            type: string
+            enum: [ asc,desc ]
         - description: status
           in: query
           name: status
           required: false
           schema:
             type: number
-            enum: [1,2,3]
+            enum: [ 1,2,3 ]
         - description: release year
           in: query
           name: year
@@ -1814,14 +2027,45 @@ paths:
               schema:
                 properties:
                   data:
-                    $ref: '#/components/schemas/SeriesBaseRecord'
-                  status:
-                    type: string
+                    items:
+                      $ref: '#/components/schemas/SeriesBaseRecord'
+                    type: array
                 type: object
         '400':
           description: Invalid format parameter.
         '401':
           description: Unauthorized
+      tags:
+        - Series
+  '/series/slug/{slug}':
+    get:
+      description: Returns series base record searched by slug
+      operationId: getSeriesBaseBySlug
+      parameters:
+        - description: slug
+          in: path
+          name: slug
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SeriesBaseRecord'
+                  status:
+                    type: string
+                type: object
+        '400':
+          description: Invalid series slug
+        '401':
+          description: Unauthorized
+        '404':
+          description: Series not found
       tags:
         - Series
   '/series/{id}/translations/{language}':
@@ -1907,7 +2151,7 @@ paths:
         - Source Types
   /updates:
     get:
-      description: returns updated entities
+      description: Returns updated entities.  methodInt indicates a created record (1), an updated record (2), or a deleted record (3).  If a record is deleted because it was a duplicate of another record, the target record's information is provided in mergeToType and mergeToId.
       operationId: updates
       parameters:
         - in: query
@@ -1957,6 +2201,57 @@ paths:
 
       tags:
         - Updates
+  /user:
+    get:
+      description: returns user info
+      operationId: getUserInfo
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/UserInfo'
+                  status:
+                    type: string
+                type: object
+        '401':
+          description: Unauthorized
+
+      tags:
+        - User info
+  /user/{id}:
+    get:
+      description: returns user info by user id
+      operationId: getUserInfoById
+      parameters:
+        - description: id
+          in: path
+          name: id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: response
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    items:
+                      $ref: '#/components/schemas/UserInfo'
+                  status:
+                    type: string
+                type: object
+        '401':
+          description: Unauthorized
+
+      tags:
+        - User info
   /user/favorites:
     get:
       description: returns user favorites
@@ -1971,7 +2266,6 @@ paths:
                   data:
                     items:
                       $ref: '#/components/schemas/Favorites'
-                    type: array
                   status:
                     type: string
                 type: object
@@ -2003,7 +2297,7 @@ servers:
   - url: 'https://api4.thetvdb.com/v4'
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -2023,11 +2317,17 @@ components:
     ArtworkBaseRecord:
       description: base artwork record
       properties:
+        height:
+          format: int64
+          type: integer
+          x-go-name: Height
         id:
           type: integer
         image:
           type: string
           x-go-name: Image
+        includesText:
+          type: boolean
         language:
           type: string
         score:
@@ -2039,6 +2339,11 @@ components:
           format: int64
           type: integer
           x-go-name: Type
+          description: The artwork type corresponds to the ids from the /artwork/types endpoint.
+        width:
+          format: int64
+          type: integer
+          x-go-name: Width
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     ArtworkExtendedRecord:
@@ -2057,6 +2362,8 @@ components:
         image:
           type: string
           x-go-name: Image
+        includesText:
+          type: boolean
         language:
           type: string
         movieId:
@@ -2095,6 +2402,7 @@ components:
           format: int64
           type: integer
           x-go-name: Type
+          description: The artwork type corresponds to the ids from the /artwork/types endpoint.
         updatedAt:
           format: int64
           type: integer
@@ -2275,6 +2583,8 @@ components:
             $ref: '#/components/schemas/Alias'
           type: array
           x-go-name: Aliases
+        episode:
+          $ref: '#/components/schemas/RecordInfo'
         episodeId:
           type: integer
         id:
@@ -2288,6 +2598,8 @@ components:
           x-go-name: IsFeatured
         movieId:
           type: integer
+        movie:
+          $ref: '#/components/schemas/RecordInfo'
         name:
           type: string
         nameTranslations:
@@ -2308,6 +2620,8 @@ components:
           type: string
         seriesId:
           type: integer
+        series:
+          $ref: '#/components/schemas/RecordInfo'
         sort:
           format: int64
           type: integer
@@ -2467,9 +2781,17 @@ components:
         entityType:
           type: string
           x-go-name: EnitityType
+        methodInt:
+          type: integer
         method:
           type: string
           x-go-name: Method
+        extraInfo:
+          type: string
+        userId:
+          type: integer
+        recordType:
+          type: string
         recordId:
           format: int64
           type: integer
@@ -2501,6 +2823,9 @@ components:
           type: integer
         airsBeforeSeason:
           type: integer
+        finaleType:
+          description: season, midseason, or series
+          type: string
         id:
           format: int64
           type: integer
@@ -2513,6 +2838,10 @@ components:
           format: int64
           type: integer
           x-go-name: IsMovie
+        lastUpdated:
+          type: string
+        linkedMovie:
+          type: integer
         name:
           type: string
         nameTranslations:
@@ -2544,10 +2873,7 @@ components:
           x-go-name: SeriesID
         seasonName:
           type: string
-        lastUpdated:
-          type: string
-        finaleType:
-          description: season, midseason, or series
+        year:
           type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
@@ -2581,6 +2907,9 @@ components:
             $ref: '#/components/schemas/ContentRating'
           type: array
           x-go-name: ContentRatings
+        finaleType:
+          description: season, midseason, or series
+          type: string
         id:
           format: int64
           type: integer
@@ -2593,6 +2922,10 @@ components:
           format: int64
           type: integer
           x-go-name: IsMovie
+        lastUpdated:
+          type: string
+        linkedMovie:
+          type: integer
         name:
           type: string
         nameTranslations:
@@ -2600,7 +2933,7 @@ components:
             type: string
           type: array
           x-go-name: NameTranslations
-        network:
+        networks:
           items:
             $ref: '#/components/schemas/Company'
           type: array
@@ -2652,10 +2985,9 @@ components:
             $ref: '#/components/schemas/Trailer'
           type: array
           x-go-name: Trailers
-        lastUpdated:
-          type: string
-        finaleType:
-          description: season, midseason, or series
+        translations:
+          $ref: '#/components/schemas/TranslationExtended'
+        year:
           type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
@@ -2698,10 +3030,10 @@ components:
         series:
           type: integer
           x-go-name: series
-        movies:
+        movie:
           type: integer
           x-go-name: movies
-        episodes:
+        episode:
           type: integer
           x-go-name: episodes
         artwork:
@@ -2789,10 +3121,20 @@ components:
             type: string
           type: array
           x-go-name: OverviewTranslations
-        url:
-          type: string
+        remoteIds:
+          items:
+            $ref: '#/components/schemas/RemoteID'
+          type: array
+          x-go-name: RemoteIDs
+        tags:
+          items:
+            $ref: '#/components/schemas/TagOption'
+          type: array
+          x-go-name: TagOptions
         score:
           type: integer
+        url:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     ListExtendedRecord:
@@ -2856,6 +3198,8 @@ components:
         image:
           type: string
           x-go-name: Image
+        lastUpdated:
+          type: string
         name:
           type: string
           x-go-name: Name
@@ -2880,7 +3224,7 @@ components:
           $ref: '#/components/schemas/Status'
         runtime:
           type: integer
-        lastUpdated:
+        year:
           type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
@@ -2908,6 +3252,8 @@ components:
           type: array
           x-go-name: Awards
         boxOffice:
+          type: string
+        boxOfficeUS:
           type: string
         budget:
           type: string
@@ -3017,6 +3363,10 @@ components:
             $ref: '#/components/schemas/Trailer'
           type: array
           x-go-name: Trailers
+        translations:
+          $ref: '#/components/schemas/TranslationExtended'
+        year:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     PeopleBaseRecord:
@@ -3032,6 +3382,8 @@ components:
           type: integer
           x-go-name: ID
         image:
+          type: string
+        lastUpdated:
           type: string
         name:
           type: string
@@ -3088,6 +3440,8 @@ components:
           x-go-name: ID
         image:
           type: string
+        lastUpdated:
+          type: string
         name:
           type: string
         nameTranslations:
@@ -3121,6 +3475,8 @@ components:
             $ref: '#/components/schemas/TagOption'
           type: array
           x-go-name: TagOptions
+        translations:
+          $ref: '#/components/schemas/TranslationExtended'
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     PeopleType:
@@ -3137,6 +3493,19 @@ components:
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     Race:
       description: race record
+      type: object
+      x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
+    RecordInfo:
+      description: base record info
+      properties:
+        image:
+          type: string
+          x-go-name: Image
+        name:
+          type: string
+          x-go-name: Name
+        year:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     Release:
@@ -3255,6 +3624,25 @@ components:
         year:
           type: string
       type: object
+    SearchByRemoteIdResult:
+      description: search by remote reuslt is a base record for a movie, series, people, season or company search result
+      properties:
+        series:
+          type: object
+          $ref: '#/components/schemas/SeriesBaseRecord'
+        people:
+          type: object
+          $ref: '#/components/schemas/PeopleBaseRecord'
+        movie:
+          type: object
+          $ref: '#/components/schemas/MovieBaseRecord'
+        episode:
+          type: object
+          $ref: '#/components/schemas/EpisodeBaseRecord'
+        company:
+          type: object
+          $ref: '#/components/schemas/Company'
+
     SeasonBaseRecord:
       description: season genre record
       properties:
@@ -3264,6 +3652,8 @@ components:
           type: string
         imageType:
           type: integer
+        lastUpdated:
+          type: string
         name:
           type: string
         nameTranslations:
@@ -3289,6 +3679,8 @@ components:
           x-go-name: SeriesID
         type:
           $ref: '#/components/schemas/SeasonType'
+        year:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeasonExtendedRecord:
@@ -3313,6 +3705,8 @@ components:
           type: string
         imageType:
           type: integer
+        lastUpdated:
+          type: string
         name:
           type: string
         nameTranslations:
@@ -3349,6 +3743,8 @@ components:
           items:
             $ref: '#/components/schemas/Translation'
           type: array
+        year:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeasonType:
@@ -3399,8 +3795,6 @@ components:
     SeriesBaseRecord:
       description: The base record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.
       properties:
-        abbreviation:
-          type: string
         aliases:
           items:
             $ref: '#/components/schemas/Alias'
@@ -3430,6 +3824,8 @@ components:
           x-go-name: IsOrderRandomized
         lastAired:
           type: string
+        lastUpdated:
+          type: string
         name:
           type: string
         nameTranslations:
@@ -3457,9 +3853,8 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/Status'
-        lastUpdated:
+        year:
           type: string
-
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SeriesExtendedRecord:
@@ -3470,8 +3865,6 @@ components:
         airsDays:
           $ref: '#/components/schemas/SeriesAirsDays'
         airsTime:
-          type: string
-        airsTimeUTC:
           type: string
         aliases:
           items:
@@ -3500,6 +3893,11 @@ components:
           format: int64
           type: integer
           x-go-name: DefaultSeasonType
+        episodes:
+          items:
+            $ref: '#/components/schemas/EpisodeBaseRecord'
+          type: array
+          x-go-name: Episodes
         firstAired:
           type: string
         lists:
@@ -3584,10 +3982,9 @@ components:
           type: array
           x-go-name: Trailers
         translations:
-          items:
-            $ref: '#/components/schemas/TranslationExtended'
-          type: array
-
+          $ref: '#/components/schemas/TranslationExtended'
+        year:
+          type: string
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     SourceType:
@@ -3701,6 +4098,8 @@ components:
           type: string
         url:
           type: string
+        runtime:
+          type: integer
       type: object
       x-go-package: github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model
     Translation:
@@ -3759,6 +4158,18 @@ components:
           type: string
         tagId:
           type: integer
+    UserInfo:
+      description: User info record
+      type: object
+      properties:
+        id:
+          type: integer
+        language:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
     Inspiration:
       description: Movie inspiration record
       properties:
