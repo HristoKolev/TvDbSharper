@@ -182,16 +182,6 @@ namespace TvDbSharper
             return this.EntityTypes(CancellationToken.None);
         }
 
-        public Task<TvDbApiResponse<EpisodeBaseRecordDto[]>> Episodes(CancellationToken cancellationToken)
-        {
-            return this.Get<EpisodeBaseRecordDto[]>($"episodes", null, cancellationToken);
-        }
-
-        public Task<TvDbApiResponse<EpisodeBaseRecordDto[]>> Episodes()
-        {
-            return this.Episodes(CancellationToken.None);
-        }
-
         public Task<TvDbApiResponse<EpisodeBaseRecordDto[]>> Episodes(EpisodesOptionalParams optionalParameters, CancellationToken cancellationToken)
         {
             return this.Get<EpisodeBaseRecordDto[]>($"episodes", optionalParameters, cancellationToken);
@@ -1871,6 +1861,12 @@ namespace TvDbSharper
 
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        [JsonProperty("remoteIds")]
+        public RemoteIDDto[] RemoteIds { get; set; }
+
+        [JsonProperty("tags")]
+        public TagOptionDto[] Tags { get; set; }
     }
 
     public class MovieBaseRecordDto
@@ -2168,7 +2164,7 @@ namespace TvDbSharper
         [JsonProperty("companies")]
         public string[] Companies { get; set; }
 
-        [JsonProperty("companyType")]
+        [JsonProperty("company_type")]
         public string CompanyType { get; set; }
 
         [JsonProperty("country")]
@@ -2224,6 +2220,9 @@ namespace TvDbSharper
 
         [JsonProperty("primary_language")]
         public string PrimaryLanguage { get; set; }
+
+        [JsonProperty("primary_type")]
+        public string PrimaryType { get; set; }
 
         [JsonProperty("remote_ids")]
         public RemoteIDDto[] RemoteIds { get; set; }
