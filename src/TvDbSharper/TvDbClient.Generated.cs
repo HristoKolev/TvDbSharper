@@ -811,26 +811,6 @@ namespace TvDbSharper
         {
             return this.Updates(optionalParameters, CancellationToken.None);
         }
-
-        public Task<TvDbApiResponse<unknown>> UserInfo(CancellationToken cancellationToken)
-        {
-            return this.Get<unknown>($"user", null, cancellationToken);
-        }
-
-        public Task<TvDbApiResponse<unknown>> UserInfo()
-        {
-            return this.UserInfo(CancellationToken.None);
-        }
-
-        public Task<TvDbApiResponse<unknown>> UserInfoById(int id, CancellationToken cancellationToken)
-        {
-            return this.Get<unknown>($"user/{id}", null, cancellationToken);
-        }
-
-        public Task<TvDbApiResponse<unknown>> UserInfoById(int id)
-        {
-            return this.UserInfoById(id, CancellationToken.None);
-        }
     }
 
     public class CompaniesOptionalParams
@@ -869,7 +849,7 @@ namespace TvDbSharper
         public string Meta { get; set; }
 
         [QueryParameter("short")]
-        public boolean Short { get; set; }
+        public bool Short { get; set; }
     }
 
     public class MoviesFilterOptionalParams
@@ -980,7 +960,7 @@ namespace TvDbSharper
         public string Meta { get; set; }
 
         [QueryParameter("short")]
-        public boolean Short { get; set; }
+        public bool Short { get; set; }
     }
 
     public class SeriesEpisodesOptionalParams
@@ -1732,8 +1712,6 @@ namespace TvDbSharper
         [JsonProperty("year")]
         public string Year { get; set; }
 
-        [JsonProperty("networks")]
-        public string Networks { get; set; }
     }
 
     public class FavoritesDto
@@ -2043,9 +2021,6 @@ namespace TvDbSharper
 
         [JsonProperty("year")]
         public string Year { get; set; }
-
-        [JsonProperty("translations")]
-        public TranslationExtendedDto Translations { get; set; }
     }
 
     public class PeopleBaseRecordDto
@@ -2133,9 +2108,6 @@ namespace TvDbSharper
 
         [JsonProperty("tagOptions")]
         public TagOptionDto[] TagOptions { get; set; }
-
-        [JsonProperty("translations")]
-        public TranslationExtendedDto Translations { get; set; }
 
         [JsonProperty("translations")]
         public TranslationExtendedDto Translations { get; set; }
@@ -2627,9 +2599,6 @@ namespace TvDbSharper
 
         [JsonProperty("year")]
         public string Year { get; set; }
-
-        [JsonProperty("episodes")]
-        public EpisodeBaseRecordDto[] Episodes { get; set; }
     }
 
     public class SourceTypeDto
