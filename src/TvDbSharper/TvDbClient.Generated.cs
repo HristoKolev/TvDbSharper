@@ -2498,7 +2498,7 @@ namespace TvDbSharper
         public ArtworkExtendedRecordDto[] Artworks { get; set; }
 
         [JsonProperty("averageRuntime")]
-        public int AverageRuntime { get; set; }
+        public int? AverageRuntime { get; set; }
 
         [JsonProperty("characters")]
         public CharacterDto[] Characters { get; set; }
