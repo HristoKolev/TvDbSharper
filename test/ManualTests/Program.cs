@@ -1,6 +1,7 @@
 ﻿namespace ManualTests
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Threading.Tasks;
     using Newtonsoft.Json;
@@ -36,6 +37,11 @@
 
             // Characters
             Test("Character(67482807)", await client.Character(67482807));
+
+            //People
+            Test("People()", await client.People());
+            Test("People(Page=1)", await client.People(new PeopleOptionalParams { Page = 1}));
+            Test("People(460882)", await client.People(460882));
 
             // Companies
             Test("Companies", await client.Companies());
@@ -86,6 +92,8 @@
             Test("MovieExtended(503)", await client.MovieExtended(503, new MovieExtendedOptionalParams { Meta = "translations" }));
             Test("MovieExtended(198054)", await client.MovieExtended(198054, new MovieExtendedOptionalParams { Meta = "translations" }));
 
+            Test("MoviesFilter()", await client.MoviesFilter(new MoviesFilterOptionalParams { Country = "usa", Lang = "eng"}));
+
             Test("MovieTranslation(165, 'eng')", await client.MovieTranslation(165, "eng"));
 
             // Movie Statuses
@@ -94,17 +102,23 @@
             // People
             Test("People(310602)", await client.People(310602));
             Test("PeopleExtended(310602)", await client.PeopleExtended(310602, new PeopleExtendedOptionalParams { Meta = "translations" }));
-            // Test("PeopleTranslation(310602, 'eng')", await client.PeopleTranslation(310602, "eng"));
+            Test("PeopleTranslation(310602, 'eng')", await client.PeopleTranslation(310602, "eng"));
 
             // Search 
             Test("Search(Query = stargate)", await client.Search(new SearchOptionalParams { Query = "stargate" }));
+            Test("SearchResultsByRemoteId(tt0385426)", await client.SearchResultsByRemoteId("tt0385426"));
+
+            //Episodes
+            Test("Episode(4108880)", await client.Episode(4108880));
+            Test("EpisodeExtended(4108880)", await client.EpisodeExtended(4108880));
+            Test("EpisodeTranslation(4108880, 'eng')", await client.EpisodeTranslation(4108880, "eng"));
 
             // Seasons
             Test("Seasons()", await client.Seasons());
             Test("Season(530667)", await client.Season(530667));
             Test("SeasonExtended(530667)", await client.SeasonExtended(530667));
             Test("SeasonTypes()", await client.SeasonTypes());
-            // Test("SeasonTranslation(530667, 'eng')", await client.SeasonTranslation(530667, "eng"));
+            Test("SeasonTranslation(530667, 'eng')", await client.SeasonTranslation(1315, "eng"));
 
             // Series
             Test("AllSeries()", await client.AllSeries());
@@ -113,6 +127,7 @@
             Test("SeriesEpisodes(379858, 'official')", await client.SeriesEpisodes(379858, "official"));
             Test("SeriesSeasonEpisodesTranslated(379858, 'official', 'eng')", await client.SeriesSeasonEpisodesTranslated(379858, "official", "eng"));
             Test("SeriesTranslation(379858, 'eng')", await client.SeriesTranslation(379858, "eng"));
+            Test("SeriesFilter()", await client.SeriesFilter(new SeriesFilterOptionalParams() { Country = "usa", Lang = "en" }));
 
             // Series Statuses
             Test("SeriesStatuses()", await client.SeriesStatuses());

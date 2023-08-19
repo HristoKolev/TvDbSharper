@@ -1,9 +1,9 @@
 {
   "OpenApi": "3.0.0",
   "Info": {
-    "Description": "Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api).\n## Authentication\n1. Use the /login endpoint and provide your API key as \"apikey\". If you have a user-supported key, also provide your subscriber PIN as \"pin\". Otherwise completely remove \"pin\" from your call.\n2. Executing this call will provide you with a bearer token, which is valid for 1 month.\n3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`\n",
+    "Description": "Documentation of [TheTVDB](https://thetvdb.com/) API V4. All related information is linked from our [Github repo](https://github.com/thetvdb/v4-api). You might also want to use our [Postman collection] (https://www.getpostman.com/collections/7a9397ce69ff246f74d0)\n## Authentication\n1. Use the /login endpoint and provide your API key as \"apikey\". If you have a user-supported key, also provide your subscriber PIN as \"pin\". Otherwise completely remove \"pin\" from your call.\n2. Executing this call will provide you with a bearer token, which is valid for 1 month.\n3. Provide your bearer token for subsequent API calls by clicking Authorize below or including in the header of all direct API calls: `Authorization: Bearer [your-token]`\n\n## Notes\n1. \"score\" is a field across almost all entities.  We generate scores for different types of entities in various ways, so no assumptions should be made about the meaning of this value.  It is simply used to hint at relative popularity for sorting purposes.\n",
     "Title": "TVDB API V4",
-    "Version": "4.5.0"
+    "Version": "4.7.5"
   },
   "Security": [
     {
@@ -13,7 +13,7 @@
   "Paths": {
     "/login": {
       "post": {
-        "Summary": "create an auth token. The token has one month valition length.",
+        "Summary": "create an auth token. The token has one month validation length.",
         "RequestBody": {
           "Content": {
             "application/json": {
@@ -750,6 +750,54 @@
         ]
       }
     },
+    "/episodes": {
+      "get": {
+        "Description": "Returns a list of episodes base records with the basic attributes.<br> Note that all episodes are returned, even those that may not be included in a series' default season order.",
+        "OperationId": "getAllEpisodes",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/EpisodeBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Episodes"
+        ]
+      }
+    },
     "/episodes/{id}": {
       "get": {
         "Description": "Returns episode base record",
@@ -1192,7 +1240,56 @@
             "Description": "Unauthorized"
           },
           "404": {
-            "Description": "Lists not found"
+            "Description": "List not found"
+          }
+        },
+        "Tags": [
+          "Lists"
+        ]
+      }
+    },
+    "/lists/slug/{slug}": {
+      "get": {
+        "Description": "returns an list base record search by slug",
+        "OperationId": "getListBySlug",
+        "Parameters": [
+          {
+            "Description": "slug",
+            "In": "path",
+            "Name": "slug",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/ListBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid list slug"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "List not found"
           }
         },
         "Tags": [
@@ -1432,6 +1529,18 @@
               ],
               "Example": "translations"
             }
+          },
+          {
+            "Description": "reduce the payload and returns the short version of this record without characters, artworks and trailers.",
+            "In": "query",
+            "Name": "short",
+            "Schema": {
+              "Type": "boolean",
+              "Enum": [
+                "true",
+                "false"
+              ]
+            }
           }
         ],
         "Responses": {
@@ -1601,7 +1710,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/MovieBaseRecord"
+                      "Items": {
+                        "Reference": "#/components/schemas/MovieBaseRecord"
+                      },
+                      "Type": "array"
                     },
                     "status": {
                       "Type": "string"
@@ -1617,6 +1729,55 @@
           },
           "401": {
             "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Movies"
+        ]
+      }
+    },
+    "/movies/slug/{slug}": {
+      "get": {
+        "Description": "Returns movie base record search by slug",
+        "OperationId": "getMovieBaseBySlug",
+        "Parameters": [
+          {
+            "Description": "slug",
+            "In": "path",
+            "Name": "slug",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/MovieBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid movie slug"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Movie not found"
           }
         },
         "Tags": [
@@ -1714,6 +1875,54 @@
         },
         "Tags": [
           "Movie Statuses"
+        ]
+      }
+    },
+    "/people": {
+      "get": {
+        "Description": "Returns a list of people base records with the basic attributes.",
+        "OperationId": "getAllPeople",
+        "Parameters": [
+          {
+            "Description": "page number",
+            "In": "query",
+            "Name": "page",
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/PeopleBaseRecord"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "People"
         ]
       }
     },
@@ -1919,7 +2128,7 @@
     },
     "/search": {
       "get": {
-        "Description": "Our search index includes series, movies, people, and companies.",
+        "Description": "Our search index includes series, movies, people, and companies. Search is limited to 5k results max.",
         "OperationId": "getSearchResults",
         "Parameters": [
           {
@@ -2037,6 +2246,58 @@
                     "data": {
                       "Items": {
                         "Reference": "#/components/schemas/SearchResult"
+                      },
+                      "Type": "array"
+                    },
+                    "status": {
+                      "Type": "string"
+                    },
+                    "links": {
+                      "Reference": "#/components/schemas/Links"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "400": {
+            "Description": "Max results overflow"
+          }
+        },
+        "Tags": [
+          "Search"
+        ]
+      }
+    },
+    "/search/remoteid/{remoteId}": {
+      "get": {
+        "Description": "Search a series, movie, people, episode, company or season by specific remote id and returns a base record for that entity.",
+        "OperationId": "getSearchResultsByRemoteId",
+        "Parameters": [
+          {
+            "Description": "Search for a specific remote id.  Allows searching for an IMDB or EIDR id, for example.",
+            "In": "path",
+            "Name": "remoteId",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/SearchByRemoteIdResult"
                       },
                       "Type": "array"
                     },
@@ -2377,13 +2638,13 @@
             }
           },
           "400": {
-            "Description": "Invalid sereis id"
+            "Description": "Invalid series id"
           },
           "401": {
             "Description": "Unauthorized"
           },
           "404": {
-            "Description": "Sereis not found"
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -2393,7 +2654,7 @@
     },
     "/series/{id}/artworks": {
       "get": {
-        "Description": "Returns series artworks base on language and type.",
+        "Description": "Returns series artworks base on language and type. <br> Note&#58; Artwork type is an id that can be found using **/artwork/types** endpoint.",
         "OperationId": "getSeriesArtworks",
         "Parameters": [
           {
@@ -2420,7 +2681,7 @@
             "Name": "type",
             "Schema": {
               "Type": "integer",
-              "Example": "1"
+              "Example": "1,2,3"
             }
           }
         ],
@@ -2433,6 +2694,55 @@
                   "Properties": {
                     "data": {
                       "Reference": "#/components/schemas/SeriesExtendedRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid series id"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
+          }
+        },
+        "Tags": [
+          "Series"
+        ]
+      }
+    },
+    "/series/{id}/nextAired": {
+      "get": {
+        "Description": "Returns series base record including the nextAired field. <br> Note&#58; nextAired was included in the base record endpoint but that field will deprecated in the future so developers should use the nextAired endpoint.",
+        "OperationId": "getSeriesNextAired",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesBaseRecord"
                     },
                     "status": {
                       "Type": "string"
@@ -2483,6 +2793,18 @@
                 "episodes"
               ],
               "Example": "translations"
+            }
+          },
+          {
+            "Description": "reduce the payload and returns the short version of this record without characters and artworks",
+            "In": "query",
+            "Name": "short",
+            "Schema": {
+              "Type": "boolean",
+              "Enum": [
+                "true",
+                "false"
+              ]
             }
           }
         ],
@@ -2776,7 +3098,7 @@
             }
           },
           {
-            "Description": "genre",
+            "Description": "Genre id. This id can be found using **/genres** endpoint.",
             "In": "query",
             "Name": "genre",
             "Schema": {
@@ -2840,7 +3162,20 @@
               "Enum": [
                 "score",
                 "firstAired",
+                "lastAired",
                 "name"
+              ]
+            }
+          },
+          {
+            "Description": "sort type ascending or descending",
+            "In": "query",
+            "Name": "sortType",
+            "Schema": {
+              "Type": "string",
+              "Enum": [
+                "asc",
+                "desc"
               ]
             }
           },
@@ -2875,10 +3210,10 @@
                 "Schema": {
                   "Properties": {
                     "data": {
-                      "Reference": "#/components/schemas/SeriesBaseRecord"
-                    },
-                    "status": {
-                      "Type": "string"
+                      "Items": {
+                        "Reference": "#/components/schemas/SeriesBaseRecord"
+                      },
+                      "Type": "array"
                     }
                   },
                   "Type": "object"
@@ -2891,6 +3226,55 @@
           },
           "401": {
             "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "Series"
+        ]
+      }
+    },
+    "/series/slug/{slug}": {
+      "get": {
+        "Description": "Returns series base record searched by slug",
+        "OperationId": "getSeriesBaseBySlug",
+        "Parameters": [
+          {
+            "Description": "slug",
+            "In": "path",
+            "Name": "slug",
+            "Required": true,
+            "Schema": {
+              "Type": "string"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Reference": "#/components/schemas/SeriesBaseRecord"
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "Description": "Invalid series slug"
+          },
+          "401": {
+            "Description": "Unauthorized"
+          },
+          "404": {
+            "Description": "Series not found"
           }
         },
         "Tags": [
@@ -3028,7 +3412,7 @@
     },
     "/updates": {
       "get": {
-        "Description": "returns updated entities",
+        "Description": "Returns updated entities.  methodInt indicates a created record (1), an updated record (2), or a deleted record (3).  If a record is deleted because it was a duplicate of another record, the target record's information is provided in mergeToType and mergeToId.",
         "OperationId": "updates",
         "Parameters": [
           {
@@ -3141,6 +3525,85 @@
         ]
       }
     },
+    "/user": {
+      "get": {
+        "Description": "returns user info",
+        "OperationId": "getUserInfo",
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/UserInfo"
+                      }
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "User info"
+        ]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "Description": "returns user info by user id",
+        "OperationId": "getUserInfoById",
+        "Parameters": [
+          {
+            "Description": "id",
+            "In": "path",
+            "Name": "id",
+            "Required": true,
+            "Schema": {
+              "Type": "number"
+            }
+          }
+        ],
+        "Responses": {
+          "200": {
+            "Description": "response",
+            "Content": {
+              "application/json": {
+                "Schema": {
+                  "Properties": {
+                    "data": {
+                      "Items": {
+                        "Reference": "#/components/schemas/UserInfo"
+                      }
+                    },
+                    "status": {
+                      "Type": "string"
+                    }
+                  },
+                  "Type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "Description": "Unauthorized"
+          }
+        },
+        "Tags": [
+          "User info"
+        ]
+      }
+    },
     "/user/favorites": {
       "get": {
         "Description": "returns user favorites",
@@ -3155,8 +3618,7 @@
                     "data": {
                       "Items": {
                         "Reference": "#/components/schemas/Favorites"
-                      },
-                      "Type": "array"
+                      }
                     },
                     "status": {
                       "Type": "string"
@@ -3230,12 +3692,20 @@
       "ArtworkBaseRecord": {
         "Description": "base artwork record",
         "Properties": {
+          "height": {
+            "Format": "int64",
+            "GoName": "Height",
+            "Type": "integer"
+          },
           "id": {
             "Type": "integer"
           },
           "image": {
             "GoName": "Image",
             "Type": "string"
+          },
+          "includesText": {
+            "Type": "boolean"
           },
           "language": {
             "Type": "string"
@@ -3250,6 +3720,12 @@
           "type": {
             "Format": "int64",
             "GoName": "Type",
+            "Type": "integer",
+            "Description": "The artwork type corresponds to the ids from the /artwork/types endpoint."
+          },
+          "width": {
+            "Format": "int64",
+            "GoName": "Width",
             "Type": "integer"
           }
         },
@@ -3275,6 +3751,9 @@
           "image": {
             "GoName": "Image",
             "Type": "string"
+          },
+          "includesText": {
+            "Type": "boolean"
           },
           "language": {
             "Type": "string"
@@ -3327,7 +3806,8 @@
           "type": {
             "Format": "int64",
             "GoName": "Type",
-            "Type": "integer"
+            "Type": "integer",
+            "Description": "The artwork type corresponds to the ids from the /artwork/types endpoint."
           },
           "updatedAt": {
             "Format": "int64",
@@ -3575,6 +4055,9 @@
             },
             "Type": "array"
           },
+          "episode": {
+            "Reference": "#/components/schemas/RecordInfo"
+          },
           "episodeId": {
             "Type": "integer"
           },
@@ -3592,6 +4075,9 @@
           },
           "movieId": {
             "Type": "integer"
+          },
+          "movie": {
+            "Reference": "#/components/schemas/RecordInfo"
           },
           "name": {
             "Type": "string"
@@ -3621,6 +4107,9 @@
           },
           "seriesId": {
             "Type": "integer"
+          },
+          "series": {
+            "Reference": "#/components/schemas/RecordInfo"
           },
           "sort": {
             "Format": "int64",
@@ -3845,8 +4334,20 @@
             "GoName": "EnitityType",
             "Type": "string"
           },
+          "methodInt": {
+            "Type": "integer"
+          },
           "method": {
             "GoName": "Method",
+            "Type": "string"
+          },
+          "extraInfo": {
+            "Type": "string"
+          },
+          "userId": {
+            "Type": "integer"
+          },
+          "recordType": {
             "Type": "string"
           },
           "recordId": {
@@ -3891,6 +4392,10 @@
           "airsBeforeSeason": {
             "Type": "integer"
           },
+          "finaleType": {
+            "Type": "string",
+            "Description": "season, midseason, or series"
+          },
           "id": {
             "Format": "int64",
             "GoName": "ID",
@@ -3905,6 +4410,12 @@
           "isMovie": {
             "Format": "int64",
             "GoName": "IsMovie",
+            "Type": "integer"
+          },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "linkedMovie": {
             "Type": "integer"
           },
           "name": {
@@ -3951,12 +4462,8 @@
           "seasonName": {
             "Type": "string"
           },
-          "lastUpdated": {
+          "year": {
             "Type": "string"
-          },
-          "finaleType": {
-            "Type": "string",
-            "Description": "season, midseason, or series"
           }
         },
         "Type": "object",
@@ -4004,6 +4511,10 @@
             },
             "Type": "array"
           },
+          "finaleType": {
+            "Type": "string",
+            "Description": "season, midseason, or series"
+          },
           "id": {
             "Format": "int64",
             "GoName": "ID",
@@ -4020,6 +4531,12 @@
             "GoName": "IsMovie",
             "Type": "integer"
           },
+          "lastUpdated": {
+            "Type": "string"
+          },
+          "linkedMovie": {
+            "Type": "integer"
+          },
           "name": {
             "Type": "string"
           },
@@ -4030,7 +4547,7 @@
             },
             "Type": "array"
           },
-          "network": {
+          "networks": {
             "Items": {
               "Reference": "#/components/schemas/Company"
             },
@@ -4104,12 +4621,11 @@
             },
             "Type": "array"
           },
-          "lastUpdated": {
-            "Type": "string"
+          "translations": {
+            "Reference": "#/components/schemas/TranslationExtended"
           },
-          "finaleType": {
-            "Type": "string",
-            "Description": "season, midseason, or series"
+          "year": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -4169,11 +4685,11 @@
             "GoName": "series",
             "Type": "integer"
           },
-          "movies": {
+          "movie": {
             "GoName": "movies",
             "Type": "integer"
           },
-          "episodes": {
+          "episode": {
             "GoName": "episodes",
             "Type": "integer"
           },
@@ -4294,11 +4810,25 @@
             },
             "Type": "array"
           },
-          "url": {
-            "Type": "string"
+          "remoteIds": {
+            "GoName": "RemoteIDs",
+            "Items": {
+              "Reference": "#/components/schemas/RemoteID"
+            },
+            "Type": "array"
+          },
+          "tags": {
+            "GoName": "TagOptions",
+            "Items": {
+              "Reference": "#/components/schemas/TagOption"
+            },
+            "Type": "array"
           },
           "score": {
             "Type": "integer"
+          },
+          "url": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -4387,6 +4917,9 @@
             "GoName": "Image",
             "Type": "string"
           },
+          "lastUpdated": {
+            "Type": "string"
+          },
           "name": {
             "GoName": "Name",
             "Type": "string"
@@ -4420,7 +4953,7 @@
           "runtime": {
             "Type": "integer"
           },
-          "lastUpdated": {
+          "year": {
             "Type": "string"
           }
         },
@@ -4459,6 +4992,9 @@
             "Type": "array"
           },
           "boxOffice": {
+            "Type": "string"
+          },
+          "boxOfficeUS": {
             "Type": "string"
           },
           "budget": {
@@ -4611,6 +5147,12 @@
               "Reference": "#/components/schemas/Trailer"
             },
             "Type": "array"
+          },
+          "translations": {
+            "Reference": "#/components/schemas/TranslationExtended"
+          },
+          "year": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -4632,6 +5174,9 @@
             "Type": "integer"
           },
           "image": {
+            "Type": "string"
+          },
+          "lastUpdated": {
             "Type": "string"
           },
           "name": {
@@ -4711,6 +5256,9 @@
           "image": {
             "Type": "string"
           },
+          "lastUpdated": {
+            "Type": "string"
+          },
           "name": {
             "Type": "string"
           },
@@ -4756,6 +5304,9 @@
               "Reference": "#/components/schemas/TagOption"
             },
             "Type": "array"
+          },
+          "translations": {
+            "Reference": "#/components/schemas/TranslationExtended"
           }
         },
         "Type": "object",
@@ -4779,6 +5330,24 @@
       },
       "Race": {
         "Description": "race record",
+        "Type": "object",
+        "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
+      },
+      "RecordInfo": {
+        "Description": "base record info",
+        "Properties": {
+          "image": {
+            "GoName": "Image",
+            "Type": "string"
+          },
+          "name": {
+            "GoName": "Name",
+            "Type": "string"
+          },
+          "year": {
+            "Type": "string"
+          }
+        },
         "Type": "object",
         "GoPackage": "github.com/whip-networks/tvdb-api-v4-core/tvdb-api-v4-core/pkg/model"
       },
@@ -4952,6 +5521,31 @@
         },
         "Type": "object"
       },
+      "SearchByRemoteIdResult": {
+        "Description": "search by remote reuslt is a base record for a movie, series, people, season or company search result",
+        "Properties": {
+          "series": {
+            "Reference": "#/components/schemas/SeriesBaseRecord",
+            "Type": "object"
+          },
+          "people": {
+            "Reference": "#/components/schemas/PeopleBaseRecord",
+            "Type": "object"
+          },
+          "movie": {
+            "Reference": "#/components/schemas/MovieBaseRecord",
+            "Type": "object"
+          },
+          "episode": {
+            "Reference": "#/components/schemas/EpisodeBaseRecord",
+            "Type": "object"
+          },
+          "company": {
+            "Reference": "#/components/schemas/Company",
+            "Type": "object"
+          }
+        }
+      },
       "SeasonBaseRecord": {
         "Description": "season genre record",
         "Properties": {
@@ -4963,6 +5557,9 @@
           },
           "imageType": {
             "Type": "integer"
+          },
+          "lastUpdated": {
+            "Type": "string"
           },
           "name": {
             "Type": "string"
@@ -4997,6 +5594,9 @@
           },
           "type": {
             "Reference": "#/components/schemas/SeasonType"
+          },
+          "year": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -5031,6 +5631,9 @@
           },
           "imageType": {
             "Type": "integer"
+          },
+          "lastUpdated": {
+            "Type": "string"
           },
           "name": {
             "Type": "string"
@@ -5081,6 +5684,9 @@
               "Reference": "#/components/schemas/Translation"
             },
             "Type": "array"
+          },
+          "year": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -5148,9 +5754,6 @@
       "SeriesBaseRecord": {
         "Description": "The base record for a series. All series airs time like firstAired, lastAired, nextAired, etc. are in US EST for US series, and for all non-US series, the time of the show’s country capital or most populous city. For streaming services, is the official release time. See https://support.thetvdb.com/kb/faq.php?id=29.",
         "Properties": {
-          "abbreviation": {
-            "Type": "string"
-          },
           "aliases": {
             "GoName": "Aliases",
             "Items": {
@@ -5192,6 +5795,9 @@
           "lastAired": {
             "Type": "string"
           },
+          "lastUpdated": {
+            "Type": "string"
+          },
           "name": {
             "Type": "string"
           },
@@ -5230,7 +5836,7 @@
           "status": {
             "Reference": "#/components/schemas/Status"
           },
-          "lastUpdated": {
+          "year": {
             "Type": "string"
           }
         },
@@ -5247,9 +5853,6 @@
             "Reference": "#/components/schemas/SeriesAirsDays"
           },
           "airsTime": {
-            "Type": "string"
-          },
-          "airsTimeUTC": {
             "Type": "string"
           },
           "aliases": {
@@ -5289,6 +5892,13 @@
             "Format": "int64",
             "GoName": "DefaultSeasonType",
             "Type": "integer"
+          },
+          "episodes": {
+            "GoName": "Episodes",
+            "Items": {
+              "Reference": "#/components/schemas/EpisodeBaseRecord"
+            },
+            "Type": "array"
           },
           "firstAired": {
             "Type": "string"
@@ -5410,10 +6020,10 @@
             "Type": "array"
           },
           "translations": {
-            "Items": {
-              "Reference": "#/components/schemas/TranslationExtended"
-            },
-            "Type": "array"
+            "Reference": "#/components/schemas/TranslationExtended"
+          },
+          "year": {
+            "Type": "string"
           }
         },
         "Type": "object",
@@ -5567,6 +6177,9 @@
           },
           "url": {
             "Type": "string"
+          },
+          "runtime": {
+            "Type": "integer"
           }
         },
         "Type": "object",
@@ -5650,6 +6263,24 @@
           },
           "tagId": {
             "Type": "integer"
+          }
+        },
+        "Type": "object"
+      },
+      "UserInfo": {
+        "Description": "User info record",
+        "Properties": {
+          "id": {
+            "Type": "integer"
+          },
+          "language": {
+            "Type": "string"
+          },
+          "name": {
+            "Type": "string"
+          },
+          "type": {
+            "Type": "string"
           }
         },
         "Type": "object"
